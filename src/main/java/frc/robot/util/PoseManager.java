@@ -1,6 +1,6 @@
 package frc.robot.util;
 
-import static frc.robot.constantsGlobal.FieldConstants.*;
+import static frc.robot.FieldConstants.*;
 import static frc.robot.util.AllianceFlipUtil.apply;
 
 import edu.wpi.first.math.Matrix;
