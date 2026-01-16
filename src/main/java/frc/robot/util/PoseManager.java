@@ -1,6 +1,5 @@
 package frc.robot.util;
 
-import static frc.robot.RobotCommands.ScoreState.Dealgify;
 import static frc.robot.constantsGlobal.FieldConstants.*;
 import static frc.robot.util.AllianceFlipUtil.apply;
 
@@ -15,9 +14,6 @@ import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import frc.robot.RobotCommands.ScoreState;
-import frc.robot.constantsGlobal.FieldConstants.CoralStation;
-import frc.robot.constantsGlobal.FieldConstants.Face;
 import frc.robot.subsystems.drive.DriveConstants;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Lock;
@@ -130,123 +126,14 @@ public class PoseManager {
     return robotVelocity;
   }
 
-  public boolean lockClosest = false;
-  private Face lockedFace = Face.One;
 
-  private Face closestFace(ScoreState scoreState) {
-    if (lockClosest) {
-      return lockedFace;
-    }
-    Face closest = Face.One;
-    Face secondClosest = Face.Two;
-    double distanceToClosest = Double.MAX_VALUE;
-    double distanceTo2ndClosest = Double.MAX_VALUE;
-    for (Face face : Face.values()) {
-      double distance =
-          getDistanceTo(
-              apply(
-                  switch (scoreState) {
-                      // case LeftBranch -> face.leftBranch.getPose();
-                      // case RightBranch -> face.rightBranch.getPose();
-                    default -> face.getPose();
-                  }));
-      if (distance < distanceToClosest) {
-        secondClosest = closest;
-        distanceTo2ndClosest = distanceToClosest;
-        distanceToClosest = distance;
-        closest = face;
-      } else if (distance < distanceTo2ndClosest) {
-        distanceTo2ndClosest = distance;
-        secondClosest = face;
-      }
-    }
 
-    lockedFace = closest;
-    return closest;
 
-    // Get angles
-    // double fieldVelocityAngle =
-    //     Units.radiansToDegrees(Math.atan2(fieldVelocity().dy, fieldVelocity().dx));
-    // double angleToClosest = getHorizontalAngleTo(apply(closest.getPose())).getDegrees();
-    // double angleTo2ndClosest = getHorizontalAngleTo(apply(secondClosest.getPose())).getDegrees();
+  public LinkedList<Pose2d> fuelPositions = new LinkedList<>();
 
-    // Change angles from -180, 180 to 0, 360
-    // if (fieldVelocityAngle < 0) fieldVelocityAngle += 360;
-    // if (angleToClosest < 0) angleToClosest += 360;
-    // if (angleTo2ndClosest < 0) angleTo2ndClosest += 360;
-
-    // Logger.recordOutput("FieldVelocityAngle", fieldVelocityAngle);
-    // Logger.recordOutput("AngleToClosest", angleToClosest);
-    // Logger.recordOutput("AngleTo2ndClosest", angleTo2ndClosest);
-
-    // Find angle differences
-    // double toClosestAngleDiff = Math.abs(fieldVelocityAngle - angleToClosest);
-    // double to2ndClosestAngleDiff = Math.abs(fieldVelocityAngle - angleTo2ndClosest);
-
-    // if (toClosestAngleDiff > 180) toClosestAngleDiff = 360 - toClosestAngleDiff;
-    // if (to2ndClosestAngleDiff > 180) to2ndClosestAngleDiff = 360 - to2ndClosestAngleDiff;
-
-    // Logger.recordOutput("ToClosestAngleDiff", toClosestAngleDiff);
-    // Logger.recordOutput("To2ndClosestAngleDiff", to2ndClosestAngleDiff);
-
-    // Find closest angle
-
-    // if (toClosestAngleDiff > to2ndClosestAngleDiff
-    //     && (fieldVelocity().dx > 0.1 || fieldVelocity().dy > 0.1)) {
-    //   lockedFace = secondClosest;
-    //   return secondClosest;
-    // } else {
-    //   lockedFace = closest;
-    //   return closest;
-    // }
-  }
-
-  public Pose2d closest(ScoreState scoreState) {
-    Face closest = closestFace(scoreState);
-    return switch (scoreState) {
-      case LeftBranch -> closest.leftBranch.getPose();
-      case RightBranch -> closest.rightBranch.getPose();
-      default -> closest.getPose();
-    };
-  }
-
-  public boolean closestFaceHighAlgae() {
-    return closestFace(Dealgify).highAlgae;
-  }
-
-  public Pose2d closestStation() {
-    final Pose2d leftFaceFlipped = apply(CoralStation.leftCenterFace);
-    final Pose2d rightFaceFlipped = apply(CoralStation.rightCenterFace);
-
-    if (getDistanceTo(leftFaceFlipped) < getDistanceTo(rightFaceFlipped)) {
-      return leftFaceFlipped;
-    } else {
-      return rightFaceFlipped;
-    }
-  }
-
-  public boolean nearStation(double tolerance) {
-    Pose2d station =
-        closestStation()
-            .transformBy(new Transform2d(intakeDistanceMeters.get(), 0, Rotation2d.kZero));
-    Rotation2d angleToStation = getHorizontalAngleTo(station);
-    Rotation2d stationAngle = station.getRotation();
-    double hypotenuse = getDistanceTo(station);
-    double angleDiff = angleToStation.minus(stationAngle).getRadians();
-    double distance = -Math.cos(angleDiff) * hypotenuse;
-    return distance < 0.5;
-  }
-
-  public boolean nearStation() {
-    return nearStation(0.5);
-  }
-
-  public LinkedList<Pose2d> coralPositions = new LinkedList<>();
-  public LinkedList<Pose2d> algaePositions = new LinkedList<>();
-
-  public Pose2d getNearestCoral() {
-    Pose2d closest = coralPositions.getFirst();
-    for (Pose2d i : coralPositions) {
+  public Pose2d getNearestFuel() {
+    Pose2d closest = fuelPositions.getFirst();
+    for (Pose2d i : fuelPositions) {
       if (getDistanceTo(i) < getDistanceTo(closest)) {
         closest = i;
       }
@@ -254,56 +141,22 @@ public class PoseManager {
     return closest;
   }
 
-  public Pose2d getNearestAlgae() {
-    Pose2d closest = algaePositions.getFirst();
-    for (Pose2d i : algaePositions) {
-      if (getDistanceTo(i) < getDistanceTo(closest)) {
-        closest = i;
-      }
-    }
-    return closest;
+  public void addFuel(Pose2d Fuel) {
+    fuelPositions.add(Fuel);
   }
 
-  public void addCoral(Pose2d coral) {
-    coralPositions.add(coral);
+  public void clearFuel() {
+    fuelPositions = new LinkedList<>();
   }
 
-  public void addAlgae(Pose2d algae) {
-    algaePositions.add(algae);
+  public Pose2d getNearestFuelTo(Pose2d pose) {
+    return getNearestFuelTo(pose.getTranslation());
   }
 
-  public void clearCoral() {
-    coralPositions = new LinkedList<>();
-  }
-
-  public void clearAlgae() {
-    algaePositions = new LinkedList<>();
-  }
-
-  public Pose2d getNearestCoralTo(Pose2d pose) {
-    return getNearestCoralTo(pose.getTranslation());
-  }
-
-  public Pose2d getNearestCoralTo(Translation2d translation) {
-    Pose2d closest = coralPositions.getFirst();
+  public Pose2d getNearestFuelTo(Translation2d translation) {
+    Pose2d closest = fuelPositions.getFirst();
     double closestDist = translation.getDistance(closest.getTranslation());
-    for (Pose2d i : coralPositions) {
-      if (translation.getDistance(i.getTranslation()) < closestDist) {
-        closest = i;
-        closestDist = translation.getDistance(i.getTranslation());
-      }
-    }
-    return closest;
-  }
-
-  public Pose2d getNearestAlgaeTo(Pose2d pose) {
-    return getNearestAlgaeTo(pose.getTranslation());
-  }
-
-  public Pose2d getNearestAlgaeTo(Translation2d translation) {
-    Pose2d closest = algaePositions.getFirst();
-    double closestDist = translation.getDistance(closest.getTranslation());
-    for (Pose2d i : algaePositions) {
+    for (Pose2d i : fuelPositions) {
       if (translation.getDistance(i.getTranslation()) < closestDist) {
         closest = i;
         closestDist = translation.getDistance(i.getTranslation());
