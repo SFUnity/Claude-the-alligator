@@ -1,18 +1,14 @@
 package frc.robot;
 
-import static edu.wpi.first.wpilibj2.command.Commands.*;
-
 import choreo.auto.AutoFactory;
-import choreo.auto.AutoRoutine;
-import choreo.auto.AutoTrajectory;
 import choreo.trajectory.SwerveSample;
 import choreo.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.util.AllianceFlipUtil;
-import frc.robot.util.AlwaysLoggedTunableNumber;
 import frc.robot.util.LoggedAutoChooser;
 import frc.robot.util.PoseManager;
 import org.littletonrobotics.junction.Logger;
@@ -63,19 +59,24 @@ public class Autos {
 
     if (!DriverStation.isFMSAttached()) {
       // Set up test choreo routines
-      chooser.addRoutine("StraightLine", this::StraightLine);
-      chooser.addRoutine("Spin", this::Spin);
 
       // SysID & non-choreo routines
       if (!isChoreoAuto) {
-        nonChoreoChooser.addOption("Module Turn Tuning", drive.tuneModuleTurn());
-        nonChoreoChooser.addOption("Module Drive Tuning", drive.tuneModuleDrive());
-
         // Set up SysId routines
         nonChoreoChooser.addOption(
-            "Drive Wheel Radius Characterization", drive.wheelRadiusCharacterization());
+            "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
         nonChoreoChooser.addOption(
-            "Drive Simple FF Characterization", drive.feedforwardCharacterization());
+            "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
+        nonChoreoChooser.addOption(
+            "Drive SysId (Quasistatic Forward)",
+            drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        nonChoreoChooser.addOption(
+            "Drive SysId (Quasistatic Reverse)",
+            drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        nonChoreoChooser.addOption(
+            "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        nonChoreoChooser.addOption(
+            "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
       }
     }
   }
