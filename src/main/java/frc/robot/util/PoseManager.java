@@ -12,7 +12,6 @@ import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.units.measure.Time;
 import frc.robot.subsystems.drive.DriveConstants;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -53,7 +52,7 @@ public class PoseManager {
 
   public void addVisionGyroMeasurement(double yawDeg, double timestamp) {
     visionGyroMeasurement = new LinkedList<>();
-    visionGyroMeasurement.add(new double[]{yawDeg, timestamp});
+    visionGyroMeasurement.add(new double[] {yawDeg, timestamp});
   }
 
   public void addVelocityData(Twist2d robotVelocity) {

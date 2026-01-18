@@ -183,7 +183,9 @@ public class Drive extends SubsystemBase {
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
 
     double[] visionGyroMeasurement = poseManager.getVisionGyroMeasurement();
-    if(visionGyroMeasurement != null && Timer.getFPGATimestamp() - visionGyroMeasurement[1] < DriveConstants.gyroVisionLatencyLimit) {
+    if (visionGyroMeasurement != null
+        && Timer.getFPGATimestamp() - visionGyroMeasurement[1]
+            < DriveConstants.gyroVisionLatencyLimit) {
       gyroIO.setYaw(visionGyroMeasurement[0]);
     }
   }

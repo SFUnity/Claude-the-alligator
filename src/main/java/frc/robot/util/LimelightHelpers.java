@@ -360,7 +360,7 @@ public class LimelightHelpers {
     public double txnc = 0;
     public double tync = 0;
     public double ta = 0;
-    public double distToCamera = 0; //meters
+    public double distToCamera = 0; // meters
     public double distToRobot = 0;
     public double ambiguity = 0;
 

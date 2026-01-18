@@ -16,6 +16,7 @@ public interface VisionIO {
     public double avgTagDist = 0.0;
     /** percentage of image */
     public double avgTagArea = 0.0;
+
     public double pipeline = 0;
     public double yawDeg = 0;
   }

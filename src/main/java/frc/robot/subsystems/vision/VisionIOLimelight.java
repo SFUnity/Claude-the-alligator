@@ -3,7 +3,6 @@ package frc.robot.subsystems.vision;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 import static frc.robot.util.LimelightHelpers.*;
 
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
@@ -65,31 +64,27 @@ public class VisionIOLimelight implements VisionIO {
 
   @Override
   public void updateInputs(AprilTagVisionIOInputs inputs, PoseManager poseManager) {
-    //megatag1
+    // megatag1
     boolean doRejectUpdate = false;
     LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-    
-    if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-    {
-      if(mt1.rawFiducials[0].ambiguity > megatag1AmbiguityMinimum)
-      {
+
+    if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
+      if (mt1.rawFiducials[0].ambiguity > megatag1AmbiguityMinimum) {
         doRejectUpdate = true;
       }
-      if(mt1.rawFiducials[0].distToCamera > megatag1DistanceMaximum)
-      {
+      if (mt1.rawFiducials[0].distToCamera > megatag1DistanceMaximum) {
         doRejectUpdate = true;
       }
     }
-    if(mt1.tagCount == 0)
-    {
+    if (mt1.tagCount == 0) {
       doRejectUpdate = true;
     }
 
-    if(!doRejectUpdate)
-    {
-      poseManager.addVisionGyroMeasurement(Units.radiansToDegrees(mt1.pose.getRotation().getAngle()), mt1.timestampSeconds);
+    if (!doRejectUpdate) {
+      poseManager.addVisionGyroMeasurement(
+          Units.radiansToDegrees(mt1.pose.getRotation().getAngle()), mt1.timestampSeconds);
     }
-    //megatag2
+    // megatag2
     SetRobotOrientation(name, poseManager.getRotation().getDegrees(), 0, 0, 0, 0, 0);
     PoseEstimate observation = getBotPoseEstimate_wpiBlue_MegaTag2(name);
     // inputs.observation = observation;
@@ -125,7 +120,7 @@ public class VisionIOLimelight implements VisionIO {
     // dynamicCropping();
   }
 
-  //TODO update for 2026
+  // TODO update for 2026
   @Override
   public void updateInputs(ObjectDetectionVisionIOInputs inputs, PoseManager poseManager) {
     RawDetection[] detections = getRawDetections(name);
@@ -166,7 +161,7 @@ public class VisionIOLimelight implements VisionIO {
 
     inputs.pipeline = getCurrentPipelineIndex(name);
 
-    inputs.timestamp = Timer.getFPGATimestamp(); //todo change?
+    inputs.timestamp = Timer.getFPGATimestamp(); // todo change?
   }
 
   @Override

@@ -33,8 +33,8 @@ public class VisionConstants {
     rightForwardOffset, rightSideOffset, rightHeightOffset, rightRoll, rightPitch, rightYaw
   };
 
-  public static final double megatag1AmbiguityMinimum = 0.7; //TODO change
-  public static final double megatag1DistanceMaximum = 0.3; //meter //TODO change
+  public static final double megatag1AmbiguityMinimum = 0.7; // TODO change
+  public static final double megatag1DistanceMaximum = 0.3; // meter //TODO change
 
   public static enum CamName {
     Left(leftName),
