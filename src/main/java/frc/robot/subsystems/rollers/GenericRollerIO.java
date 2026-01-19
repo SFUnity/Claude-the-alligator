@@ -2,7 +2,7 @@ package frc.robot.subsystems.rollers;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface GenericRollerSystemIO {
+public interface GenericRollerIO {
   @AutoLog
   public static class GenericRollerIOInputs {
     public double appliedVolts = 0.0;
