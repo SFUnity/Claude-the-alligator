@@ -1,10 +1,10 @@
 package frc.robot.subsystems.rollers;
 
-public class GenericRollerSystemIOSim implements GenericRollerSystemIO {
+public class GenericRollerIOSim implements GenericRollerIO {
   private double appliedVolts = 0.0;
   private double currentAmps = 0.0;
 
-  public GenericRollerSystemIOSim() {}
+  public GenericRollerIOSim() {}
 
   @Override
   public void updateInputs(GenericRollerIOInputs inputs) {
