@@ -10,7 +10,7 @@ public interface FlywheelsIO {
         public double bottomAppliedVolts = 0.0;
         public double bottomCurrentAmps = 0.0;
     }
-    public default void updateInputs(){}
+    public default void updateInputs(FlywheelsIOOutputs inputs){}
 
     public default void runVolts(){}
 }
