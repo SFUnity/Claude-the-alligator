@@ -47,7 +47,7 @@ public class VisionIOLimelight implements VisionIO {
       default:
         position = new double[6];
     }
-    ;
+    
     setCameraPose_RobotSpace(
         name,
         position[0], // Forward offset (meters)
