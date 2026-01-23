@@ -9,7 +9,7 @@ import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 public class FlywheelsIOTalonFX implements FlywheelsIO{
     private final TalonFX talonFX;
     private final VoltageOut voltageOut = new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(0);
-    private final MotionMagicVelocityVoltage motionMagic = new MotionMagicVelocityVoltage(0);
+    private final MotionMagicVelocityVoltage motionMagicVelocity = new MotionMagicVelocityVoltage(0);
     public FlywheelsIOTalonFX(double kV, double kP, double kD, int id){
         talonFX = new TalonFX(id);
         var talonFXConfigs = new TalonFXConfiguration();
@@ -40,12 +40,12 @@ public class FlywheelsIOTalonFX implements FlywheelsIO{
     }
 
     @Override 
-    public void runVeloctiy(double velocity){
-        talonFX.setControl(motionMagic.withVelocity(velocity));
+    public void runVelocity(double velocity){
+        talonFX.setControl(motionMagicVelocity.withVelocity(velocity));
     }
 
     public void idle(){
-       talonFX.setControl(motionMagic.withVelocity(0)); 
+       talonFX.setControl(voltageOut.withOutput(0.0)); 
     }
 
 
