@@ -8,6 +8,7 @@ public static class ShooterUtil {
     public static final double ShooterMaxAngle = 75; 
 
     //Calculations
+    //Are we gonna need to feed it a launch angle cause it would be rlly useful if we could get that returned along with rpm
     public static double calculateRequiredRPM(double horizontalDistanceMeters, double verticalDistanceMeters, double launchAngle) {
         // Convert angle to radians cuz java is stupid and doesn't use degrees (thank you google gemini)
         double angleRad = Math.toRadians(launchAngle);
