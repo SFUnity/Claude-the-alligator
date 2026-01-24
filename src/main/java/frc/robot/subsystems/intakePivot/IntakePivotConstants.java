@@ -1,11 +1,11 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intakePivot;
 
 import edu.wpi.first.math.util.Units;
 import frc.robot.constantsGlobal.Constants;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
-public class IntakeConstants {
+public class IntakePivotConstants {
   // ! Must not be in tuning mode for dashboard switching to work
   public static final LoggedNetworkBoolean groundAlgae =
       new LoggedNetworkBoolean("Ground Algae", false);

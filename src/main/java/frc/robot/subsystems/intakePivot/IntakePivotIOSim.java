@@ -1,6 +1,6 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intakePivot;
 
-import static frc.robot.subsystems.intake.IntakeConstants.*;
+import static frc.robot.subsystems.intakePivot.IntakePivotConstants.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.constantsGlobal.Constants;
 import frc.robot.util.LoggedTunableNumber;
 
-public class IntakeIOSim implements IntakeIO {
+public class IntakePivotIOSim implements IntakePivotIO {
 
   private final SingleJointedArmSim sim =
       new SingleJointedArmSim(
@@ -27,7 +27,7 @@ public class IntakeIOSim implements IntakeIO {
   private double pivotAppliedVolts = 0.0;
   private double rollersAppliedVolts = 0.0;
 
-  public IntakeIOSim() {
+  public IntakePivotIOSim() {
     controller = new PIDController(kP.get(), 0.0, 0.0);
     sim.setState(minAngleRads, 0.0);
   }

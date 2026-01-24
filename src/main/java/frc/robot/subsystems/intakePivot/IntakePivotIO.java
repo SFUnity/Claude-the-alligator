@@ -1,8 +1,8 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intakePivot;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface IntakeIO {
+public interface IntakePivotIO {
   @AutoLog
   public static class IntakeIOInputs {
     public double pivotCurrentPositionDeg = 0;
