@@ -19,31 +19,30 @@ public class Flywheels extends SubsystemBase {
     this.bottomIO = bottomIO;
   }
 
-  public void periodic(){
+  public void periodic() {
     topIO.updateInputs(topInputs);
     bottomIO.updateInputs(bottomInputs);
 
-    if(!idle){
+    if (!idle) {
       topIO.runVelocity(topVelocity);
       bottomIO.runVelocity(bottomVelocity);
-    }
-    else{
+    } else {
       topIO.idle();
       bottomIO.idle();
     }
   }
 
-  private void updateFlywheels(double top, double bottom){
+  private void updateFlywheels(double top, double bottom) {
     idle = false;
     topVelocity = top;
     bottomVelocity = bottom;
   }
 
-  public Command setVelocities(double top, double bottom){
+  public Command setVelocities(double top, double bottom) {
     return run(() -> updateFlywheels(top, bottom));
   }
 
-  public Command setIdle(){
+  public Command setIdle() {
     return run(() -> idle = true);
   }
 }
