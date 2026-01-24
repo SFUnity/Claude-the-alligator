@@ -1,5 +1,17 @@
 package frc.robot.subsystems.rollers.kicker;
 
-public class KickerIO {
-    
+import org.littletonrobotics.junction.AutoLog;
+
+public interface KickerIO {
+  @AutoLog
+  public static class KickerIOInputs {
+    public double appliedVolts = 0.0;
+    public double currentAmps = 0.0;
+  }
+
+  public default void updateInputs(KickerIOInputs inputs) {}
+
+  public default void runVolts(double volts) {}
+
+  public default void stop() {}
 }
