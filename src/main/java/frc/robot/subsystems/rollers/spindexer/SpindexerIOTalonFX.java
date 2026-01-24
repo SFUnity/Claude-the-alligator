@@ -1,5 +1,3 @@
 package frc.robot.subsystems.rollers.spindexer;
 
-public class SpindexerIOTalonFX {
-
-}
+public class SpindexerIOTalonFX {}

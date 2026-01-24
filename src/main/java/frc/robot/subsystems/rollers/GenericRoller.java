@@ -1,12 +1,8 @@
 package frc.robot.subsystems.rollers;
 
-import java.util.function.DoubleSupplier;
-
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.rollers.GenericRollerIO.GenericRollerIOInputs;
+import java.util.function.DoubleSupplier;
+import org.littletonrobotics.junction.Logger;
 
 public abstract class GenericRoller<G extends GenericRoller.VoltageGoal> {
   public interface VoltageGoal {
@@ -17,8 +13,7 @@ public abstract class GenericRoller<G extends GenericRoller.VoltageGoal> {
 
   private final String name;
   private final GenericRollerIO io;
-  protected final GenericRollerIOInputsAutoLogged inputs =
-      new GenericRollerIOInputsAutoLogged();
+  protected final GenericRollerIOInputsAutoLogged inputs = new GenericRollerIOInputsAutoLogged();
   protected final Timer stateTimer = new Timer();
   private G lastGoal;
 
