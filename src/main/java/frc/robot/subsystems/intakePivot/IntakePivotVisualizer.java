@@ -1,8 +1,8 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intakePivot;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
-import static frc.robot.subsystems.intakePivot.IntakeConstants.*;
+import static frc.robot.subsystems.intakePivot.IntakePivotConstants.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -16,7 +16,7 @@ import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismRoot2d;
 
-public class IntakeVisualizer {
+public class IntakePivotVisualizer {
   private final LoggedMechanism2d mechanism;
   private final LoggedMechanismRoot2d root;
   private final LoggedMechanismLigament2d intake;
@@ -26,7 +26,7 @@ public class IntakeVisualizer {
   private final LoggedTunableNumber yOffset = new LoggedTunableNumber("Intake/yOffset", -8);
   private final LoggedTunableNumber zOffset = new LoggedTunableNumber("Intake/zOffset", 9);
 
-  public IntakeVisualizer(String key, Color color) {
+  public IntakePivotVisualizer(String key, Color color) {
     this.key = key;
     mechanism = new LoggedMechanism2d(1, 1, new Color8Bit(Color.kBlack));
     root = mechanism.getRoot("Intake Root", 0, Units.inchesToMeters(9.063));
@@ -61,4 +61,4 @@ public class IntakeVisualizer {
   }
 }
 
-}
+
