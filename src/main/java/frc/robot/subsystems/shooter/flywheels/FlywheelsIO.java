@@ -5,9 +5,10 @@ import org.littletonrobotics.junction.AutoLog;
 public interface FlywheelsIO {
   @AutoLog
   public static class FlywheelsIOInputs {
+    public double appliedVolts = 0;
     public double velocityRotsPerSec = 0.0;
-    public double appliedVolts = 0.0;
-    public double currentAmps = 0.0;
+    public double statorCurrent = 0;
+    public double supplyCurrent = 0;
   }
 
   public default void updateInputs(FlywheelsIOInputs inputs) {}
