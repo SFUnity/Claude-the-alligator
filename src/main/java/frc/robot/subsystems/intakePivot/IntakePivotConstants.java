@@ -1,4 +1,5 @@
 package frc.robot.subsystems.intakePivot;
+
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;

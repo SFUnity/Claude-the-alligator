@@ -60,5 +60,3 @@ public class IntakePivotVisualizer {
     Logger.recordOutput("Intake/Mechanism3d/" + key, carriagePose);
   }
 }
-
-

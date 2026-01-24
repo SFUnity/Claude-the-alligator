@@ -8,16 +8,15 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.leds.Leds;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.Util;
-import java.util.function.BooleanSupplier;
-import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakePivot extends SubsystemBase {
-  private final IntakePivotVisualizer measuredVisualizer = new IntakePivotVisualizer("Measured", Color.kRed);
-  private final IntakePivotVisualizer setpointVisualizer = new IntakePivotVisualizer("Setpoint", Color.kBlue);
+  private final IntakePivotVisualizer measuredVisualizer =
+      new IntakePivotVisualizer("Measured", Color.kRed);
+  private final IntakePivotVisualizer setpointVisualizer =
+      new IntakePivotVisualizer("Setpoint", Color.kBlue);
   private double positionSetpoint = raisedAngle.get();
 
   private final LinearFilter currentFilter = LinearFilter.movingAverage(4);
@@ -97,7 +96,6 @@ public class IntakePivot extends SubsystemBase {
     setpointVisualizer.update(Degrees.of(positionSetpoint));
     Logger.recordOutput("Intake/positionSetpoint", positionSetpoint);
     Util.logSubsystem(this, "Intake");
-
   }
 
   public Command resetGPHeld() {
@@ -126,48 +124,10 @@ public class IntakePivot extends SubsystemBase {
   private void rollersOut() {
     io.runRollers(-rollersSpeedOut.get());
   }
-  
+
   public Command runCurrentZeroing() {
     return this.run(() -> io.runPivot(-1.0))
-        .until(() -> inputs.pivotCurrentAmps > 30.0);
+        .until(() -> inputs.pivotCurrentAmps > 30.0)
         .finallyDo(() -> io.resetEncoder(0.0));
-  }
-
-  public Command poopCmd(BooleanSupplier shouldPlace) {
-    final double highCurrent = groundAlgae.get() ? 10 : 15;
-    final double lowCurrent = groundAlgae.get() ? 5 : 7;
-    return Commands.waitUntil(() -> filteredCurrent > highCurrent)
-        .andThen(
-            Commands.waitUntil(() -> filteredCurrent < lowCurrent),
-            Commands.runOnce(() -> hasGP = false))
-        .raceWith(
-            // The - number at the end is to build in some tolerance
-            run(() -> setL1())
-                .until(
-                    () ->
-                        inputs.pivotCurrentPositionDeg >= l1Angle.get() - .75
-                                && shouldPlace.getAsBoolean()
-                            || groundAlgae.get()));
-                andThen(
-                    run(() -> {
-                          rollersOut();
-                        })
-                        .until(() -> !GPHeld()));
-        .withName("poop");
-  }
-
-  public Command poopCmd() {
-    return poopCmd(() -> true);
-  }
-
-  public Command iceCreamCmd() {
-    return run(() -> {
-          raise();
-          rollersIn();
-        })
-        .beforeStarting(() -> runningIceCream = true)
-        .finallyDo(() -> runningIceCream = false)
-        .until(this::GPHeld);
-        .withName("iceCream");
   }
 }

@@ -14,9 +14,7 @@ public class IntakePivotIOTalon implements IntakePivotIO {
   private final RelativeEncoder encoder = pivot.getEncoder();
   private final SparkClosedLoopController pid = pivot.getClosedLoopController();
 
-  public IntakePivotIOTalon() {
-    
-  }
+  public IntakePivotIOTalon() {}
 
   @Override
   public void updateInputs(IntakePivotIOInputs inputs) {
@@ -40,8 +38,7 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
   @Override
   public void setPivotPosition(double setpointDeg) {
-    pid.setReference(
-        setpointDeg * pivotPositionFactor, ControlType.kPosition);
+    pid.setReference(setpointDeg * pivotPositionFactor, ControlType.kPosition);
   }
 
   @Override
