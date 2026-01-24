@@ -1,6 +1,6 @@
 package frc.robot.subsystems.shooter.flywheels;
 
-import static frc.robot.Constants.loopPeriodSecs;
+import frc.robot.Constants;
 import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -14,7 +14,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   private final TalonFX leader = new TalonFX(leaderID);
   private final TalonFX follow = new TalonFX(followID);
   private final VoltageOut voltageOut =
-      new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
+      new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(Constants.loopPeriodSecs);
   private final MotionMagicVelocityVoltage motionMagicVelocity =
       new MotionMagicVelocityVoltage(0).withEnableFOC(true);
 
@@ -28,6 +28,9 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
     slot0Configs.kP = kP;
     slot0Configs.kI = 0;
     slot0Configs.kD = kD;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
 
     // set Motion Magic settings
     var motionMagicConfigs = talonFXConfigs.MotionMagic;
@@ -37,7 +40,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
         motionMagicAcceleration; // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk =
         motionMagicJerk; // Target jerk of 1600 rps/s/s (0.1 seconds)
-
+    
     leader.getConfigurator().apply(talonFXConfigs);
     follow.setControl(new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed));
   }
@@ -45,7 +48,8 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   @Override
   public void updateInputs(FlywheelsIOInputs inputs) {
     inputs.appliedVolts = leader.getMotorVoltage().getValueAsDouble();
-    inputs.currentAmps = leader.getSupplyCurrent().getValueAsDouble();
+    inputs.supplyCurrent = leader.getSupplyCurrent().getValueAsDouble();
+    inputs.statorCurrent = leader.getStatorCurrent().getValueAsDouble();
     inputs.velocityRotsPerSec = leader.getVelocity().getValueAsDouble();
   }
 
