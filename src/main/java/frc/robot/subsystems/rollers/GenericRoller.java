@@ -41,4 +41,6 @@ public abstract class GenericRoller<G extends GenericRoller.VoltageGoal> {
     io.runVolts(getGoal().getVoltageSupplier().getAsDouble());
     Logger.recordOutput("Rollers/" + name + "Goal", getGoal().toString());
   }
+
+  public abstract void setState(VoltageGoal goal);
 }
