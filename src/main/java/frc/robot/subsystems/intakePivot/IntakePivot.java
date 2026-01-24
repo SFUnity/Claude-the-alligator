@@ -16,8 +16,8 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakePivot extends SubsystemBase {
-  private final IntakeVisualizer measuredVisualizer = new IntakeVisualizer("Measured", Color.kRed);
-  private final IntakeVisualizer setpointVisualizer = new IntakeVisualizer("Setpoint", Color.kBlue);
+  private final IntakePivotVisualizer measuredVisualizer = new IntakePivotVisualizer("Measured", Color.kRed);
+  private final IntakePivotVisualizer setpointVisualizer = new IntakePivotVisualizer("Setpoint", Color.kBlue);
   private double positionSetpoint = raisedAngle.get();
 
   private final LinearFilter currentFilter = LinearFilter.movingAverage(4);
@@ -36,7 +36,7 @@ public class IntakePivot extends SubsystemBase {
       new LoggedTunableNumber("Intake/spikeCurrent", groundAlgae.get() ? 17 : 17);
 
   private final IntakePivotIO io;
-  private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
+  private final IntakePivotIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
   public IntakePivot(IntakePivotIO io) {
     this.io = io;
