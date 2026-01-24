@@ -203,5 +203,3 @@ public class Intake extends SubsystemBase {
     return hasGP;
   }
 }
-
-}
