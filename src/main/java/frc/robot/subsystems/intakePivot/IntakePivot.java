@@ -36,7 +36,7 @@ public class IntakePivot extends SubsystemBase {
       new LoggedTunableNumber("Intake/spikeCurrent", groundAlgae.get() ? 17 : 17);
 
   private final IntakePivotIO io;
-  private final IntakePivotIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
+  private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
 
   public IntakePivot(IntakePivotIO io) {
     this.io = io;
@@ -98,7 +98,6 @@ public class IntakePivot extends SubsystemBase {
     Logger.recordOutput("Intake/positionSetpoint", positionSetpoint);
     Util.logSubsystem(this, "Intake");
 
-    Leds.getInstance().intakeGPHeld = GPHeld();
   }
 
   public Command resetGPHeld() {
@@ -127,32 +126,10 @@ public class IntakePivot extends SubsystemBase {
   private void rollersOut() {
     io.runRollers(-rollersSpeedOut.get());
   }
-
-  private void rollersStopOrHold() {
-    double holdSpeed = groundAlgae.get() ? 0.15 : 0;
-    io.runRollers(GPHeld() ? holdSpeed : 0);
-  }
-
-  public Command raiseAndStopOrHoldCmd() {
-    return run(() -> {
-          raise();
-          rollersStopOrHold();
-        })
-        .withName("raise and stop");
-  }
-
-  public Command intakeCmd() {
-    return run(() -> {
-          lower();
-          rollersIn();
-        })
-        .until(this::GPHeld)
-        .withName("intake");
-  }
-
+  
   public Command runCurrentZeroing() {
     return this.run(() -> io.runPivot(-1.0))
-        .until(() -> inputs.pivotCurrentAmps > 30.0)
+        .until(() -> inputs.pivotCurrentAmps > 30.0);
         .finallyDo(() -> io.resetEncoder(0.0));
   }
 
@@ -170,12 +147,12 @@ public class IntakePivot extends SubsystemBase {
                     () ->
                         inputs.pivotCurrentPositionDeg >= l1Angle.get() - .75
                                 && shouldPlace.getAsBoolean()
-                            || groundAlgae.get())
-                .andThen(
+                            || groundAlgae.get()));
+                andThen(
                     run(() -> {
                           rollersOut();
                         })
-                        .until(() -> !GPHeld())))
+                        .until(() -> !GPHeld()));
         .withName("poop");
   }
 
@@ -190,15 +167,7 @@ public class IntakePivot extends SubsystemBase {
         })
         .beforeStarting(() -> runningIceCream = true)
         .finallyDo(() -> runningIceCream = false)
-        .until(this::GPHeld)
+        .until(this::GPHeld);
         .withName("iceCream");
-  }
-
-  @AutoLogOutput
-  public boolean GPHeld() {
-    if (Constants.currentMode == Constants.Mode.SIM) {
-      return simHasGP;
-    }
-    return hasGP;
   }
 }

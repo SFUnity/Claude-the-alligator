@@ -93,7 +93,7 @@ public class Autos {
   public AutoRoutine climbAutoRoutine() {
 
     AutoRoutine routine = factory.newRoutine("Climb Auto Routine");
-    routine.active()
+    routine.active();
     return routine;
   }
 }
