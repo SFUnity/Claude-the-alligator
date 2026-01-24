@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter.flywheels;
 
+import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 
 import edu.wpi.first.math.MathUtil;
@@ -12,7 +13,7 @@ import frc.robot.subsystems.shooter.flywheels.FlywheelsIO.FlywheelsIOInputs;
 
 public class FlywheelsIOSim implements FlywheelsIO{
     private static final DCMotorSim sim = new DCMotorSim(LinearSystemId.createDCMotorSystem(0, 0), null, null);
-    private PIDController pid = new PIDController(0, 0, 0);
+    private PIDController pid = new PIDController(kP, 0, kD);
     private double appliedVolts = 0;
     public FlywheelsIOSim(){}
 
@@ -33,6 +34,6 @@ public class FlywheelsIOSim implements FlywheelsIO{
 
     @Override
     public void idle(){
-        appliedVolts = 0;
+        appliedVolts = idleVolts;
     }
 }
