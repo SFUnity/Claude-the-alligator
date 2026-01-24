@@ -3,10 +3,15 @@ package frc.robot.subsystems.vision;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 import static frc.robot.util.LimelightHelpers.*;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.vision.VisionConstants.Pipelines;
+import frc.robot.subsystems.vision.VisionConstants.rawDetectionRef;
+import frc.robot.util.LimelightHelpers;
+import frc.robot.util.LimelightHelpers.PoseEstimate;
+import frc.robot.util.LimelightHelpers.RawDetection;
 import frc.robot.util.PoseManager;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -42,7 +47,7 @@ public class VisionIOLimelight implements VisionIO {
       default:
         position = new double[6];
     }
-    ;
+    
     setCameraPose_RobotSpace(
         name,
         position[0], // Forward offset (meters)
@@ -59,6 +64,27 @@ public class VisionIOLimelight implements VisionIO {
 
   @Override
   public void updateInputs(AprilTagVisionIOInputs inputs, PoseManager poseManager) {
+    // megatag1
+    boolean doRejectUpdate = false;
+    LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+
+    if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
+      if (mt1.rawFiducials[0].ambiguity > megatag1AmbiguityMinimum) {
+        doRejectUpdate = true;
+      }
+      if (mt1.rawFiducials[0].distToCamera > megatag1DistanceMaximum) {
+        doRejectUpdate = true;
+      }
+    }
+    if (mt1.tagCount == 0) {
+      doRejectUpdate = true;
+    }
+
+    if (!doRejectUpdate) {
+      poseManager.addVisionGyroMeasurement(
+          Units.radiansToDegrees(mt1.pose.getRotation().getAngle()), mt1.timestampSeconds);
+    }
+    // megatag2
     SetRobotOrientation(name, poseManager.getRotation().getDegrees(), 0, 0, 0, 0, 0);
     PoseEstimate observation = getBotPoseEstimate_wpiBlue_MegaTag2(name);
     // inputs.observation = observation;
@@ -94,6 +120,7 @@ public class VisionIOLimelight implements VisionIO {
     // dynamicCropping();
   }
 
+  // TODO update for 2026
   @Override
   public void updateInputs(ObjectDetectionVisionIOInputs inputs, PoseManager poseManager) {
     RawDetection[] detections = getRawDetections(name);
@@ -131,6 +158,10 @@ public class VisionIOLimelight implements VisionIO {
     for (double[] detection : algae) {
       inputs.algae[i++] = detection;
     }
+
+    inputs.pipeline = getCurrentPipelineIndex(name);
+
+    inputs.timestamp = Timer.getFPGATimestamp(); // todo change?
   }
 
   @Override

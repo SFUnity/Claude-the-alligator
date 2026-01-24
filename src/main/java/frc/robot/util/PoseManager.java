@@ -14,6 +14,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import frc.robot.subsystems.drive.DriveConstants;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -34,6 +35,8 @@ public class PoseManager {
       new SwerveDrivePoseEstimator(
           DriveConstants.kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
 
+  private Queue<double[]> visionGyroMeasurement = new LinkedList<>();
+
   public PoseManager() {}
 
   public void addOdometryMeasurementWithTimestamps(
@@ -47,8 +50,17 @@ public class PoseManager {
     poseEstimator.addVisionMeasurement(estimatedPose, timestamp, stdDevs);
   }
 
+  public void addVisionGyroMeasurement(double yawDeg, double timestamp) {
+    visionGyroMeasurement = new LinkedList<>();
+    visionGyroMeasurement.add(new double[] {yawDeg, timestamp});
+  }
+
   public void addVelocityData(Twist2d robotVelocity) {
     this.robotVelocity = robotVelocity;
+  }
+
+  public double[] getVisionGyroMeasurement() {
+    return visionGyroMeasurement.poll();
   }
 
   public double getDistanceTo(Pose2d pose) {

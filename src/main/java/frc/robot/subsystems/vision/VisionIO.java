@@ -18,6 +18,7 @@ public interface VisionIO {
     public double avgTagArea = 0.0;
 
     public double pipeline = 0;
+    public double yawDeg = 0;
   }
 
   @AutoLog
@@ -27,6 +28,8 @@ public interface VisionIO {
     public double[][] algae = new double[][] {};
     public int coralCount = 0;
     public int algaeCount = 0;
+    public double pipeline = 0;
+    public double timestamp = 0.0;
   }
 
   /** Updates the set of loggable inputs for apriltags */
