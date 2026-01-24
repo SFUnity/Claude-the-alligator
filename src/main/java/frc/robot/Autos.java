@@ -97,7 +97,6 @@ public class Autos {
     AutoTrajectory Climb = routine.trajectory("Climb");
     routine.active().onTrue(RobotCommands.sequence(Climb.resetOdometry(), Climb.cmd()));
     Climb.done().onTrue(RobotCommands.sequence(climbExtend(), climbRetract()));
-        return routine;
-      }
-    
+    return routine;
+  }
 }

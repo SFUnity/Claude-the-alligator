@@ -1,5 +1,5 @@
 package frc.robot.subsystems.rollers.spindexer;
+import frc.robot.subsystems.rollers.GenericRollerIO;
 
-public class SpindexerIO {
+public interface SpindexerIO extends GenericRollerIO {}
 
-}
