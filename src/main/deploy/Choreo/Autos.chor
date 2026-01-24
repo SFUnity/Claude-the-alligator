@@ -5,7 +5,7 @@
  "variables":{
   "expressions":{},
   "poses":{
-   "CenterClimb":{
+   "CenterTower":{
     "x":{
      "exp":"1.628291130065918 m",
      "val":1.628291130065918
