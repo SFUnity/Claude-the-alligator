@@ -36,7 +36,7 @@ public class IntakePivot extends SubsystemBase {
       new LoggedTunableNumber("Intake/spikeCurrent", groundAlgae.get() ? 17 : 17);
 
   private final IntakePivotIO io;
-  private final IntakePivotIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
+  private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
 
   public IntakePivot(IntakePivotIO io) {
     this.io = io;
