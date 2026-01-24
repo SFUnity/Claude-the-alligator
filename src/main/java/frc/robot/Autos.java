@@ -1,6 +1,7 @@
 package frc.robot;
 
 import choreo.auto.AutoFactory;
+import choreo.auto.AutoRoutine;
 import choreo.trajectory.SwerveSample;
 import choreo.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -87,5 +88,12 @@ public class Autos {
    */
   public Command getAutonomousCommand() {
     return isChoreoAuto ? chooser.selectedCommandScheduler() : nonChoreoChooser.get();
+  }
+
+  public AutoRoutine climbAutoRoutine() {
+
+    AutoRoutine routine = factory.newRoutine("Climb Auto Routine");
+    routine.active()
+    return routine;
   }
 }
