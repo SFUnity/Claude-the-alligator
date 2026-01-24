@@ -1,7 +1,5 @@
 package frc.robot.subsystems.intakePivot;
-
 import edu.wpi.first.math.util.Units;
-import frc.robot.constantsGlobal.Constants;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
@@ -39,15 +37,7 @@ public class IntakePivotConstants {
 
   static {
     updateTunables();
-
-    switch (Constants.currentMode) {
-      default:
-        kP = new LoggedTunableNumber("Intake/kP", 0.028);
-        break;
-      case SIM:
-        kP = new LoggedTunableNumber("Intake/simkP", 0.1);
-        break;
-    }
+    kP = new LoggedTunableNumber("Intake/kP", 0.015);
   }
 
   public static void updateTunables() {
