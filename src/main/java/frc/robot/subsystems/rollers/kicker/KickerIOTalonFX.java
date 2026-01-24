@@ -1,5 +1,3 @@
 package frc.robot.subsystems.rollers.kicker;
 
-public class KickerIOTalonFX {
-    
-}
+public class KickerIOTalonFX {}

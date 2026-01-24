@@ -10,21 +10,22 @@ public class RobotCommands {
         .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Intake", false));
   }
 
-    public static Command climbExtend() {
-        return Commands.run(() -> Logger.recordOutput("RobotCommands/ClimbExtend", true))
-                .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/ClimbExtend", false));
-    }
+  public static Command climbExtend() {
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/ClimbExtend", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/ClimbExtend", false));
+  }
 
-    public static Command climbRetract() {
-        return Commands.run(() -> Logger.recordOutput("RobotCommands/ClimbRetract", true))
-                .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/ClimbRetract", false));
-    }
-    public static Command score() {
-        return Commands.run(() -> Logger.recordOutput("RobotCommands/Score", true))
-                .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Score", false));
-    }
+  public static Command climbRetract() {
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/ClimbRetract", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/ClimbRetract", false));
+  }
 
-   public static Command sequence(Command... commands) {
+  public static Command score() {
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/Score", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Score", false));
+  }
+
+  public static Command sequence(Command... commands) {
     return new SequentialCommandGroup(commands);
   }
 }

@@ -1,5 +1,5 @@
 package frc.robot.subsystems.rollers.spindexer;
 
 public class SpindexerConstants {
-    public double talonID  = 0;
+  public double talonID = 0;
 }
