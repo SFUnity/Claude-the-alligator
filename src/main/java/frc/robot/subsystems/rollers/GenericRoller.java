@@ -1,40 +1,44 @@
 package frc.robot.subsystems.rollers;
 
+import java.util.function.DoubleSupplier;
+
+import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.rollers.GenericRollerIO.GenericRollerIOInputs;
 
-public class GenericRoller extends SubsystemBase {
+public abstract class GenericRoller<G extends GenericRoller.VoltageGoal> {
+  public interface VoltageGoal {
+    DoubleSupplier getVoltageSupplier();
+  }
+
+  public abstract G getGoal();
+
+  private final String name;
   private final GenericRollerIO io;
-  protected final GenericRollerIOInputs inputs;
+  protected final GenericRollerIOInputsAutoLogged inputs =
+      new GenericRollerIOInputsAutoLogged();
+  protected final Timer stateTimer = new Timer();
+  private G lastGoal;
 
-  public enum GoalStates {
-    STOP(0);
-
-    private double volts;
-
-    private GoalStates(double volts) {
-      this.volts = volts;
-    }
-
-    public double getVolts() {
-      return volts;
-    }
-  }
-
-  private GoalStates goalState;
-
-  public GenericRoller(GenericRollerIO io) {
+  public GenericRoller(String name, GenericRollerIO io) {
+    this.name = name;
     this.io = io;
-    inputs = new GenericRollerIOInputs();
+
+    stateTimer.start();
   }
 
-  @Override
   public void periodic() {
     io.updateInputs(inputs);
-    io.runVolts(goalState.getVolts());
-  }
+    Logger.processInputs(name, inputs);
 
-  public void setState(GoalStates goalState) {
-    this.goalState = goalState;
+    if (getGoal() != lastGoal) {
+      stateTimer.reset();
+      lastGoal = getGoal();
+    }
+
+    io.runVolts(getGoal().getVoltageSupplier().getAsDouble());
+    Logger.recordOutput("Rollers/" + name + "Goal", getGoal().toString());
   }
 }
