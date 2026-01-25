@@ -171,9 +171,9 @@ public class Autos {
     routine.active().onTrue(RobotCommands.sequence(LowerFeed.resetOdometry(), LowerFeed.cmd()));
     LowerFeed.atTime("StartIntake").onTrue(RobotCommands.intake());
     LowerFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
-  return routine;
+    return routine;
   }
-  
+
 public AutoRoutine LowerFeedClimbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Lower Feed Climb Auto Routine");
     AutoTrajectory LowerFeedClimb = routine.trajectory("LowerFeedClimb");
