@@ -162,7 +162,7 @@ public AutoRoutine FeedAutoRoutine() {
     Feed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
     Feed.atTime("StartShooting").onTrue(RobotCommands.shoot());
     Feed.atTime("StopShooting").onTrue(RobotCommands.stopShoot());
-
+    return routine;
 }
 
 public AutoRoutine LowerFeedClimbAutoRoutine() {
