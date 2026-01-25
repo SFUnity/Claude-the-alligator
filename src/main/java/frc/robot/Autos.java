@@ -138,8 +138,35 @@ public class Autos {
     routine.active().onTrue(RobotCommands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
     DepotFeed.atTime("StartIntake").onTrue(RobotCommands.intake());
     DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    return routine;
+  }
+
+  public AutoRoutine upperFeedClimbAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("Upper Feed Climb Auto Routine");
+    AutoTrajectory UpperFeedClimb = routine.trajectory("UpperFeedClimb");
+    routine.active().onTrue(RobotCommands.sequence(UpperFeedClimb.resetOdometry(), UpperFeedClimb.cmd()));
+    UpperFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake());
+    UpperFeedClimb.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    UpperFeedClimb.atTime("StartShoot").onTrue(RobotCommands.shoot());
+    UpperFeedClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
+    UpperFeedClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
+    UpperFeedClimb.done().onTrue(RobotCommands.climbRetract());
+    return routine;
+  }
+
+  public AutoRoutine FeedAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("Feed Auto Routine");
+    AutoTrajectory Feed = routine.trajectory("Feed");
+    routine.active().onTrue(RobotCommands.sequence(Feed.resetOdometry(), Feed.cmd()));
+    Feed.atTime("StartIntake").onTrue(RobotCommands.intake());
+    Feed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    Feed.atTime("StartShooting").onTrue(RobotCommands.shoot());
+    Feed.atTime("StopShooting").onTrue(RobotCommands.stopShoot());
+    return routine;
   }
 }
+
+
 
 public AutoRoutine ScoreCenterClimbAutoRoutine() {
   AutoRoutine routine = factory.newRoutine("Score Center Climb Auto Routine");

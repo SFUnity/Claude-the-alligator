@@ -22,7 +22,8 @@
     {"x":{"exp":"7.723809242248535 m", "val":7.723809242248535}, "y":{"exp":"1.3256573677062988 m", "val":1.3256573677062988}, "heading":{"exp":"90 deg", "val":1.5707963267948966}, "intervals":44, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"7.737333297729492 m", "val":7.737333297729492}, "y":{"exp":"2.387296676635742 m", "val":2.387296676635742}, "heading":{"exp":"90 deg", "val":1.5707963267948966}, "intervals":37, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"LowerTrench.x", "val":4.469950199127197}, "y":{"exp":"LowerTrench.y", "val":0.7602800726890564}, "heading":{"exp":"180 deg", "val":3.141592653589793}, "intervals":28, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
-    {"x":{"exp":"LowerTower.x", "val":0.9227702617645264}, "y":{"exp":"LowerTower.y", "val":2.806730031967163}, "heading":{"exp":"LowerTower.heading", "val":-3.141592653589793}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"LowerTower.x", "val":0.9227702617645264}, "y":{"exp":"LowerTower.y", "val":2.806730031967163}, "heading":{"exp":"LowerTower.heading", "val":-3.141592653589793}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":{"exp":"2.4819698333740234 m", "val":2.481969833374023}, "y":{"exp":"1.8712100982666016 m", "val":1.8712100982666016}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":false, "fixHeading":false, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
@@ -208,5 +209,10 @@
     {"t":5.51081, "x":0.92277, "y":2.80673, "heading":-3.14159, "vx":0.0, "vy":0.0, "omega":0.0, "ax":0.0, "ay":0.0, "alpha":0.0, "fx":[0.0,0.0,0.0,0.0], "fy":[0.0,0.0,0.0,0.0]}],
   "splits":[0]
  },
- "events":[]
+ "events":[
+   {"name":"StartIntake", "from":{"target":1, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StopIntake", "from":{"target":2, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartShooting", "from":{"target":1, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StopShooting", "from":{"target":2, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"ExtendClimber", "from":{"target":5, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
