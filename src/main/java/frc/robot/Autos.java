@@ -102,11 +102,11 @@ public class Autos {
   }
 
 
-  public AutoRoutine outpostclimbAutoRoutine() { 
+  public AutoRoutine outpostClimbAutoRoutine() { 
     AutoRoutine routine = factory.newRoutine("Outpost Climb Auto Routine");
     AutoTrajectory OutpostClimb = routine.trajectory("OutpostClimb");
     return routine;
-  
+  }
   public AutoRoutine depotAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Depot Auto Routine");
     AutoTrajectory Depot = routine.trajectory("DepotClimb");
