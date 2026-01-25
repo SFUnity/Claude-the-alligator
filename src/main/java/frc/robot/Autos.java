@@ -165,9 +165,6 @@ public AutoRoutine FeedAutoRoutine() {
     return routine;
 }
 
-<<<<<<< HEAD
-
-
 public AutoRoutine ScoreCenterClimbAutoRoutine() {
   AutoRoutine routine = factory.newRoutine("Score Center Climb Auto Routine");
   AutoTrajectory ScoreCenterClimb = routine.trajectory("ScoreCenterClimb");
@@ -176,6 +173,7 @@ public AutoRoutine ScoreCenterClimbAutoRoutine() {
   ScoreCenterClimb.done().onTrue(RobotCommands.climbRetract());
   return routine;
 }
+
  public Autoroutine LowerFeedAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Lower Feed Auto Routine");
     AutoTrajectory LowerFeed = routine.trajectory("LowerFeedClimb");
@@ -184,7 +182,7 @@ public AutoRoutine ScoreCenterClimbAutoRoutine() {
     LowerFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
   return routine;
   }
-=======
+  
 public AutoRoutine LowerFeedClimbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Lower Feed Climb Auto Routine");
     AutoTrajectory LowerFeedClimb = routine.trajectory("LowerFeedClimb");
@@ -198,4 +196,3 @@ public AutoRoutine LowerFeedClimbAutoRoutine() {
     return routine; 
   }
 }
->>>>>>> 480a360b7629d740df24b79060124327295e0771
