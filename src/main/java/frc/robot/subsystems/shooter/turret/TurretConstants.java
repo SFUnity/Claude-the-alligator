@@ -27,8 +27,11 @@ public class TurretConstants {
 
   public static double totalGear = turretGear * (trueMaxAngleDegs / 360);
 
-  public static double totalRotations1 = totalGear / encoder1gear;
-  public static double totalRotations2 = totalGear / encoder2gear;
+    public static double totalRotations1 = totalGear / encoder1gear;
+    public static double totalRotations2 = totalGear / encoder2gear;
+
+    public static double rotationRatio1 = encoder1gear/turretGear;
+    public static double rotationRatio2 = encoder2gear/turretGear;
 
   public static double extraDegs1 = 360 * (1 % totalRotations1);
   public static double extraDegs2 = 360 * (1 % totalRotations2);
