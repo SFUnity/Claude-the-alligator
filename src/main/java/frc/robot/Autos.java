@@ -64,7 +64,7 @@ public class Autos {
     chooser.addRoutine("Upper Feed Climb Auto Routine", this::upperFeedClimbAutoRoutine);
     chooser.addRoutine("Feed Auto Routine", this::FeedAutoRoutine);
     chooser.addRoutine("Lower Feed Auto Routine", this::LowerFeedAutoRoutine);
-    chooser.addRoutine("Lower Feed Climb Auto Routine", this::LowerFeedClimbAutoRoutine); 
+    chooser.addRoutine("Lower Feed Climb Auto Routine", this::LowerFeedClimbAutoRoutine);
     if (!DriverStation.isFMSAttached()) {
       // Set up test choreo routines
 
