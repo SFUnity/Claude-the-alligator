@@ -165,7 +165,7 @@ public class Autos {
     return routine;
   }
 
- public AutoRoutine LowerFeedAutoRoutine() {
+  public AutoRoutine LowerFeedAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Lower Feed Auto Routine");
     AutoTrajectory LowerFeed = routine.trajectory("LowerFeedClimb");
     routine.active().onTrue(RobotCommands.sequence(LowerFeed.resetOdometry(), LowerFeed.cmd()));
