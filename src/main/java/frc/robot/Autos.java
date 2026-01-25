@@ -138,6 +138,12 @@ public class Autos {
     routine.active().onTrue(RobotCommands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
     DepotFeed.atTime("StartIntake").onTrue(RobotCommands.intake());
     DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    DepotFeed.atTime("StartShoot").onTrue(RobotCommands.shoot());
+    DepotFeed.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
+    DepotFeed.atTime("StartDepotIntake").onTrue(RobotCommands.intake());
+    DepotFeed.atTime("StopDepotIntake").onTrue(RobotCommands.stopIntake());
+    DepotFeed.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
+    DepotFeed.done().onTrue(RobotCommands.climbRetract());
     return routine;
   }
 
