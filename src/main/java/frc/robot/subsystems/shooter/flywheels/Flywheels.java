@@ -29,7 +29,7 @@ public class Flywheels extends SubsystemBase {
     velocity = speed;
   }
 
-  public Command setVelocities(double speed) {
+  public Command setVelocity(double speed) {
     return run(() -> updateFlywheels(speed));
   }
 
