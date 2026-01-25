@@ -171,7 +171,7 @@ public AutoRoutine FeedAutoRoutine() {
     routine.active().onTrue(RobotCommands.sequence(LowerFeed.resetOdometry(), LowerFeed.cmd()));
     LowerFeed.atTime("StartIntake").onTrue(RobotCommands.intake());
     LowerFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
-  return routine;
+    return routine;
   }
 
 public AutoRoutine LowerFeedClimbAutoRoutine() {
