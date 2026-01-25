@@ -11,11 +11,16 @@ public class Hood extends SubsystemBase {
     this.io = io;
   }
 
+  @Override
+  public void periodic() {
+      io.updateInputs(inputs);
+  }
+
   public Command setAngle(double angle) {
     return run(() -> io.setPosition(angle)).withName("updateAngle");
   }
 
-  public boolean isAtAngle() {
-    return Math.round(inputs.positionDeg) == inputs.goalPosition;
+  public boolean isAtAngle(){
+    return Math.abs(inputs.positionDeg - inputs.goalPosition) < HoodConstants.angleTolerance;
   }
 }
