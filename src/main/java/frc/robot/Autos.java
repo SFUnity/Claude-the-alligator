@@ -103,5 +103,7 @@ public class Autos {
   public AutoRoutine depotAutoRoutine(){
     AutoRoutine routine = factory.newRoutine("Depot Auto Routine");
     AutoTrajectory Depot = routine.trajectory("DepotClimb");
+    routine.active().onTrue(RobotCommands.sequence(Depot.resetOdometry(), Depot.cmd()));
+    Depot.done().onTrue(RobotCommands.sequence(climbExtend(), climbRetract()));
     return routine;
   }
