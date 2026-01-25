@@ -10,7 +10,7 @@
   "waypoints":[
     {"x":{"exp":"UpperTrench.x", "val":4.469950199127197}, "y":{"exp":"UpperTrench.y", "val":7.153000354766846}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"LowerTrench.x", "val":4.469950199127197}, "y":{"exp":"LowerTrench.y", "val":0.7602800726890564}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
-    {"x":{"exp":"UpperBump.x", "val":3.690350294113159}, "y":{"exp":"UpperBump.y", "val":5.5548200607299805}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":{"exp":"3.7499048709869385 m", "val":3.7499048709869385}, "y":{"exp":"5.648806571960449 m", "val":5.648806571960449}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"LowerBump.x", "val":3.6708600521087646}, "y":{"exp":"LowerBump.y", "val":2.455909490585327}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"1.4490002393722534 m", "val":1.4490002393722534}, "y":{"exp":"4.677770137786865 m", "val":4.677770137786865}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"0.9227702617645264 m", "val":0.9227702617645264}, "y":{"exp":"2.806730031967163 m", "val":2.806730031967163}, "heading":{"exp":"-3.1240505907094214 rad", "val":-3.124050590709422}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
@@ -31,5 +31,6 @@
   "samples":[],
   "splits":[]
  },
- "events":[]
+ "events":[
+   {"name":"Marker", "from":{"target":0, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
