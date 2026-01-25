@@ -436,6 +436,7 @@
    {"name":"ExtendClimber", "from":{"target":7, "targetTimestamp":11.66367, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StartIntake", "from":{"target":1, "targetTimestamp":0.75031, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"EndIntake", "from":{"target":3, "targetTimestamp":3.43631, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StartDepotIntake", "from":{"target":6, "targetTimestamp":8.02557, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"EndDepotIntake", "from":{"target":7, "targetTimestamp":11.66367, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
+   {"name":"StartIntakeAndShoot", "from":{"target":6, "targetTimestamp":8.02557, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"EndIntakeAndShoot", "from":{"target":7, "targetTimestamp":11.66367, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartShooting", "from":{"target":5, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
