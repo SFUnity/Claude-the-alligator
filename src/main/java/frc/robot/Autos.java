@@ -127,3 +127,14 @@ public class Autos {
     DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
 
 }
+
+ public AutoRoutine FeedAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("Feed Auto Routine");
+    AutoTrajectory Feed = routine.trajectory("Feed");
+    routine.active().onTrue(RobotCommands.sequence(Feed.resetOdometry(), Feed.cmd()));
+    Feed.atTime("StartIntake").onTrue(RobotCommands.intake());
+    Feed.atTime("StartShooting").onTrue(RobotCommands.shoot());
+    Feed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    Feed.atTime("StopShooting").onTrue(RobotCommands.shoot());
+
+}
