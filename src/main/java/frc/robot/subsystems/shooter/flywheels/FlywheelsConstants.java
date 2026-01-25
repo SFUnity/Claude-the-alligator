@@ -10,6 +10,8 @@ public class FlywheelsConstants {
 
   public static double idleVolts = 6;
 
+  public static double shootVelocity = 0;
+
   public static double kV = 0;
   public static double kA = 0;
   public static double kP = 0;

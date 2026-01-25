@@ -56,7 +56,15 @@ public class Autos {
     /* Set up main choreo routines */
     chooser = new LoggedAutoChooser("ChoreoChooser");
     // chooser.addRoutine("Example Auto Routine", this::exampleAutoRoutine);
-
+    chooser.addRoutine("Climb Auto Routine", this::climbAutoRoutine);
+    chooser.addRoutine("Outpost Climb Auto Routine", this::outpostClimbAutoRoutine);
+    chooser.addRoutine("Depot Auto Routine", this::depotAutoRoutine);
+    chooser.addRoutine("Score Center Climb Auto Routine", this::ScoreCenterClimbAutoRoutine);
+    chooser.addRoutine("Depot Feed Auto Routine", this::depotFeedAutoRoutine);
+    chooser.addRoutine("Upper Feed Climb Auto Routine", this::upperFeedClimbAutoRoutine);
+    chooser.addRoutine("Feed Auto Routine", this::FeedAutoRoutine);
+    chooser.addRoutine("Lower Feed Auto Routine", this::LowerFeedAutoRoutine);
+    chooser.addRoutine("Lower Feed Climb Auto Routine", this::LowerFeedClimbAutoRoutine);
     if (!DriverStation.isFMSAttached()) {
       // Set up test choreo routines
 
