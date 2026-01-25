@@ -13,6 +13,7 @@ public class HoodIOTalonFX implements HoodIO {
   private final TalonFX pivot = new TalonFX(0);
   private PositionVoltage positionVoltage = new PositionVoltage(0.0).withEnableFOC(true);
   private double goalPosition = 0;
+
   public HoodIOTalonFX() {
     TalonFXConfiguration config = new TalonFXConfiguration();
 

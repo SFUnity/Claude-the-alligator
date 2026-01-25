@@ -3,14 +3,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.KickerConstants;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.flywheels.FlywheelsConstants;
 import frc.robot.subsystems.shooter.hood.Hood;
-
 import org.littletonrobotics.junction.Logger;
 
 public class RobotCommands {
@@ -35,7 +33,12 @@ public class RobotCommands {
   }
 
   public static Command shoot(Flywheels flywheels, Kicker kicker, Hood hood, Spindexer spindexer) {
-    return new SequentialCommandGroup(flywheels.setVelocity(FlywheelsConstants.shootVelocity).withDeadline(kicker.runVolts()).withTimeout(KickerConstants.spinupTime),  spindexer.runVolts().onlyIf(hood::isAtAngle));
+    return new SequentialCommandGroup(
+        flywheels
+            .setVelocity(FlywheelsConstants.shootVelocity)
+            .withDeadline(kicker.runVolts())
+            .withTimeout(KickerConstants.spinupTime),
+        spindexer.runVolts().onlyIf(hood::isAtAngle));
   }
 
   public static Command stopShoot() {

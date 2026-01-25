@@ -1,5 +1,3 @@
 package frc.robot.subsystems.rollers.intake;
 
-public class IntakeIO {
-    
-}
+public class IntakeIO {}

@@ -15,7 +15,7 @@ public class Hood extends SubsystemBase {
     return run(() -> io.setPosition(angle)).withName("updateAngle");
   }
 
-  public boolean isAtAngle(){
+  public boolean isAtAngle() {
     return Math.round(inputs.positionDeg) == inputs.goalPosition;
   }
 }

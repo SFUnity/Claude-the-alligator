@@ -12,10 +12,11 @@ public class Spindexer extends SubsystemBase {
     this.io = io;
   }
 
-  public Command runVolts(){
+  public Command runVolts() {
     return Commands.none();
   }
-  public Command stop(){
+
+  public Command stop() {
     return Commands.none();
   }
 }
