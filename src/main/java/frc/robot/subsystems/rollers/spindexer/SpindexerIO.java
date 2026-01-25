@@ -4,17 +4,17 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface SpindexerIO {
 
-    @AutoLog
-    public static class SpindexerIOInputs {
-        public double velocityRotsPerSec = 0.0;
-        public double appliedVolts = 0.0;
-        public double statorCurrentAmps = 0.0;
-        public double supplyCurrentAmps = 0.0;
-    }
+  @AutoLog
+  public static class SpindexerIOInputs {
+    public double velocityRotsPerSec = 0.0;
+    public double appliedVolts = 0.0;
+    public double statorCurrentAmps = 0.0;
+    public double supplyCurrentAmps = 0.0;
+  }
 
   public default void updateInputs(SpindexerIOInputs inputs) {}
 
-    public default void runVolts(double voltage) {}
+  public default void runVolts(double voltage) {}
 
   public default void stop() {}
 }

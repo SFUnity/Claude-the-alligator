@@ -6,7 +6,7 @@ public class Spindexer extends SubsystemBase {
 
   private SpindexerIO io;
 
-    public Spindexer(SpindexerIO io) {
-        this.io = io;
-    }
+  public Spindexer(SpindexerIO io) {
+    this.io = io;
+  }
 }

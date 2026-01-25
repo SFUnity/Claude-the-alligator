@@ -1,6 +1,5 @@
 package frc.robot.subsystems.shooter.flywheels;
 
-import frc.robot.Constants;
 import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -9,6 +8,7 @@ import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import frc.robot.Constants;
 
 public class FlywheelsIOTalonFX implements FlywheelsIO {
   private final TalonFX leader = new TalonFX(leaderID);
@@ -40,7 +40,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
         motionMagicAcceleration; // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk =
         motionMagicJerk; // Target jerk of 1600 rps/s/s (0.1 seconds)
-    
+
     leader.getConfigurator().apply(talonFXConfigs);
     follow.setControl(new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed));
   }
