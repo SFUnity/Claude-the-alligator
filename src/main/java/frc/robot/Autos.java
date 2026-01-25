@@ -127,3 +127,12 @@ public class Autos {
     DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
 
 }
+
+public AutoRoutine ScoreCenterClimbAutoRoutine() {
+  AutoRoutine routine = factory.newRoutine("Score Center Climb Auto Routine");
+  AutoTrajectory ScoreCenterClimb = routine.trajectory("ScoreCenterClimb");
+  routine.active().onTrue(RobotCommands.sequence(ScoreCenterClimb.resetOdometry(), ScoreCenterClimb.cmd()));
+  ScoreCenterClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
+  ScoreCenterClimb.done().onTrue(RobotCommands.climbRetract());
+  return routine;
+}
