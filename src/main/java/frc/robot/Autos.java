@@ -101,15 +101,12 @@ public class Autos {
     return routine;
   }
 
-
   public AutoRoutine outpostClimbAutoRoutine() { 
     AutoRoutine routine = factory.newRoutine("Outpost Climb Auto Routine");
     AutoTrajectory OutpostClimb = routine.trajectory("OutpostClimb");
-    routine.active().onTrue(RobotCommands.sequence(OutpostClimb.resetOdometry(), OutpostClimb.cmd()));
-    OutpostClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
-    OutpostClimb.done().onTrue(RobotCommands.climbRetract());
     return routine;
   }
+  
   public AutoRoutine depotAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Depot Auto Routine");
     AutoTrajectory Depot = routine.trajectory("DepotClimb");
@@ -124,5 +121,6 @@ public class Autos {
     AutoTrajectory DepotFeed = routine.trajectory("DepotFeedClimb");
     routine.active().onTrue(RobotCommands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
     DepotFeed.atTime("StartIntake").onTrue(RobotCommands.intake());
+    DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
 
 }
