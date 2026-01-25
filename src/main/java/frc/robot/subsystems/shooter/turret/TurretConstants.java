@@ -21,4 +21,7 @@ public class TurretConstants {
 
     public static double minAngleDegs = trueMinAngleDegs + bufferDegs;
     public static double maxAngleDegs = trueMaxAngleDegs - bufferDegs;
+
+    public static double minBufferAngleDegs = minAngleDegs + bufferDegs;
+    public static double maxBufferAngleDegs = maxAngleDegs - bufferDegs;
 }

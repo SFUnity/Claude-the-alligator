@@ -12,8 +12,8 @@ public class RobotCommands {
   }
 
   public static Command stopIntake() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/Intake", true))
-    .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Intake", false));
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/StopIntake", true))
+    .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopIntake", false));
   }
 
   public static Command climbExtend() {
@@ -27,6 +27,11 @@ public class RobotCommands {
   }
 
   public static Command shoot() {
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/StopShoot", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopShoot", false));
+  }
+
+  public static Command stopShoot() {
     return Commands.run(() -> Logger.recordOutput("RobotCommands/Shoot", true))
         .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
   }
