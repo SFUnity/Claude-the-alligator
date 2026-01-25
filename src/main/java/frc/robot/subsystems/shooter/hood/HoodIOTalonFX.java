@@ -12,7 +12,7 @@ import frc.robot.subsystems.shooter.hood.HoodIO.HoodIOInputs;
 public class HoodIOTalonFX implements HoodIO {
   private final TalonFX pivot = new TalonFX(0);
   private PositionVoltage positionVoltage = new PositionVoltage(0.0).withEnableFOC(true);
-
+  private double goalPosition = 0;
   public HoodIOTalonFX() {
     TalonFXConfiguration config = new TalonFXConfiguration();
 
@@ -38,6 +38,7 @@ public class HoodIOTalonFX implements HoodIO {
 
   @Override
   public void updateInputs(HoodIOInputs inputs) {
+    inputs.goalPosition = goalPosition;
     inputs.appliedVolts = pivot.getMotorVoltage().getValueAsDouble();
     inputs.positionDeg = Units.rotationsToDegrees(pivot.getPosition().getValueAsDouble());
     inputs.statorCurrent = pivot.getStatorCurrent().getValueAsDouble();
@@ -46,6 +47,7 @@ public class HoodIOTalonFX implements HoodIO {
 
   @Override
   public void setPosition(double positionDeg) {
+    goalPosition = positionDeg;
     pivot.setControl(positionVoltage.withPosition(Units.degreesToRotations(positionDeg)));
   }
 }
