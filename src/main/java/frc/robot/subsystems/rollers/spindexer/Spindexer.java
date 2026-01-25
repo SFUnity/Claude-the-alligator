@@ -34,4 +34,9 @@ public class Spindexer extends GenericRoller<Spindexer.Goal> {
   public Spindexer(SpindexerIO io) {
     super("Indexer", io);
   }
+
+  @Override
+  public void setGoal(Goal goal) {
+    this.goal = goal;
+  }
 }

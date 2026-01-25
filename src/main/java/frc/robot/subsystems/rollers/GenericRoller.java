@@ -1,10 +1,13 @@
 package frc.robot.subsystems.rollers;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
-public abstract class GenericRoller<G extends GenericRoller.VoltageGoal> {
+public abstract class GenericRoller<G extends GenericRoller.VoltageGoal> extends SubsystemBase{
   public interface VoltageGoal {
     DoubleSupplier getVoltageSupplier();
   }
@@ -36,4 +39,6 @@ public abstract class GenericRoller<G extends GenericRoller.VoltageGoal> {
     io.runVolts(getGoal().getVoltageSupplier().getAsDouble());
     Logger.recordOutput("Rollers/" + name + "Goal", getGoal().toString());
   }
+
+  public abstract void setGoal(G goal);
 }
