@@ -13,6 +13,7 @@ public class Flywheels extends SubsystemBase {
   public Flywheels(FlywheelsIO io) {
     this.io = io;
   }
+
   @Override
   public void periodic() {
     io.updateInputs(inputs);
