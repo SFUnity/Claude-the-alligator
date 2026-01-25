@@ -2,6 +2,7 @@ package frc.robot.subsystems.rollers.intake;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.subsystems.rollers.intake.IntakeConstants.*;
 
