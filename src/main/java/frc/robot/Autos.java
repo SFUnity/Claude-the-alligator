@@ -116,4 +116,9 @@ public class Autos {
     return routine;
   }
   
+  public AutoRoutine depotFeedAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("Depot Feed Auto Routine");
+    
+  }
+
 }
