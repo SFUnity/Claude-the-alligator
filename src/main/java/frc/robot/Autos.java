@@ -101,13 +101,19 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine depotAutoRoutine(){
-    AutoRoutine routine = factory.newRoutine("Depot Auto Routine");
-    AutoTrajectory Depot = routine.trajectory("DepotClimb");
-    return routine;
-  }
+
   public AutoRoutine outpostclimbAutoRoutine() { 
     AutoRoutine routine = factory.newRoutine("Outpost Climb Auto Routine");
     AutoTrajectory OutpostClimb = routine.trajectory("OutpostClimb");
     return routine;
+  
+  public AutoRoutine depotAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("Depot Auto Routine");
+    AutoTrajectory Depot = routine.trajectory("DepotClimb");
+    routine.active().onTrue(RobotCommands.sequence(Depot.resetOdometry(), Depot.cmd()));
+    Depot.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
+    Depot.done().onTrue(RobotCommands.climbRetract());
+    return routine;
   }
+  
+}
