@@ -32,6 +32,11 @@ public class RobotCommands {
         .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/ClimbRetract", false));
   }
 
+  public static Command shoot() {
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/Shooter", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shooter", false));
+  }
+
   public static Command shoot(Flywheels flywheels, Kicker kicker, Hood hood, Spindexer spindexer) {
     return new SequentialCommandGroup(
         flywheels
