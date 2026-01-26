@@ -3,7 +3,7 @@ package.frc.robot.util;
 public static class ShooterUtil {
     //Constants
     public static final double Gravity = 9.81; 
-    public static final double ShooterMaxRPM = 3500; // Placeholder value
+    public static final double ShooterMaxRPM = 3500; 
     public static final double ShooterMinAngle = 45; 
     public static final double ShooterMaxAngle = 75; 
 
@@ -49,12 +49,12 @@ public static class ShooterUtil {
         
         
         // Convert velocity to RPM or whatever measurement motors run on idk
-        double wheelRadius = 0; // Placeholder value
+        double wheelRadius = 0.0508;
         double rpm = (requiredVelocity / (2 * Math.PI * wheelRadius)) * 60;
 
-        //correcting angle if required rpm is too large
+        //correcting angle instead if required rpm is too large
         if (rpm > ShooterMaxRPM) {
-        // Solve quadratic for tan(theta) using v_max
+        // Solve quadratic for tan(theta) using v_max and basically reverse the projectile motion equations
         double v_max = 2 * Math.PI * wheelRadius * (ShooterMaxRPM / 60.0);
         double a = Gravity * horizontalDistanceMeters * horizontalDistanceMeters / (2 * v_max * v_max);
         double b = -horizontalDistanceMeters;
@@ -76,16 +76,16 @@ public static class ShooterUtil {
 
             rpm = ShooterMaxRPM; // since we are using max velocity
         } else {
-            // No valid angle or velocity so sotm goes bye bye
-            return null;
+            // No valid angle or velocity so sotm defaults to largest angle and max rpm
+            return new ShooterSolution(ShooterMaxAngle, ShooterMaxRPM, launchAngle);
         }
     } 
 }
-
+        //i don't think I did this right but basically calculate flight time to find horizontal skew
         public static double calculateTimeOfFlight(double horizontalDistanceMeters, double launchAngleDeg, double rpm) {
         double angleRad = Math.toRadians(launchAngleDeg);
 
-        double wheelRadius = 0; //placeholder; ask about actual value
+        double wheelRadius = 0.0508; 
         double exitVelocity = (rpm / 60.0) * (2 * Math.PI * wheelRadius);
 
         double horizontalVelocity = exitVelocity * Math.cos(angleRad);
@@ -95,7 +95,7 @@ public static class ShooterUtil {
 
     return horizontalDistanceMeters / horizontalVelocity;
     }
-        
+        //calculate the angle the robot needs to turn to compensate for sideways movement
     public static double calculateTurnAngle(double robotSidewaysVelocityMetersPerSec, double exitVelocityMetersPerSec) {
         
         return Math.atan(robotSidewaysVelocityMetersPerSec / exitVelocityMetersPerSec);
