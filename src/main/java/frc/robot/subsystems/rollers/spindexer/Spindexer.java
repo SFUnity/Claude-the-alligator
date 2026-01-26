@@ -1,9 +1,22 @@
 package frc.robot.subsystems.rollers.spindexer;
 
-import java.util.function.DoubleSupplier;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.util.LoggedTunableNumber;
+public class Spindexer extends SubsystemBase {
 
-public class Spindexer extends GenericRoller<Spindexer.Goal> {
+  private SpindexerIO io;
 
+  public Spindexer(SpindexerIO io) {
+    this.io = io;
+  }
+
+  public Command runVolts() {
+    return Commands.none();
+  }
+
+  public Command stop() {
+    return Commands.none();
+  }
 }

@@ -4,42 +4,34 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Flywheels extends SubsystemBase {
-  private final FlywheelsIO topIO;
-  private final FlywheelsIOInputsAutoLogged topInputs = new FlywheelsIOInputsAutoLogged();
-  private final FlywheelsIO bottomIO;
-  private final FlywheelsIOInputsAutoLogged bottomInputs = new FlywheelsIOInputsAutoLogged();
-
-  private double topVelocity;
-  private double bottomVelocity;
+  private final FlywheelsIO io;
+  private final FlywheelsIOInputsAutoLogged inputs = new FlywheelsIOInputsAutoLogged();
+  private double velocity;
 
   private boolean idle = false;
 
-  public Flywheels(FlywheelsIO topIO, FlywheelsIO bottomIO) {
-    this.topIO = topIO;
-    this.bottomIO = bottomIO;
+  public Flywheels(FlywheelsIO io) {
+    this.io = io;
   }
 
+  @Override
   public void periodic() {
-    topIO.updateInputs(topInputs);
-    bottomIO.updateInputs(bottomInputs);
+    io.updateInputs(inputs);
 
     if (!idle) {
-      topIO.runVelocity(topVelocity);
-      bottomIO.runVelocity(bottomVelocity);
+      io.runVelocity(velocity);
     } else {
-      topIO.idle();
-      bottomIO.idle();
+      io.idle();
     }
   }
 
-  private void updateFlywheels(double top, double bottom) {
+  private void updateFlywheels(double speed) {
     idle = false;
-    topVelocity = top;
-    bottomVelocity = bottom;
+    velocity = speed;
   }
 
-  public Command setVelocities(double top, double bottom) {
-    return run(() -> updateFlywheels(top, bottom));
+  public Command setVelocity(double speed) {
+    return run(() -> updateFlywheels(speed));
   }
 
   public Command setIdle() {

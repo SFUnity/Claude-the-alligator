@@ -1,13 +1,13 @@
-package frc.robot.subsystems.rollers;
+package frc.robot.subsystems.rollers.kicker;
 
-public class GenericRollerIOSim implements GenericRollerIO {
+public class KickerIOSim implements KickerIO {
   private double appliedVolts = 0.0;
   private double currentAmps = 0.0;
 
-  public GenericRollerIOSim() {}
+  public KickerIOSim() {}
 
   @Override
-  public void updateInputs(GenericRollerIOInputs inputs) {
+  public void updateInputs(KickerIOInputs inputs) {
     inputs.appliedVolts = appliedVolts;
     inputs.currentAmps = currentAmps;
   }
