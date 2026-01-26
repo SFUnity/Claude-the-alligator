@@ -102,20 +102,20 @@ public class IntakePivot extends SubsystemBase {
     return Commands.runOnce(() -> hasGP = false);
   }
 
-  private void lower() {
-    positionSetpoint = loweredAngle.get();
-    io.setPivotPosition(positionSetpoint);
-  }
+  // private void lower() {
+  //   positionSetpoint = loweredAngle.get();
+  //   io.setPivotPosition(positionSetpoint);
+  // }
 
   private void setL1() {
     positionSetpoint = l1Angle.get();
     io.setPivotPosition(positionSetpoint);
   }
 
-  private void raise() {
-    positionSetpoint = raisedAngle.get();
-    io.setPivotPosition(positionSetpoint);
-  }
+  // private void raise() {
+  //   positionSetpoint = raisedAngle.get();
+  //   io.setPivotPosition(positionSetpoint);
+  // }
 
   private void rollersIn() {
     io.runRollers(rollersSpeedIn.get());
@@ -130,4 +130,17 @@ public class IntakePivot extends SubsystemBase {
         .until(() -> inputs.pivotCurrentAmps > 30.0)
         .finallyDo(() -> io.resetEncoder(0.0));
   }
+
+  public Command raise(){
+    return Commands.none();
+  }
+
+  public Command lower(){
+    return Commands.none();
+  }
+
+  public Command jork(){
+    return Commands.none();
+  }
+
 }

@@ -1,6 +1,5 @@
 package frc.robot.subsystems.rollers.intake;
 
-import frc.robot.subsystems.rollers.kicker.KickerIO.KickerIOInputs;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface IntakeIO {
@@ -11,7 +10,7 @@ public interface IntakeIO {
     public double velocity = 0.0;
   }
 
-  public default void updateInputs(KickerIOInputs inputs) {}
+  public default void updateInputs(IntakeIOInputs inputs) {}
 
   public default void runVolts(double volts) {}
 
