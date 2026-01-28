@@ -53,10 +53,6 @@ public class RobotCommands {
         .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
   }
 
-  public static Command sequence(Command... commands) {
-    return new SequentialCommandGroup(commands);
-  }
-
   public static Command intake(Intake intake, IntakePivot intakePivot) {
     return intake.intake().alongWith(intakePivot.lower());
   }
