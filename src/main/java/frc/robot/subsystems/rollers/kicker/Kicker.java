@@ -18,6 +18,7 @@ public class Kicker extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Kicker", inputs);
+    // TODO add log subsystem from GeneralUtil
   }
 
   public Command runVolts() {

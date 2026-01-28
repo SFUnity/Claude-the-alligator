@@ -14,6 +14,7 @@ public class Hood extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    // TODO add log subsystem from GeneralUtil + logging framework
   }
 
   public Command setAngle(double angle) {
