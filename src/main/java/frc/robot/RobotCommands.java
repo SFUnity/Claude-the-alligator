@@ -45,7 +45,7 @@ public class RobotCommands {
             .setVelocity(FlywheelsConstants.shootVelocity)
             .withDeadline(kicker.runVolts())
             .withTimeout(KickerConstants.spinupTime),
-        spindexer.runVolts().onlyIf(hood::isAtAngle));
+        spindexer.runVolts().onlyIf(hood::atGoal));
   }
 
   public static Command stopShoot() {

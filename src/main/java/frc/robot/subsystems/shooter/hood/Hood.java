@@ -20,7 +20,7 @@ public class Hood extends SubsystemBase {
     return run(() -> io.setPosition(angle)).withName("updateAngle");
   }
 
-  public boolean isAtAngle() {
+  public boolean atGoal() {
     return Math.abs(inputs.positionDeg - inputs.goalPosition) < HoodConstants.angleTolerance;
   }
 }
