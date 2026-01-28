@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.GeneralUtil;
 import frc.robot.util.LoggedTunableNumber;
-import frc.robot.util.Util;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakePivot extends SubsystemBase {
@@ -95,7 +95,7 @@ public class IntakePivot extends SubsystemBase {
     measuredVisualizer.update(Degrees.of(inputs.pivotCurrentPositionDeg));
     setpointVisualizer.update(Degrees.of(positionSetpoint));
     Logger.recordOutput("Intake/positionSetpoint", positionSetpoint);
-    Util.logSubsystem(this, "Intake");
+    GeneralUtil.logSubsystem(this, "Intake");
   }
 
   public Command resetGPHeld() {

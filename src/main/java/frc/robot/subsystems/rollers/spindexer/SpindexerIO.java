@@ -16,5 +16,6 @@ public interface SpindexerIO {
 
   public default void runVolts(double voltage) {}
 
+  // TODO you can delete this because it doesn't get used anywhere
   public default void stop() {}
 }

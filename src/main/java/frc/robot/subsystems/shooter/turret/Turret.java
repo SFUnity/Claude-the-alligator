@@ -17,6 +17,7 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    // TODO add log subsystem from GeneralUtil + logging framework
     io.turnTurret(goalDegs, isShooting);
   }
 

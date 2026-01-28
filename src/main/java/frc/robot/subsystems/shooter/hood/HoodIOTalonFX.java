@@ -7,6 +7,7 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.util.Units;
+// TODO remove unused imports
 import frc.robot.subsystems.shooter.hood.HoodIO.HoodIOInputs;
 
 public class HoodIOTalonFX implements HoodIO {
@@ -34,6 +35,8 @@ public class HoodIOTalonFX implements HoodIO {
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
     config.CurrentLimits.SupplyCurrentLimit = 60.0;
+
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     pivot.getConfigurator().apply(config);
   }
 

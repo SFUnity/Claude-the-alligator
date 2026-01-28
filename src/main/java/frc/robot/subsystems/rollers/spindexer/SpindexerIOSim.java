@@ -1,5 +1,6 @@
 package frc.robot.subsystems.rollers.spindexer;
 
+// TODO please remove unused import
 import frc.robot.subsystems.rollers.spindexer.SpindexerIO.SpindexerIOInputs;
 
 public class SpindexerIOSim implements SpindexerIO {
@@ -18,6 +19,7 @@ public class SpindexerIOSim implements SpindexerIO {
     appliedVolts = voltage;
   }
 
+  // TODO you can delete this because it doesn't get used anywhere
   @Override
   public void stop() {
     appliedVolts = 0;
