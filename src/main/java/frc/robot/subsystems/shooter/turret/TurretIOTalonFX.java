@@ -66,7 +66,7 @@ public class TurretIOTalonFX implements TurretIO {
   @Override
   public void turnTurret(double targetDegs, boolean isShooting) {
     if (isShooting) {
-      targetDegs =
+      targetDegs = // check to make sure math works
           (targetDegs < minAngleDegs || targetDegs > maxAngleDegs)
               ? ((360 - Math.abs(targetDegs - centerDegs))
                       * ((targetDegs - centerDegs) / -Math.abs(targetDegs - centerDegs)))
@@ -83,8 +83,9 @@ public class TurretIOTalonFX implements TurretIO {
                   + centerDegs
               : targetDegs;
       talon.setControl(
-          motionMagicExpoVoltageNoShoot.withPosition(
-              Units.degreesToRotations(targetDegs) * gearRatio));
+          motionMagicExpoVoltageNoShoot
+              .withPosition( // if positiion is greater than one, what happens
+                  Units.degreesToRotations(targetDegs) * gearRatio));
     }
   }
 
@@ -97,6 +98,7 @@ public class TurretIOTalonFX implements TurretIO {
     position1 = Units.rotationsToDegrees(position1);
     position2 = Units.rotationsToDegrees(position2);
 
+    // chinese remainder theorem from claude
     truePosition =
         ((encoder1gear ^ 2 * encoder2gear * 360) * position1
                 + (encoder2gear ^ 2 * encoder1gear * 360) * position2)
