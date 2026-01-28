@@ -42,10 +42,10 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
         motionMagicAcceleration; // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk =
         motionMagicJerk; // Target jerk of 1600 rps/s/s (0.1 seconds)
-    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast; // TODO please reorganize this or add more comments
     leader.getConfigurator().apply(talonFXConfigs);
 
-    leader.getConfigurator().apply(talonFXConfigs);
+    leader.getConfigurator().apply(talonFXConfigs); // TODO remove duplicate
     follow.setControl(new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed));
   }
 
