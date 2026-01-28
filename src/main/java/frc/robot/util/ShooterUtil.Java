@@ -1,6 +1,6 @@
-package.frc.robot.util;
+package frc.robot.util;
 
-public static class ShooterUtil {
+public  class ShooterUtil {
     //Constants
     public static final double Gravity = 9.81; 
     public static final double ShooterMaxRPM = 3500; 
@@ -80,27 +80,30 @@ public static class ShooterUtil {
                 }
             } 
         }
-        //i don't think I did this right but basically calculate flight time to find horizontal skew
-        public static double calculateTimeOfFlight(double horizontalDistanceMeters, double launchAngleDeg, double rpm) {
-            double angleRad = Math.toRadians(launchAngleDeg);
+        
+            return new ShooterSolution(optimalAngleDeg, rpm, launchAngle);
+    }
 
-            double wheelRadius = 0.0508; 
-            double exitVelocity = (rpm / 60.0) * (2 * Math.PI * wheelRadius);
+    //i don't think I did this right but basically calculate flight time to find horizontal skew 
+    public static double calculateTimeOfFlight(double horizontalDistanceMeters, double launchAngleDeg, double rpm) {
+        double angleRad = Math.toRadians(launchAngleDeg);
 
-            double horizontalVelocity = exitVelocity * Math.cos(angleRad);
-            if (horizontalVelocity <= 0) {
-                return null;
-            }
+        double wheelRadius = 0.0508; 
+        double exitVelocity = (rpm / 60.0) * (2 * Math.PI * wheelRadius);
 
-            return horizontalDistanceMeters / horizontalVelocity;
+        double horizontalVelocity = exitVelocity * Math.cos(angleRad);
+        if (horizontalVelocity <= 0) {
+            return -1;
         }
-        //calculate the angle the robot needs to turn to compensate for sideways movement
-        public static double calculateTurnAngle(double robotSidewaysVelocityMetersPerSec, double exitVelocityMetersPerSec) {
-            
-            return Math.atan(robotSidewaysVelocityMetersPerSec / exitVelocityMetersPerSec);
 
-        }
-        return new ShooterSolution(optimalAngleDeg, rpm, launchAngle);
+        return horizontalDistanceMeters / horizontalVelocity;
+    }
+
+    //calculate the angle the robot needs to turn to compensate for sideways movement
+    public static double calculateTurnAngle(double robotSidewaysVelocityMetersPerSec, double exitVelocityMetersPerSec) {
+        
+        return Math.atan(robotSidewaysVelocityMetersPerSec / exitVelocityMetersPerSec);
+
     }
 
 }
