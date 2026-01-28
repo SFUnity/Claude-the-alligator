@@ -1,3 +1,3 @@
 package frc.robot.subsystems.climb;
 
-public class climbConstants {}
+public class ClimbConstants {}

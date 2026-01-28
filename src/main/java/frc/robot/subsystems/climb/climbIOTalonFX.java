@@ -5,7 +5,7 @@ import static frc.robot.Constants.loopPeriodSecs;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-public class climbIOTalonFX implements climbIO {
+public class ClimbIOTalonFX implements ClimbIO {
   private final TalonFX talon = new TalonFX(0);
 
   private final VoltageOut voltageOut =

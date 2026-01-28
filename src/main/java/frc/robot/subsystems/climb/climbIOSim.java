@@ -1,10 +1,10 @@
 package frc.robot.subsystems.climb;
 
-public class climbIOSim implements climbIO {
+public class ClimbIOSim implements ClimbIO {
 
   private double appliedVolts = 0;
 
-  public climbIOSim() {}
+  public ClimbIOSim() {}
 
   @Override
   public void updateInputs(climbIOInputs inputs) {
