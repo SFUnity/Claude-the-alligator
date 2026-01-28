@@ -1,5 +1,3 @@
 package frc.robot.subsystems.climb;
 
-public class climbIOTalonFX {
-
-}
+public class climbIOTalonFX {}
