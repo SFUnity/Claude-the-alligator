@@ -16,12 +16,15 @@ public class Spindexer extends SubsystemBase {
 
   public void periodic() {
     io.updateInputs(inputs);
+    // TODO add log subsystem from GeneralUtil
   }
 
+  // TODO rename to simply "run" because there are no inputs to the command (it will end up reading spindexer.run())
   public Command runVolts() {
     return run(() -> io.runVolts(spindexerSpeedVolts.get()));
   }
 
+  // TODO rename to "stop" for consistency / readability (it will end up reading spindexer.stop())
   public Command stopSpindexer() {
     return run(() -> io.runVolts(0));
   }
