@@ -75,6 +75,7 @@ public class TurretIOTalonFX implements TurretIO {
     }
   }
 
+  // TODO these need to be through inputs. IOs should only have setter methods (no getters)
   @Override
   public double getEncoder1Degs() {
     return Units.rotationsToDegrees(encoder1.getPosition().getValueAsDouble());
