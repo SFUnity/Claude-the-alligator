@@ -25,7 +25,7 @@ public class ClimbIOTalonFX implements ClimbIO {
   final PositionVoltage positionVoltage = new PositionVoltage(0).withSlot(0);
 
   @Override
-  public void updateInputs(climbIOInputs inputs) {
+  public void updateInputs(ClimbIOInputs inputs) {
     inputs.appliedVolts = talon.getMotorVoltage().getValueAsDouble();
     inputs.statorCurrentAmps = talon.getStatorCurrent().getValueAsDouble();
     inputs.supplyCurrentAmps = talon.getSupplyCurrent().getValueAsDouble();

@@ -7,7 +7,7 @@ public class ClimbIOSim implements ClimbIO {
   public ClimbIOSim() {}
 
   @Override
-  public void updateInputs(climbIOInputs inputs) {
+  public void updateInputs(ClimbIOInputs inputs) {
     inputs.appliedVolts = appliedVolts;
   }
 
