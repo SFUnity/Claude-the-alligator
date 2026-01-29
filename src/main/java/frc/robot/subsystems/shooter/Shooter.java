@@ -6,6 +6,7 @@ import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.turret.Turret;
 
+// TODO I suggest you don't make this a SubsystemBase because then you can have commands that use only some of the subsystems
 public class Shooter extends SubsystemBase {
   private final Flywheels flywheels;
   private final Turret turret;
