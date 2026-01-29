@@ -45,16 +45,12 @@ public class RobotCommands {
             .setVelocity(FlywheelsConstants.shootVelocity)
             .withDeadline(kicker.runVolts())
             .withTimeout(KickerConstants.spinupTime),
-        spindexer.runVolts().onlyIf(hood::isAtAngle));
+        spindexer.runVolts().onlyIf(hood::atGoal));
   }
 
   public static Command stopShoot() {
     return Commands.run(() -> Logger.recordOutput("RobotCommands/Shoot", true))
         .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
-  }
-
-  public static Command sequence(Command... commands) {
-    return new SequentialCommandGroup(commands);
   }
 
   public static Command intake(Intake intake, IntakePivot intakePivot) {

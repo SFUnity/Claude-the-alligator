@@ -14,13 +14,14 @@ public class Hood extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    // TODO add log subsystem from GeneralUtil + logging framework
   }
 
   public Command setAngle(double angle) {
     return run(() -> io.setPosition(angle)).withName("updateAngle");
   }
 
-  public boolean isAtAngle() {
+  public boolean atGoal() {
     return Math.abs(inputs.positionDeg - inputs.goalPosition) < HoodConstants.angleTolerance;
   }
 }

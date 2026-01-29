@@ -17,6 +17,7 @@ public class Flywheels extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    // TODO add log subsystem from GeneralUtil + logging framework
 
     if (!idle) {
       io.runVelocity(velocity);

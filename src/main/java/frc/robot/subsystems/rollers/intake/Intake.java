@@ -18,6 +18,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("intake", inputs);
+    // TODO add log subsystem from GeneralUtil
   }
 
   public Command intake() {

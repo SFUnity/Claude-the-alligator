@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter.turret;
 
+import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
@@ -15,11 +17,16 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    // TODO add log subsystem from GeneralUtil + logging framework
     io.turnTurret(goalDegs, isShooting);
   }
 
   public double getPositionDegs() {
     return io.getPositionDegs();
+  }
+
+  public boolean isAtGoal() {
+    return Math.abs(inputs.positionDegs - goalDegs) < angleToleranceDegs;
   }
 
   public void setGoalDegs(double goalDegs) {
