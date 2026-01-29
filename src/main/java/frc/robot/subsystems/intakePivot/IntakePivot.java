@@ -50,44 +50,7 @@ public class IntakePivot extends SubsystemBase {
     Logger.recordOutput("Intake/startedIntaking", startedIntaking);
     lowered = inputs.pivotCurrentPositionDeg >= loweredAngle.get() / 2;
 
-    if (groundAlgae.get()) {
-      // There's a specific pattern in the current draw of the rollers that we're checking for here
-
-      // Check that the pivot is lowered and not rising
-      if ((inputs.pivotAppliedVolts <= 0.5 && lowered) || runningIceCream) {
-        // Check if the current is high enough to be intaking
-        if (filteredCurrent >= spikeCurrent.get() && !runningIceCream) {
-          // check for start of intaking
-          if (!startedIntaking && !hasGP) {
-            startedIntaking = true;
-          }
-          // check for end of intaking
-          if (middleOfIntaking && !hasGP) {
-            hasGP = true;
-            startedIntaking = false;
-            middleOfIntaking = false;
-          }
-        }
-        // check for dip in current
-        if (filteredCurrent < spikeCurrent.get() && startedIntaking) {
-          middleOfIntaking = true;
-        }
-        // check for massive current spike
-        if (filteredCurrent >= 33) {
-          hasGP = true;
-          startedIntaking = false;
-        }
-      }
-    } else {
-      if (filteredCurrent > spikeCurrent.get() && inputs.pivotAppliedVolts <= 1.5 && lowered) {
-        hasGP = true;
-      }
-    }
-
-    if (lastGroundAlgae != groundAlgae.get()) {
-      updateTunables();
-      lastGroundAlgae = groundAlgae.get();
-    }
+  
 
     Logger.recordOutput("Intake/runningIceCream", runningIceCream);
 
@@ -98,9 +61,7 @@ public class IntakePivot extends SubsystemBase {
     Util.logSubsystem(this, "Intake");
   }
 
-  public Command resetGPHeld() {
-    return Commands.runOnce(() -> hasGP = false);
-  }
+  
 
   // private void lower() {
   //   positionSetpoint = loweredAngle.get();
