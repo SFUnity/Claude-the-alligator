@@ -45,14 +45,10 @@ public class IntakePivotConstants {
     if (groundAlgae.get()) {
       loweredAngle = new LoggedTunableNumber("Intake/loweredAngle", 66);
       raisedAngle = new LoggedTunableNumber("Intake/raisedAngle", 0);
-      rollersSpeedIn = new LoggedTunableNumber("Intake/rollerSpeedVoltsIn", 6);
-      rollersSpeedOut = new LoggedTunableNumber("Intake/rollerSpeedVoltsOut", 4);
       l1Angle = new LoggedTunableNumber("Intake/L1Angle", 0);
     } else {
       loweredAngle = new LoggedTunableNumber("Intake/loweredAngle", 125);
       raisedAngle = new LoggedTunableNumber("Intake/raisedAngle", 0);
-      rollersSpeedIn = new LoggedTunableNumber("Intake/rollerSpeedVoltsIn", 8);
-      rollersSpeedOut = new LoggedTunableNumber("Intake/rollerSpeedVoltsOut", 8);
       l1Angle = new LoggedTunableNumber("Intake/L1Angle", 30);
     }
   }

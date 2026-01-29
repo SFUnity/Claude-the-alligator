@@ -23,16 +23,9 @@ public class IntakePivot extends SubsystemBase {
   private double filteredCurrent;
 
   private boolean lowered = false;
-  private boolean hasGP = false;
   private boolean startedIntaking = false;
   private boolean middleOfIntaking = false;
-  public static boolean simHasGP = false;
-  private boolean runningIceCream = false;
 
-  private boolean lastGroundAlgae = groundAlgae.get();
-
-  private final LoggedTunableNumber spikeCurrent =
-      new LoggedTunableNumber("Intake/spikeCurrent", groundAlgae.get() ? 17 : 17);
 
   private final IntakePivotIO io;
   private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
@@ -49,10 +42,6 @@ public class IntakePivot extends SubsystemBase {
     Logger.recordOutput("Intake/filteredCurrent", filteredCurrent);
     Logger.recordOutput("Intake/startedIntaking", startedIntaking);
     lowered = inputs.pivotCurrentPositionDeg >= loweredAngle.get() / 2;
-
-  
-
-    Logger.recordOutput("Intake/runningIceCream", runningIceCream);
 
     // Logs
     measuredVisualizer.update(Degrees.of(inputs.pivotCurrentPositionDeg));
@@ -78,13 +67,7 @@ public class IntakePivot extends SubsystemBase {
   //   io.setPivotPosition(positionSetpoint);
   // }
 
-  private void rollersIn() {
-    io.runRollers(rollersSpeedIn.get());
-  }
 
-  private void rollersOut() {
-    io.runRollers(-rollersSpeedOut.get());
-  }
 
   public Command runCurrentZeroing() {
     return this.run(() -> io.runPivot(-1.0))
