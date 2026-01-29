@@ -15,6 +15,7 @@ public class Shooter extends VirtualSubsystem {
   private final Hood hood;
 
   private boolean isShooting = false;
+  private boolean isScoring = false;
 
   public Shooter(Flywheels flywheels, Turret turret, Hood hood) {
     this.flywheels = flywheels;
@@ -26,5 +27,9 @@ public class Shooter extends VirtualSubsystem {
 
   public Command setShooting(boolean shooting) {
     return runOnce(() -> isShooting = shooting);
+  }
+
+  public Command setScoring(boolean scoring) {
+    return runOnce(() -> isScoring = scoring);
   }
 }
