@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter.flywheels;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,7 +19,7 @@ public class Flywheels extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    // TODO add log subsystem from GeneralUtil + logging framework
+    Logger.processInputs("Flywheels", inputs);
 
     if (!idle) {
       io.runVelocity(velocity);
