@@ -14,7 +14,6 @@ public class SpindexerIOTalonFX implements SpindexerIO {
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
 
-
   @Override
   public void updateInputs(SpindexerIOInputs inputs) {
     inputs.appliedVolts = talon.getMotorVoltage().getValueAsDouble();
@@ -27,5 +26,4 @@ public class SpindexerIOTalonFX implements SpindexerIO {
   public void run(double voltage) {
     talon.setControl(voltageOut.withOutput(voltage));
   }
-
 }

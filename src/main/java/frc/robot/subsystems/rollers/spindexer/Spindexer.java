@@ -4,8 +4,8 @@ import static frc.robot.subsystems.rollers.spindexer.SpindexerConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.Logger;
-
 
 public class Spindexer extends SubsystemBase {
 
@@ -18,7 +18,9 @@ public class Spindexer extends SubsystemBase {
 
   public void periodic() {
     io.updateInputs(inputs);
+
     Logger.processInputs("Spindexer", inputs);
+    GeneralUtil.logSubsystem(this, "Spindexer");
   }
 
   public Command run() {

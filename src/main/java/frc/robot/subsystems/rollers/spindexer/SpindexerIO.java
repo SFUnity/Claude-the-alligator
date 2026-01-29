@@ -15,5 +15,4 @@ public interface SpindexerIO {
   public default void updateInputs(SpindexerIOInputs inputs) {}
 
   public default void run(double voltage) {}
-
 }
