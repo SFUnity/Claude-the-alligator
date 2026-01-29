@@ -2,10 +2,9 @@ package frc.robot.subsystems.shooter.turret;
 
 import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class Turret extends SubsystemBase {
   private final TurretIO io;
@@ -23,7 +22,7 @@ public class Turret extends SubsystemBase {
     io.updateInputs(inputs);
     inputs.positionDegs = getPositionDegs();
     Logger.processInputs("Turret", inputs);
-    
+
     if (isShooting) {
       double currentDegs = getPositionDegs();
       targetDegs += bufferDegs * 2;
