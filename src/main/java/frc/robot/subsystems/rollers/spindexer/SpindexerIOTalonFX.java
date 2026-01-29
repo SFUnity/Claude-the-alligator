@@ -23,7 +23,7 @@ public class SpindexerIOTalonFX implements SpindexerIO {
   }
 
   @Override
-  public void runVolts(double voltage) {
+  public void run(double voltage) {
     talon.setControl(voltageOut.withOutput(voltage));
   }
 

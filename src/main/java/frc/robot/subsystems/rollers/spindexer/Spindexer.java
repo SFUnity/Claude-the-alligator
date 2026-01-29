@@ -21,8 +21,8 @@ public class Spindexer extends SubsystemBase {
 
   // TODO rename to simply "run" because there are no inputs to the command (it will end up reading
   // spindexer.run())
-  public Command runVolts() {
-    return run(() -> io.runVolts(spindexerSpeedVolts.get()));
+  public Command run() {
+    return run(() -> io.run(spindexerSpeedVolts.get()));
   }
 
   // TODO rename to "stop" for consistency / readability (it will end up reading spindexer.stop())

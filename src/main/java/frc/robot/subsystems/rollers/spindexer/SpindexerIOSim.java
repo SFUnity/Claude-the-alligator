@@ -15,7 +15,7 @@ public class SpindexerIOSim implements SpindexerIO {
   }
 
   @Override
-  public void runVolts(double voltage) {
+  public void run(double voltage) {
     appliedVolts = voltage;
   }
 
