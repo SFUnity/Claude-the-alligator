@@ -1,8 +1,8 @@
 package frc.robot.subsystems.shooter;
 
-import frc.robot.util.ShooterUtil.*;
+import frc.robot.util.VirtualSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.VirtualSubsystem;
+import static edu.wpi.first.wpilibj2.command.Commands.*;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.turret.Turret;
