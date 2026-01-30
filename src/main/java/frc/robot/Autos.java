@@ -74,7 +74,7 @@ public class Autos {
         // Set up SysId routines
         nonChoreoChooser.addOption(
             "Drive Wheel Radius Characterization",
-            DriveCommands.wheelRadiusCharacterization(drive));
+            DriveCommands.wheelRadiusCharacterization(drive, poseManager));
         nonChoreoChooser.addOption(
             "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
         nonChoreoChooser.addOption(

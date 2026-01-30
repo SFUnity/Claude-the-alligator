@@ -44,8 +44,8 @@ public class Turret extends SubsystemBase {
 
   public double getPositionDegs() {
     double truePosition = 0;
-    double position1 = io.getEncoder1Degs();
-    double position2 = io.getEncoder2Degs();
+    double position1 = inputs.encoder1Degs;
+    double position2 = inputs.encoder1Degs;
 
     position1 = Units.rotationsToDegrees(position1);
     position2 = Units.rotationsToDegrees(position2);

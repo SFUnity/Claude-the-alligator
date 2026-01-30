@@ -74,14 +74,4 @@ public class TurretIOTalonFX implements TurretIO {
                   Units.degreesToRotations(targetDegs) * gearRatio));
     }
   }
-
-  @Override
-  public double getEncoder1Degs() {
-    return Units.rotationsToDegrees(encoder1.getPosition().getValueAsDouble());
-  }
-
-  @Override
-  public double getEncoder2Degs() {
-    return Units.rotationsToDegrees(encoder2.getPosition().getValueAsDouble());
-  }
 }
