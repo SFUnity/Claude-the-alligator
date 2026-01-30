@@ -156,7 +156,8 @@ public class Drive extends SubsystemBase {
       } else {
         // Use the angle delta from the kinematics and module deltas
         Twist2d twist = DriveConstants.kinematics.toTwist2d(moduleDeltas);
-        poseManager.rawGyroRotation = poseManager.rawGyroRotation.plus(new Rotation2d(twist.dtheta));
+        poseManager.rawGyroRotation =
+            poseManager.rawGyroRotation.plus(new Rotation2d(twist.dtheta));
       }
 
       // Apply update
@@ -182,7 +183,8 @@ public class Drive extends SubsystemBase {
   public void runVelocity(ChassisSpeeds speeds) {
     // Calculate module setpoints
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
-    SwerveModuleState[] setpointStates = DriveConstants.kinematics.toSwerveModuleStates(discreteSpeeds);
+    SwerveModuleState[] setpointStates =
+        DriveConstants.kinematics.toSwerveModuleStates(discreteSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, TunerConstants.kSpeedAt12Volts);
 
     // Log unoptimized setpoints and setpoint speeds

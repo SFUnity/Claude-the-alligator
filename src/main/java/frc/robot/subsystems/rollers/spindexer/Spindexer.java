@@ -24,10 +24,11 @@ public class Spindexer extends SubsystemBase {
   }
 
   public Command run() {
-    return run(() -> io.run(spindexerSpeedVolts.get()));
+    return run(() -> io.run(spindexerSpeedVolts.get())).withName("spindexerRun");
   }
 
   public Command stop() {
+
     return run(() -> io.run(0.0));
   }
 }
