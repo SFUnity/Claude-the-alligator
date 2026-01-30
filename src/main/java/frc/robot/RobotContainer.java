@@ -16,6 +16,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.ClimbIO;
+import frc.robot.subsystems.climb.ClimbIOSim;
+import frc.robot.subsystems.climb.ClimbIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -38,6 +42,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Spindexer spindexer;
+  private final Climb climb;
   // private final Turret turret;
   // private final Shooter Shooter;
   // private final Hood hood;
@@ -65,6 +70,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackRight),
                 poseManager);
         spindexer = new Spindexer(new SpindexerIOTalonFX());
+        climb = new Climb(new ClimbIOTalonFX());
         break;
 
       case SIM:
@@ -78,6 +84,7 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackRight),
                 poseManager);
         spindexer = new Spindexer(new SpindexerIOSim());
+        climb = new Climb(new ClimbIOSim());
         break;
 
       default:
@@ -91,6 +98,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 poseManager);
         spindexer = new Spindexer(new SpindexerIO() {});
+        climb = new Climb(new ClimbIO() {});
         break;
     }
 
@@ -143,6 +151,9 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     controller.y().whileTrue(spindexer.run());
+
+    controller.povUp().whileTrue(climb.climbUp());
+    controller.povDown().whileTrue(climb.climbDown());
     
   }
 
