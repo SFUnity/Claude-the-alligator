@@ -31,7 +31,7 @@ public class Shooter extends VirtualSubsystem {
   public void periodic() {}
 
   public boolean readyToShoot() {
-    return 
+    return turret.atGoal() && hood.atGoal() && flywheels.atGoal();
   }
 
   public Command setShooting(boolean shooting) {
