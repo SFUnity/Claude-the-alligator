@@ -1,11 +1,12 @@
 package frc.robot.subsystems.shooter;
 
-import frc.robot.util.VirtualSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.turret.Turret;
+import frc.robot.util.VirtualSubsystem;
 
 public class Shooter extends VirtualSubsystem {
   private final Flywheels flywheels;

@@ -22,6 +22,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.rollers.spindexer.Spindexer;
+import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
+import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
+import frc.robot.subsystems.rollers.spindexer.SpindexerIOTalonFX;
 import frc.robot.util.PoseManager;
 
 /**
@@ -33,6 +37,7 @@ import frc.robot.util.PoseManager;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Spindexer spindexer;
   // private final Turret turret;
   // private final Shooter Shooter;
   // private final Hood hood;
@@ -59,24 +64,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight),
                 poseManager);
-
-        // The ModuleIOTalonFXS implementation provides an example implementation for
-        // TalonFXS controller connected to a CANdi with a PWM encoder. The
-        // implementations
-        // of ModuleIOTalonFX, ModuleIOTalonFXS, and ModuleIOSpark (from the Spark
-        // swerve
-        // template) can be freely intermixed to support alternative hardware
-        // arrangements.
-        // Please see the AdvantageKit template documentation for more information:
-        // https://docs.advantagekit.org/getting-started/template-projects/talonfx-swerve-template#custom-module-implementations
-        //
-        // drive =
-        // new Drive(
-        // new GyroIOPigeon2(),
-        // new ModuleIOTalonFXS(TunerConstants.FrontLeft),
-        // new ModuleIOTalonFXS(TunerConstants.FrontRight),
-        // new ModuleIOTalonFXS(TunerConstants.BackLeft),
-        // new ModuleIOTalonFXS(TunerConstants.BackRight));
+        spindexer = new Spindexer(new SpindexerIOTalonFX());
         break;
 
       case SIM:
@@ -89,6 +77,7 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight),
                 poseManager);
+        spindexer = new Spindexer(new SpindexerIOSim());
         break;
 
       default:
@@ -101,6 +90,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 poseManager);
+        spindexer = new Spindexer(new SpindexerIO() {});
         break;
     }
 
@@ -125,6 +115,7 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX(),
             poseManager));
+    spindexer.setDefaultCommand(spindexer.stop());
 
     // Lock to 0° when A button is held
     controller
@@ -150,6 +141,9 @@ public class RobotContainer {
                             new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    controller.y().whileTrue(spindexer.run());
+    
   }
 
   /**
