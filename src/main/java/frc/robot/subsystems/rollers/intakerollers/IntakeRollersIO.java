@@ -1,8 +1,8 @@
-package frc.robot.subsystems.rollers.intake;
+package frc.robot.subsystems.rollers.intakerollers;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface IntakeIO {
+public interface IntakeRollersIO {
   @AutoLog
   public static class IntakeIOInputs {
     public double appliedVolts = 0.0;

@@ -1,8 +1,8 @@
-package frc.robot.subsystems.rollers.intake;
+package frc.robot.subsystems.rollers.intakerollers;
 
 import frc.robot.util.LoggedTunableNumber;
 
-public class IntakeConstants {
+public class IntakeRollersConstants {
   public static final int intakeMotorID = 2;
   public static final boolean inverted = false;
   public static final int positionFactor = 3;

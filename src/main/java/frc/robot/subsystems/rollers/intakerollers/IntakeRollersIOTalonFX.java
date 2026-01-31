@@ -1,12 +1,12 @@
-package frc.robot.subsystems.rollers.intake;
+package frc.robot.subsystems.rollers.intakerollers;
 
 import static frc.robot.Constants.loopPeriodSecs;
-import static frc.robot.subsystems.rollers.intake.IntakeConstants.*;
+import static frc.robot.subsystems.rollers.intakerollers.IntakeRollersConstants.*;
 
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-public class IntakeIOTalonFX implements IntakeIO {
+public class IntakeRollersIOTalonFX implements IntakeRollersIO {
   private final TalonFX rollerMotor = new TalonFX(intakeMotorID);
 
   private final VoltageOut voltageOut =
