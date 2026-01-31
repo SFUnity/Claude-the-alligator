@@ -239,5 +239,8 @@
   "splits":[0]
  },
  "events":[
-   {"name":"ExtendClimber", "from":{"target":2, "targetTimestamp":6.87957, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
+   {"name":"ExtendClimber", "from":{"target":2, "targetTimestamp":6.87957, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartIntake", "from":{"target":1, "targetTimestamp":3.23716, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartShoot", "from":{"target":0, "targetTimestamp":0.0, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StopShoot", "from":{"target":3, "targetTimestamp":7.51785, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
