@@ -1,19 +1,19 @@
-package frc.robot.subsystems.rollers.intake;
+package frc.robot.subsystems.rollers.intakerollers;
 
 import static frc.robot.Constants.loopPeriodSecs;
-import static frc.robot.subsystems.rollers.intake.IntakeConstants.*;
+import static frc.robot.subsystems.rollers.intakerollers.IntakeRollersConstants.*;
 
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-public class IntakeIOTalonFX implements IntakeIO {
-  private final TalonFX rollerMotor = new TalonFX(intakeMotorID);
+public class IntakeRollersIOTalonFX implements IntakeRollersIO {
+  private final TalonFX rollerMotor = new TalonFX(intakeRollersMotorID);
 
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
 
   @Override
-  public void updateInputs(IntakeIOInputs inputs) {
+  public void updateInputs(IntakeRollersIOInputs inputs) {
     inputs.appliedVolts = rollerMotor.getMotorVoltage().getValueAsDouble();
     inputs.currentAmps = rollerMotor.getSupplyCurrent().getValueAsDouble();
   }
