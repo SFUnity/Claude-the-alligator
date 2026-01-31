@@ -58,9 +58,9 @@ public class Turret extends SubsystemBase {
 
     // chinese remainder theorem from claude check later
     truePosition =
-        ((encoder1gear ^ 2 * encoder2gear * 360) * position1
-                + (encoder2gear ^ 2 * encoder1gear * 360) * position2)
-            % (360 ^ 2 * encoder1gear * encoder2gear);
+        ((encoder1Gear ^ 2 * encoder2Gear * 360) * position1
+                + (encoder2Gear ^ 2 * encoder1Gear * 360) * position2)
+            % (360 ^ 2 * encoder1Gear * encoder2Gear);
 
     return truePosition;
   }
