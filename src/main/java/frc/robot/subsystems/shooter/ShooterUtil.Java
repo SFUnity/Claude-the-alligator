@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter;
 
+import static frc.robot.subsystems.shooter.ShooterConstants.*;
+
 public class ShooterUtil {
   // Constants
   public static final double Gravity = 9.81;
