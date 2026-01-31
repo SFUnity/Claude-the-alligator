@@ -24,8 +24,6 @@ public class Shooter extends VirtualSubsystem {
     this.turret = turret;
     this.hood = hood;
     this.poseManager = poseManager;
-
-
   }
 
   public void periodic() {}

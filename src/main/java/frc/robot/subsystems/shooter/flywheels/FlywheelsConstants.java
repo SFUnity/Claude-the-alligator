@@ -17,5 +17,5 @@ public class FlywheelsConstants {
   public static double kP = 0;
   public static double kD = 0;
 
-  public static double flywheelTolerance = 5; //TODO tune
+  public static double flywheelTolerance = 5; // TODO tune
 }
