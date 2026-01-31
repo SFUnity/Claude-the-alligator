@@ -7,7 +7,7 @@ public class IntakeRollersIOSim implements IntakeRollersIO {
   public IntakeRollersIOSim() {}
 
   @Override
-  public void updateInputs(IntakeIOInputs inputs) {
+  public void updateInputs(IntakeRollersIOInputs inputs) {
     inputs.appliedVolts = appliedVolts;
     inputs.currentAmps = currentAmps;
   }
