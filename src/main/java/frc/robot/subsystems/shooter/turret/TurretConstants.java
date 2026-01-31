@@ -43,5 +43,5 @@ public class TurretConstants {
   public static double noshootKV = 0.2;
 
   public static double angleToleranceDegs = 2.0; // todo change
-  public static double velocityToleranceDegs = 0.5; //TODO change
+  public static double velocityToleranceDegs = 0.5; // TODO change
 }

@@ -3,7 +3,6 @@ package frc.robot.subsystems.shooter.turret;
 import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.Logger;
@@ -61,7 +60,8 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean atGoal() {
-    return Math.abs(inputs.positionDegs - goalDegs) < angleToleranceDegs && inputs.velocityDegsPerSec < velocityToleranceDegs;
+    return Math.abs(inputs.positionDegs - goalDegs) < angleToleranceDegs
+        && inputs.velocityDegsPerSec < velocityToleranceDegs;
   }
 
   public void setGoalDegs(double goalDegs) {
