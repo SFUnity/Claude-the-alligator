@@ -124,6 +124,10 @@ public class Autos {
     AutoTrajectory Depot = routine.trajectory("DepotClimb");
     routine.active().onTrue(Commands.sequence(Depot.resetOdometry(), Depot.cmd()));
     Depot.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
+    Depot.atTime("StartIntake").onTrue(RobotCommands.intake());
+    Depot.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    Depot.atTime("StartShoot").onTrue(RobotCommands.shoot());
+    Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     Depot.done().onTrue(RobotCommands.climbRetract());
     return routine;
   }
