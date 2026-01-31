@@ -37,8 +37,6 @@ public class IntakePivot extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Intake", inputs);
-
-    filteredCurrent = currentFilter.calculate(inputs.rollersCurrentAmps);
     Logger.recordOutput("Intake/filteredCurrent", filteredCurrent);
     Logger.recordOutput("Intake/startedIntaking", startedIntaking);
     lowered = inputs.pivotCurrentPositionDeg >= loweredAngle.get() / 2;
@@ -66,14 +64,7 @@ public class IntakePivot extends SubsystemBase {
   //   positionSetpoint = raisedAngle.get();
   //   io.setPivotPosition(positionSetpoint);
   // }
-
-
-
-  public Command runCurrentZeroing() {
-    return this.run(() -> io.runPivot(-1.0))
-        .until(() -> inputs.pivotCurrentAmps > 30.0)
-        .finallyDo(() -> io.resetEncoder(0.0));
-  }
+ 
 
   public Command raise() {
     return Commands.none();
