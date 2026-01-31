@@ -1,6 +1,4 @@
-package frc.robot.subsystems.shooter;
-
-import static frc.robot.subsystems.shooter.ShooterConstants.*;
+package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Pose2d;
 
@@ -122,3 +120,6 @@ public class ShooterUtil {
     return Math.atan(robotSidewaysVelocityMetersPerSec / exitVelocityMetersPerSec);
   }
 }
+
+
+//adjust for backspin and also for Turret offset

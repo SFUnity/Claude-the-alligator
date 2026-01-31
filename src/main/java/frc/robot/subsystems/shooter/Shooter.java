@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.turret.Turret;
-import static frc.robot.subsystems.shooter.ShooterConstants.*;
-import static frc.robot.subsystems.shooter.ShooterUtil.*;
 import frc.robot.util.PoseManager;
 import frc.robot.util.VirtualSubsystem;
 

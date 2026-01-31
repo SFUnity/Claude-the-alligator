@@ -5,5 +5,4 @@ public class ShooterConstants {
   public static final double ShooterMaxRPM = 3500;
   public static final double ShooterMinAngle = 45;
   public static final double ShooterMaxAngle = 75;
-    
 }
