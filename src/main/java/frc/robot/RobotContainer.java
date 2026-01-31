@@ -154,7 +154,6 @@ public class RobotContainer {
 
     controller.povUp().whileTrue(climb.climbUp());
     controller.povDown().whileTrue(climb.climbDown());
-    
   }
 
   /**
