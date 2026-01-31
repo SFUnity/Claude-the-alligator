@@ -44,8 +44,6 @@ public class IntakePivotIOSim implements IntakePivotIO {
     sim.setInputVoltage(0.0);
   }
 
- 
-
   @Override
   public void setPivotPosition(double angle) {
     double volts = controller.calculate(getAngleDeg(), angle);

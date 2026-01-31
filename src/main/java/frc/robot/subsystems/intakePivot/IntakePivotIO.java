@@ -9,12 +9,9 @@ public interface IntakePivotIO {
     public double pivotAppliedVolts = 0.0;
     public double pivotStaterCurrent = 0.0;
     public double pivotSupplyCurrent = 0.0;
-
   }
 
   default void updateInputs(IntakePivotIOInputs inputs) {}
-
-
 
   default void runPivot(double volts) {}
 

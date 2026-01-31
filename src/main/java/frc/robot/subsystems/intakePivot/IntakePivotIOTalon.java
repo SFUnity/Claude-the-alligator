@@ -8,17 +8,14 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
-
 import edu.wpi.first.math.util.Units;
 
-
 public class IntakePivotIOTalon implements IntakePivotIO {
- private final TalonFX pivot =
-      new TalonFX(pivotID);
+  private final TalonFX pivot = new TalonFX(pivotID);
   private PositionVoltage positionVoltage = new PositionVoltage(0.0).withEnableFOC(true);
 
-  public IntakePivotIOTalon() {TalonFXConfiguration config = new TalonFXConfiguration();
+  public IntakePivotIOTalon() {
+    TalonFXConfiguration config = new TalonFXConfiguration();
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
@@ -28,7 +25,6 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
     config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-  
     config.Slot0.kP = 35;
     config.Slot0.kD = 0.25;
 
@@ -43,16 +39,10 @@ public class IntakePivotIOTalon implements IntakePivotIO {
   @Override
   public void updateInputs(IntakePivotIOInputs inputs) {
     inputs.pivotCurrentPositionDeg = pivot.getPosition().getValueAsDouble();
-    inputs.pivotAppliedVolts = pivot.getMotorVoltage().getValueAsDouble(); 
+    inputs.pivotAppliedVolts = pivot.getMotorVoltage().getValueAsDouble();
     inputs.pivotStaterCurrent = pivot.getStatorCurrent().getValueAsDouble();
     inputs.pivotSupplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
-
   }
-
-
-
-  
-
 
   @Override
   public void setPivotPosition(double setpointDeg) {
