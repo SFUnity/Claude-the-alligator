@@ -12,12 +12,12 @@ public class IntakePivotConstants {
   public static final int rollersID = 18;
   public static final int pivotID = 15;
 
-  public static final LoggedTunableNumber kP;
+  public static final LoggedTunableNumber kP = new LoggedTunableNumber("Intake/kP", 0);
+
 
   public static final boolean pivotInverted = true;
   public static final boolean rollersInverted = false;
   public static final double pivotPositionFactor = 2.9;
- 
 
   public static final double minAngleRads = Units.degreesToRadians(10);
   public static final double maxAngleRads = Units.degreesToRadians(135);
@@ -29,27 +29,7 @@ public class IntakePivotConstants {
       new LoggedTunableNumber("Intake/algaeVoltageThreshold", .5);
 
   // In rotations
-  public static LoggedTunableNumber l1Angle;
-  public static LoggedTunableNumber loweredAngle;
-  public static LoggedTunableNumber raisedAngle;
-  // In volts
-  public static LoggedTunableNumber rollersSpeedIn;
-  public static LoggedTunableNumber rollersSpeedOut;
-
-  static {
-    updateTunables();
-    kP = new LoggedTunableNumber("Intake/kP", 0.015);
-  }
-
-  public static void updateTunables() {
-    if (groundAlgae.get()) {
-      loweredAngle = new LoggedTunableNumber("Intake/loweredAngle", 66);
-      raisedAngle = new LoggedTunableNumber("Intake/raisedAngle", 0);
-      l1Angle = new LoggedTunableNumber("Intake/L1Angle", 0);
-    } else {
-      loweredAngle = new LoggedTunableNumber("Intake/loweredAngle", 125);
-      raisedAngle = new LoggedTunableNumber("Intake/raisedAngle", 0);
-      l1Angle = new LoggedTunableNumber("Intake/L1Angle", 30);
-    }
-  }
+  public static final LoggedTunableNumber loweredAngle = new LoggedTunableNumber("Intake/loweredAngle", 0);
+  public static final LoggedTunableNumber raisedAngle = new LoggedTunableNumber("Intake/raisedAngle", 0);
+  
 }
