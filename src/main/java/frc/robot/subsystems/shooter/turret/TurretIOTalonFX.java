@@ -39,13 +39,11 @@ public class TurretIOTalonFX implements TurretIO {
     configs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
     talon.getConfigurator().apply(configs);
-    angle = getPositionDegs();
   }
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
     inputs.appliedVolts = talon.getMotorVoltage().getValueAsDouble();
-    angle = getPositionDegs();
     inputs.positionDegs = angle;
     inputs.velocityDegsPerSec = talon.getVelocity().getValueAsDouble() / gearRatio;
     inputs.currentAmps = talon.getSupplyCurrent().getValueAsDouble();
@@ -66,42 +64,14 @@ public class TurretIOTalonFX implements TurretIO {
   @Override
   public void turnTurret(double targetDegs, boolean isShooting) {
     if (isShooting) {
-      double currentDegs = getPositionDegs();
-      targetDegs += bufferDegs * 2;
-      if (Math.abs(targetDegs + 360 - currentDegs) < Math.abs(targetDegs - currentDegs)
-          && (targetDegs + 360) <= maxAngleDegs) {
-        targetDegs += 360;
-      } else if (Math.abs(targetDegs - 360 - currentDegs) < Math.abs(targetDegs - currentDegs)
-          && (targetDegs - 360) >= minAngleDegs) {
-        targetDegs -= 360;
-      }
       talon.setControl(
           motionMagicExpoVoltageShoot.withPosition(
               Units.degreesToRotations(targetDegs) * gearRatio));
     } else {
-      targetDegs += bufferDegs * 2;
       talon.setControl(
           motionMagicExpoVoltageNoShoot
               .withPosition( // if positiion is greater than one, what happens
                   Units.degreesToRotations(targetDegs) * gearRatio));
     }
-  }
-
-  @Override
-  public double getPositionDegs() {
-    double truePosition = 0;
-    double position1 = encoder1.getPosition().getValueAsDouble();
-    double position2 = encoder2.getPosition().getValueAsDouble();
-
-    position1 = Units.rotationsToDegrees(position1);
-    position2 = Units.rotationsToDegrees(position2);
-
-    // chinese remainder theorem from claude check later
-    truePosition =
-        ((encoder1gear ^ 2 * encoder2gear * 360) * position1
-                + (encoder2gear ^ 2 * encoder1gear * 360) * position2)
-            % (360 ^ 2 * encoder1gear * encoder2gear);
-
-    return truePosition;
   }
 }

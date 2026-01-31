@@ -16,12 +16,20 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.ClimbIO;
+import frc.robot.subsystems.climb.ClimbIOSim;
+import frc.robot.subsystems.climb.ClimbIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.rollers.spindexer.Spindexer;
+import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
+import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
+import frc.robot.subsystems.rollers.spindexer.SpindexerIOTalonFX;
 import frc.robot.util.PoseManager;
 
 /**
@@ -33,6 +41,11 @@ import frc.robot.util.PoseManager;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Spindexer spindexer;
+  private final Climb climb;
+  // private final Turret turret;
+  // private final Shooter Shooter;
+  // private final Hood hood;
 
   // Non-subsystems
   private final Autos autos;
@@ -56,24 +69,8 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight),
                 poseManager);
-
-        // The ModuleIOTalonFXS implementation provides an example implementation for
-        // TalonFXS controller connected to a CANdi with a PWM encoder. The
-        // implementations
-        // of ModuleIOTalonFX, ModuleIOTalonFXS, and ModuleIOSpark (from the Spark
-        // swerve
-        // template) can be freely intermixed to support alternative hardware
-        // arrangements.
-        // Please see the AdvantageKit template documentation for more information:
-        // https://docs.advantagekit.org/getting-started/template-projects/talonfx-swerve-template#custom-module-implementations
-        //
-        // drive =
-        // new Drive(
-        // new GyroIOPigeon2(),
-        // new ModuleIOTalonFXS(TunerConstants.FrontLeft),
-        // new ModuleIOTalonFXS(TunerConstants.FrontRight),
-        // new ModuleIOTalonFXS(TunerConstants.BackLeft),
-        // new ModuleIOTalonFXS(TunerConstants.BackRight));
+        spindexer = new Spindexer(new SpindexerIOTalonFX());
+        climb = new Climb(new ClimbIOTalonFX());
         break;
 
       case SIM:
@@ -86,6 +83,8 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight),
                 poseManager);
+        spindexer = new Spindexer(new SpindexerIOSim());
+        climb = new Climb(new ClimbIOSim());
         break;
 
       default:
@@ -98,6 +97,8 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 poseManager);
+        spindexer = new Spindexer(new SpindexerIO() {});
+        climb = new Climb(new ClimbIO() {});
         break;
     }
 
@@ -120,7 +121,9 @@ public class RobotContainer {
             drive,
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
+            () -> -controller.getRightX(),
+            poseManager));
+    spindexer.setDefaultCommand(spindexer.stop());
 
     // Lock to 0° when A button is held
     controller
@@ -130,7 +133,8 @@ public class RobotContainer {
                 drive,
                 () -> -controller.getLeftY(),
                 () -> -controller.getLeftX(),
-                () -> Rotation2d.kZero));
+                () -> Rotation2d.kZero,
+                poseManager));
 
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
@@ -141,10 +145,15 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                     () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
+                        poseManager.setPose(
+                            new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    controller.y().whileTrue(spindexer.run());
+
+    controller.povUp().whileTrue(climb.climbUp());
+    controller.povDown().whileTrue(climb.climbDown());
   }
 
   /**

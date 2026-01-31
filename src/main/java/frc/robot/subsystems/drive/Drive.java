@@ -13,9 +13,7 @@ import choreo.trajectory.SwerveSample;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -24,8 +22,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -63,18 +59,6 @@ public class Drive extends SubsystemBase {
   private final SysIdRoutine sysId;
   private final Alert gyroDisconnectedAlert =
       new Alert("Disconnected gyro, using kinematics as fallback.", AlertType.kError);
-
-  private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getModuleTranslations());
-  private Rotation2d rawGyroRotation = Rotation2d.kZero;
-  private SwerveModulePosition[] lastModulePositions = // For delta tracking
-      new SwerveModulePosition[] {
-        new SwerveModulePosition(),
-        new SwerveModulePosition(),
-        new SwerveModulePosition(),
-        new SwerveModulePosition()
-      };
-  private SwerveDrivePoseEstimator poseEstimator =
-      new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, Pose2d.kZero);
 
   // Autos
   private final LoggedTunableNumber xkPAuto = new LoggedTunableNumber("Drive/Choreo/xkP", 10);
@@ -160,23 +144,24 @@ public class Drive extends SubsystemBase {
         moduleDeltas[moduleIndex] =
             new SwerveModulePosition(
                 modulePositions[moduleIndex].distanceMeters
-                    - lastModulePositions[moduleIndex].distanceMeters,
+                    - poseManager.lastModulePositions[moduleIndex].distanceMeters,
                 modulePositions[moduleIndex].angle);
-        lastModulePositions[moduleIndex] = modulePositions[moduleIndex];
+        poseManager.lastModulePositions[moduleIndex] = modulePositions[moduleIndex];
       }
 
       // Update gyro angle
       if (gyroInputs.connected) {
         // Use the real gyro angle
-        rawGyroRotation = gyroInputs.odometryYawPositions[i];
+        poseManager.rawGyroRotation = gyroInputs.odometryYawPositions[i];
       } else {
         // Use the angle delta from the kinematics and module deltas
-        Twist2d twist = kinematics.toTwist2d(moduleDeltas);
-        rawGyroRotation = rawGyroRotation.plus(new Rotation2d(twist.dtheta));
+        Twist2d twist = DriveConstants.kinematics.toTwist2d(moduleDeltas);
+        poseManager.rawGyroRotation =
+            poseManager.rawGyroRotation.plus(new Rotation2d(twist.dtheta));
       }
 
       // Apply update
-      poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
+      poseManager.addOdometryMeasurementWithTimestamps(sampleTimestamps[i], modulePositions);
     }
 
     // Update gyro alert
@@ -198,7 +183,8 @@ public class Drive extends SubsystemBase {
   public void runVelocity(ChassisSpeeds speeds) {
     // Calculate module setpoints
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
-    SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
+    SwerveModuleState[] setpointStates =
+        DriveConstants.kinematics.toSwerveModuleStates(discreteSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, TunerConstants.kSpeedAt12Volts);
 
     // Log unoptimized setpoints and setpoint speeds
@@ -235,7 +221,7 @@ public class Drive extends SubsystemBase {
     for (int i = 0; i < 4; i++) {
       headings[i] = getModuleTranslations()[i].getAngle();
     }
-    kinematics.resetHeadings(headings);
+    DriveConstants.kinematics.resetHeadings(headings);
     stop();
   }
 
@@ -261,19 +247,10 @@ public class Drive extends SubsystemBase {
     return states;
   }
 
-  /** Returns the module positions (turn angles and drive positions) for all of the modules. */
-  private SwerveModulePosition[] getModulePositions() {
-    SwerveModulePosition[] states = new SwerveModulePosition[4];
-    for (int i = 0; i < 4; i++) {
-      states[i] = modules[i].getPosition();
-    }
-    return states;
-  }
-
   /** Returns the measured chassis speeds of the robot. */
   @AutoLogOutput(key = "SwerveChassisSpeeds/Measured")
   private ChassisSpeeds getChassisSpeeds() {
-    return kinematics.toChassisSpeeds(getModuleStates());
+    return DriveConstants.kinematics.toChassisSpeeds(getModuleStates());
   }
 
   /** Returns the position of each module in radians. */
@@ -292,31 +269,6 @@ public class Drive extends SubsystemBase {
       output += modules[i].getFFCharacterizationVelocity() / 4.0;
     }
     return output;
-  }
-
-  /** Returns the current odometry pose. */
-  @AutoLogOutput(key = "Odometry/Robot")
-  public Pose2d getPose() {
-    return poseEstimator.getEstimatedPosition();
-  }
-
-  /** Returns the current odometry rotation. */
-  public Rotation2d getRotation() {
-    return getPose().getRotation();
-  }
-
-  /** Resets the current odometry pose. */
-  public void setPose(Pose2d pose) {
-    poseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
-  }
-
-  /** Adds a new timestamped vision measurement. */
-  public void addVisionMeasurement(
-      Pose2d visionRobotPoseMeters,
-      double timestampSeconds,
-      Matrix<N3, N1> visionMeasurementStdDevs) {
-    poseEstimator.addVisionMeasurement(
-        visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
   }
 
   /** Returns the maximum linear speed in meters per sec. */

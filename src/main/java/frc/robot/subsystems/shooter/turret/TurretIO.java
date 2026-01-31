@@ -25,9 +25,4 @@ public interface TurretIO {
 
   public default void turnTurret(double targetDegs, boolean isShooting) {}
   ;
-
-  public default double getPositionDegs() {
-    return 0;
-  }
-  ;
 }

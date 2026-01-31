@@ -74,7 +74,7 @@ public class Autos {
         // Set up SysId routines
         nonChoreoChooser.addOption(
             "Drive Wheel Radius Characterization",
-            DriveCommands.wheelRadiusCharacterization(drive));
+            DriveCommands.wheelRadiusCharacterization(drive, poseManager));
         nonChoreoChooser.addOption(
             "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
         nonChoreoChooser.addOption(
@@ -124,6 +124,10 @@ public class Autos {
     AutoTrajectory Depot = routine.trajectory("DepotClimb");
     routine.active().onTrue(Commands.sequence(Depot.resetOdometry(), Depot.cmd()));
     Depot.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
+    Depot.atTime("StartIntake").onTrue(RobotCommands.intake());
+    Depot.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    Depot.atTime("StartShoot").onTrue(RobotCommands.shoot());
+    Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     Depot.done().onTrue(RobotCommands.climbRetract());
     return routine;
   }
@@ -146,9 +150,7 @@ public class Autos {
   public AutoRoutine depotFeedAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Depot Feed Auto Routine");
     AutoTrajectory DepotFeed = routine.trajectory("DepotFeedClimb");
-    routine
-        .active() 
-        .onTrue(Commands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
+    routine.active().onTrue(Commands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
     DepotFeed.atTime("StartIntake").onTrue(RobotCommands.intake());
     DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
     DepotFeed.atTime("StartShoot").onTrue(RobotCommands.shoot());
@@ -188,9 +190,11 @@ public class Autos {
 
   public AutoRoutine LowerFeedAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Lower Feed Auto Routine");
-    AutoTrajectory LowerFeed = routine.trajectory("LowerFeedClimb");
+    AutoTrajectory LowerFeed = routine.trajectory("LowerFeed");
     routine.active().onTrue(Commands.sequence(LowerFeed.resetOdometry(), LowerFeed.cmd()));
     LowerFeed.atTime("StartIntake").onTrue(RobotCommands.intake());
+    LowerFeed.atTime("StartShooting").onTrue(RobotCommands.shoot());
+    LowerFeed.atTime("StopShooting").onTrue(RobotCommands.stopShoot());
     LowerFeed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
     return routine;
   }

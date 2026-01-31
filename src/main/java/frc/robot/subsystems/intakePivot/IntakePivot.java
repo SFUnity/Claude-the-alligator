@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
-import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakePivot extends SubsystemBase {
@@ -25,7 +24,6 @@ public class IntakePivot extends SubsystemBase {
   private boolean lowered = false;
   private boolean startedIntaking = false;
   private boolean middleOfIntaking = false;
-
 
   private final IntakePivotIO io;
   private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
@@ -47,8 +45,6 @@ public class IntakePivot extends SubsystemBase {
     Logger.recordOutput("Intake/positionSetpoint", positionSetpoint);
     GeneralUtil.logSubsystem(this, "Intake");
   }
-
-  
 
   // private void lower() {
   //   positionSetpoint = loweredAngle.get();

@@ -4,6 +4,8 @@ import static frc.robot.subsystems.rollers.spindexer.SpindexerConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.GeneralUtil;
+import org.littletonrobotics.junction.Logger;
 
 public class Spindexer extends SubsystemBase {
 
@@ -16,17 +18,17 @@ public class Spindexer extends SubsystemBase {
 
   public void periodic() {
     io.updateInputs(inputs);
-    // TODO add log subsystem from GeneralUtil + logging framework
+
+    Logger.processInputs("Spindexer", inputs);
+    GeneralUtil.logSubsystem(this, "Spindexer");
   }
 
-  // TODO rename to simply "run" because there are no inputs to the command (it will end up reading
-  // spindexer.run())
-  public Command runVolts() {
-    return run(() -> io.runVolts(spindexerSpeedVolts.get()));
+  public Command run() {
+    return run(() -> io.run(spindexerSpeedVolts.get())).withName("spindexerRun");
   }
 
-  // TODO rename to "stop" for consistency / readability (it will end up reading spindexer.stop())
-  public Command stopSpindexer() {
-    return run(() -> io.stop());
+  public Command stop() {
+
+    return run(() -> io.run(0.0));
   }
 }

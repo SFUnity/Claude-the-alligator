@@ -288,7 +288,9 @@
   "splits":[0]
  },
  "events":[
-   {"name":"Marker", "from":{"target":6, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"Marker", "from":{"target":5, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"Marker", "from":{"target":4, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
+   {"name":"StopShoot", "from":{"target":6, "targetTimestamp":8.40169, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartShoot", "from":{"target":5, "targetTimestamp":5.14373, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartIntake", "from":{"target":1, "targetTimestamp":1.20991, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StopIntake", "from":{"target":2, "targetTimestamp":2.8646, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"ExtendClimber", "from":{"target":5, "targetTimestamp":5.14373, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }

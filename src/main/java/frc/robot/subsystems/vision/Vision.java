@@ -54,13 +54,6 @@ public class Vision extends VirtualSubsystem {
     List<Pose3d> allRobotPosesAccepted = new LinkedList<>();
     List<Pose3d> allRobotPosesRejected = new LinkedList<>();
 
-    List<Pose2d> allCoralPoses = new LinkedList<>();
-    List<Pose2d> allCoralPosesAccepted = new LinkedList<>();
-    List<Pose2d> allCoralPosesRejected = new LinkedList<>();
-    List<Pose2d> allAlgaePoses = new LinkedList<>();
-    List<Pose2d> allAlgaePosesAccepted = new LinkedList<>();
-    List<Pose2d> allAlgaePosesRejected = new LinkedList<>();
-
     // Loop over cameras
     for (int i = 0; i < io.length; i++) {
 
