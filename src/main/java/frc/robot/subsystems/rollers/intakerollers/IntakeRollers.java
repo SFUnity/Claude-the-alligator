@@ -1,16 +1,14 @@
 package frc.robot.subsystems.rollers.intakerollers;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.rollers.intake.IntakeIOInputsAutoLogged;
-
 import static frc.robot.subsystems.rollers.intakerollers.IntakeRollersConstants.*;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakeRollers extends SubsystemBase {
   private final IntakeRollersIO io;
-  private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
+  private final IntakeRollersIOInputsAutoLogged inputs = new IntakeRollersIOInputsAutoLogged();
 
   public IntakeRollers(IntakeRollersIO io) {
     this.io = io;
@@ -19,12 +17,12 @@ public class IntakeRollers extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("intake", inputs);
+    Logger.processInputs("intakeRollers", inputs);
     // TODO add log subsystem from GeneralUtil
   }
 
   public Command intake() {
-    return run(() -> io.runVolts(intakeSpeedVolts.get()));
+    return run(() -> io.runVolts(intakeRollersSpeedVolts.get()));
   }
 
   public Command stop() {
@@ -32,6 +30,6 @@ public class IntakeRollers extends SubsystemBase {
   }
 
   public Command eject() {
-    return run(() -> io.runVolts(-intakeSpeedVolts.get()));
+    return run(() -> io.runVolts(-intakeRollersSpeedVolts.get()));
   }
 }
