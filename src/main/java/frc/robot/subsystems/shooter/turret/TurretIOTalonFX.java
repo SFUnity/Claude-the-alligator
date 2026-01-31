@@ -47,6 +47,7 @@ public class TurretIOTalonFX implements TurretIO {
     inputs.positionDegs = angle;
     inputs.velocityDegsPerSec = talon.getVelocity().getValueAsDouble() / gearRatio;
     inputs.currentAmps = talon.getSupplyCurrent().getValueAsDouble();
+    inputs.talonRotations = talon.getPosition().getValueAsDouble();
     inputs.encoder1Rotations = encoder1.getPosition().getValueAsDouble();
     inputs.encoder2Rotations = encoder2.getPosition().getValueAsDouble();
   }
