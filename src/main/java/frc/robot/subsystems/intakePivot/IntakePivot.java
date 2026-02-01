@@ -57,11 +57,11 @@ public class IntakePivot extends SubsystemBase {
   // }
 
   public Command raise() {
-    return Commands.run(() -> io.setPivotPosition(raisedAngle.get()));
+    return run(() -> io.setPivotPosition(raisedAngle.get()));
   }
 
   public Command lower() {
-    return Commands.run(() -> io.setPivotPosition(loweredAngle.get()));
+    return run(() -> io.setPivotPosition(loweredAngle.get()));
   }
 
   public Command jork() {
