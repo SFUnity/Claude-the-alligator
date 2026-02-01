@@ -39,7 +39,6 @@ import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOTalonFX;
 import frc.robot.util.PoseManager;
-import org.littletonrobotics.junction.Logger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -174,20 +173,30 @@ public class RobotContainer {
 
     controller.povUp().whileTrue(climb.climbUp());
     controller.povDown().whileTrue(climb.climbDown());
+    // controller
+    //     .leftBumper()
+    //     .onTrue(
+    //         Commands.sequence(
+    //             Commands.runOnce(
+    //                 () -> {
+    //                   intakeDown = !intakeDown;
+    //                   Logger.recordOutput("Intake/intakeDown", intakeDown);
+    //                 }),
+    //             Commands.either(
+    //                 RobotCommands.intake(intakeRollers, intakePivot),
+    //                 RobotCommands.stowIntake(intakeRollers, intakePivot),
+    //                 () -> intakeDown)));
+
+    controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
     controller
         .leftBumper()
-        .onTrue(
-            Commands.sequence(
-                Commands.runOnce(
-                    () -> {
-                      intakeDown = !intakeDown;
-                      Logger.recordOutput("Intake/intakeDown", intakeDown);
-                    }),
-                Commands.either(
-                    RobotCommands.intake(intakeRollers, intakePivot),
-                    RobotCommands.stowIntake(intakeRollers, intakePivot),
-                    () -> intakeDown)));
-    ;
+        .and(() -> intakeDown)
+        .onTrue(RobotCommands.stowIntake(intakeRollers, intakePivot));
+    controller
+        .leftBumper()
+        .and(() -> !intakeDown)
+        .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
+
     // Commands.either(
     //         RobotCommands.intake(intakeRollers, intakePivot),
     //         RobotCommands.stowIntake(intakeRollers, intakePivot),
