@@ -35,8 +35,8 @@ public class RobotCommands {
   }
 
   public static Command shoot() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/Shooter", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shooter", false));
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/Shoot", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
   }
 
   public static Command shoot(Flywheels flywheels, Kicker kicker, Hood hood, Spindexer spindexer) {
@@ -49,8 +49,8 @@ public class RobotCommands {
   }
 
   public static Command stopShoot() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/Shoot", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/StopShoot", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopShoot", false));
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
