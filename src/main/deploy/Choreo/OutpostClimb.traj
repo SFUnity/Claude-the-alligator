@@ -234,6 +234,6 @@
  },
  "events":[
    {"name":"ExtendClimber", "from":{"target":2, "targetTimestamp":4.68224, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StartShoot", "from":{"target":0, "targetTimestamp":0.0, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartShoot", "from":{"target":1, "targetTimestamp":3.32368, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StopShoot", "from":{"target":3, "targetTimestamp":6.00409, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
