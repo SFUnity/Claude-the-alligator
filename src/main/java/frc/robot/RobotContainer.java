@@ -39,6 +39,7 @@ import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOTalonFX;
 import frc.robot.util.PoseManager;
+import org.littletonrobotics.junction.Logger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -169,20 +170,40 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().whileTrue(spindexer.run());
+    controller.y().whileTrue(intakePivot.lower());
 
     controller.povUp().whileTrue(climb.climbUp());
     controller.povDown().whileTrue(climb.climbDown());
     controller
         .leftBumper()
         .onTrue(
-            Commands.either(
-                RobotCommands.intake(intakeRollers, intakePivot),
-                RobotCommands.stowIntake(intakeRollers, intakePivot),
-                () -> {
-                  intakeDown = !intakeDown;
-                  return intakeDown;
-                }));
+            Commands.sequence(
+                Commands.runOnce(
+                    () -> {
+                      intakeDown = !intakeDown;
+                      Logger.recordOutput("Intake/intakeDown", intakeDown);
+                    }),
+                Commands.either(
+                    RobotCommands.intake(intakeRollers, intakePivot),
+                    RobotCommands.stowIntake(intakeRollers, intakePivot),
+                    () -> intakeDown)));
+    ;
+    // Commands.either(
+    //         RobotCommands.intake(intakeRollers, intakePivot),
+    //         RobotCommands.stowIntake(intakeRollers, intakePivot),
+    //         () -> {
+    //           return intakeDown;
+    //         })
+    //     .beforeStarting(
+    //         () -> {
+    //           if (intakeDown == true) {
+    //             intakeDown = false;
+    //             Logger.recordOutput("Intake/intakeDown", intakeDown);
+    //           } else if (intakeDown == false) {
+    //             intakeDown = true;
+    //             Logger.recordOutput("Intake/intakeDown", intakeDown);
+    //           }
+    //         }));
   }
 
   /**
