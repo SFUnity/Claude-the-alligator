@@ -1,7 +1,8 @@
 package frc.robot.subsystems.intakePivot;
 
-import edu.wpi.first.math.util.Units;
 import static frc.robot.Constants.*;
+
+import edu.wpi.first.math.util.Units;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
@@ -13,8 +14,8 @@ public class IntakePivotConstants {
   public static final int rollersID = 18;
   public static final int pivotID = 15;
 
-  public static final LoggedTunableNumber kP = new LoggedTunableNumber("Intake/kP", currentMode==Mode.SIM ? 0.1:0.028);
- 
+  public static final LoggedTunableNumber kP =
+      new LoggedTunableNumber("Intake/kP", currentMode == Mode.SIM ? 0.1 : 0.028);
 
   public static final boolean pivotInverted = true;
   public static final boolean rollersInverted = false;

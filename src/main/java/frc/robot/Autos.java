@@ -116,6 +116,8 @@ public class Autos {
     AutoTrajectory OutpostClimb = routine.trajectory("OutpostClimb");
     routine.active().onTrue(Commands.sequence(OutpostClimb.resetOdometry(), OutpostClimb.cmd()));
     OutpostClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
+    OutpostClimb.atTime("StartShoot")
+        .onTrue(RobotCommands.shoot().until(OutpostClimb.atTime("StopShoot")));
     OutpostClimb.done().onTrue(RobotCommands.climbRetract());
     return routine;
   }

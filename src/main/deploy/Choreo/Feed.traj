@@ -16,9 +16,9 @@
  },
  "params":{
   "waypoints":[
-    {"x":{"exp":"UpperTrench.x", "val":4.469950199127197}, "y":{"exp":"UpperTrench.y", "val":7.153000354766846}, "heading":{"exp":"UpperTrench.heading", "val":0.0}, "intervals":36, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
-    {"x":{"exp":"7.831319332122803 m", "val":7.831319332122803}, "y":{"exp":"6.600340366363525 m", "val":6.600340366363525}, "heading":{"exp":"-1.5707963267948966 rad", "val":-1.5707963267948966}, "intervals":80, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
-    {"x":{"exp":"7.841720104217529 m", "val":7.841720104217529}, "y":{"exp":"4.638790130615234 m", "val":4.638790130615234}, "heading":{"exp":"-1.5707963267948966 rad", "val":-1.5707963267948966}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"UpperTrench.x", "val":4.469950199127197}, "y":{"exp":"UpperTrench.y", "val":7.153000354766846}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":36, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":{"exp":"7.831319332122803 m", "val":7.831319332122803}, "y":{"exp":"6.600340366363525 m", "val":6.600340366363525}, "heading":{"exp":"-90 deg", "val":-1.5707963267948966}, "intervals":80, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":{"exp":"7.841720104217529 m", "val":7.841720104217529}, "y":{"exp":"4.638790130615234 m", "val":4.638790130615234}, "heading":{"exp":"-90 deg", "val":-1.5707963267948966}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
@@ -177,8 +177,8 @@
   "splits":[0]
  },
  "events":[
-   {"name":"StartIntake", "from":{"target":1, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StopIntake", "from":{"target":2, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StartShooting", "from":{"target":1, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StopShooting", "from":{"target":2, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
+   {"name":"StartIntake", "from":{"target":1, "targetTimestamp":1.2106, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StopIntake", "from":{"target":2, "targetTimestamp":5.17508, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartShooting", "from":{"target":1, "targetTimestamp":1.2106, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StopShooting", "from":{"target":2, "targetTimestamp":5.17508, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
