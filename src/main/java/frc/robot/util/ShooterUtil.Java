@@ -107,9 +107,5 @@ public class ShooterUtil implements AutoCloseable {
     }
     @Override
     public void close() {
-        angleDeg.close();
-        rpm.close();
-        TurnAngleDeg.close();
     }
-   
 }
