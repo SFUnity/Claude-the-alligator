@@ -138,7 +138,8 @@ public class Autos {
         .active()
         .onTrue(Commands.sequence(ScoreCenterClimb.resetOdometry(), ScoreCenterClimb.cmd()));
     ScoreCenterClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
-    ScoreCenterClimb.atTime("StartIntake").onTrue(RobotCommands.intake().until(ScoreCenterClimb.atTime("StopIntake")));
+    ScoreCenterClimb.atTime("StartIntake")
+        .onTrue(RobotCommands.intake().until(ScoreCenterClimb.atTime("StopIntake")));
     ScoreCenterClimb.atTime("StartShoot").onTrue(RobotCommands.shoot());
     ScoreCenterClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     ScoreCenterClimb.done().onTrue(RobotCommands.climbRetract());
@@ -158,9 +159,12 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("Depot Feed Auto Routine");
     AutoTrajectory DepotFeed = routine.trajectory("DepotFeedClimb");
     routine.active().onTrue(Commands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
-    DepotFeed.atTime("StartIntake").onTrue(RobotCommands.intake().until(DepotFeed.atTime("StopIntake")));
-    DepotFeed.atTime("StartShoot").onTrue(RobotCommands.shoot().until(DepotFeed.atTime("StopShoot")));
-    DepotFeed.atTime("StartDepotIntake").onTrue(RobotCommands.intake().until(DepotFeed.atTime("StopDepotIntake")));
+    DepotFeed.atTime("StartIntake")
+        .onTrue(RobotCommands.intake().until(DepotFeed.atTime("StopIntake")));
+    DepotFeed.atTime("StartShoot")
+        .onTrue(RobotCommands.shoot().until(DepotFeed.atTime("StopShoot")));
+    DepotFeed.atTime("StartDepotIntake")
+        .onTrue(RobotCommands.intake().until(DepotFeed.atTime("StopDepotIntake")));
     DepotFeed.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
     DepotFeed.done().onTrue(RobotCommands.climbRetract());
     return routine;
@@ -172,8 +176,10 @@ public class Autos {
     routine
         .active()
         .onTrue(Commands.sequence(UpperFeedClimb.resetOdometry(), UpperFeedClimb.cmd()));
-    UpperFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake().until(UpperFeedClimb.atTime("StopIntake")));
-    UpperFeedClimb.atTime("StartShoot").onTrue(RobotCommands.shoot().until(UpperFeedClimb.atTime("StopShoot")));
+    UpperFeedClimb.atTime("StartIntake")
+        .onTrue(RobotCommands.intake().until(UpperFeedClimb.atTime("StopIntake")));
+    UpperFeedClimb.atTime("StartShoot")
+        .onTrue(RobotCommands.shoot().until(UpperFeedClimb.atTime("StopShoot")));
     UpperFeedClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
     UpperFeedClimb.done().onTrue(RobotCommands.climbRetract());
     return routine;
@@ -192,8 +198,10 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("Lower Feed Auto Routine");
     AutoTrajectory LowerFeed = routine.trajectory("LowerFeed");
     routine.active().onTrue(Commands.sequence(LowerFeed.resetOdometry(), LowerFeed.cmd()));
-    LowerFeed.atTime("StartIntake").onTrue(RobotCommands.intake().until(LowerFeed.atTime("StopIntake")));
-    LowerFeed.atTime("StartShooting").onTrue(RobotCommands.shoot().until(LowerFeed.atTime("StopShooting")));
+    LowerFeed.atTime("StartIntake")
+        .onTrue(RobotCommands.intake().until(LowerFeed.atTime("StopIntake")));
+    LowerFeed.atTime("StartShooting")
+        .onTrue(RobotCommands.shoot().until(LowerFeed.atTime("StopShooting")));
     return routine;
   }
 
@@ -203,8 +211,10 @@ public class Autos {
     routine
         .active()
         .onTrue(Commands.sequence(LowerFeedClimb.resetOdometry(), LowerFeedClimb.cmd()));
-    LowerFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake().until(LowerFeedClimb.atTime("StopIntake")));
-    LowerFeedClimb.atTime("StartShooting").onTrue(RobotCommands.shoot().until(LowerFeedClimb.atTime("StopShooting")));
+    LowerFeedClimb.atTime("StartIntake")
+        .onTrue(RobotCommands.intake().until(LowerFeedClimb.atTime("StopIntake")));
+    LowerFeedClimb.atTime("StartShooting")
+        .onTrue(RobotCommands.shoot().until(LowerFeedClimb.atTime("StopShooting")));
     LowerFeedClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
     LowerFeedClimb.done().onTrue(RobotCommands.climbRetract());
     return routine;
