@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
+import frc.robot.util.GeomUtil;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
 import java.util.concurrent.locks.Lock;
@@ -163,6 +164,14 @@ public class Drive extends SubsystemBase {
       // Apply update
       poseManager.addOdometryMeasurementWithTimestamps(sampleTimestamps[i], modulePositions);
     }
+
+    // Add velocity data to pose manager, use gyro if possible
+    ChassisSpeeds robotRelativeVelocity = getChassisSpeeds();
+    robotRelativeVelocity.omegaRadiansPerSecond =
+        gyroInputs.connected
+            ? gyroInputs.yawVelocityRadPerSec
+            : robotRelativeVelocity.omegaRadiansPerSecond;
+    poseManager.addVelocityData(GeomUtil.toTwist2d(robotRelativeVelocity));
 
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
