@@ -22,13 +22,15 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
 
+    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+
     var slot0Configs = talonFXConfigs.Slot0;
     slot0Configs.kS = 0;
-    slot0Configs.kV = kV;
-    slot0Configs.kA = kA;
-    slot0Configs.kP = kP;
+    slot0Configs.kV = kV.get();
+    slot0Configs.kA = kA.get();
+    slot0Configs.kP = kP.get();
     slot0Configs.kI = 0;
-    slot0Configs.kD = kD;
+    slot0Configs.kD = kD.get();
     talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
@@ -36,16 +38,15 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
     // set Motion Magic settings
     var motionMagicConfigs = talonFXConfigs.MotionMagic;
     motionMagicConfigs.MotionMagicCruiseVelocity =
-        motionMagicCruiseVelocity; // Target cruise velocity of 80 rps
+        motionMagicCruiseVelocity.get(); // Target cruise velocity of 80 rps
     motionMagicConfigs.MotionMagicAcceleration =
-        motionMagicAcceleration; // Target acceleration of 160 rps/s (0.5 seconds)
+        motionMagicAcceleration.get(); // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk =
-        motionMagicJerk; // Target jerk of 1600 rps/s/s (0.1 seconds)
-    talonFXConfigs.MotorOutput.NeutralMode =
-        NeutralModeValue.Coast; // TODO please reorganize this or add more comments
+        motionMagicJerk.get(); // Target jerk of 1600 rps/s/s (0.1 seconds)
+
     leader.getConfigurator().apply(talonFXConfigs);
 
-    leader.getConfigurator().apply(talonFXConfigs); // TODO remove duplicate
+    follow.getConfigurator().apply(talonFXConfigs);
     follow.setControl(new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed));
   }
 
@@ -63,7 +64,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   }
 
   @Override
-  public void idle() {
-    leader.setControl(voltageOut.withOutput(idleVolts));
+  public void ready() {
+    leader.setControl(voltageOut.withOutput(readyVolts.get()));
   }
 }

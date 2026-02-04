@@ -11,7 +11,7 @@ public class Flywheels extends SubsystemBase {
   private final FlywheelsIOInputsAutoLogged inputs = new FlywheelsIOInputsAutoLogged();
   private double velocity;
 
-  private boolean idle = false;
+  private boolean ready = false;
 
   public Flywheels(FlywheelsIO io) {
     this.io = io;
@@ -22,15 +22,15 @@ public class Flywheels extends SubsystemBase {
     io.updateInputs(inputs);
     Logger.processInputs("Flywheels", inputs);
 
-    if (!idle) {
+    if (!ready) {
       io.runVelocity(velocity);
     } else {
-      io.idle();
+      io.ready();
     }
   }
 
   private void updateFlywheels(double speed) {
-    idle = false;
+    ready = false;
     velocity = speed;
   }
 
@@ -38,11 +38,11 @@ public class Flywheels extends SubsystemBase {
     return run(() -> updateFlywheels(rps));
   }
 
-  public Command setIdle(boolean idle) {
-    return run(() -> this.idle = idle);
+  public Command setIdle(boolean ready) {
+    return run(() -> this.ready = ready);
   }
 
   public boolean atGoal() {
-    return Math.abs(inputs.velocityRotsPerSec - velocity) < flywheelTolerance;
+    return Math.abs(inputs.velocityRotsPerSec - velocity) < flywheelTolerance.get();
   }
 }

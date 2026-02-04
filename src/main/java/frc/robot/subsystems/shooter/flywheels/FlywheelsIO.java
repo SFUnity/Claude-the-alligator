@@ -15,5 +15,5 @@ public interface FlywheelsIO {
 
   public default void runVelocity(double rps) {}
 
-  public default void idle() {}
+  public default void ready() {}
 }

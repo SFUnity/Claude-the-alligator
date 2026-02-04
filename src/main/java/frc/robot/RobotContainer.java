@@ -44,6 +44,10 @@ import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOTalonFX;
+import frc.robot.subsystems.shooter.flywheels.Flywheels;
+import frc.robot.subsystems.shooter.flywheels.FlywheelsIO;
+import frc.robot.subsystems.shooter.flywheels.FlywheelsIOSim;
+import frc.robot.subsystems.shooter.flywheels.FlywheelsIOTalonFX;
 import frc.robot.util.PoseManager;
 import org.littletonrobotics.junction.Logger;
 
@@ -58,6 +62,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Spindexer spindexer;
   private final Climb climb;
+  private final Flywheels flywheels;
   private final IntakePivot intakePivot;
   private final IntakeRollers intakeRollers;
   // private final Turret turret;
@@ -119,6 +124,7 @@ public class RobotContainer {
                 poseManager);
         spindexer = new Spindexer(new SpindexerIOTalonFX());
         climb = new Climb(new ClimbIOTalonFX());
+        flywheels = new Flywheels(new FlywheelsIOTalonFX());
         intakePivot = new IntakePivot(new IntakePivotIOTalon());
         intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         break;
@@ -137,6 +143,7 @@ public class RobotContainer {
         climb = new Climb(new ClimbIOSim());
         intakePivot = new IntakePivot(new IntakePivotIOSim());
         intakeRollers = new IntakeRollers(new IntakeRollersIOSim());
+        flywheels = new Flywheels(new FlywheelsIOSim());
         break;
 
       default:
@@ -153,6 +160,7 @@ public class RobotContainer {
         climb = new Climb(new ClimbIO() {});
         intakePivot = new IntakePivot(new IntakePivotIO() {});
         intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
+        flywheels = new Flywheels(new FlywheelsIO() {});
         break;
     }
 
@@ -271,7 +279,7 @@ public class RobotContainer {
         .leftBumper()
         .and(() -> !intakeDown)
         .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
-
+    controller.rightTrigger().whileTrue(flywheels.setVelocity(1000));
     // Commands.either(
     //         RobotCommands.intake(intakeRollers, intakePivot),
     //         RobotCommands.stowIntake(intakeRollers, intakePivot),
