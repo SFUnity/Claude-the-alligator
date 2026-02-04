@@ -22,8 +22,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
 
-    talonFXConfigs.MotorOutput.NeutralMode =
-        NeutralModeValue.Coast; 
+    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
     var slot0Configs = talonFXConfigs.Slot0;
     slot0Configs.kS = 0;
@@ -44,7 +43,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
         motionMagicAcceleration.get(); // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk =
         motionMagicJerk.get(); // Target jerk of 1600 rps/s/s (0.1 seconds)
-    
+
     leader.getConfigurator().apply(talonFXConfigs);
 
     follow.getConfigurator().apply(talonFXConfigs);
