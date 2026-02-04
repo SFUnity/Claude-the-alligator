@@ -9,7 +9,7 @@ public class ClimbConstants {
   static final double kI = 0;
   static final double kD = 0;
 
-  static final double upMeters = 0.0;
+  static final double upMeters = 1.0;
   static final double downMeters = 0.0;
 
   public static final double elevatorMassKg = Units.lbsToKilograms(15); // Not the true numbers
