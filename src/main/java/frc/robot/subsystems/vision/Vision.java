@@ -15,10 +15,9 @@ import frc.robot.subsystems.vision.VisionConstants.Pipelines;
 import frc.robot.util.GeomUtil;
 import frc.robot.util.PoseManager;
 import frc.robot.util.VirtualSubsystem;
+import frc.robot.FieldConstants;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.littletonrobotics.frc2026.FieldConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Vision extends VirtualSubsystem {
