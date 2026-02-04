@@ -58,8 +58,8 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   }
 
   @Override
-  public void runVelocity(double velocity) {
-    leader.setControl(motionMagicVelocity.withVelocity(velocity));
+  public void runVelocity(double rps) {
+    leader.setControl(motionMagicVelocity.withVelocity(rps));
   }
 
   @Override

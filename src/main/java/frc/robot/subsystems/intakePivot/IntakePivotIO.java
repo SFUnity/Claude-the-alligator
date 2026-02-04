@@ -7,15 +7,11 @@ public interface IntakePivotIO {
   public static class IntakePivotIOInputs {
     public double pivotCurrentPositionDeg = 0;
     public double pivotAppliedVolts = 0.0;
-    public double pivotCurrentAmps = 0.0;
-
-    public double rollersAppliedVolts = 0.0;
-    public double rollersCurrentAmps = 0.0;
+    public double pivotStaterCurrent = 0.0;
+    public double pivotSupplyCurrent = 0.0;
   }
 
   default void updateInputs(IntakePivotIOInputs inputs) {}
-
-  default void runRollers(double volts) {}
 
   default void runPivot(double volts) {}
 

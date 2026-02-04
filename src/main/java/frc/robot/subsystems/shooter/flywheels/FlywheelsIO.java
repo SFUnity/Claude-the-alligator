@@ -13,7 +13,7 @@ public interface FlywheelsIO {
 
   public default void updateInputs(FlywheelsIOInputs inputs) {}
 
-  public default void runVelocity(double velocity) {}
+  public default void runVelocity(double rps) {}
 
   public default void idle() {}
 }

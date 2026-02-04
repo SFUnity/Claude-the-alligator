@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.intakePivot.IntakePivot;
-import frc.robot.subsystems.rollers.intake.Intake;
+import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.KickerConstants;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
@@ -35,8 +35,8 @@ public class RobotCommands {
   }
 
   public static Command shoot() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/Shooter", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shooter", false));
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/Shoot", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
   }
 
   public static Command shoot(Flywheels flywheels, Kicker kicker, Hood hood, Spindexer spindexer) {
@@ -49,23 +49,23 @@ public class RobotCommands {
   }
 
   public static Command stopShoot() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/Shoot", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
+    return Commands.run(() -> Logger.recordOutput("RobotCommands/StopShoot", true))
+        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopShoot", false));
   }
 
-  public static Command intake(Intake intake, IntakePivot intakePivot) {
+  public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
     return intake.intake().alongWith(intakePivot.lower());
   }
 
-  public static Command eject(Intake intake, IntakePivot intakePivot) {
+  public static Command eject(IntakeRollers intake, IntakePivot intakePivot) {
     return intake.eject().alongWith(intakePivot.lower());
   }
 
-  public static Command stowIntake(Intake intake, IntakePivot intakePivot) {
+  public static Command stowIntake(IntakeRollers intake, IntakePivot intakePivot) {
     return intake.stop().alongWith(intakePivot.raise());
   }
 
-  public static Command jork(Intake intake, IntakePivot intakePivot) {
+  public static Command jork(IntakeRollers intake, IntakePivot intakePivot) {
     return intake.stop().alongWith(intakePivot.jork());
   }
 }

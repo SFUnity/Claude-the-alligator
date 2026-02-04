@@ -13,6 +13,7 @@ import choreo.trajectory.SwerveSample;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,6 +33,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
+import frc.robot.util.GeneralUtil;
+import frc.robot.util.GeomUtil;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
 import java.util.concurrent.locks.Lock;
@@ -164,6 +167,14 @@ public class Drive extends SubsystemBase {
       poseManager.addOdometryMeasurementWithTimestamps(sampleTimestamps[i], modulePositions);
     }
 
+    // Add velocity data to pose manager, use gyro if possible
+    ChassisSpeeds robotRelativeVelocity = getChassisSpeeds();
+    robotRelativeVelocity.omegaRadiansPerSecond =
+        gyroInputs.connected
+            ? gyroInputs.yawVelocityRadPerSec
+            : robotRelativeVelocity.omegaRadiansPerSecond;
+    poseManager.addVelocityData(GeomUtil.toTwist2d(robotRelativeVelocity));
+
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
 
@@ -173,6 +184,8 @@ public class Drive extends SubsystemBase {
             < DriveConstants.gyroVisionLatencyLimit) {
       gyroIO.setYaw(visionGyroMeasurement[0]);
     }
+
+    GeneralUtil.logSubsystem(this, "Drive");
   }
 
   /**
@@ -294,6 +307,7 @@ public class Drive extends SubsystemBase {
   public void followTrajectory(SwerveSample sample) {
     updateAutoTunables();
     Pose2d pose = poseManager.getPose();
+    double goalRotation = MathUtil.angleModulus(sample.heading);
 
     double xFF = sample.vx;
     double yFF = sample.vy;
@@ -302,14 +316,14 @@ public class Drive extends SubsystemBase {
     double xFeedback = xAutoController.calculate(pose.getX(), sample.x);
     double yFeedback = yAutoController.calculate(pose.getY(), sample.y);
     double rotationFeedback =
-        headingAutoController.calculate(pose.getRotation().getRadians(), sample.heading);
+        headingAutoController.calculate(pose.getRotation().getRadians(), goalRotation);
 
     ChassisSpeeds out =
         ChassisSpeeds.fromFieldRelativeSpeeds(
             xFF + xFeedback, yFF + yFeedback, rotationFF + rotationFeedback, pose.getRotation());
 
     Logger.recordOutput(
-        "Drive/Choreo/Target Pose", new Pose2d(sample.x, sample.y, new Rotation2d(sample.heading)));
+        "Drive/Choreo/Target Pose", new Pose2d(sample.x, sample.y, new Rotation2d(goalRotation)));
     Logger.recordOutput("Drive/Choreo/Target Speeds", out);
 
     runVelocity(out);

@@ -28,8 +28,8 @@ public class FlywheelsIOSim implements FlywheelsIO {
   }
 
   @Override
-  public void runVelocity(double velocity) {
-    appliedVolts = pid.calculate(velocity);
+  public void runVelocity(double rps) {
+    appliedVolts = pid.calculate(rps);
   }
 
   @Override

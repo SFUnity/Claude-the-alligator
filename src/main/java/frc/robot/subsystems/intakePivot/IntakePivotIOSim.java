@@ -24,7 +24,6 @@ public class IntakePivotIOSim implements IntakePivotIO {
 
   private final PIDController controller;
   private double pivotAppliedVolts = 0.0;
-  private double rollersAppliedVolts = 0.0;
 
   public IntakePivotIOSim() {
     controller = new PIDController(kP.get(), 0.0, 0.0);
@@ -37,19 +36,12 @@ public class IntakePivotIOSim implements IntakePivotIO {
 
     inputs.pivotCurrentPositionDeg = getAngleDeg();
     inputs.pivotAppliedVolts = pivotAppliedVolts;
-    inputs.pivotCurrentAmps = sim.getCurrentDrawAmps();
-
-    inputs.rollersAppliedVolts = rollersAppliedVolts;
+    inputs.pivotSupplyCurrent = sim.getCurrentDrawAmps();
 
     LoggedTunableNumber.ifChanged(hashCode(), () -> controller.setP(kP.get()), kP);
 
     // Reset input
     sim.setInputVoltage(0.0);
-  }
-
-  @Override
-  public void runRollers(double volts) {
-    rollersAppliedVolts = volts;
   }
 
   @Override

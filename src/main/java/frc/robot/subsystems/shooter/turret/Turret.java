@@ -14,19 +14,24 @@ public class Turret extends SubsystemBase {
   private boolean isShooting = false;
   private double targetDegs = 0;
 
+  private final double talonOffset;
+
   public Turret(TurretIO io) {
     this.io = io;
+    io.updateInputs(inputs);
+    double currentDegs = getPositionDegs();
+    talonOffset = Units.degreesToRotations(currentDegs) * gearRatio - inputs.talonRotations;
   }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    inputs.positionDegs = getPositionDegs();
+    double currentDegs = getPositionDegs();
+    inputs.positionDegs = currentDegs;
     Logger.processInputs("Turret", inputs);
     GeneralUtil.logSubsystem(this, "Turret");
 
     if (isShooting) {
-      double currentDegs = getPositionDegs();
       targetDegs += bufferDegs * 2;
       if (Math.abs(targetDegs + 360 - currentDegs) < Math.abs(targetDegs - currentDegs)
           && (targetDegs + 360) <= maxAngleDegs) {
@@ -35,32 +40,34 @@ public class Turret extends SubsystemBase {
           && (targetDegs - 360) >= minAngleDegs) {
         targetDegs -= 360;
       }
-      io.turnTurret(currentDegs, isShooting);
     } else {
       targetDegs += bufferDegs * 2;
-      io.turnTurret(targetDegs, isShooting);
     }
+    double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
+    targetRotations -= talonOffset;
+    io.turnTurret(targetRotations, isShooting);
   }
 
   public double getPositionDegs() {
     double truePosition = 0;
-    double position1 = inputs.encoder1Degs;
-    double position2 = inputs.encoder1Degs;
+    double position1 = inputs.encoder1Rotations;
+    double position2 = inputs.encoder2Rotations;
 
     position1 = Units.rotationsToDegrees(position1);
     position2 = Units.rotationsToDegrees(position2);
 
     // chinese remainder theorem from claude check later
     truePosition =
-        ((encoder1gear ^ 2 * encoder2gear * 360) * position1
-                + (encoder2gear ^ 2 * encoder1gear * 360) * position2)
-            % (360 ^ 2 * encoder1gear * encoder2gear);
+        ((encoder1Gear ^ 2 * encoder2Gear * 360) * position1
+                + (encoder2Gear ^ 2 * encoder1Gear * 360) * position2)
+            % (360 ^ 2 * encoder1Gear * encoder2Gear);
 
     return truePosition;
   }
 
-  public boolean isAtGoal() {
-    return Math.abs(inputs.positionDegs - goalDegs) < angleToleranceDegs;
+  public boolean atGoal() {
+    return Math.abs(inputs.positionDegs - goalDegs) < angleToleranceDegs
+        && inputs.velocityDegsPerSec < velocityToleranceDegs;
   }
 
   public void setGoalDegs(double goalDegs) {

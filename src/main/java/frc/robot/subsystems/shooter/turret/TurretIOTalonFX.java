@@ -10,7 +10,6 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.math.util.Units;
 
 public class TurretIOTalonFX implements TurretIO {
   private final TalonFX talon;
@@ -24,8 +23,6 @@ public class TurretIOTalonFX implements TurretIO {
       new DynamicMotionMagicExpoVoltage(0, shootKV, shootKA).withEnableFOC(true);
   private final DynamicMotionMagicExpoVoltage motionMagicExpoVoltageNoShoot =
       new DynamicMotionMagicExpoVoltage(0, noshootKV, noshootKA).withEnableFOC(true);
-
-  private double angle;
 
   public TurretIOTalonFX() {
     talon = new TalonFX(motorID);
@@ -44,11 +41,11 @@ public class TurretIOTalonFX implements TurretIO {
   @Override
   public void updateInputs(TurretIOInputs inputs) {
     inputs.appliedVolts = talon.getMotorVoltage().getValueAsDouble();
-    inputs.positionDegs = angle;
     inputs.velocityDegsPerSec = talon.getVelocity().getValueAsDouble() / gearRatio;
     inputs.currentAmps = talon.getSupplyCurrent().getValueAsDouble();
-    inputs.encoder1Degs = encoder1.getPosition().getValueAsDouble();
-    inputs.encoder2Degs = encoder2.getPosition().getValueAsDouble();
+    inputs.talonRotations = talon.getPosition().getValueAsDouble();
+    inputs.encoder1Rotations = encoder1.getPosition().getValueAsDouble();
+    inputs.encoder2Rotations = encoder2.getPosition().getValueAsDouble();
   }
 
   @Override
@@ -62,16 +59,11 @@ public class TurretIOTalonFX implements TurretIO {
   }
 
   @Override
-  public void turnTurret(double targetDegs, boolean isShooting) {
+  public void turnTurret(double targetRotations, boolean isShooting) {
     if (isShooting) {
-      talon.setControl(
-          motionMagicExpoVoltageShoot.withPosition(
-              Units.degreesToRotations(targetDegs) * gearRatio));
+      talon.setControl(motionMagicExpoVoltageShoot.withPosition(targetRotations));
     } else {
-      talon.setControl(
-          motionMagicExpoVoltageNoShoot
-              .withPosition( // if positiion is greater than one, what happens
-                  Units.degreesToRotations(targetDegs) * gearRatio));
+      talon.setControl(motionMagicExpoVoltageNoShoot.withPosition(targetRotations));
     }
   }
 }

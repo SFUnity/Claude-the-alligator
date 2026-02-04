@@ -1,9 +1,8 @@
 package frc.robot.util;
 
-public class ShooterUtil {
+public class ShooterUtil implements AutoCloseable {
   // Constants
   public static final double Gravity = 9.81;
-  // TODO move the below 3 constants to ShooterConstants (you can then import them statically)
   public static final double ShooterMaxRPM = 3500;
   public static final double ShooterMinAngle = 45;
   public static final double ShooterMaxAngle = 75;
@@ -117,4 +116,7 @@ public class ShooterUtil {
 
     return Math.atan(robotSidewaysVelocityMetersPerSec / exitVelocityMetersPerSec);
   }
+
+  @Override
+  public void close() {}
 }

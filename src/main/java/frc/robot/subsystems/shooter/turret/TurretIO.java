@@ -6,10 +6,11 @@ public interface TurretIO {
 
   @AutoLog
   public static class TurretIOInputs {
-    public double encoder1Degs = 0;
-    public double encoder2Degs = 0;
+    public double encoder1Rotations = 0;
+    public double encoder2Rotations = 0;
     public double positionDegs = 0;
     public double velocityDegsPerSec = 0;
+    public double talonRotations = 0;
     public double appliedVolts = 0;
     public double currentAmps = 0;
   }
