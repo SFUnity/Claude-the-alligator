@@ -224,6 +224,7 @@ public class RobotContainer {
             () -> -controller.getRightX(),
             poseManager));
     spindexer.setDefaultCommand(spindexer.stop());
+    climb.setDefaultCommand(climb.climbDown());
     intakePivot.setDefaultCommand(intakePivot.raise());
     intakeRollers.setDefaultCommand(intakeRollers.stop());
 
