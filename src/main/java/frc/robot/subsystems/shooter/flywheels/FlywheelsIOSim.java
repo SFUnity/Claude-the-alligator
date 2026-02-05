@@ -8,6 +8,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants;
+// TODO remove unused
 import frc.robot.subsystems.shooter.flywheels.FlywheelsIO.FlywheelsIOInputs;
 
 public class FlywheelsIOSim implements FlywheelsIO {
@@ -26,6 +27,7 @@ public class FlywheelsIOSim implements FlywheelsIO {
 
     inputs.appliedVolts = appliedVolts;
     inputs.supplyCurrent = sim.getCurrentDrawAmps();
+    // TODO why seconds?!?!?!?!?
     inputs.velocityRotsPerSec = sim.getAngularVelocityRPM() * 60;
   }
 

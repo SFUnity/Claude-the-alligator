@@ -16,6 +16,7 @@ public class FlywheelsConstants {
   public static final LoggedTunableNumber readyVolts =
       new LoggedTunableNumber("Flywheels/readyVolts", 6);
 
+  // TODO is this for tuning? if so, please change name to be clear
   public static final LoggedTunableNumber shooterVelocity =
       new LoggedTunableNumber("Flywheels/shootVelocity", 2000);
 

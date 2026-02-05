@@ -21,6 +21,7 @@ public class Flywheels extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Flywheels", inputs);
+    // TODO add logging from GeneralUtil
 
     if (!ready) {
       io.runVelocity(velocity);
@@ -34,10 +35,12 @@ public class Flywheels extends SubsystemBase {
     velocity = speed;
   }
 
+  // TODO why not RPM???
   public Command setVelocity(double rps) {
     return run(() -> updateFlywheels(rps));
   }
 
+  // TODO rename for consistency
   public Command setIdle(boolean ready) {
     return run(() -> this.ready = ready);
   }
