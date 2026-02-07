@@ -38,7 +38,7 @@ public class Shooter extends VirtualSubsystem {
     LaunchingParameters solution =
         ShooterUtil.getLaunchingParameters(goalPose, poseManager.getPose(), new ChassisSpeeds());
 
-    turret.setGoalDegs(0);
+    turret.setTargetDegs(0);
     hood.setAngle(0);
     flywheels.setVelocity(0);
 
