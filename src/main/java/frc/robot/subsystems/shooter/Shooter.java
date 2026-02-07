@@ -42,7 +42,7 @@ public class Shooter extends VirtualSubsystem {
   public Command setShooting(boolean shooting) {
     return runOnce(() -> isShooting = shooting)
         .alongWith(runOnce(() -> turret.setIsShooting(shooting)))
-        .alongWith(runOnce(() -> flywheels.setIdle(shooting)));
+        .alongWith(runOnce(() -> flywheels.setReady(shooting)));
   }
 
   public Command setScoring(boolean scoring) {

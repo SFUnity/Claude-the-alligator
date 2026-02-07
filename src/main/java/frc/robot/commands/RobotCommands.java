@@ -42,7 +42,7 @@ public class RobotCommands {
   public static Command shoot(Flywheels flywheels, Kicker kicker, Hood hood, Spindexer spindexer) {
     return new SequentialCommandGroup(
         flywheels
-            .setVelocity(FlywheelsConstants.shooterVelocity.get())
+            .setVelocity(2000)
             .withDeadline(kicker.runVolts())
             .withTimeout(KickerConstants.spinupTime),
         spindexer.run().onlyIf(hood::atGoal));
