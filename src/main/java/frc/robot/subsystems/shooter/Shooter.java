@@ -42,7 +42,7 @@ public class Shooter extends VirtualSubsystem {
     hood.setAngle(0);
     flywheels.setVelocity(0);
 
-    isScoring = poseManager.getPose().getY() > FieldConstants.LinesVertical.allianceZone;
+    isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
     Logger.recordOutput("Shooter/isScoring", isScoring);
   }
 
