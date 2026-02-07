@@ -10,9 +10,10 @@ import org.littletonrobotics.junction.Logger;
 public class Turret extends SubsystemBase {
   private final TurretIO io;
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
-  private double goalDegs = 0;
-  private boolean isShooting = false;
   private double targetDegs = 0;
+  private boolean isShooting = false;
+  private double truePositionDegs = 0;
+  private double positionDegs = 0;
 
   private final double talonOffset;
 
@@ -26,19 +27,20 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    double currentDegs = getPositionDegs();
+    truePositionDegs = getPositionDegs();
+    positionDegs = (truePositionDegs - (2 * bufferDegs)) % 360;
 
-    Logger.recordOutput("Turret/TruePositionDegs", currentDegs);
-    Logger.recordOutput("Turret/PositionDegs", (currentDegs - (2 * bufferDegs)) % 360);
+    Logger.recordOutput("Turret/TruePositionDegs", truePositionDegs);
+    Logger.recordOutput("Turret/PositionDegs", positionDegs);
     Logger.processInputs("Turret", inputs);
     GeneralUtil.logSubsystem(this, "Turret");
 
     if (isShooting) {
       targetDegs += bufferDegs * 2;
-      if (Math.abs(targetDegs + 360 - currentDegs) < Math.abs(targetDegs - currentDegs)
+      if (Math.abs(targetDegs + 360 - truePositionDegs) < Math.abs(targetDegs - truePositionDegs)
           && (targetDegs + 360) <= maxAngleDegs) {
         targetDegs += 360;
-      } else if (Math.abs(targetDegs - 360 - currentDegs) < Math.abs(targetDegs - currentDegs)
+      } else if (Math.abs(targetDegs - 360 - truePositionDegs) < Math.abs(targetDegs - truePositionDegs)
           && (targetDegs - 360) >= minAngleDegs) {
         targetDegs -= 360;
       }
@@ -68,14 +70,14 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean atGoal() {
-    return Math.abs(inputs.positionDegs - goalDegs) < angleToleranceDegs
+    return Math.abs(positionDegs - targetDegs) < angleToleranceDegs
         && inputs.velocityDegsPerSec
             < velocityToleranceDegs; // TODO Change the velocity tolerance to be within a set
     // velocity, rather than just 0
   }
 
-  public void setGoalDegs(double goalDegs) {
-    this.goalDegs = goalDegs;
+  public void setTargetDegs(double targetDegs) {
+    this.targetDegs = targetDegs;
   }
 
   public void setIsShooting(boolean isShooting) {
