@@ -2,10 +2,13 @@ package frc.robot.subsystems.shooter.hood;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.GeneralUtil;
+import org.littletonrobotics.junction.Logger;
 
 public class Hood extends SubsystemBase {
   private final HoodIO io;
   private final HoodIOInputsAutoLogged inputs = new HoodIOInputsAutoLogged();
+  private double goalPosition;
 
   public Hood(HoodIO io) {
     this.io = io;
@@ -14,14 +17,18 @@ public class Hood extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    // TODO add log subsystem from GeneralUtil + logging framework
+    GeneralUtil.logSubsystem(this, "Hood");
+
+    Logger.recordOutput("Hood/Goal", goalPosition);
   }
 
   public Command setAngle(double angle) {
-    return run(() -> io.setPosition(angle)).withName("updateAngle");
+    return runOnce(() -> goalPosition = angle)
+        .andThen(() -> io.setPosition(angle))
+        .withName("updateAngle");
   }
 
   public boolean atGoal() {
-    return Math.abs(inputs.positionDeg - inputs.goalPosition) < HoodConstants.angleTolerance;
+    return Math.abs(inputs.positionDeg - goalPosition) < HoodConstants.angleTolerance;
   }
 }
