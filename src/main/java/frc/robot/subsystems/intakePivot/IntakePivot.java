@@ -18,8 +18,6 @@ public class IntakePivot extends SubsystemBase {
   private double positionSetpoint = raisedAngle.get();
 
   // TODO remove unused
- 
-
 
   private boolean startedIntaking = false;
   private boolean middleOfIntaking = false;
