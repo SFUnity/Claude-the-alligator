@@ -41,10 +41,6 @@ public class IntakePivot extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "Intake");
   }
 
-  // TODO use these for the below todo
-
-
-  // TODO update "positionSetpoint" so we can track it
   public Command raise() {
     return run(() -> {
       positionSetpoint = raisedAngle.get();
