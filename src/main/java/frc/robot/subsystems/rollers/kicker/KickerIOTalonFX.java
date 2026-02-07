@@ -5,12 +5,14 @@ import static frc.robot.subsystems.rollers.kicker.KickerConstants.*;
 import static frc.robot.util.PhoenixUtil.tryUntilOk;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class KickerIOTalonFX implements KickerIO {
   private final TalonFX rollerMotor = new TalonFX(kickerMotorID);
+  private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
 
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
@@ -46,5 +48,10 @@ public class KickerIOTalonFX implements KickerIO {
   @Override
   public void stop() {
     rollerMotor.setControl(voltageOut.withOutput(0));
+  }
+  @Override
+  public void runVelocity(double rps){
+    rollerMotor.setControl(velocityVoltage.withVelocity((rps/60)));
+
   }
 }

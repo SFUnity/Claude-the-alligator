@@ -15,4 +15,6 @@ public interface KickerIO {
   public default void runVolts(double volts) {}
 
   public default void stop() {}
+
+  public default void runVelocity(double rps){}
 }
