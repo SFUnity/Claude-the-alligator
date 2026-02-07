@@ -16,5 +16,5 @@ public interface KickerIO {
 
   public default void stop() {}
 
-  public default void runVelocity(double rps){}
+  public default void runVelocity(double rps) {}
 }

@@ -8,6 +8,7 @@ public interface TurretIO {
   public static class TurretIOInputs {
     public double encoder1Rotations = 0;
     public double encoder2Rotations = 0;
+    public double truePositionDegs = 0;
     public double positionDegs = 0;
     public double velocityDegsPerSec = 0;
     public double talonRotations = 0;
