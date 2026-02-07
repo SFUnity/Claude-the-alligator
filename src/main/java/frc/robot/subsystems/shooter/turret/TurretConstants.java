@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter.turret;
 
 public class TurretConstants {
+  // TODO please add "final" to all of these so they are actually constants
   public static int motorID = 0;
   public static int encoder1ID = 0;
   public static int encoder2ID = 0;
@@ -22,6 +23,7 @@ public class TurretConstants {
   public static double minAngleDegs = trueMinAngleDegs + bufferDegs;
   public static double maxAngleDegs = trueMaxAngleDegs - bufferDegs;
 
+  // TODO what are these for? they aren't used anywhere
   public static double minBufferAngleDegs = minAngleDegs + bufferDegs;
   public static double maxBufferAngleDegs = maxAngleDegs - bufferDegs;
 
@@ -30,11 +32,13 @@ public class TurretConstants {
   public static double totalRotations1 = totalGear / encoder1Gear;
   public static double totalRotations2 = totalGear / encoder2Gear;
 
+  // TODO these also aren't used anywhere
   public static double rotationRatio1 = encoder1Gear / turretGear;
   public static double rotationRatio2 = encoder2Gear / turretGear;
   public static double extraDegs1 = 360 * (1 % totalRotations1);
   public static double extraDegs2 = 360 * (1 % totalRotations2);
 
+  // TODO please make these logged tunables
   public static double shootKA = 0.005;
   public static double shootKV = 0.1;
 
