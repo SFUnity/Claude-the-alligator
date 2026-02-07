@@ -1,5 +1,9 @@
 package frc.robot.subsystems.shooter.hood;
 
+import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.kD;
+import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.kP;
+import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -7,8 +11,6 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.util.Units;
-// TODO remove unused imports
-import frc.robot.subsystems.shooter.hood.HoodIO.HoodIOInputs;
 
 public class HoodIOTalonFX implements HoodIO {
   private final TalonFX pivot = new TalonFX(0);
@@ -25,11 +27,11 @@ public class HoodIOTalonFX implements HoodIO {
 
     config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-    config.Slot0.kS = 0.055;
-    config.Slot0.kG = 0.445;
-    config.Slot0.kV = 1.45;
-    config.Slot0.kP = 35;
-    config.Slot0.kD = 0.25;
+    // config.Slot0.kS = 0.055;
+    // config.Slot0.kG = 0.445;
+    // config.Slot0.kV = 1.45;
+    config.Slot0.kP = kP.get();
+    config.Slot0.kD = kD.get();
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
