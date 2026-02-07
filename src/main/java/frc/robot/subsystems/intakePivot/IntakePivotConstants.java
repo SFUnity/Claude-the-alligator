@@ -23,15 +23,13 @@ public class IntakePivotConstants {
   public static final double intakePIDMinInput = 0;
   public static final double intakePIDMaxInput = 1 * 360;
 
-  
   // In seconds
-  public static final LoggedTunableNumber jorkTime = 
-        new LoggedTunableNumber("Intake/jorkTime", 0.5);
+  public static final LoggedTunableNumber jorkTime =
+      new LoggedTunableNumber("Intake/jorkTime", 0.5);
 
   // In rotations
   public static final LoggedTunableNumber loweredAngle =
       new LoggedTunableNumber("Intake/loweredAngle", 20);
   public static final LoggedTunableNumber raisedAngle =
       new LoggedTunableNumber("Intake/raisedAngle", 0);
-
 }
