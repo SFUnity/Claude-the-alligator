@@ -22,7 +22,7 @@ public class Kicker extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "Kicker");
   }
 
-  public Command runVolts() {
+  public Command run() {
     return run(() -> io.runVolts(kickerSpeedVolts.get())).withName("runVolts");
   }
 

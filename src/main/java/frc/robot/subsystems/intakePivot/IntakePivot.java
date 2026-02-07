@@ -41,31 +41,33 @@ public class IntakePivot extends SubsystemBase {
   }
 
   public Command raise() {
-    return run(
-        () -> {
+    return run(() -> {
           positionSetpoint = raisedAngle.get();
           io.setPivotPosition(positionSetpoint);
-        });
+        })
+        .withName("IntakePivotLower");
   }
 
   public Command lower() {
-    return run(
-        () -> {
+    return run(() -> {
           positionSetpoint = loweredAngle.get();
           io.setPivotPosition(positionSetpoint);
-        });
+        })
+        .withName("IntakePivotLower");
   }
 
   public Command runCurrentZeroing() {
     return run(() -> io.runVolts(-1.0))
         .until(() -> inputs.pivotStaterCurrent > 30.0)
-        .finallyDo(() -> io.resetEncoder(0.0));
+        .finallyDo(() -> io.resetEncoder(0.0))
+        .withName("IntakePivotCurrentZeroing");
   }
 
   public Command jork() {
     return raise()
         .andThen(Commands.waitSeconds(jorkTime.get()))
         .andThen(lower())
-        .andThen(Commands.waitSeconds(jorkTime.get()));
+        .andThen(Commands.waitSeconds(jorkTime.get()))
+        .withName("IntakePivotJork");
   }
 }
