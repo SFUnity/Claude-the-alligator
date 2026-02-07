@@ -3,7 +3,6 @@ package frc.robot.subsystems.intakePivot;
 import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.subsystems.intakePivot.IntakePivotConstants.*;
 
-import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -19,10 +18,9 @@ public class IntakePivot extends SubsystemBase {
   private double positionSetpoint = raisedAngle.get();
 
   // TODO remove unused
-  private final LinearFilter currentFilter = LinearFilter.movingAverage(4);
-  private double filteredCurrent;
+ 
 
-  private boolean lowered = false;
+
   private boolean startedIntaking = false;
   private boolean middleOfIntaking = false;
 
@@ -36,9 +34,8 @@ public class IntakePivot extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Intake", inputs);
-    Logger.recordOutput("Intake/filteredCurrent", filteredCurrent);
     Logger.recordOutput("Intake/startedIntaking", startedIntaking);
-    lowered = inputs.pivotCurrentPositionDeg >= loweredAngle.get() / 2;
+    Logger.recordOutput("Intake/middleOfIntaking", middleOfIntaking);
 
     // Logs
     measuredVisualizer.update(Degrees.of(inputs.pivotCurrentPositionDeg));
