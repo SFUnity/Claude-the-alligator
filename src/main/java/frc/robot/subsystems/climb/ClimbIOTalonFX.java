@@ -21,6 +21,7 @@ public class ClimbIOTalonFX implements ClimbIO {
     slot0Configs.kP = kP.get();
     slot0Configs.kI = kI;
     slot0Configs.kD = kD;
+    // TODO add neutral mode
     talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;

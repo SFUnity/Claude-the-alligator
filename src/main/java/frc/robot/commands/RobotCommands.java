@@ -9,7 +9,6 @@ import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.KickerConstants;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
-import frc.robot.subsystems.shooter.flywheels.FlywheelsConstants;
 import frc.robot.subsystems.shooter.hood.Hood;
 import org.littletonrobotics.junction.Logger;
 

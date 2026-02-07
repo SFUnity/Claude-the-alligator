@@ -17,7 +17,6 @@ public class IntakePivot extends SubsystemBase {
       new IntakePivotVisualizer("Setpoint", Color.kBlue);
   private double positionSetpoint = raisedAngle.get();
 
-
   private boolean startedIntaking = false;
   private boolean middleOfIntaking = false;
 
@@ -41,22 +40,20 @@ public class IntakePivot extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "Intake");
   }
 
-  // TODO use these for the below todo
-
-
-  // TODO update "positionSetpoint" so we can track it
   public Command raise() {
-    return run(() -> {
-      positionSetpoint = raisedAngle.get();
-      io.setPivotPosition(positionSetpoint);
-    });
+    return run(
+        () -> {
+          positionSetpoint = raisedAngle.get();
+          io.setPivotPosition(positionSetpoint);
+        });
   }
 
   public Command lower() {
-    return run(() -> {
-      positionSetpoint = loweredAngle.get();
-      io.setPivotPosition(positionSetpoint);
-    });
+    return run(
+        () -> {
+          positionSetpoint = loweredAngle.get();
+          io.setPivotPosition(positionSetpoint);
+        });
   }
 
   public Command jork() {

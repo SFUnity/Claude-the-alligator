@@ -9,9 +9,6 @@ public interface HoodIO {
     public double appliedVolts = 0;
     public double statorCurrent = 0;
     public double supplyCurrent = 0;
-
-    // TODO remove goal position from inputs
-    public double goalPosition = 0;
   }
 
   public default void updateInputs(HoodIOInputs inputs) {}
