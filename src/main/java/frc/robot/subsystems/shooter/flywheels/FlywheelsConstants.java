@@ -16,8 +16,6 @@ public class FlywheelsConstants {
   public static final LoggedTunableNumber readyVolts =
       new LoggedTunableNumber("Flywheels/readyVolts", 6);
 
-  
-
   public static final LoggedTunableNumber kV = new LoggedTunableNumber("Flywheels/kV", 0);
   public static final LoggedTunableNumber kA = new LoggedTunableNumber("Flywheels/kA", 0);
   public static final LoggedTunableNumber kP = new LoggedTunableNumber("Flywheels/kP", 0);

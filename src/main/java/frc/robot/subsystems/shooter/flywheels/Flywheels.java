@@ -5,7 +5,6 @@ import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.flywheel
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Flywheels extends SubsystemBase {
@@ -31,8 +30,6 @@ public class Flywheels extends SubsystemBase {
       io.ready();
     }
   }
-
-
 
   public Command setVelocity(double rpm) {
     return run(() -> velocity = rpm);
