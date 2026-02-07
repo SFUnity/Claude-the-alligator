@@ -47,6 +47,10 @@ public class RobotCommands {
         .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopShoot", false));
   }
 
+  public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
+    return shooter.setShooting(false).andThen(kicker.stop()).andThen(spindexer.stop());
+  }
+
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
     return intake.intake().alongWith(intakePivot.lower());
   }
