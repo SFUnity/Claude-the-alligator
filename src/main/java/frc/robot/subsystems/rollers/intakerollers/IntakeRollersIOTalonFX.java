@@ -21,9 +21,9 @@ public class IntakeRollersIOTalonFX implements IntakeRollersIO {
     talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
- 
+
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    tryUntilOk(5,()-> rollerMotor.getConfigurator().apply(talonFXConfigs,0.25));
+    tryUntilOk(5, () -> rollerMotor.getConfigurator().apply(talonFXConfigs, 0.25));
   }
 
   @Override
