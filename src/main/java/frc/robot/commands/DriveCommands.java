@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -33,15 +34,41 @@ import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveCommands {
+  // Constants
   private static final double DEADBAND = 0.1;
-  private static final double ANGLE_KP = 5.0;
-  private static final double ANGLE_KD = 0.4;
-  private static final double ANGLE_MAX_VELOCITY = 8.0;
-  private static final double ANGLE_MAX_ACCELERATION = 20.0;
   private static final double FF_START_DELAY = 2.0; // Secs
   private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
   private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
   private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
+
+  // Drive command PID tunables
+  private static final LoggedTunableNumber angleKp =
+      new LoggedTunableNumber("Drive/Commands/Angle/kP", 5.0);
+  private static final LoggedTunableNumber angleKd =
+      new LoggedTunableNumber("Drive/Commands/Angle/kD", 0.4);
+  private static final LoggedTunableNumber thetaToleranceDeg =
+      new LoggedTunableNumber("Drive/Commands/Angle/toleranceDeg", 2.0);
+
+  // Drive command constraints
+  private static final LoggedTunableNumber maxAngularVelocity =
+      new LoggedTunableNumber(
+          "Drive/Commands/Angle - maxVelocity", 8);
+  private static final LoggedTunableNumber maxAngularAcceleration =
+      new LoggedTunableNumber(
+          "Drive/Commands/Angle - maxAcceleration", 20);
+
+  // Create PID controller
+  private static final ProfiledPIDController angleController =
+      new ProfiledPIDController(
+          angleKp.get(),
+          0.0,
+          angleKd.get(),
+          new TrapezoidProfile.Constraints(maxAngularVelocity.get(), maxAngularAcceleration.get()));
+
+  static {
+    angleController.enableContinuousInput(-Math.PI, Math.PI);
+    angleController.setTolerance(Units.degreesToRadians(thetaToleranceDeg.get()));
+  }
 
   private DriveCommands() {}
 
@@ -111,15 +138,6 @@ public class DriveCommands {
       DoubleSupplier ySupplier,
       Supplier<Rotation2d> rotationSupplier,
       PoseManager poseManager) {
-
-    // Create PID controller
-    ProfiledPIDController angleController =
-        new ProfiledPIDController(
-            ANGLE_KP,
-            0.0,
-            ANGLE_KD,
-            new TrapezoidProfile.Constraints(ANGLE_MAX_VELOCITY, ANGLE_MAX_ACCELERATION));
-    angleController.enableContinuousInput(-Math.PI, Math.PI);
 
     // Construct command
     return Commands.run(
