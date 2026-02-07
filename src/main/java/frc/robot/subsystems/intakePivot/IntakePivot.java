@@ -63,6 +63,9 @@ public class IntakePivot extends SubsystemBase {
   }
 
   public Command jork() {
-    return raise().andThen(Commands.waitSeconds(jorkTime.get())).andThen(lower()).andThen(Commands.waitSeconds(jorkTime.get()));
+    return raise()
+        .andThen(Commands.waitSeconds(jorkTime.get()))
+        .andThen(lower())
+        .andThen(Commands.waitSeconds(jorkTime.get()));
   }
 }
