@@ -27,8 +27,9 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     double currentDegs = getPositionDegs();
-    inputs.truePositionDegs = currentDegs;
-    inputs.positionDegs = (currentDegs - (2 * bufferDegs)) % 360;
+
+    Logger.recordOutput("Turret/TruePositionDegs", currentDegs);
+    Logger.recordOutput("Turret/PositionDegs", (currentDegs - (2 * bufferDegs)) % 360);
     Logger.processInputs("Turret", inputs);
     GeneralUtil.logSubsystem(this, "Turret");
 
