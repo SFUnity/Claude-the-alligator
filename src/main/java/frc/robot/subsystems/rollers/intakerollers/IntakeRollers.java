@@ -23,14 +23,14 @@ public class IntakeRollers extends SubsystemBase {
   }
 
   public Command intake() {
-    return run(() -> io.runVolts(intakeRollersSpeedVolts.get()));
+    return run(() -> io.runVolts(intakeRollersSpeedVolts.get())).withName("intake");
   }
 
   public Command stop() {
-    return run(() -> io.runVolts(0));
+    return run(() -> io.runVolts(0)).withName("stop");
   }
 
   public Command eject() {
-    return run(() -> io.runVolts(-intakeRollersSpeedVolts.get()));
+    return run(() -> io.runVolts(-intakeRollersSpeedVolts.get())).withName("eject");
   }
 }

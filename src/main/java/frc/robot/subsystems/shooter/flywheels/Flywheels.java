@@ -35,17 +35,16 @@ public class Flywheels extends SubsystemBase {
     velocity = speed;
   }
 
-  // TODO why not RPM???
-  public Command setVelocity(double rps) {
-    return run(() -> updateFlywheels(rps));
+
+  public Command setVelocity(double rpm) {
+    return run(() -> updateFlywheels(rpm));
   }
 
-  // TODO rename for consistency
-  public Command setIdle(boolean ready) {
+  public Command setReady(boolean ready) {
     return run(() -> this.ready = ready);
   }
 
   public boolean atGoal() {
-    return Math.abs(inputs.velocityRotsPerSec - velocity) < flywheelTolerance.get();
+    return Math.abs(inputs.velocityRotsPerMin - velocity) < flywheelTolerance.get();
   }
 }

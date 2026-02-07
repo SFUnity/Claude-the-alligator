@@ -55,12 +55,12 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
     inputs.appliedVolts = leader.getMotorVoltage().getValueAsDouble();
     inputs.supplyCurrent = leader.getSupplyCurrent().getValueAsDouble();
     inputs.statorCurrent = leader.getStatorCurrent().getValueAsDouble();
-    inputs.velocityRotsPerSec = leader.getVelocity().getValueAsDouble();
+    inputs.velocityRotsPerMin = leader.getVelocity().getValueAsDouble() * 60;
   }
 
   @Override
-  public void runVelocity(double rps) {
-    leader.setControl(motionMagicVelocity.withVelocity(rps));
+  public void runVelocity(double rpm) {
+    leader.setControl(motionMagicVelocity.withVelocity((rpm/60)));
   }
 
   @Override

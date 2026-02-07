@@ -6,8 +6,8 @@ public interface FlywheelsIO {
   @AutoLog
   public static class FlywheelsIOInputs {
     public double appliedVolts = 0;
-    // TODO per minute buh
-    public double velocityRotsPerSec = 0.0;
+
+    public double velocityRotsPerMin = 0.0;
     public double statorCurrent = 0;
     public double supplyCurrent = 0;
   }
