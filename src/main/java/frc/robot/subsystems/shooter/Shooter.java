@@ -38,9 +38,9 @@ public class Shooter extends VirtualSubsystem {
     LaunchingParameters solution =
         ShooterUtil.getLaunchingParameters(goalPose, poseManager.getPose(), new ChassisSpeeds());
 
-    turret.setGoalDegs(solution.turretAngle().getDegrees());
-    hood.setAngle(solution.hoodAngle());
-    flywheels.setVelocity(solution.flywheelSpeed());
+    turret.setGoalDegs(0);
+    hood.setAngle(0);
+    flywheels.setVelocity(0);
 
     isScoring = poseManager.getPose().getY() > FieldConstants.LinesVertical.allianceZone;
     Logger.recordOutput("Shooter/isScoring", isScoring);
