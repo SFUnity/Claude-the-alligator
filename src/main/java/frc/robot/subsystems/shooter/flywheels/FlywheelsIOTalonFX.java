@@ -60,7 +60,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
 
   @Override
   public void runVelocity(double rpm) {
-    leader.setControl(motionMagicVelocity.withVelocity((rpm/60)));
+    leader.setControl(motionMagicVelocity.withVelocity((rpm / 60)));
   }
 
   @Override
