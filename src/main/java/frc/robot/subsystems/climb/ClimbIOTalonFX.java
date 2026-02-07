@@ -1,12 +1,11 @@
 package frc.robot.subsystems.climb;
 
-import static frc.robot.util.PhoenixUtil.*;
-
 import static frc.robot.subsystems.climb.ClimbConstants.drumRadiusMeters;
 import static frc.robot.subsystems.climb.ClimbConstants.gearRatio;
 import static frc.robot.subsystems.climb.ClimbConstants.kD;
 import static frc.robot.subsystems.climb.ClimbConstants.kI;
 import static frc.robot.subsystems.climb.ClimbConstants.kP;
+import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
