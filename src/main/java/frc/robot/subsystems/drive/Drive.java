@@ -245,12 +245,16 @@ public class Drive extends SubsystemBase {
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
     return run(() -> runCharacterization(0.0))
         .withTimeout(1.0)
-        .andThen(sysId.quasistatic(direction));
+        .andThen(sysId.quasistatic(direction))
+        .withName("sysIdQuasistatic" + direction.toString());
   }
 
   /** Returns a command to run a dynamic test in the specified direction. */
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-    return run(() -> runCharacterization(0.0)).withTimeout(1.0).andThen(sysId.dynamic(direction));
+    return run(() -> runCharacterization(0.0))
+        .withTimeout(1.0)
+        .andThen(sysId.dynamic(direction))
+        .withName("sysIdDynamic" + direction.toString());
   }
 
   /** Returns the module states (turn angles and drive velocities) for all of the modules. */
