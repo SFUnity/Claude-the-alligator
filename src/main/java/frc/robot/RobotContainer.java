@@ -250,6 +250,7 @@ public class RobotContainer {
     climb.setDefaultCommand(climb.climbDown());
     intakePivot.setDefaultCommand(intakePivot.raise());
     intakeRollers.setDefaultCommand(intakeRollers.stop());
+    kicker.setDefaultCommand(kicker.stop());
 
     // Lock to 0° when A button is held
     controller
