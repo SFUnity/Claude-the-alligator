@@ -65,5 +65,4 @@ public class IntakePivot extends SubsystemBase {
   public Command jork() {
     return Commands.none();
   }
-
 }

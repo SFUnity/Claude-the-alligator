@@ -45,10 +45,19 @@ import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOTalonFX;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.flywheels.FlywheelsIO;
 import frc.robot.subsystems.shooter.flywheels.FlywheelsIOSim;
 import frc.robot.subsystems.shooter.flywheels.FlywheelsIOTalonFX;
+import frc.robot.subsystems.shooter.hood.Hood;
+import frc.robot.subsystems.shooter.hood.HoodIO;
+import frc.robot.subsystems.shooter.hood.HoodIOSim;
+import frc.robot.subsystems.shooter.hood.HoodIOTalonFX;
+import frc.robot.subsystems.shooter.turret.Turret;
+import frc.robot.subsystems.shooter.turret.TurretIO;
+import frc.robot.subsystems.shooter.turret.TurretIOSim;
+import frc.robot.subsystems.shooter.turret.TurretIOTalonFX;
 import frc.robot.util.PoseManager;
 import org.littletonrobotics.junction.Logger;
 
@@ -66,9 +75,9 @@ public class RobotContainer {
   private final Flywheels flywheels;
   private final IntakePivot intakePivot;
   private final IntakeRollers intakeRollers;
-  // private final Turret turret;
-  // private final Shooter Shooter;
-  // private final Hood hood;
+  private final Turret turret;
+  private final Shooter shooter;
+  private final Hood hood;
 
   // Non-subsystems
   private final Autos autos;
@@ -126,6 +135,9 @@ public class RobotContainer {
         spindexer = new Spindexer(new SpindexerIOTalonFX());
         climb = new Climb(new ClimbIOTalonFX());
         flywheels = new Flywheels(new FlywheelsIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
+        hood = new Hood(new HoodIOTalonFX());
+        shooter = new Shooter(flywheels, turret, hood, poseManager);
         intakePivot = new IntakePivot(new IntakePivotIOTalon());
         intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         break;
@@ -145,6 +157,9 @@ public class RobotContainer {
         intakePivot = new IntakePivot(new IntakePivotIOSim());
         intakeRollers = new IntakeRollers(new IntakeRollersIOSim());
         flywheels = new Flywheels(new FlywheelsIOSim());
+        turret = new Turret(new TurretIOSim());
+        hood = new Hood(new HoodIOSim());
+        shooter = new Shooter(flywheels, turret, hood, poseManager);
         break;
 
       default:
@@ -162,6 +177,9 @@ public class RobotContainer {
         intakePivot = new IntakePivot(new IntakePivotIO() {});
         intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
         flywheels = new Flywheels(new FlywheelsIO() {});
+        turret = new Turret(new TurretIO() {});
+        hood = new Hood(new HoodIO() {});
+        shooter = new Shooter(flywheels, turret, hood, poseManager);
         break;
     }
 
