@@ -62,6 +62,7 @@ import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
 import frc.robot.subsystems.shooter.turret.TurretIOTalonFX;
+import frc.robot.util.FuelSim;
 import frc.robot.util.PoseManager;
 import org.littletonrobotics.junction.Logger;
 
@@ -87,6 +88,8 @@ public class RobotContainer {
   // Non-subsystems
   private final Autos autos;
   private final PoseManager poseManager = new PoseManager();
+
+  public FuelSim fuelSim = new FuelSim("Fuel Sim");
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
