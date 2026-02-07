@@ -67,7 +67,7 @@ public class Turret extends SubsystemBase {
 
   public boolean atGoal() {
     return Math.abs(inputs.positionDegs - goalDegs) < angleToleranceDegs
-        && inputs.velocityDegsPerSec < velocityToleranceDegs;
+        && inputs.velocityDegsPerSec < velocityToleranceDegs; //TODO Change the velocity tolerance to be within a set velocity, rather than just 0
   }
 
   public void setGoalDegs(double goalDegs) {

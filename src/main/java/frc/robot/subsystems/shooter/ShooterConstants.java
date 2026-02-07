@@ -12,4 +12,6 @@ public class ShooterConstants {
 
   public static final Pose3d turretCenter = new Pose3d(0.121, 0.133, 0.331, new Rotation3d());
   public static final Translation3d hoodOffset = new Translation3d(0.038, 0, 0.197);
+
+  
 }

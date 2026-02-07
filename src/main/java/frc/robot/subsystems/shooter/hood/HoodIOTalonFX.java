@@ -1,7 +1,5 @@
 package frc.robot.subsystems.shooter.hood;
 
-import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.kD;
-import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.kP;
 import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;

@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.subsystems.shooter;
 
 public class ShooterUtil implements AutoCloseable {
   // Constants
