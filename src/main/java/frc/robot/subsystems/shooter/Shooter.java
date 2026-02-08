@@ -4,7 +4,6 @@ import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.shooter.ShooterUtil.*;
@@ -38,8 +37,7 @@ public class Shooter extends VirtualSubsystem {
   public void periodic() {
     Pose3d goalPose = new Pose3d();
 
-    LaunchingParameters solution =
-        shooterUtil.getLaunchingParameters(goalPose);
+    LaunchingParameters solution = shooterUtil.getLaunchingParameters(goalPose);
 
     turret.setTargetDegs(0);
     hood.setAngle(0);
