@@ -37,7 +37,7 @@ public class Shooter extends VirtualSubsystem {
   public void periodic() {
     Pose3d goalPose = new Pose3d();
 
-    LaunchingParameters solution = shooterUtil.getLaunchingParameters(goalPose);
+    LaunchingParameters solution = shooterUtil.getScoringParameters();
 
     turret.setTargetDegs(0);
     hood.setAngle(0);

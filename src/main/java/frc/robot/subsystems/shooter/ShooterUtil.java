@@ -4,10 +4,12 @@ import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.util.GeomUtil.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import frc.robot.FieldConstants;
+import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
 
@@ -34,9 +36,11 @@ public class ShooterUtil {
       double hoodVelocity,
       double flywheelSpeed) {}
 
-  public LaunchingParameters getLaunchingParameters(Pose3d targetPose) {
+  public LaunchingParameters getScoringParameters() {
     Pose2d robotPose = poseManager.getPose();
     Twist2d robotVelocity = poseManager.getRobotVelocity();
+    Translation2d targetPose =
+        AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
     robotPose =
         robotPose.exp(
             new Twist2d(
@@ -47,8 +51,7 @@ public class ShooterUtil {
             new Transform2d(
                 turretCenter.getTranslation().toTranslation2d(),
                 turretCenter.getRotation().toRotation2d()));
-    double turretToTargetDistance =
-        targetPose.getTranslation().toTranslation2d().getDistance(turretPosition.getTranslation());
+    double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation());
 
     Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
     double robotAngle = robotPose.getRotation().getRadians();
@@ -62,6 +65,20 @@ public class ShooterUtil {
             + fieldRelativeRobotVelocity.dtheta
                 * (turretCenter.getX() * Math.cos(robotAngle)
                     - turretCenter.getY() * Math.sin(robotAngle));
+
+    double timeOfFlight;
+    Pose2d lookeaheadPose = turretPosition;
+    double lookaheadTurretToTargetDistance = turretToTargetDistance;
+    for (int i = 0; i < 20; i++) {
+      timeOfFlight = timeOfFlightMap.get(lookaheadTurretToTargetDistance);
+      double offsetX = turretVelocityX * timeOfFlight;
+      double offsetY = turretVelocityY * timeOfFlight;
+      lookeaheadPose =
+          new Pose2d(
+              turretPosition.getTranslation().plus(new Translation2d(offsetX, offsetY)),
+              turretPosition.getRotation());
+      lookaheadTurretToTargetDistance = targetPose.getDistance(lookeaheadPose.getTranslation());
+    }
 
     LaunchingParameters params = new LaunchingParameters(false, 0, 0, 0, 0, 0);
     return params;
