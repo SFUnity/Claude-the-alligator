@@ -20,6 +20,8 @@ public class Shooter extends VirtualSubsystem {
   private final Turret turret;
   private final Hood hood;
 
+  private final ShooterUtil shooterUtil;
+
   private final PoseManager poseManager;
 
   private boolean isShooting = false;
@@ -30,13 +32,14 @@ public class Shooter extends VirtualSubsystem {
     this.turret = turret;
     this.hood = hood;
     this.poseManager = poseManager;
+    this.shooterUtil = new ShooterUtil(this.poseManager);
   }
 
   public void periodic() {
     Pose3d goalPose = new Pose3d();
 
     LaunchingParameters solution =
-        ShooterUtil.getLaunchingParameters(goalPose, poseManager.getPose(), new ChassisSpeeds());
+        shooterUtil.getLaunchingParameters(goalPose);
 
     turret.setTargetDegs(0);
     hood.setAngle(0);
