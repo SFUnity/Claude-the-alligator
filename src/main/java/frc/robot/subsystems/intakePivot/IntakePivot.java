@@ -45,6 +45,7 @@ public class IntakePivot extends SubsystemBase {
           positionSetpoint = raisedAngle.get();
           io.setPivotPosition(positionSetpoint);
         })
+        // TODO confusing name
         .withName("IntakePivotLower");
   }
 
