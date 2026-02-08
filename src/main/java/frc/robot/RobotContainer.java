@@ -309,7 +309,7 @@ public class RobotContainer {
         .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
     controller.rightTrigger().whileTrue(flywheels.setVelocity(1000));
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
-    controller.rightBumper().onTrue(kicker.run().alongWith(spindexer.run()));
+    controller.rightBumper().onTrue(spindexer.run().alongWith(kicker.run()).withName("runSpindexerAndKicker"));
     // Commands.either(
     //         RobotCommands.intake(intakeRollers, intakePivot),
     //         RobotCommands.stowIntake(intakeRollers, intakePivot),
