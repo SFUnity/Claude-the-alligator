@@ -12,6 +12,7 @@ public class KickerConstants {
   public static final LoggedTunableNumber kA = new LoggedTunableNumber("Kicker/kA", 0);
   public static final LoggedTunableNumber kP = new LoggedTunableNumber("Kicker/kP", 0);
   public static final LoggedTunableNumber kD = new LoggedTunableNumber("Kicker/kD", 0);
+  public static final LoggedTunableNumber setpointVelocity = new LoggedTunableNumber("Kicker/rpm",1000);
 
   public static final LoggedTunableNumber kickerSpeedVolts =
       new LoggedTunableNumber("Kicker/rollerSpeed", 2);
