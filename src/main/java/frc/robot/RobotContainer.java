@@ -281,8 +281,6 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().whileTrue(intakePivot.lower());
-
     // Climbing
     controller.povUp().whileTrue(climb.climbUp());
     controller.povDown().whileTrue(climb.climbDown());
