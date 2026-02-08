@@ -269,9 +269,10 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    // Reset gyro to 0° when B button is pressed
+    // Reset gyro to 0° when start or back button is pressed
     controller
-        .b()
+        .start()
+        .or(controller.back())
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -282,22 +283,11 @@ public class RobotContainer {
 
     controller.y().whileTrue(intakePivot.lower());
 
+    // Climbing
     controller.povUp().whileTrue(climb.climbUp());
     controller.povDown().whileTrue(climb.climbDown());
-    // controller
-    //     .leftBumper()
-    //     .onTrue(
-    //         Commands.sequence(
-    //             Commands.runOnce(
-    //                 () -> {
-    //                   intakeDown = !intakeDown;
-    //                   Logger.recordOutput("Intake/intakeDown", intakeDown);
-    //                 }),
-    //             Commands.either(
-    //                 RobotCommands.intake(intakeRollers, intakePivot),
-    //                 RobotCommands.stowIntake(intakeRollers, intakePivot),
-    //                 () -> intakeDown)));
 
+    // Intaking
     controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
     controller
         .leftBumper()
@@ -307,27 +297,13 @@ public class RobotContainer {
         .leftBumper()
         .and(() -> !intakeDown)
         .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
-    controller.rightTrigger().whileTrue(flywheels.setVelocity(1000));
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
+
+    // Shooting
+    controller.rightTrigger().whileTrue(flywheels.setVelocity(1000));
     controller
         .rightBumper()
         .onTrue(spindexer.run().alongWith(kicker.run()).withName("runSpindexerAndKicker"));
-    // Commands.either(
-    //         RobotCommands.intake(intakeRollers, intakePivot),
-    //         RobotCommands.stowIntake(intakeRollers, intakePivot),
-    //         () -> {
-    //           return intakeDown;
-    //         })
-    //     .beforeStarting(
-    //         () -> {
-    //           if (intakeDown == true) {
-    //             intakeDown = false;
-    //             Logger.recordOutput("Intake/intakeDown", intakeDown);
-    //           } else if (intakeDown == false) {
-    //             intakeDown = true;
-    //             Logger.recordOutput("Intake/intakeDown", intakeDown);
-    //           }
-    //         }));
   }
 
   /**
