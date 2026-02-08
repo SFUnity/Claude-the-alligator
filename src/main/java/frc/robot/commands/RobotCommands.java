@@ -37,10 +37,7 @@ public class RobotCommands {
 
   public static Command shoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.run(() -> Logger.recordOutput("RobotCommands/Shoot", true))
-        .andThen(shooter.setShooting(true))
-        .andThen(kicker.run())
-        .andThen(spindexer.run().onlyIf(() -> shooter.readyToShoot()))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
+        .andThen(shooter.setShooting(true), kicker.run(), spindexer.run().onlyIf(() -> shooter.readyToShoot())).withName("Shoot");
   }
 
   public static Command stopShoot() {
@@ -50,10 +47,7 @@ public class RobotCommands {
 
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.run(() -> Logger.recordOutput("RobotCommands/StopShoot", true))
-        .andThen(shooter.setShooting(false))
-        .andThen(kicker.stop())
-        .andThen(spindexer.stop())
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopShoot", false));
+        .andThen(shooter.setShooting(false), kicker.stop(), spindexer.stop()).withName("StopShoot");
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
