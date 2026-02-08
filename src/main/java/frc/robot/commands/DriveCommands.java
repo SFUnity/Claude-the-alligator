@@ -181,7 +181,7 @@ public class DriveCommands {
         drive,
         xSupplier,
         ySupplier,
-        () -> new Rotation2d(poseManager.fieldVelocity().dx, poseManager.fieldVelocity().dy),
+        () -> new Rotation2d(poseManager.getFieldVelocity().dx, poseManager.getFieldVelocity().dy),
         poseManager);
   }
   /**
