@@ -36,6 +36,10 @@ public class DriveConstants {
       maxAccelerationMetersPerSec / driveBaseRadius;
   public static final SwerveDriveKinematics kinematics =
       new SwerveDriveKinematics(Drive.getModuleTranslations());
+  /** Frame perimeter to outer edge of bumper on 1 side. Based on CAD */
+  public static final double bumperWidth = Units.inchesToMeters(3.25);
+  /** Floor to top of bumper. Based on CAD */
+  public static final double bumperHeight = Units.inchesToMeters(5.75);
 
   // Zeroed rotation values for each module, see setup instructions
   public static final double frontLeftZeroRotation = -0.241943;

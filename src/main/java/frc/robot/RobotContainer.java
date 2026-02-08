@@ -28,6 +28,7 @@ import frc.robot.subsystems.climb.ClimbIO;
 import frc.robot.subsystems.climb.ClimbIOSim;
 import frc.robot.subsystems.climb.ClimbIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
@@ -174,9 +175,9 @@ public class RobotContainer {
         fuelSim.spawnStartingFuel(); // spawns fuel in the depots and neutral zone
         // Register a robot for collision with fuel
         fuelSim.registerRobot(
-            Units.inchesToMeters(27), // from left to right in meters
-            Units.inchesToMeters(28), // from front to back in meters
-            Units.inchesToMeters(5), // from floor to top of bumpers in meters
+            Units.inchesToMeters(DriveConstants.trackWidth + 2 * DriveConstants.bumperWidth), // from left to right in meters
+            Units.inchesToMeters(DriveConstants.wheelBase + 2 * DriveConstants.bumperWidth), // from front to back in meters
+            Units.inchesToMeters(DriveConstants.bumperHeight), // from floor to top of bumpers in meters
             () -> poseManager.getPose(), // Supplier<Pose2d> of robot pose
             () ->
                 drive
