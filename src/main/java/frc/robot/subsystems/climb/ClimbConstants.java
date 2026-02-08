@@ -23,10 +23,10 @@ public class ClimbConstants {
   static {
     switch (Constants.currentMode) {
       default:
-        kP = new LoggedTunableNumber("Intake/kP", 0.028);
+        kP = new LoggedTunableNumber("Climber/kP", 0.028);
         break;
       case SIM:
-        kP = new LoggedTunableNumber("Intake/simkP", 0.1);
+        kP = new LoggedTunableNumber("Climber/simkP", 0.1);
         break;
     }
   }
