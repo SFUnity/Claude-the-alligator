@@ -181,7 +181,14 @@ public class DriveCommands {
         drive,
         xSupplier,
         ySupplier,
-        () -> new Rotation2d(poseManager.getFieldVelocity().dx, poseManager.getFieldVelocity().dy),
+        () -> {
+          if (xSupplier.getAsDouble() == 0 && ySupplier.getAsDouble() == 0) {
+            return poseManager.getRotation();
+          } else {
+            return new Rotation2d(
+                poseManager.getFieldVelocity().dx, poseManager.getFieldVelocity().dy);
+          }
+        },
         poseManager);
   }
   /**
