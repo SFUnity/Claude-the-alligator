@@ -50,6 +50,19 @@ public class ShooterUtil {
     double turretToTargetDistance =
         targetPose.getTranslation().toTranslation2d().getDistance(turretPosition.getTranslation());
 
+    Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
+    double robotAngle = robotPose.getRotation().getRadians();
+    double turretVelocityX =
+        fieldRelativeRobotVelocity.dx
+            + fieldRelativeRobotVelocity.dtheta
+                * (turretCenter.getY() * Math.cos(robotAngle)
+                    - turretCenter.getX() * Math.sin(robotAngle));
+    double turretVelocityY =
+        fieldRelativeRobotVelocity.dy
+            + fieldRelativeRobotVelocity.dtheta
+                * (turretCenter.getX() * Math.cos(robotAngle)
+                    - turretCenter.getY() * Math.sin(robotAngle));
+
     LaunchingParameters params = new LaunchingParameters(false, 0, 0, 0, 0, 0);
     return params;
   }
