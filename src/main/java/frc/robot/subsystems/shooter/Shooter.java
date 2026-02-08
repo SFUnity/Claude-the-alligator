@@ -32,6 +32,8 @@ public class Shooter extends VirtualSubsystem {
     this.hood = hood;
     this.poseManager = poseManager;
     this.shooterUtil = new ShooterUtil(this.poseManager);
+
+    // TODO add default commands
   }
 
   public void periodic() {
