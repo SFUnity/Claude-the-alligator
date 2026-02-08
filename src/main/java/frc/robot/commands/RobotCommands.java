@@ -57,18 +57,18 @@ public class RobotCommands {
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
-    return intake.intake().alongWith(intakePivot.lower());
+    return intake.intake().alongWith(intakePivot.lower()).withName("intake");
   }
 
   public static Command eject(IntakeRollers intake, IntakePivot intakePivot) {
-    return intake.eject().alongWith(intakePivot.lower());
+    return intake.eject().alongWith(intakePivot.lower()).withName("eject");
   }
 
   public static Command stowIntake(IntakeRollers intake, IntakePivot intakePivot) {
-    return intake.stop().alongWith(intakePivot.raise());
+    return intake.stop().alongWith(intakePivot.raise()).withName("stowIntake");
   }
 
   public static Command jork(IntakeRollers intake, IntakePivot intakePivot) {
-    return intake.stop().alongWith(intakePivot.jork());
+    return intake.stop().alongWith(intakePivot.jork()).withName("jork");
   }
 }
