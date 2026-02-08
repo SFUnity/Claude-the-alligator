@@ -55,6 +55,10 @@ public class RobotCommands {
         .withName("StopShoot");
   }
 
+  public static Command feedShooter(Spindexer spindexer, Kicker kicker) {
+    return spindexer.run().alongWith(kicker.run()).withName("feedShooter");
+  }
+
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
     return intake.intake().alongWith(intakePivot.lower()).withName("intake");
   }
