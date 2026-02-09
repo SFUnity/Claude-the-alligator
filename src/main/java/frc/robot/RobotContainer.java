@@ -175,9 +175,14 @@ public class RobotContainer {
         fuelSim.spawnStartingFuel(); // spawns fuel in the depots and neutral zone
         // Register a robot for collision with fuel
         fuelSim.registerRobot(
-            Units.inchesToMeters(DriveConstants.trackWidth + 2 * DriveConstants.bumperWidth), // from left to right in meters
-            Units.inchesToMeters(DriveConstants.wheelBase + 2 * DriveConstants.bumperWidth), // from front to back in meters
-            Units.inchesToMeters(DriveConstants.bumperHeight), // from floor to top of bumpers in meters
+            Units.inchesToMeters(
+                DriveConstants.trackWidth
+                    + 2 * DriveConstants.bumperWidth), // from left to right in meters
+            Units.inchesToMeters(
+                DriveConstants.wheelBase
+                    + 2 * DriveConstants.bumperWidth), // from front to back in meters
+            Units.inchesToMeters(
+                DriveConstants.bumperHeight), // from floor to top of bumpers in meters
             () -> poseManager.getPose(), // Supplier<Pose2d> of robot pose
             () ->
                 drive
@@ -195,7 +200,7 @@ public class RobotContainer {
 
         fuelSim
             .start(); // enables the simulation to run (updateSim must still be called periodically)
-        fuelSim.stop(); // stops the simulation running (updateSim will do nothing until start is
+        // fuelSim.stop(); // stops the simulation running (updateSim will do nothing until start is
         // called again)
 
         fuelSim
