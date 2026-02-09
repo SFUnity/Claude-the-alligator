@@ -185,8 +185,7 @@ public class RobotContainer {
                 DriveConstants.bumperHeight), // from floor to top of bumpers in meters
             () -> poseManager.getPose(), // Supplier<Pose2d> of robot pose
             () ->
-                drive
-                    .getChassisSpeeds()); // Supplier<ChassisSpeeds> of field-centric chassis speeds
+                drive.getFieldSpeeds()); // Supplier<ChassisSpeeds> of field-centric chassis speeds
 
         // Register an intake to remove fuel from the field as a rectangular bounding box
         // fuelSim.registerIntake(
