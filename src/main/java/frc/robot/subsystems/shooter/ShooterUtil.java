@@ -83,7 +83,8 @@ public class ShooterUtil {
     Pose2d lookeaheadPose = turretPosition;
     double lookaheadTurretToTargetDistance = turretToTargetDistance;
     for (int i = 0; i < 20; i++) {
-      timeOfFlight = timeOfFlightMap.get(lookaheadTurretToTargetDistance);
+      // timeOfFlight = timeOfFlightMap.get(lookaheadTurretToTargetDistance);
+      timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
       double offsetX = turretVelocityX * timeOfFlight;
       double offsetY = turretVelocityY * timeOfFlight;
       lookeaheadPose =

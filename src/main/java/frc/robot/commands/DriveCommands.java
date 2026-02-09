@@ -179,8 +179,26 @@ public class DriveCommands {
       Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier, PoseManager poseManager) {
     return joystickDriveAtAngle(
         drive,
-        xSupplier,
-        ySupplier,
+        () -> {
+          if (new Rotation2d(poseManager.getFieldVelocity().dx, poseManager.getFieldVelocity().dy)
+                  .minus(poseManager.getRotation())
+                  .getDegrees()
+              < 45) {
+            return xSupplier.getAsDouble();
+          } else {
+            return 0.0;
+          }
+        },
+        () -> {
+          if (new Rotation2d(poseManager.getFieldVelocity().dx, poseManager.getFieldVelocity().dy)
+                  .minus(poseManager.getRotation())
+                  .getDegrees()
+              < 45) {
+            return ySupplier.getAsDouble();
+          } else {
+            return 0.0;
+          }
+        },
         () -> {
           if (xSupplier.getAsDouble() == 0 && ySupplier.getAsDouble() == 0) {
             return poseManager.getRotation();

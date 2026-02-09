@@ -50,8 +50,10 @@ public class RobotCommands {
   }
 
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/StopShoot", true))
-        .andThen(shooter.setShooting(false), kicker.stop(), spindexer.stop())
+    return shooter
+        .setShooting(false)
+        .andThen(kicker.stop())
+        .andThen(spindexer.stop())
         .withName("StopShoot");
   }
 
