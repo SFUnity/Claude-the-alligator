@@ -13,14 +13,11 @@ public class ClimbConstants {
   public static final double drumRadiusMeters = Units.inchesToMeters(1.4); // Not the true numbers
   public static final double minHeightMeters = 0; // Not the true numbers
   public static final double maxHeightMeters = 23.1; // Not the true numbers
-  
-  // TODO assuming we're sticking to length measurement make sure you convert from rotations to
-  // length somewhere using circumference.
-  public static final double gearRatio = 9; // Not the true numbers
+
+  public static final double gearRatio = 9;  // Not the true numbers
 
   public static final LoggedTunableNumber kP;
 
-  // TODO use keys with the corect name
   static {
     switch (Constants.currentMode) {
       default:

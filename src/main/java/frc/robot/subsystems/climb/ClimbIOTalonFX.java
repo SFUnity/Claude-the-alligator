@@ -6,6 +6,7 @@ import static frc.robot.util.PhoenixUtil.*;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ClimbIOTalonFX implements ClimbIO {
   private final TalonFX talon = new TalonFX(0);
@@ -17,10 +18,15 @@ public class ClimbIOTalonFX implements ClimbIO {
     slot0Configs.kP = kP.get();
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
-    // TODO add neutral mode
-    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
+    
+    
+    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    talonFXConfigs.Feedback.RotorToSensorRatio = gearRatio * (drumRadiusMeters*Math.PI*2);
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
+   
     tryUntilOk(5, () -> talon.getConfigurator().apply(talonFXConfigs, 0.25));
   }
 
@@ -32,7 +38,7 @@ public class ClimbIOTalonFX implements ClimbIO {
     inputs.statorCurrentAmps = talon.getStatorCurrent().getValueAsDouble();
     inputs.supplyCurrentAmps = talon.getSupplyCurrent().getValueAsDouble();
     inputs.velocityRotsPerSec = talon.getVelocity().getValueAsDouble();
-    inputs.positionMeters = talon.getPosition().getValueAsDouble() * gearRatio * drumRadiusMeters;
+    inputs.positionMeters = talon.getPosition().getValueAsDouble();
   }
 
   @Override
