@@ -301,9 +301,10 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    // Reset gyro to 0° when B button is pressed
+    // Reset gyro to 0° when start or back button is pressed
     controller
-        .b()
+        .start()
+        .or(controller.back())
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -315,20 +316,8 @@ public class RobotContainer {
     // Climbing
     controller.povUp().whileTrue(climb.climbUp());
     controller.povDown().whileTrue(climb.climbDown());
-    // controller
-    //     .leftBumper()
-    //     .onTrue(
-    //         Commands.sequence(
-    //             Commands.runOnce(
-    //                 () -> {
-    //                   intakeDown = !intakeDown;
-    //                   Logger.recordOutput("Intake/intakeDown", intakeDown);
-    //                 }),
-    //             Commands.either(
-    //                 RobotCommands.intake(intakeRollers, intakePivot),
-    //                 RobotCommands.stowIntake(intakeRollers, intakePivot),
-    //                 () -> intakeDown)));
 
+    // Intaking
     controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
     controller
         .leftBumper()
@@ -346,7 +335,6 @@ public class RobotContainer {
         .onTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
 
     // Shooting
-    controller.rightTrigger().whileTrue(flywheels.setVelocity(1000));
     controller.rightBumper().onTrue(RobotCommands.feedShooter(spindexer, kicker));
   }
 
