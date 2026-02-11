@@ -50,7 +50,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   @Override
   public void run() {
     // duty-cycle bang bang
-    leader.setControl(new VelocityDutyCycle(10.0));
+    leader.setControl(new VelocityDutyCycle(10.0).withEnableFOC(true));
 
     // Torque-current bang-bang
     leader.setControl(new VelocityTorqueCurrentFOC(10.0));
