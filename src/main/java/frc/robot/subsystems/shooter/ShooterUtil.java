@@ -22,10 +22,13 @@ public class ShooterUtil {
       new LoggedTunableNumber("Shooter/PhaseDelay", 0.03);
   private final PoseManager poseManager;
 
-  private final InterpolatingDoubleTreeMap launchHoodAngleMap = new InterpolatingDoubleTreeMap();
-  private final InterpolatingDoubleTreeMap launchFlywheelSpeedMap =
-      new InterpolatingDoubleTreeMap();
-  private final InterpolatingDoubleTreeMap timeOfFlightMap = new InterpolatingDoubleTreeMap();
+  private final InterpolatingDoubleTreeMap scoreHoodAngleMap = new InterpolatingDoubleTreeMap();
+  private final InterpolatingDoubleTreeMap scoreFlywheelSpeedMap = new InterpolatingDoubleTreeMap();
+  private final InterpolatingDoubleTreeMap scoreTimeOfFlightMap = new InterpolatingDoubleTreeMap();
+
+  private final InterpolatingDoubleTreeMap feedHoodAngleMap = new InterpolatingDoubleTreeMap();
+  private final InterpolatingDoubleTreeMap feedFlywheelSpeedMap = new InterpolatingDoubleTreeMap();
+  private final InterpolatingDoubleTreeMap feedTimeOfFlightMap = new InterpolatingDoubleTreeMap();
 
   private double turretAngle;
   private Queue<Double> turretAngles = new LinkedList<>();
@@ -88,7 +91,7 @@ public class ShooterUtil {
     Pose2d lookeaheadPose = turretPosition;
     double lookaheadTurretToTargetDistance = turretToTargetDistance;
     for (int i = 0; i < 20; i++) {
-      // timeOfFlight = timeOfFlightMap.get(lookaheadTurretToTargetDistance);
+      // timeOfFlight = scoreTimeOfFlightMap.get(lookaheadTurretToTargetDistance);
       timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
       double offsetX = turretVelocityX * timeOfFlight;
       double offsetY = turretVelocityY * timeOfFlight;
@@ -100,7 +103,7 @@ public class ShooterUtil {
     }
 
     turretAngle = targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees();
-    // hoodAngle = launchHoodAngleMap.get(lookaheadTurretToTargetDistance);
+    // hoodAngle = scoreHoodAngleMap.get(lookaheadTurretToTargetDistance);
 
     if (turretAngles.isEmpty()) turretAngles.add(turretAngle);
     if (hoodAngles.isEmpty()) hoodAngles.add(hoodAngle);
@@ -119,7 +122,77 @@ public class ShooterUtil {
             turretVelocity,
             hoodAngle,
             hoodVelocity,
-            launchFlywheelSpeedMap.get(lookaheadTurretToTargetDistance));
+            // scoreFlywheelSpeedMap.get(lookaheadTurretToTargetDistance)
+            0);
+    return params;
+  }
+
+  public LaunchingParameters getFeedingParameters(Pose2d target) {
+    Pose2d robotPose = poseManager.getPose();
+    Twist2d robotVelocity = poseManager.getRobotVelocity();
+    Translation2d targetPose = target.getTranslation();
+    robotPose =
+        robotPose.exp(
+            new Twist2d(
+                robotVelocity.dx * phaseDelay.get(), robotVelocity.dy * phaseDelay.get(), 0));
+
+    Pose2d turretPosition =
+        robotPose.transformBy(
+            new Transform2d(
+                turretCenter.getTranslation().toTranslation2d(),
+                turretCenter.getRotation().toRotation2d()));
+    double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation());
+
+    Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
+    double robotAngle = robotPose.getRotation().getRadians();
+    double turretVelocityX =
+        fieldRelativeRobotVelocity.dx
+            + fieldRelativeRobotVelocity.dtheta
+                * (turretCenter.getY() * Math.cos(robotAngle)
+                    - turretCenter.getX() * Math.sin(robotAngle));
+    double turretVelocityY =
+        fieldRelativeRobotVelocity.dy
+            + fieldRelativeRobotVelocity.dtheta
+                * (turretCenter.getX() * Math.cos(robotAngle)
+                    - turretCenter.getY() * Math.sin(robotAngle));
+
+    double timeOfFlight;
+    Pose2d lookeaheadPose = turretPosition;
+    double lookaheadTurretToTargetDistance = turretToTargetDistance;
+    for (int i = 0; i < 20; i++) {
+      // timeOfFlight = feedTimeOfFlightMap.get(lookaheadTurretToTargetDistance);
+      timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
+      double offsetX = turretVelocityX * timeOfFlight;
+      double offsetY = turretVelocityY * timeOfFlight;
+      lookeaheadPose =
+          new Pose2d(
+              turretPosition.getTranslation().plus(new Translation2d(offsetX, offsetY)),
+              turretPosition.getRotation());
+      lookaheadTurretToTargetDistance = targetPose.getDistance(lookeaheadPose.getTranslation());
+    }
+
+    turretAngle = targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees();
+    // hoodAngle = feedHoodAngleMap.get(lookaheadTurretToTargetDistance);
+
+    if (turretAngles.isEmpty()) turretAngles.add(turretAngle);
+    if (hoodAngles.isEmpty()) hoodAngles.add(hoodAngle);
+
+    turretAngles.add(turretAngle);
+    hoodAngles.add(hoodAngle);
+
+    turretVelocity =
+        turretAngleFilter.calculate((turretAngle - turretAngles.remove()) / sampleCount);
+    hoodVelocity = hoodAngleFilter.calculate((hoodAngle - hoodAngles.remove()) / sampleCount);
+
+    LaunchingParameters params =
+        new LaunchingParameters(
+            minDist < lookaheadTurretToTargetDistance && lookaheadTurretToTargetDistance < maxDist,
+            turretAngle,
+            turretVelocity,
+            hoodAngle,
+            hoodVelocity,
+            // feedFlywheelSpeedMap.get(lookaheadTurretToTargetDistance)
+            0);
     return params;
   }
 }
