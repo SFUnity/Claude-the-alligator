@@ -50,8 +50,10 @@ public class RobotCommands {
   }
 
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/StopShoot", true))
-        .andThen(shooter.setShooting(false), kicker.stop(), spindexer.stop())
+    return shooter
+        .setShooting(false)
+        .andThen(kicker.stop())
+        .andThen(spindexer.stop())
         .withName("StopShoot");
   }
 
@@ -63,8 +65,9 @@ public class RobotCommands {
     return intake.intake().alongWith(intakePivot.lower()).withName("intake");
   }
 
-  public static Command eject(IntakeRollers intake, IntakePivot intakePivot) {
-    return intake.eject().alongWith(intakePivot.lower()).withName("eject");
+  public static Command eject(IntakeRollers intake, IntakePivot intakePivot, Spindexer spindexer) {
+    // TODO put in correct spindexer command
+    return intake.eject().alongWith(intakePivot.lower(), spindexer.stop()).withName("eject");
   }
 
   public static Command stowIntake(IntakeRollers intake, IntakePivot intakePivot) {
