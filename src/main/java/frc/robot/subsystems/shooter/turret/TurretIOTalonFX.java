@@ -29,6 +29,7 @@ public class TurretIOTalonFX implements TurretIO {
     encoder1 = new CANcoder(encoder1ID);
     encoder2 = new CANcoder(encoder2ID);
 
+    // TODO add current limits
     TalonFXConfiguration configs = new TalonFXConfiguration();
     configs.MotorOutput.Inverted =
         motorInverted ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;

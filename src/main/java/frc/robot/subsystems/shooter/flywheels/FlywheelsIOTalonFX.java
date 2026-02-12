@@ -26,6 +26,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
 
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
+    // TODO add current limits (specifically stator and supply current)
     var config = new TalonFXConfiguration();
     config.Slot0.kP = 999999.0;
     config.TorqueCurrent.PeakForwardTorqueCurrent = 40.0;
