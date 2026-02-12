@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.Logger;
 public class Flywheels extends SubsystemBase {
   private final FlywheelsIO io;
   private final FlywheelsIOInputsAutoLogged inputs = new FlywheelsIOInputsAutoLogged();
-  private double velocity;
+  private double setpointVelocity;
 
   private boolean ready = false;
 
@@ -27,8 +27,8 @@ public class Flywheels extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "Flywheels");
 
     if (ready) {
-      if (inputs.velocityRotsPerMin < velocity - ballShotSetpointOffset.get()) io.runDutyCycle();
-      else if (inputs.velocityRotsPerMin < velocity) io.runTorqueControl();
+      if (inputs.velocityRotsPerMin < setpointVelocity - ballShotSetpointOffset.get()) io.runDutyCycle();
+      else if (inputs.velocityRotsPerMin < setpointVelocity) io.runTorqueControl();
     } else {
       if (inputs.velocityRotsPerMin < readyRPMSetpoint.get() - ballShotSetpointOffset.get())
         io.runDutyCycle();
@@ -37,7 +37,7 @@ public class Flywheels extends SubsystemBase {
   }
 
   public Command setVelocity(double rpm) {
-    return run(() -> velocity = rpm);
+    return run(() -> setpointVelocity = rpm);
   }
 
   public Command setReady(boolean ready) {
@@ -45,6 +45,6 @@ public class Flywheels extends SubsystemBase {
   }
 
   public boolean atGoal() {
-    return Math.abs(inputs.velocityRotsPerMin - velocity) < flywheelTolerance.get();
+    return Math.abs(inputs.velocityRotsPerMin - setpointVelocity) < flywheelTolerance.get();
   }
 }
