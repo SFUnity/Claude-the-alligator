@@ -40,7 +40,8 @@ public class RobotCommands {
         .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopShoot", false));
   }
 
-  // TODO make the spindexer stop a bit before the shooter and kicker stops so that the last ball can be fully shot out of the robot
+  // TODO make the spindexer stop a bit before the shooter and kicker stops so that the last ball
+  // can be fully shot out of the robot
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return shooter
         .setShooting(false)
