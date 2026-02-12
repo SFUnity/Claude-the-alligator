@@ -30,8 +30,8 @@ public class Flywheels extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Flywheels", inputs);
-    GeneralUtil.logSubsystem(this, "Flywheels");
+    Logger.processInputs("Shooter/Flywheels", inputs);
+    GeneralUtil.logSubsystem(this, "Shooter/Flywheels");
 
     if (ready) {
       runVelocity(setpointVelocity);
