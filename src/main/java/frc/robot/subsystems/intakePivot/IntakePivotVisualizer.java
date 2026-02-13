@@ -50,7 +50,6 @@ public class IntakePivotVisualizer {
     Logger.recordOutput("Subsystems/Intake/Mechanism2d/" + key, mechanism);
 
     // Log 3D poses
-    // The inches to meters stuff here will have to be changed
     Pose3d intakePose =
         new Pose3d(
             Units.inchesToMeters(xOffset.get()),
