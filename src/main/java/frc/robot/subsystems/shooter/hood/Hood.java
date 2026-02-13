@@ -32,4 +32,8 @@ public class Hood extends SubsystemBase {
   public boolean atGoal() {
     return Math.abs(inputs.positionDeg - goalPosition) < HoodConstants.angleTolerance;
   }
+
+  public double getAngle() {
+    return inputs.positionDeg;
+  }
 }

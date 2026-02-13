@@ -11,6 +11,7 @@ import frc.robot.subsystems.shooter.ShooterUtil.*;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.turret.Turret;
+import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
 import frc.robot.util.VirtualSubsystem;
 import org.littletonrobotics.junction.Logger;
@@ -22,6 +23,8 @@ public class Shooter extends VirtualSubsystem {
 
   private final ShooterVisualizer measuredVisualizer = new ShooterVisualizer("Measured", Color.kRed);
   private final ShooterVisualizer setpointVisualizer = new ShooterVisualizer("Setpoint", Color.kBlue);
+  private final LoggedTunableNumber fakeTurretAngle = new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
+  private final LoggedTunableNumber fakeHoodAngle = new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
 
   private final ShooterUtil shooterUtil;
 
@@ -51,6 +54,11 @@ public class Shooter extends VirtualSubsystem {
 
     isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
     Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
+
+    // TODO uncomment when ready to test
+    // measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
+    // setpointVisualizer.update(solution.turretAngle(), solution.hoodAngle());
+    measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
   }
 
   public boolean readyToShoot() {
