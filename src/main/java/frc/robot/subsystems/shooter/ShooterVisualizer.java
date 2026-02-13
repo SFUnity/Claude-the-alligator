@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
@@ -27,10 +28,10 @@ public class ShooterVisualizer {
 
   private final LoggedTunableNumber turretXOffset = new LoggedTunableNumber("Shooter/turretXOffset", 0);
   private final LoggedTunableNumber turretYOffset = new LoggedTunableNumber("Shooter/turretYOffset", 0);
-  private final LoggedTunableNumber turretZOffset = new LoggedTunableNumber("Shooter/turretZOffset", 36);
+  private final LoggedTunableNumber turretZOffset = new LoggedTunableNumber("Shooter/turretZOffset", 0);
   private final LoggedTunableNumber hoodXOffset = new LoggedTunableNumber("Shooter/hoodXOffset", 0);
   private final LoggedTunableNumber hoodYOffset = new LoggedTunableNumber("Shooter/hoodYOffset", 0);
-  private final LoggedTunableNumber hoodZOffset = new LoggedTunableNumber("Shooter/hoodZOffset", 36);
+  private final LoggedTunableNumber hoodZOffset = new LoggedTunableNumber("Shooter/hoodZOffset", 0);
   
 
   public ShooterVisualizer(String key, Color color) {
@@ -62,12 +63,7 @@ public class ShooterVisualizer {
             Units.inchesToMeters(turretZOffset.get()),
             new Rotation3d(
                 0.0, 0.0, Units.degreesToRadians(turretAngle)));
-    Pose3d hoodPose = new Pose3d(
-            Units.inchesToMeters(hoodXOffset.get()),
-            Units.inchesToMeters(hoodYOffset.get()),
-            Units.inchesToMeters(hoodZOffset.get()),
-            new Rotation3d(
-                0.0, Units.degreesToRadians(hoodAngle), Units.degreesToRadians(turretAngle)));
+    Pose3d hoodPose = shooterPose.transformBy(new Transform3d(hoodXOffset.get(), hoodYOffset.get(), hoodZOffset.get(), new Rotation3d(0, Units.degreesToRadians(hoodAngle), 0)));
     Logger.recordOutput("Subsystems/Shooter/Turret/Mechanism3D/" + key, shooterPose);
     Logger.recordOutput("Subsystems/Shooter/Hood/Mechanism3D/" + key, hoodPose);
   }
