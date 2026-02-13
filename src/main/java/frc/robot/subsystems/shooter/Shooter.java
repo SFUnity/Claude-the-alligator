@@ -4,6 +4,7 @@ import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.shooter.ShooterUtil.*;
@@ -18,6 +19,9 @@ public class Shooter extends VirtualSubsystem {
   private final Flywheels flywheels;
   private final Turret turret;
   private final Hood hood;
+
+  private final ShooterVisualizer measuredVisualizer = new ShooterVisualizer("Measured", Color.kRed);
+  private final ShooterVisualizer setpointVisualizer = new ShooterVisualizer("Setpoint", Color.kBlue);
 
   private final ShooterUtil shooterUtil;
 

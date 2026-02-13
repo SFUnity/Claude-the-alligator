@@ -2,6 +2,8 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.util.Color;
+
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
@@ -16,9 +18,10 @@ public class ShooterVisualizer {
   private double xCoord = 0; // TODO update
   private double yCoord = 0;
   private double zCoord = 0;
+  private final String key;
 
-  public ShooterVisualizer() {
-
+  public ShooterVisualizer(String key, Color color) {
+    this.key = key;
     shooterMech = new LoggedMechanism2d(0, 0);
     shooterBase = shooterMech.getRoot("Shooter Base", xCoord, yCoord);
     turret = new LoggedMechanismLigament2d("Turret", 0, 0);
@@ -35,7 +38,7 @@ public class ShooterVisualizer {
     hood.setAngle(hoodAngle);
     shooterVisualizer.setLength(flywheelSpeed);
 
-    Logger.recordOutput("Subsystems/Shooter/Mechanism2D", shooterMech);
+    Logger.recordOutput("Subsystems/Shooter/Mechanism2D/" + key, shooterMech);
 
     Pose3d ShooterPose =
         new Pose3d(
@@ -44,6 +47,6 @@ public class ShooterVisualizer {
             zCoord + Math.sin(hoodAngle) * flywheelSpeed,
             new Rotation3d());
 
-    Logger.recordOutput("Subsystems/Shooter/Mechanism3D", ShooterPose);
+    Logger.recordOutput("Subsystems/Shooter/Mechanism3D/" + key, ShooterPose);
   }
 }
