@@ -62,7 +62,7 @@ public class Shooter extends VirtualSubsystem {
     // TODO uncomment when ready to test
     // measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
     // setpointVisualizer.update(solution.turretAngle(), solution.hoodAngle());
-    measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
+    measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get(), poseManager);
   }
 
   public boolean readyToShoot() {

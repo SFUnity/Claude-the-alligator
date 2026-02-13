@@ -1,8 +1,13 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.util.LoggedTunableNumber;
+import frc.robot.util.PoseManager;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
@@ -22,6 +27,10 @@ public class ShooterVisualizer {
   private final double turretRadius = Units.inchesToMeters(4);
   private final double hoodHeight = Units.inchesToMeters(8);
 
+  private final LoggedTunableNumber xOffset = new LoggedTunableNumber("Shooter/XOffset", 0);
+  private final LoggedTunableNumber yOffset = new LoggedTunableNumber("Shooter/YOffset", 0);
+  private final LoggedTunableNumber zOffset = new LoggedTunableNumber("Shooter/ZOffset", 36);
+
   public ShooterVisualizer(String key, Color color) {
     this.key = key;
 
@@ -37,14 +46,22 @@ public class ShooterVisualizer {
     hoodRoot.append(hood);
   }
 
-  public void update(double turretAngle, double hoodAngle) {
+  public void update(double turretAngle, double hoodAngle, PoseManager poseManager) {
     hood.setAngle(hoodAngle);
     Logger.recordOutput("Subsystems/Shooter/Hood/Mechanism2D/" + key, hoodMechanism);
 
     turret.setAngle(turretAngle);
     Logger.recordOutput("Subsystems/Shooter/Turret/Mechanism2D/" + key, turretMechanism);
 
-    // Pose3d shooterPose = new Pose3d();
-    // Logger.recordOutput("Subsystems/Shooter/Mechanism3D/" + key, shooterPose);
+    Pose2d robotPose = poseManager.getPose();
+
+    Pose3d shooterPose =
+        new Pose3d(
+            robotPose.getX() + Units.inchesToMeters(xOffset.get()),
+            robotPose.getY() + Units.inchesToMeters(yOffset.get()),
+            Units.inchesToMeters(zOffset.get()),
+            new Rotation3d(
+                0.0, Units.degreesToRadians(hoodAngle), Units.degreesToRadians(turretAngle)));
+    Logger.recordOutput("Subsystems/Shooter/Mechanism3D/" + key, shooterPose);
   }
 }
