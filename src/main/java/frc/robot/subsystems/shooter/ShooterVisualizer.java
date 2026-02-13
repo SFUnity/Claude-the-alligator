@@ -1,11 +1,8 @@
 package frc.robot.subsystems.shooter;
 
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
-
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
@@ -28,13 +25,13 @@ public class ShooterVisualizer {
   public ShooterVisualizer(String key, Color color) {
     this.key = key;
 
-    hoodMechanism = new LoggedMechanism2d(0, 0, new Color8Bit(Color.kBlack));
+    hoodMechanism = new LoggedMechanism2d(1, 1, new Color8Bit(Color.kBlack));
     hoodRoot = hoodMechanism.getRoot("Hood Root", 0, 0);
-    hood = new LoggedMechanismLigament2d("Hood", hoodHeight, 0);
+    hood = new LoggedMechanismLigament2d("Hood", hoodHeight, 0, 8, new Color8Bit(color));
 
-    turretMechanism = new LoggedMechanism2d(0, 0, new Color8Bit(Color.kBlack));
-    turretRoot = turretMechanism.getRoot("Turret Root", 0, 0);
-    turret = new LoggedMechanismLigament2d("Turret", turretRadius, 0, 8,  new Color8Bit(color));
+    turretMechanism = new LoggedMechanism2d(1, 1, new Color8Bit(Color.kBlack));
+    turretRoot = turretMechanism.getRoot("Turret Root", 0.5, 0.5);
+    turret = new LoggedMechanismLigament2d("Turret", turretRadius, 0, 4, new Color8Bit(color));
 
     turretRoot.append(turret);
     hoodRoot.append(hood);
@@ -43,7 +40,7 @@ public class ShooterVisualizer {
   public void update(double turretAngle, double hoodAngle) {
     hood.setAngle(hoodAngle);
     Logger.recordOutput("Subsystems/Shooter/Hood/Mechanism2D/" + key, hoodMechanism);
-    
+
     turret.setAngle(turretAngle);
     Logger.recordOutput("Subsystems/Shooter/Turret/Mechanism2D/" + key, turretMechanism);
 

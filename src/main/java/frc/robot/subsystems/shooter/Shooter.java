@@ -21,10 +21,14 @@ public class Shooter extends VirtualSubsystem {
   private final Turret turret;
   private final Hood hood;
 
-  private final ShooterVisualizer measuredVisualizer = new ShooterVisualizer("Measured", Color.kRed);
-  private final ShooterVisualizer setpointVisualizer = new ShooterVisualizer("Setpoint", Color.kBlue);
-  private final LoggedTunableNumber fakeTurretAngle = new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
-  private final LoggedTunableNumber fakeHoodAngle = new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
+  private final ShooterVisualizer measuredVisualizer =
+      new ShooterVisualizer("Measured", Color.kRed);
+  private final ShooterVisualizer setpointVisualizer =
+      new ShooterVisualizer("Setpoint", Color.kBlue);
+  private final LoggedTunableNumber fakeTurretAngle =
+      new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
+  private final LoggedTunableNumber fakeHoodAngle =
+      new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
 
   private final ShooterUtil shooterUtil;
 
