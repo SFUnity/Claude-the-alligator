@@ -14,10 +14,12 @@ import org.littletonrobotics.junction.mechanism.LoggedMechanismRoot2d;
 public class ShooterVisualizer {
   private final LoggedMechanism2d hoodMechanism;
   private final LoggedMechanismRoot2d hoodRoot;
+  private final LoggedMechanismLigament2d hood;
+
   private final LoggedMechanism2d turretMechanism;
   private final LoggedMechanismRoot2d turretRoot;
   private final LoggedMechanismLigament2d turret;
-  private final LoggedMechanismLigament2d hood;
+
   private final String key;
 
   private final double turretRadius = Units.inchesToMeters(4);
@@ -27,7 +29,7 @@ public class ShooterVisualizer {
     this.key = key;
 
     hoodMechanism = new LoggedMechanism2d(0, 0, new Color8Bit(Color.kBlack));
-    hoodRoot = hoodMechanism.getRoot("Shooter Root", 0, 0);
+    hoodRoot = hoodMechanism.getRoot("Hood Root", 0, 0);
     hood = new LoggedMechanismLigament2d("Hood", hoodHeight, 0);
 
     turretMechanism = new LoggedMechanism2d(0, 0, new Color8Bit(Color.kBlack));
@@ -39,11 +41,13 @@ public class ShooterVisualizer {
   }
 
   public void update(double turretAngle, double hoodAngle) {
-    turret.setAngle(turretAngle);
     hood.setAngle(hoodAngle);
     Logger.recordOutput("Subsystems/Shooter/Hood/Mechanism2D/" + key, hoodMechanism);
+    
+    turret.setAngle(turretAngle);
+    Logger.recordOutput("Subsystems/Shooter/Turret/Mechanism2D/" + key, turretMechanism);
 
-    Pose3d shooterPose = new Pose3d();
-    Logger.recordOutput("Subsystems/Shooter/Mechanism3D/" + key, shooterPose);
+    // Pose3d shooterPose = new Pose3d();
+    // Logger.recordOutput("Subsystems/Shooter/Mechanism3D/" + key, shooterPose);
   }
 }
