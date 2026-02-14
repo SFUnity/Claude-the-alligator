@@ -53,6 +53,11 @@ public class RobotCommands {
   }
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
+<<<<<<< HEAD
+=======
+    // return
+    // spindexer.run().alongWith(kicker.run()).andThen(spindexer.stop()).alongWith(kicker.stop()).withName("ReadyThenShoot");
+>>>>>>> 5b2d957 (format)
     return shooter
         .setShooting(true)
         .andThen(

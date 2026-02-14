@@ -215,13 +215,12 @@ public class Autos {
     routine
         .active()
         .onTrue(Commands.sequence(UpperFeedClimb.resetOdometry(), UpperFeedClimb.cmd()));
-    UpperFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    UpperFeedClimb.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    UpperFeedClimb.atTime("StartIntake")
+        .onTrue(RobotCommands.intake());
+    UpperFeedClimb.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
     UpperFeedClimb.atTime("StartShoot")
-        .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .deadlineWith(RobotCommands.jork(intake, intakePivot)));
-    UpperFeedClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+        .onTrue(RobotCommands.shoot());
+    UpperFeedClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     UpperFeedClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
     UpperFeedClimb.done().onTrue(RobotCommands.climbRetract());
     return routine;
