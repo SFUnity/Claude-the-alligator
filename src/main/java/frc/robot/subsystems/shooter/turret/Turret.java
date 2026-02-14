@@ -17,6 +17,7 @@ public class Turret extends SubsystemBase {
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
   private double targetDegs = 0;
   private double targetVelocity = 0;
+  private boolean atTarget = false;
   private boolean isShooting = false;
   private double truePositionDegs = 0;
   private double positionDegs = 0;
