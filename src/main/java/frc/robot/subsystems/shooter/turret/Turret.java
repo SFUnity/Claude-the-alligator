@@ -20,14 +20,14 @@ public class Turret extends SubsystemBase {
   public Turret(TurretIO io) {
     this.io = io;
     io.updateInputs(inputs);
-    double currentDegs = getPositionDegs();
-    talonOffset = Units.degreesToRotations(currentDegs) * gearRatio - inputs.talonRotations;
+    double motorOffset = getMotorOffset();
+    talonOffset = Units.degreesToRotations(motorOffset) * gearRatio - inputs.talonRotations;
   }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    truePositionDegs = getPositionDegs();
+    truePositionDegs = inputs.talonRotations;
     positionDegs = (truePositionDegs - (2 * bufferDegs)) % 360;
 
     Logger.recordOutput("Turret/TruePositionDegs", truePositionDegs);
@@ -53,7 +53,7 @@ public class Turret extends SubsystemBase {
     io.turnTurret(targetRotations, isShooting);
   }
 
-  public double getPositionDegs() {
+  public double getMotorOffset() {
     double truePosition = 0;
     double position1 = inputs.encoder1Rotations;
     double position2 = inputs.encoder2Rotations;
@@ -68,6 +68,10 @@ public class Turret extends SubsystemBase {
             % (360 ^ 2 * encoder1Gear * encoder2Gear);
 
     return truePosition;
+  }
+
+  public double getPositionDegs() {
+    return (inputs.talonRotations+talonOffset)/gearRatio;
   }
 
   public boolean atGoal() {
