@@ -53,11 +53,6 @@ public class RobotCommands {
   }
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-<<<<<<< HEAD
-=======
-    // return
-    // spindexer.run().alongWith(kicker.run()).andThen(spindexer.stop()).alongWith(kicker.stop()).withName("ReadyThenShoot");
->>>>>>> 5b2d957 (format)
     return shooter
         .setShooting(true)
         .andThen(
@@ -81,6 +76,6 @@ public class RobotCommands {
   }
 
   public static Command jork(IntakeRollers intake, IntakePivot intakePivot) {
-    return intake.stop().alongWith(intakePivot.jork()).withName("jork");
+    return intake.stop().alongWith(intakePivot.runJork()).withName("jork");
   }
 }
