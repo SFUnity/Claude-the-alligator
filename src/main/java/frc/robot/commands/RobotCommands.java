@@ -53,11 +53,6 @@ public class RobotCommands {
   // TODO needs to be implemented
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return spindexer.run().alongWith(kicker.run()).andThen(spindexer.stop()).alongWith(kicker.stop()).withName("ReadyThenShoot");
-    
-    
-    
-    //Commands.run(() -> Logger.recordOutput("RobotCommands/ReadyThenShoot", true))
-      //  .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/ReadyThenShoot", false));
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
@@ -66,7 +61,7 @@ public class RobotCommands {
 
   public static Command eject(IntakeRollers intake, IntakePivot intakePivot, Spindexer spindexer) {
     // TODO put in correct spindexer command
-    return intake.eject().alongWith(intakePivot.lower(), spindexer.stop()).withName("eject");
+    return intake.eject().alongWith(intakePivot.lower(), spindexer.run()).withName("eject");
   }
 
   public static Command stowIntake(IntakeRollers intake, IntakePivot intakePivot) {
