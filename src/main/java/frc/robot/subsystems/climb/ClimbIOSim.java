@@ -36,7 +36,8 @@ public class ClimbIOSim implements ClimbIO {
 
   @Override
   public void setPosition(double meters) {
-    appliedVolts = controller.calculate(sim.getPositionMeters(), meters);
+    controller.setP(kP.get());
+    appliedVolts = controller.calculate(sim.getPositionMeters(), meters) + kG.get();
     sim.setInputVoltage(appliedVolts);
   }
 }

@@ -27,8 +27,8 @@ public class ClimbConstants {
         kG = new LoggedTunableNumber("Climber/kG", 0.028);
         break;
       case SIM:
-        kP = new LoggedTunableNumber("Climber/simkP", 0.1);
-        kG = new LoggedTunableNumber("Climber/kG", 0.028);
+        kP = new LoggedTunableNumber("Climber/simkP", 100);
+        kG = new LoggedTunableNumber("Climber/simkG", 0.337525);
         break;
     }
   }

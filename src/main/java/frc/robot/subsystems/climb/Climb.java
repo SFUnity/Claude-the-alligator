@@ -34,10 +34,10 @@ public class Climb extends SubsystemBase {
   }
 
   public Command climbUp() {
-    return runOnce(() -> isUp = true).withName("climbUp");
+    return run(() -> isUp = true).withName("climbUp");
   }
 
   public Command climbDown() {
-    return runOnce(() -> isUp = false).withName("climbDown");
+    return run(() -> isUp = false).withName("climbDown");
   }
 }

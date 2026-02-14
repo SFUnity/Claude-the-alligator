@@ -312,8 +312,8 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Climbing
-    controller.povUp().whileTrue(climb.climbUp());
-    controller.povDown().whileTrue(climb.climbDown());
+    controller.povUp().onTrue(climb.climbUp());
+    controller.povDown().onTrue(climb.climbDown());
 
     // Intaking
     controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
