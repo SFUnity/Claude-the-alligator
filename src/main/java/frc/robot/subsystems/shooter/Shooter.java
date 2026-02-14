@@ -4,6 +4,7 @@ import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.shooter.ShooterUtil.*;
@@ -44,7 +45,9 @@ public class Shooter extends VirtualSubsystem {
 
     LaunchingParameters solution = shooterUtil.getScoringParameters();
     if (solution.isValid()) {
-      turret.setTarget(solution.turretAngle(), solution.turretVelocity());
+      double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+      double turretVelocity = solution.turretVelocity() - Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
+      turret.setTarget(turretAngle, turretVelocity);
       hood.setAngle(solution.hoodAngle());
       flywheels.setVelocity(solution.flywheelSpeed());
     }
