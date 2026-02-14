@@ -2,7 +2,10 @@ package frc.robot.subsystems.shooter.turret;
 
 import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.Logger;
@@ -15,6 +18,14 @@ public class Turret extends SubsystemBase {
   private double truePositionDegs = 0;
   private double positionDegs = 0;
 
+  public final Alert encoder1Disconnected;
+  public final Alert encoder2Disconnected;
+
+  private final Debouncer encoder1DisconnectedDebouncer =
+      new Debouncer(0.5, Debouncer.DebounceType.kRising);
+  private final Debouncer encoder2DisconnectedDebouncer =
+      new Debouncer(0.5, Debouncer.DebounceType.kRising);
+
   private final double talonOffset;
 
   public Turret(TurretIO io) {
@@ -22,6 +33,9 @@ public class Turret extends SubsystemBase {
     io.updateInputs(inputs);
     double motorOffset = getMotorOffset();
     talonOffset = Units.degreesToRotations(motorOffset) * gearRatio - inputs.talonRotations;
+
+    encoder1Disconnected = new Alert("Encoder 1 Disconnected!", AlertType.kWarning);
+    encoder2Disconnected = new Alert("Encoder 2 Disconnected!", AlertType.kWarning);
   }
 
   @Override
@@ -34,6 +48,9 @@ public class Turret extends SubsystemBase {
     Logger.recordOutput("Turret/PositionDegs", positionDegs);
     Logger.processInputs("Turret", inputs);
     GeneralUtil.logSubsystem(this, "Turret");
+
+    encoder1Disconnected.set(encoder1DisconnectedDebouncer.calculate(inputs.encoder1Disconnected));
+    encoder2Disconnected.set(encoder2DisconnectedDebouncer.calculate(inputs.encoder2Disconnected));
 
     if (isShooting) {
       targetDegs += bufferDegs * 2;
@@ -71,7 +88,7 @@ public class Turret extends SubsystemBase {
   }
 
   public double getPositionDegs() {
-    return (inputs.talonRotations+talonOffset)/gearRatio;
+    return (inputs.talonRotations + talonOffset) / gearRatio;
   }
 
   public boolean atGoal() {
