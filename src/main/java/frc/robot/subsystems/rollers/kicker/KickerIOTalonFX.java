@@ -20,15 +20,15 @@ public class KickerIOTalonFX implements KickerIO {
   public KickerIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
     var slot0Configs = talonFXConfigs.Slot0;
-    slot0Configs.kS = 0;
-    slot0Configs.kV = kV.get();
-    slot0Configs.kA = kA.get();
-    slot0Configs.kP = kP.get();
-    slot0Configs.kI = 0;
-    slot0Configs.kD = kD.get();
-    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
-    talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-    talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
+    // slot0Configs.kS = 0;
+    // slot0Configs.kV = kV.get();
+    // slot0Configs.kA = kA.get();
+    // slot0Configs.kP = kP.get();
+    // slot0Configs.kI = 0;
+    // slot0Configs.kD = kD.get();
+    // talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
+    // talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    // talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
 
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
     tryUntilOk(5, () -> rollerMotor.getConfigurator().apply(talonFXConfigs, 0.25));
