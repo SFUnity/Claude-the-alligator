@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter;
 
 import static edu.wpi.first.wpilibj2.command.Commands.*;
+import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -53,8 +54,25 @@ public class Shooter extends VirtualSubsystem {
     LaunchingParameters solution = shooterUtil.getScoringParameters();
 
     turret.setTargetDegs(0);
-    hood.setAngle(0);
     flywheels.setVelocity(0);
+
+    double myX = poseManager.getPose().getX();
+    double myY = poseManager.getPose().getY();
+
+    double closeBorder = RightTrench.openingTopRight.getX() - 4;
+    double farBorder = RightTrench.openingTopRight.getX() + 4;
+
+    double rightBorder = RightTrench.openingTopRight.getY() + 4;
+    double leftBorder = LeftTrench.openingTopLeft.getY() - 4;
+
+    boolean inXRange = myX > closeBorder && myX < farBorder;
+    boolean inYRange = myY < rightBorder && myY > leftBorder;
+
+    if (inXRange && inYRange) {
+      hood.setAngle(0);
+    } else {
+      hood.setAngle(solution.hoodAngle());
+    }
 
     isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
     Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
