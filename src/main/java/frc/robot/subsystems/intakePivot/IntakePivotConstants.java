@@ -24,8 +24,6 @@ public class IntakePivotConstants {
   public static final double intakePIDMaxInput = 1 * 360;
 
   // In degrees
-  public static final LoggedTunableNumber goalAngle =
-      new LoggedTunableNumber("Intake/goalAngle", 20);
 
   // In rotations
   public static final LoggedTunableNumber loweredAngle =
