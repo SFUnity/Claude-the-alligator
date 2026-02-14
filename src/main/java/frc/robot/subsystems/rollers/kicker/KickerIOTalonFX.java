@@ -1,6 +1,5 @@
 package frc.robot.subsystems.rollers.kicker;
 
-import static edu.wpi.first.units.Units.Volts;
 import static frc.robot.Constants.loopPeriodSecs;
 import static frc.robot.subsystems.rollers.kicker.KickerConstants.*;
 import static frc.robot.util.PhoenixUtil.tryUntilOk;
@@ -49,7 +48,7 @@ public class KickerIOTalonFX implements KickerIO {
   public void updateInputs(KickerIOInputs inputs) {
     inputs.appliedVolts = rollerMotor.getMotorVoltage().getValueAsDouble();
     inputs.currentAmps = rollerMotor.getSupplyCurrent().getValueAsDouble();
-    inputs.velocityRotsPerMin = rollerMotor.getVelocity().getValueAsDouble()*60;
+    inputs.velocityRotsPerMin = rollerMotor.getVelocity().getValueAsDouble() * 60;
   }
 
   @Override
@@ -67,12 +66,12 @@ public class KickerIOTalonFX implements KickerIO {
   }
 
   @Override
-  public void runTorqueControl(){
+  public void runTorqueControl() {
     rollerMotor.setControl(torqueCurrent);
   }
 
   @Override
-  public void runVolts(double volts){
+  public void runVolts(double volts) {
     rollerMotor.setControl(voltageOut.withOutput(volts));
   }
 }

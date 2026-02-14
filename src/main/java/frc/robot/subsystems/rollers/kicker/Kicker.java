@@ -1,15 +1,12 @@
 package frc.robot.subsystems.rollers.kicker;
 
-import static edu.wpi.first.wpilibj2.command.Commands.select;
 import static frc.robot.subsystems.rollers.kicker.KickerConstants.*;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.shooter.flywheels.FlywheelsIO;
 import frc.robot.util.GeneralUtil;
-
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -47,11 +44,12 @@ public class Kicker extends SubsystemBase {
   @AutoLogOutput(key = "Subsystems/Rollers/Kicker/LaunchCount")
   private long launchCount = 0;
 
-  public enum KickerState  {
+  public enum KickerState {
     RUN,
     STOP,
     BACKWARDS
   }
+
   private KickerState state = KickerState.STOP;
 
   public Kicker(KickerIO io) {
@@ -64,15 +62,15 @@ public class Kicker extends SubsystemBase {
     Logger.processInputs("Rollers/Kicker", inputs);
     GeneralUtil.logSubsystem(this, "Rollers/Kicker");
 
-    switch(state){
+    switch (state) {
       case STOP:
-      io.runVolts(0);
-      break;
+        io.runVolts(0);
+        break;
       case BACKWARDS:
-      io.runVolts(-6);
-      break;
+        io.runVolts(-6);
+        break;
       case RUN:
-      runVelocity(RPMSetpoint.get());
+        runVelocity(RPMSetpoint.get());
     }
   }
 
@@ -105,8 +103,8 @@ public class Kicker extends SubsystemBase {
   //   return run(() -> this.ready = ready);
   // }
 
-  public Command setState(KickerState state){
-    return run(()-> this.state = state);
+  public Command setState(KickerState state) {
+    return run(() -> this.state = state);
   }
 
   public boolean atGoal() {
