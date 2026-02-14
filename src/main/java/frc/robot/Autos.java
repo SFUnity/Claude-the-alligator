@@ -145,14 +145,12 @@ public class Autos {
   public AutoRoutine ScoreCenterClimbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("ScoreCenterClimb Auto Routine");
     AutoTrajectory ScoreCenterClimb = routine.trajectory("ScoreCenterClimb");
-    routine
-        .active()
-        .onTrue(Commands.sequence(ScoreCenterClimb.resetOdometry(), ScoreCenterClimb.cmd()));
+    routine.active().onTrue(Commands.sequence(ScoreCenterClimb.resetOdometry(), ScoreCenterClimb.cmd()));
     ScoreCenterClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
-    ScoreCenterClimb.atTime("StartIntake")
-        .onTrue(RobotCommands.intake().until(ScoreCenterClimb.atTime("StopIntake")));
-    ScoreCenterClimb.atTime("StartShoot")
-        .onTrue(RobotCommands.shoot().until(ScoreCenterClimb.atTime("StopShoot")));
+    ScoreCenterClimb.atTime("StartIntake").onTrue(RobotCommands.intake());
+    ScoreCenterClimb.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    ScoreCenterClimb.atTime("StartShoot").onTrue(RobotCommands.shoot());
+    ScoreCenterClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     ScoreCenterClimb.done().onTrue(RobotCommands.climbRetract());
     return routine;
   }
