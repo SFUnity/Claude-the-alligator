@@ -12,6 +12,11 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RobotCommands;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.intakePivot.IntakePivot;
+import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
+import frc.robot.subsystems.rollers.kicker.Kicker;
+import frc.robot.subsystems.rollers.spindexer.Spindexer;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.LoggedAutoChooser;
 import frc.robot.util.PoseManager;
@@ -21,6 +26,11 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class Autos {
   private final Drive drive;
   private final PoseManager poseManager;
+  private final IntakeRollers intake;
+  private final IntakePivot intakePivot;
+  private final Shooter shooter;
+  private final Kicker kicker;
+  private final Spindexer spindexer;
 
   private final AutoFactory factory;
   private final LoggedAutoChooser chooser;
@@ -32,9 +42,14 @@ public class Autos {
   public static boolean moveRight = false;
   public static boolean moveLeft = false;
 
-  public Autos(Drive drive, PoseManager poseManager) {
+  public Autos(Drive drive, PoseManager poseManager, IntakeRollers intake, IntakePivot intakePivot, Shooter shooter, Kicker kicker, Spindexer spindexer) {
     this.drive = drive;
     this.poseManager = poseManager;
+    this.intake = intake;
+    this.intakePivot = intakePivot;
+    this.shooter = shooter;
+    this.kicker = kicker;
+    this.spindexer = spindexer;
 
     factory =
         new AutoFactory(
