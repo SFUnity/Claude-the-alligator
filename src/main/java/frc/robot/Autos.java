@@ -198,8 +198,10 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("Feed Auto Routine");
     AutoTrajectory Feed = routine.trajectory("Feed");
     routine.active().onTrue(Commands.sequence(Feed.resetOdometry(), Feed.cmd()));
-    Feed.atTime("StartIntake").onTrue(RobotCommands.intake().until(Feed.done()));
-    Feed.atTime("StartShoot").onTrue(RobotCommands.shoot().until(Feed.done()));
+    Feed.atTime("StartIntake").onTrue(RobotCommands.intake());
+    Feed.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
+    Feed.atTime("StartShoot").onTrue(RobotCommands.shoot());
+    Feed.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     return routine;
   }
 
