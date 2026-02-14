@@ -22,7 +22,7 @@ public class Flywheels extends SubsystemBase {
   @AutoLogOutput(key = "Subsystems/Shooter/Flywheels/LaunchCount")
   private long launchCount = 0;
 
-  private double setpointVelocity;
+  private double setpointVelocity = 0;
 
   private boolean ready = false;
 
