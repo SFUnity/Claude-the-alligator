@@ -7,6 +7,9 @@ import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
+
+import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
+
 import org.littletonrobotics.junction.Logger;
 
 public class RobotCommands {
@@ -52,7 +55,8 @@ public class RobotCommands {
 
   // TODO needs to be implemented
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return spindexer.run().alongWith(kicker.run()).andThen(spindexer.stop()).alongWith(kicker.stop()).withName("ReadyThenShoot");
+    // return spindexer.run().alongWith(kicker.run()).andThen(spindexer.stop()).alongWith(kicker.stop()).withName("ReadyThenShoot");
+    return shooter.setShooting(true).andThen(kicker.runBack().alongWith(spindexer.runBack()).withTimeout(0.2), spindexer.stop(), kicker.run(), waitUntil(shooter::readyToShoot), spindexer.run());
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
