@@ -34,13 +34,14 @@
         },
         {
           "axis": "z",
-          "degrees": -90
+          "degrees": 90
+
         }
       ],
       "zeroedPosition": [
-        0.22,
-        0.1,
-        0.375
+        0,
+        0,
+        0
       ]
     },
     {
@@ -63,6 +64,28 @@
         0.22,
         0.1,
         0.375
+      ]
+    },
+    {
+      "name": "Intake",
+      "zeroedRotations": [
+        {
+          "axis": "x",
+          "degrees": 90
+        },
+        {
+          "axis": "y",
+          "degrees": 0
+        },
+        {
+          "axis": "z",
+          "degrees": 90
+        }
+      ],
+      "zeroedPosition": [
+        -0.25,
+        0,
+        -0.1625
       ]
     }
   ]
