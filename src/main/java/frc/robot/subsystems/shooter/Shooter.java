@@ -2,12 +2,15 @@ package frc.robot.subsystems.shooter;
 
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.robot.FieldConstants.*;
+import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
+import frc.robot.FieldConstants.LeftTrench;
+import frc.robot.FieldConstants.RightTrench;
 import frc.robot.subsystems.shooter.ShooterUtil.*;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
@@ -59,19 +62,35 @@ public class Shooter extends VirtualSubsystem {
     double myX = poseManager.getPose().getX();
     double myY = poseManager.getPose().getY();
 
-    double closeBorder = RightTrench.openingTopRight.getX() - 4;
-    double farBorder = RightTrench.openingTopRight.getX() + 4;
+    double dX = poseManager.getFieldVelocity().dx;
+    double dY = poseManager.getFieldVelocity().dy;
 
-    double rightBorder = RightTrench.openingTopRight.getY() + 4;
-    double leftBorder = LeftTrench.openingTopLeft.getY() - 4;
+
+    double closeBorder = RightTrench.openingTopRight.getX() - trenchRadius;
+    double farBorder = RightTrench.openingTopRight.getX() + trenchRadius;
+
+    double rightBorder = RightTrench.openingTopLeft.getY() + trenchRadius;
+    double leftBorder = LeftTrench.openingTopRight.getY() - trenchRadius;
+
 
     boolean inXRange = myX > closeBorder && myX < farBorder;
-    boolean inYRange = myY < rightBorder && myY > leftBorder;
+    boolean inYRange = myY < rightBorder || myY > leftBorder;
+
+    boolean
+
+    Logger.recordOutput("Controls/Trench Avoidence/closeBorder", closeBorder);
+    Logger.recordOutput("Controls/Trench Avoidence/farBorder", farBorder);
+    Logger.recordOutput("Controls/Trench Avoidence/rightBorder", rightBorder);
+    Logger.recordOutput("Controls/Trench Avoidence/leftBorder", leftBorder);
+
+    Logger.recordOutput("Controls/Trench Avoidence/inXRange", inXRange);
+    Logger.recordOutput("Controls/Trench Avoidence/inYRange", inYRange);
 
     if (inXRange && inYRange) {
       hood.setAngle(0);
     } else {
-      hood.setAngle(solution.hoodAngle());
+      // swap for solution.hoodAngle() when working
+      hood.setAngle(341.5);
     }
 
     isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
