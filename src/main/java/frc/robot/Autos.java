@@ -233,12 +233,8 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("Feed Auto Routine");
     AutoTrajectory Feed = routine.trajectory("Feed");
     routine.active().onTrue(Commands.sequence(Feed.resetOdometry(), Feed.cmd()));
-    Feed.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    Feed.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
-    Feed.atTime("StartShoot")
-        .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
-    Feed.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    Feed.atTime("StartIntakeandShoot").onTrue(RobotCommands.intake(intake, intakePivot).alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    Feed.atTime("StopIntakeandShoot").onTrue(RobotCommands.stowIntake(intake, intakePivot).alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
 
