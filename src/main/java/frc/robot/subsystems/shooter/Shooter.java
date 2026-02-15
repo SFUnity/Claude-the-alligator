@@ -29,8 +29,8 @@ public class Shooter extends VirtualSubsystem {
       new ShooterVisualizer("Measured", Color.kRed);
   private final ShooterVisualizer setpointVisualizer =
       new ShooterVisualizer("Setpoint", Color.kBlue);
-  private final LoggedTunableNumber fakeTurretAngle =
-      new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
+  private final LoggedTunableNumber fakeHoodAngle =
+      new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
   private final LoggedTunableNumber fakeTurretVelocity =
       new LoggedTunableNumber("Shooter/FakeTurretVelocity", 0);
 
@@ -68,8 +68,8 @@ public class Shooter extends VirtualSubsystem {
     //   flywheels.setVelocity(solution.flywheelSpeed());
     // }
 
-    turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-    hood.setAngle(15);
+    turret.setTarget(0, fakeTurretVelocity.get());
+    hood.setAngle(fakeHoodAngle.get());
     flywheels.setVelocity(100);
 
     double myX = poseManager.getPose().getX();
@@ -97,9 +97,6 @@ public class Shooter extends VirtualSubsystem {
 
     if (inXRange && inYRange) {
       hood.setAngle(0);
-    } else {
-      // swap for solution.hoodAngle() when working
-      hood.setAngle(341.5);
     }
 
     isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
@@ -107,7 +104,7 @@ public class Shooter extends VirtualSubsystem {
 
     // TODO uncomment when ready to test
     measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
-    setpointVisualizer.update(fakeTurretAngle.get(), fakeTurretVelocity.get());
+    setpointVisualizer.update(0, fakeTurretVelocity.get());
     // measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
   }
 
