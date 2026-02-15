@@ -241,7 +241,7 @@ public class RobotContainer {
         break;
     }
 
-    autos = new Autos(drive, poseManager, intakeRollers, intakePivot, shooter, kicker, spindexer);
+    autos = new Autos(drive, poseManager, intakeRollers, intakePivot, shooter, kicker, spindexer, climb);
 
     // For tuning visualizations
     // Logger.recordOutput("ZeroedPose2d", new Pose2d());
