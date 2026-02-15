@@ -163,11 +163,10 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("Depot Auto Routine");
     AutoTrajectory Depot = routine.trajectory("DepotClimb");
     routine.active().onTrue(Commands.sequence(Depot.resetOdometry(), Depot.cmd()));
-    Depot.atTime("StartShoot")
-        .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    Depot.atTime("StartShoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
     Depot.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    Depot.atTime("PostDepot").onTrue(RobotCommands.jork(intake, intakePivot).alongWith(climb.climbUp()));
+    Depot.atTime("PostDepot")
+        .onTrue(RobotCommands.jork(intake, intakePivot).alongWith(climb.climbUp()));
     Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     Depot.done().onTrue(climb.climbDown());
     return routine;
@@ -233,8 +232,14 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("Feed Auto Routine");
     AutoTrajectory Feed = routine.trajectory("Feed");
     routine.active().onTrue(Commands.sequence(Feed.resetOdometry(), Feed.cmd()));
-    Feed.atTime("StartIntakeandShoot").onTrue(RobotCommands.intake(intake, intakePivot).alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
-    Feed.atTime("StopIntakeandShoot").onTrue(RobotCommands.stowIntake(intake, intakePivot).alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+    Feed.atTime("StartIntakeandShoot")
+        .onTrue(
+            RobotCommands.intake(intake, intakePivot)
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    Feed.atTime("StopIntakeandShoot")
+        .onTrue(
+            RobotCommands.stowIntake(intake, intakePivot)
+                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
 
@@ -242,8 +247,14 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("Lower Feed Auto Routine");
     AutoTrajectory LowerFeed = routine.trajectory("LowerFeed");
     routine.active().onTrue(Commands.sequence(LowerFeed.resetOdometry(), LowerFeed.cmd()));
-    LowerFeed.atTime("StartIntakeandShoot").onTrue(RobotCommands.intake(intake, intakePivot).alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
-    LowerFeed.atTime("StopIntakeandShoot").onTrue(RobotCommands.stowIntake(intake, intakePivot).alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+    LowerFeed.atTime("StartIntakeandShoot")
+        .onTrue(
+            RobotCommands.intake(intake, intakePivot)
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    LowerFeed.atTime("StopIntakeandShoot")
+        .onTrue(
+            RobotCommands.stowIntake(intake, intakePivot)
+                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
 
