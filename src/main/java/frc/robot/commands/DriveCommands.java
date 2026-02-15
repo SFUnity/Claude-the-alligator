@@ -7,6 +7,54 @@
 
 package frc.robot.commands;
 
+import static frc.robot.subsystems.drive.DriveConstants.*;
+
+import choreo.trajectory.SwerveSample;
+import edu.wpi.first.hal.FRCNetComm.tInstances;
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.hal.HAL;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constantsGlobal.Constants;
+import frc.robot.constantsGlobal.Constants.Mode;
+import frc.robot.subsystems.drive.DriveConstants.DriveCommandsConfig;
+import frc.robot.subsystems.leds.Leds;
+import frc.robot.util.AllianceFlipUtil;
+import frc.robot.util.GeomUtil;
+import frc.robot.util.LoggedTunableNumber;
+import frc.robot.util.PoseManager;
+import frc.robot.util.Util;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -348,5 +396,173 @@ public class DriveCommands {
     double[] positions = new double[4];
     Rotation2d lastAngle = Rotation2d.kZero;
     double gyroDelta = 0.0;
+  }
+
+  private void updateTunables() {
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> linearController.setPID(linearkP.get(), 0, linearkD.get()),
+        linearkP,
+        linearkD);
+    LoggedTunableNumber.ifChanged(
+        hashCode(), () -> linearController.setTolerance(linearTolerance.get()), linearTolerance);
+
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> linearController.setPID(linearkP.get(), 0, linearkD.get()),
+        linearkP,
+        linearkD);
+    LoggedTunableNumber.ifChanged(
+        hashCode(), () -> linearController.setTolerance(linearTolerance.get()), linearTolerance);
+
+    LoggedTunableNumber.ifChanged(
+        hashCode(), this::updateConstraints, maxLinearVelocity, maxLinearAcceleration);
+    updateThetaTunables();
+  }
+
+  private void updateThetaTunables() {
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> thetaController.setPID(thetakP.get(), 0, thetakD.get()),
+        thetakP,
+        thetakD);
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> thetaController.setTolerance(Units.degreesToRadians(thetaToleranceDeg.get())),
+        thetaToleranceDeg);
+    LoggedTunableNumber.ifChanged(
+        hashCode(), this::updateThetaConstraints, maxAngularVelocity, maxAngularAcceleration);
+  }
+
+  private void updateConstraints() {
+    linearController.setConstraints(
+        new TrapezoidProfile.Constraints(maxLinearVelocity.get(), maxLinearAcceleration.get()));
+    updateThetaConstraints();
+  }
+
+  private void updateThetaConstraints() {
+    thetaController.setConstraints(
+        new TrapezoidProfile.Constraints(maxAngularVelocity.get(), maxAngularAcceleration.get()));
+  }
+
+  private void resetControllers(Pose2d goalPose) {
+    Twist2d fieldVelocity = poseManager.fieldVelocity();
+    double linearVelocity =
+        Math.min(
+            0.0,
+            new Translation2d(fieldVelocity.dx, fieldVelocity.dy)
+                .rotateBy(poseManager.getHorizontalAngleTo(goalPose))
+                .getX());
+    linearController.reset(poseManager.getDistanceTo(goalPose), linearVelocity);
+    resetThetaController();
+  }
+
+  private void resetThetaController() {
+    Pose2d currentPose = poseManager.getPose();
+    Twist2d fieldVelocity = poseManager.fieldVelocity();
+    thetaController.reset(currentPose.getRotation().getRadians(), fieldVelocity.dtheta);
+  }
+
+  /** Returns true if within tolerance of aiming at goal */
+  @AutoLogOutput(key = "Drive/Commands/Linear/AtGoal")
+  public boolean linearAtGoal() {
+    return linearController.atGoal();
+  }
+
+  /** Returns true if within tolerance of aiming at speaker */
+  @AutoLogOutput(key = "Drive/Commands/Theta/AtGoal")
+  public boolean thetaAtGoal() {
+    return EqualsUtil.equalsWithTolerance(
+        thetaController.getSetpoint().position,
+        thetaController.getGoal().position,
+        Units.degreesToRadians(thetaToleranceDeg.get()));
+  }
+
+  public static   Command fullAutoDrive(Supplier<Pose2d> goalPose) {
+    return Commands.run(() -> {
+          updateTunables();
+          updateConstraints();
+
+          Pose2d targetPose = goalPose.get();
+
+          // Calculate linear speed
+          Translation2d driveVelocity = getLinearVelocityFromProfiledPID(targetPose);
+
+          // Calculate theta speed
+          double thetaVelocity = getAngularVelocityFromProfiledPID(targetPose);
+
+          // Send command
+          runVelocity(
+              ChassisSpeeds.fromFieldRelativeSpeeds(
+                  driveVelocity.getX(),
+                  driveVelocity.getY(),
+                  thetaVelocity,
+                  poseManager.getRotation()));
+
+          Leds.getInstance().alignedWithTarget = linearAtGoal() && thetaAtGoal();
+        })
+        .beforeStarting(
+            () -> {
+              joystickInterruptTimer.restart();
+              resetControllers(goalPose.get());
+              Leds.getInstance().autoAlignActivated = true;
+            })
+        .finallyDo(
+            () -> {
+              stop();
+              Leds.getInstance().alignedWithTarget = false;
+              Leds.getInstance().autoAlignActivated = false;
+            })
+        .onlyWhile(this::noJoystickInput)
+        .withName("Full Auto Drive");
+  }
+  public Command partialAutoDrive(Supplier<Pose2d> goalPose) {
+    return run(() -> {
+          // Get manual linear velocity
+          Translation2d manualLinearVelocity = getLinearVelocityFromJoysticks();
+          Translation2d flippedManualLinearVelocity =
+              AllianceFlipUtil.shouldFlip()
+                  ? manualLinearVelocity.rotateBy(new Rotation2d(Math.PI))
+                  : manualLinearVelocity;
+
+          // Auto-align section
+          updateTunables();
+          updateConstraints();
+
+          Pose2d targetPose = goalPose.get();
+
+          Translation2d driveVelocity = getLinearVelocityFromProfiledPID(targetPose);
+
+          // Calculate theta speed
+          double thetaVelocity = getAngularVelocityFromProfiledPID(targetPose);
+          if (thetaController.atGoal()) thetaVelocity = 0.0;
+
+          // Send command
+          double maxDistance = 2;
+          Translation2d distance =
+              poseManager.getTranslation().minus(goalPose.get().getTranslation());
+
+          // Linear blending
+          double finalX =
+              linearBlending(
+                  distance.getX(),
+                  maxDistance,
+                  flippedManualLinearVelocity.getX(),
+                  driveVelocity.getX(),
+                  "X");
+          double finalY =
+              linearBlending(
+                  distance.getY(),
+                  maxDistance,
+                  flippedManualLinearVelocity.getY(),
+                  driveVelocity.getY(),
+                  "Y");
+
+          runVelocity(
+              ChassisSpeeds.fromFieldRelativeSpeeds(
+                  finalX, finalY, thetaVelocity, poseManager.getRotation()));
+        })
+        .beforeStarting(() -> resetControllers(goalPose.get()))
+        .withName("Partial Auto Drive");
   }
 }
