@@ -27,13 +27,20 @@ public class TurretIOSim implements TurretIO {
     inputs.currentAmps = currentOutput;
     inputs.appliedVolts = appliedVoltage;
     inputs.talonRotations = sim.getAngularPositionRotations();
-    inputs.velocityDegsPerSec = Units.radiansToDegrees(Units.rotationsPerMinuteToRadiansPerSecond(sim.getAngularVelocityRPM()));
+    inputs.velocityDegsPerSec =
+        Units.radiansToDegrees(
+            Units.rotationsPerMinuteToRadiansPerSecond(sim.getAngularVelocityRPM()));
   }
 
   @Override
   public void turnTurret(double targetDegs, double targetVelocity, double kP, double kD) {
     currentOutput =
-            (Units.degreesToRadians(targetDegs) - sim.getAngularPositionRad()) * kP
-                + (Units.degreesToRadians(targetVelocity) - sim.getAngularVelocityRadPerSec()) * kD;
+        (Units.degreesToRadians(targetDegs) - sim.getAngularPositionRad()) * kP
+            + (Units.degreesToRadians(targetVelocity) - sim.getAngularVelocityRadPerSec()) * kD;
+  }
+
+  @Override
+  public void stop() {
+    currentOutput = 0;
   }
 }

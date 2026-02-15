@@ -19,8 +19,6 @@ public interface TurretIO {
 
   public default void updateInputs(TurretIOInputs inputs) {}
 
-  public default void runVolts(double volts) {}
-
   public default void stop() {}
 
   public default void turnTurret(double targetDegs, double targetVelocity, double kP, double kD) {}

@@ -4,21 +4,17 @@ import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import frc.robot.Constants;
 
 public class FlywheelsIOTalonFX implements FlywheelsIO {
   private final TalonFX leader = new TalonFX(leaderID);
   private final TalonFX follow = new TalonFX(followID);
   private final VelocityDutyCycle dutyCycle = new VelocityDutyCycle(10.0).withEnableFOC(true);
-  private final VelocityTorqueCurrentFOC torqueControl =
-      new VelocityTorqueCurrentFOC(10.0);
+  private final VelocityTorqueCurrentFOC torqueControl = new VelocityTorqueCurrentFOC(10.0);
 
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();

@@ -3,26 +3,24 @@ package frc.robot.subsystems.shooter.turret;
 import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DynamicMotionMagicExpoVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.util.Units;
 
 public class TurretIOTalonFX implements TurretIO {
   private final TalonFX talon;
   private final CANcoder encoder1;
   private final CANcoder encoder2;
 
-  private final VoltageOut voltageOut = new VoltageOut(0).withEnableFOC(true);
   private final NeutralOut neutralOut = new NeutralOut();
+  private final VoltageOut voltageOut = new VoltageOut(0).withEnableFOC(true);
 
-  private final DynamicMotionMagicExpoVoltage motionMagicExpoVoltageShoot =
-      new DynamicMotionMagicExpoVoltage(0, shootKV, shootKA).withEnableFOC(true);
-  private final DynamicMotionMagicExpoVoltage motionMagicExpoVoltageNoShoot =
-      new DynamicMotionMagicExpoVoltage(0, noshootKV, noshootKA).withEnableFOC(true);
+  double talonVelocity;
+  double talonRotations;
 
   public TurretIOTalonFX() {
     talon = new TalonFX(motorID);
@@ -41,19 +39,17 @@ public class TurretIOTalonFX implements TurretIO {
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
+    talonRotations = talon.getPosition().getValueAsDouble();
+    talonVelocity = talon.getVelocity().getValueAsDouble();
     inputs.appliedVolts = talon.getMotorVoltage().getValueAsDouble();
-    inputs.velocityDegsPerSec = talon.getVelocity().getValueAsDouble() / gearRatio;
+    inputs.velocityDegsPerSec = Units.rotationsToDegrees(talonVelocity) / gearRatio;
     inputs.currentAmps = talon.getSupplyCurrent().getValueAsDouble();
-    inputs.talonRotations = talon.getPosition().getValueAsDouble();
+    inputs.statorCurrent = talon.getStatorCurrent().getValueAsDouble();
+    inputs.talonRotations = talonRotations;
     inputs.encoder1Rotations = encoder1.getPosition().getValueAsDouble();
     inputs.encoder2Rotations = encoder2.getPosition().getValueAsDouble();
     inputs.encoder1Disconnected = !encoder1.isConnected();
     inputs.encoder2Disconnected = !encoder2.isConnected();
-  }
-
-  @Override
-  public void runVolts(double volts) {
-    talon.setControl(voltageOut.withOutput(volts));
   }
 
   @Override
@@ -62,11 +58,12 @@ public class TurretIOTalonFX implements TurretIO {
   }
 
   @Override
-  public void turnTurret(double targetRotations, boolean isShooting) {
-    if (isShooting) {
-      talon.setControl(motionMagicExpoVoltageShoot.withPosition(targetRotations));
-    } else {
-      talon.setControl(motionMagicExpoVoltageNoShoot.withPosition(targetRotations));
-    }
+  public void turnTurret(double targetDegs, double targetVelocity, double kP, double kD) {
+    talon.setControl(
+        voltageOut.withOutput(
+            Units.degreesToRadians(targetDegs)
+                - Units.rotationsToRadians(talonRotations) * kP
+                + (Units.degreesToRadians(targetVelocity) - Units.rotationsToRadians(talonVelocity))
+                    * kD));
   }
 }

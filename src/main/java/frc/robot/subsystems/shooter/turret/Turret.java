@@ -102,7 +102,7 @@ public class Turret extends SubsystemBase {
 
     double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
     targetRotations -= talonOffset;
-    io.turnTurret(targetRotations, isShooting);
+    io.turnTurret(targetRotations, targetVelocity, kP.get(), kD.get());
   }
 
   @AutoLogOutput
