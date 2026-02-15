@@ -80,4 +80,8 @@ public class RobotCommands {
   public static Command jork(IntakeRollers intake, IntakePivot intakePivot) {
     return intake.stop().alongWith(intakePivot.runJork()).withName("jork");
   }
+
+  public static Command readyThenShootWithJork(Shooter shooter, Kicker kicker, Spindexer spindexer, IntakeRollers intake, IntakePivot intakePivot) {
+    return readyThenShoot(shooter, kicker, spindexer).deadlineFor(jork(intake, intakePivot)).withName("Shoot With Jork");
+  }
 }
