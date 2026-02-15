@@ -6,6 +6,7 @@ import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
@@ -54,10 +55,18 @@ public class Shooter extends VirtualSubsystem {
   public void periodic() {
     Pose3d goalPose = new Pose3d();
 
-    LaunchingParameters solution = shooterUtil.getScoringParameters();
+    turret.setIsShooting(isShooting);
+    flywheels.setIsShooting(isShooting);
 
-    turret.setTargetDegs(0);
-    flywheels.setVelocity(0);
+    LaunchingParameters solution = shooterUtil.getScoringParameters();
+    if (solution.isValid()) {
+      double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+      double turretVelocity =
+          solution.turretVelocity() - Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
+      turret.setTarget(turretAngle, turretVelocity);
+      hood.setAngle(solution.hoodAngle());
+      flywheels.setVelocity(solution.flywheelSpeed());
+    }
 
     double myX = poseManager.getPose().getX();
     double myY = poseManager.getPose().getY();
@@ -105,7 +114,7 @@ public class Shooter extends VirtualSubsystem {
   public Command setShooting(boolean shooting) {
     return runOnce(() -> isShooting = shooting)
         .alongWith(runOnce(() -> turret.setIsShooting(shooting)))
-        .alongWith(runOnce(() -> flywheels.setReady(shooting)));
+        .alongWith(runOnce(() -> flywheels.setIsShooting(shooting)));
   }
 
   public Command setScoring(boolean scoring) {

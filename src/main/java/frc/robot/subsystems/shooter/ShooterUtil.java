@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import static frc.robot.Constants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.util.GeomUtil.*;
 
@@ -11,15 +12,13 @@ import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import frc.robot.FieldConstants;
 import frc.robot.util.AllianceFlipUtil;
-import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ShooterUtil {
 
-  private final LoggedTunableNumber phaseDelay =
-      new LoggedTunableNumber("Shooter/PhaseDelay", 0.03);
+  private final double phaseDelay = loopPeriodSecs;
   private final PoseManager poseManager;
 
   private final InterpolatingDoubleTreeMap scoreHoodAngleMap = new InterpolatingDoubleTreeMap();
@@ -65,7 +64,9 @@ public class ShooterUtil {
     robotPose =
         robotPose.exp(
             new Twist2d(
-                robotVelocity.dx * phaseDelay.get(), robotVelocity.dy * phaseDelay.get(), 0));
+                robotVelocity.dx * phaseDelay,
+                robotVelocity.dy * phaseDelay,
+                robotVelocity.dtheta * phaseDelay));
 
     Pose2d turretPosition =
         robotPose.transformBy(
@@ -132,9 +133,7 @@ public class ShooterUtil {
     Twist2d robotVelocity = poseManager.getRobotVelocity();
     Translation2d targetPose = target.getTranslation();
     robotPose =
-        robotPose.exp(
-            new Twist2d(
-                robotVelocity.dx * phaseDelay.get(), robotVelocity.dy * phaseDelay.get(), 0));
+        robotPose.exp(new Twist2d(robotVelocity.dx * phaseDelay, robotVelocity.dy * phaseDelay, 0));
 
     Pose2d turretPosition =
         robotPose.transformBy(
@@ -182,7 +181,9 @@ public class ShooterUtil {
 
     turretVelocity =
         turretAngleFilter.calculate((turretAngle - turretAngles.remove()) / sampleCount);
-    hoodVelocity = hoodAngleFilter.calculate((hoodAngle - hoodAngles.remove()) / sampleCount);
+    hoodVelocity =
+        hoodAngleFilter.calculate(
+            (hoodAngle - hoodAngles.remove()) / sampleCount); // TODO is this necessary?
 
     LaunchingParameters params =
         new LaunchingParameters(
