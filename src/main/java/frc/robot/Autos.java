@@ -219,7 +219,7 @@ public class Autos {
     UpperFeedClimb.atTime("StartShoot").onTrue(RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     UpperFeedClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     UpperFeedClimb.atTime("ExtendClimber").onTrue(climb.climbUp());
-    UpperFeedClimb.done().onTrue(RobotCommands.climbRetract());
+    UpperFeedClimb.done().onTrue(climb.climbDown());
     return routine;
   }
 
