@@ -253,8 +253,6 @@
  },
  "events":[
    {"name":"StartIntake", "from":{"target":1, "targetTimestamp":1.19243, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StopIntake", "from":{"target":2, "targetTimestamp":3.34556, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StartShoot", "from":{"target":1, "targetTimestamp":1.19243, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StopShoot", "from":{"target":2, "targetTimestamp":3.34556, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"ExtendClimber", "from":{"target":4, "targetTimestamp":5.89245, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
+   {"name":"StopIntakeandJork", "from":{"target":2, "targetTimestamp":3.34556, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"ExtendClimberandStopShoot", "from":{"target":4, "targetTimestamp":5.89245, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
