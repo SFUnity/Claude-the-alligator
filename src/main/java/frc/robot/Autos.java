@@ -206,10 +206,9 @@ public class Autos {
                 .alongWith(RobotCommands.intake(intake, intakePivot)));
     DepotFeed.atTime("PostDepot")
         .onTrue(
-            RobotCommands.stowIntake(intake, intakePivot)
-                .alongWith(climb.climbUp())
-                .alongWith(RobotCommands.jork(intake, intakePivot))
-                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+            RobotCommands.jork(intake, intakePivot)
+                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer))
+                .alongWith(climb.climbUp()));
     DepotFeed.done().onTrue(climb.climbDown());
     return routine;
   }
