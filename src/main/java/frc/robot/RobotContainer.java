@@ -8,7 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -37,12 +39,12 @@ import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.intakePivot.IntakePivotIO;
 import frc.robot.subsystems.intakePivot.IntakePivotIOSim;
 import frc.robot.subsystems.intakePivot.IntakePivotIOTalon;
-import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIO;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIOSim;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIOTalonFX;
 import frc.robot.subsystems.rollers.kicker.Kicker;
+import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.kicker.KickerIO;
 import frc.robot.subsystems.rollers.kicker.KickerIOSim;
 import frc.robot.subsystems.rollers.kicker.KickerIOTalonFX;
@@ -113,6 +115,9 @@ public class RobotContainer {
       new Alert(
           "Battery voltage is very low, consider turning off the robot or replacing the battery.",
           AlertType.kWarning);
+
+  // Callback for fuel sim intake
+  private double fuelCount = 0;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   @SuppressWarnings("resource")
@@ -186,11 +191,25 @@ public class RobotContainer {
                 drive.getFieldSpeeds()); // Supplier<ChassisSpeeds> of field-centric chassis speeds
 
         // Register an intake to remove fuel from the field as a rectangular bounding box
-        // fuelSim.registerIntake(
-        // minX, maxX, minY, maxY, // robot-centric coordinates for bounding box in meters
-        // shouldIntakeSupplier, // (optional) BooleanSupplier for whether the intake should be
-        // active at a given moment
-        // callback); // (optional) Runnable called whenever a fuel is intaked
+        double minX = Units.inchesToMeters(17.049462);
+        double maxX = Units.inchesToMeters(25.548604);
+        double minY = Units.inchesToMeters(12.625);
+        double maxY = Units.inchesToMeters(-12.625);
+
+        fuelSim.registerIntake(
+            minX,
+            minY,
+            maxX,
+            maxY, // robot-centric coordinates for bounding box in meters
+            () -> {
+              Logger.recordOutput("Intake Down", intakePivot.intakeDown());
+              return intakePivot.intakeDown();
+            }, // (optional) BooleanSupplier for whether the intake should be active at
+            // a given moment
+            () -> {
+              fuelCount++;
+              Logger.recordOutput("Fuel Count", fuelCount);
+            }); // (optional) Runnable called whenever a fuel is intaked
 
         fuelSim.setSubticks(
             5); // sets the number of physics iterations to perform per 20ms loop. Default = 5
@@ -222,11 +241,13 @@ public class RobotContainer {
         break;
     }
 
-    autos = new Autos(drive, poseManager);
+    autos =
+        new Autos(
+            drive, poseManager, intakeRollers, intakePivot, shooter, kicker, spindexer, climb);
 
     // For tuning visualizations
     // Logger.recordOutput("ZeroedPose2d", new Pose2d());
-    // Logger.recordOutput("ZeroedPose3d", new Pose3d[] {new Pose3d(), new Pose3d()});
+    Logger.recordOutput("ZeroedPose3d", new Pose3d[] {new Pose3d(), new Pose3d()});
 
     // Configure the button bindings
     configureButtonBindings();
@@ -258,10 +279,8 @@ public class RobotContainer {
       double voltage = RobotController.getBatteryVoltage();
       if (voltage <= extraLowBatteryVoltage) {
         lowBatteryAlert.set(true);
-        Leds.getInstance().extraLowBatteryAlert = true;
       } else if (voltage <= lowBatteryVoltage) {
         lowBatteryAlert.set(true);
-        Leds.getInstance().lowBatteryAlert = true;
       }
     }
   }
@@ -285,7 +304,7 @@ public class RobotContainer {
     climb.setDefaultCommand(climb.climbDown());
     intakePivot.setDefaultCommand(intakePivot.raise());
     intakeRollers.setDefaultCommand(intakeRollers.stop());
-    kicker.setDefaultCommand(kicker.stop());
+    kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
 
     // Lock to 0° when A button is held
     controller
@@ -314,8 +333,8 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Climbing
-    controller.povUp().whileTrue(climb.climbUp());
-    controller.povDown().whileTrue(climb.climbDown());
+    controller.povUp().onTrue(climb.climbUp());
+    controller.povDown().onTrue(climb.climbDown());
 
     // Intaking
     controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
@@ -334,7 +353,7 @@ public class RobotContainer {
         .onTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
 
     // Shooting
-    controller.rightBumper().onTrue(RobotCommands.readyThenShoot());
+    controller.rightBumper().onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
   }
 
   /**

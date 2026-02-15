@@ -9,7 +9,7 @@ public abstract class GeneralUtil {
   }
 
   public static void logSubsystem(SubsystemBase s, String sName) {
-    sName += "/cmdInfo/";
+    sName = "CmdInfo/" + sName + "/";
     Logger.recordOutput(sName + "hasDefault", s.getDefaultCommand() != null);
     Logger.recordOutput(
         sName + "default",

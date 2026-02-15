@@ -8,10 +8,16 @@ public class KickerConstants {
   public static final int positionFactor = 3;
 
   public static final double spinupTime = 0.25;
-  public static final LoggedTunableNumber kV = new LoggedTunableNumber("Kicker/kV", 0);
-  public static final LoggedTunableNumber kA = new LoggedTunableNumber("Kicker/kA", 0);
-  public static final LoggedTunableNumber kP = new LoggedTunableNumber("Kicker/kP", 0);
-  public static final LoggedTunableNumber kD = new LoggedTunableNumber("Kicker/kD", 0);
+  public static final LoggedTunableNumber RPMSetpoint =
+      new LoggedTunableNumber("Kicker/RPMSetpoint", 100);
+  public static final LoggedTunableNumber torqueCurrentTolerance =
+      new LoggedTunableNumber("Kicker/TorqueCurrentTolerance", 1200.0);
+  public static final LoggedTunableNumber torqueCurrentDebounce =
+      new LoggedTunableNumber("Kicker/TorqueCurrentDebounce", 0.025);
+  public static final LoggedTunableNumber atGoalDebounce =
+      new LoggedTunableNumber("Kicker/AtGoalDebounce", 0.2);
+  public static final LoggedTunableNumber kickerTolerance =
+      new LoggedTunableNumber("Kicker/tolerance", 5); // TODO tune
 
   public static final LoggedTunableNumber kickerSpeedVolts =
       new LoggedTunableNumber("Kicker/rollerSpeed", 2);

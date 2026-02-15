@@ -18,8 +18,11 @@ public class Flywheels extends SubsystemBase {
       new Debouncer(torqueCurrentDebounce.get(), DebounceType.kFalling);
   private Debouncer atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
   private boolean lastTorqueCurrentControl = false;
-  @AutoLogOutput private long launchCount = 0;
-  private double setpointVelocity;
+
+  @AutoLogOutput(key = "Subsystems/Shooter/Flywheels/LaunchCount")
+  private long launchCount = 0;
+
+  private double setpointVelocity = 0;
 
   private boolean ready = false;
 
@@ -30,8 +33,8 @@ public class Flywheels extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Flywheels", inputs);
-    GeneralUtil.logSubsystem(this, "Flywheels");
+    Logger.processInputs("Shooter/Flywheels", inputs);
+    GeneralUtil.logSubsystem(this, "Shooter/Flywheels");
 
     if (ready) {
       runVelocity(setpointVelocity);

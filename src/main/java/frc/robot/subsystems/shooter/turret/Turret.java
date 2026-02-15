@@ -65,10 +65,10 @@ public class Turret extends SubsystemBase {
     truePositionDegs = inputs.talonRotations;
     positionDegs = (truePositionDegs - (2 * bufferDegs)) % 360;
 
-    Logger.recordOutput("Turret/TruePositionDegs", truePositionDegs);
-    Logger.recordOutput("Turret/PositionDegs", positionDegs);
-    Logger.processInputs("Turret", inputs);
-    GeneralUtil.logSubsystem(this, "Turret");
+    Logger.recordOutput("Subsystems/Shooter/Turret/TruePositionDegs", truePositionDegs);
+    Logger.recordOutput("Subsystems/Shooter/Turret/PositionDegs", positionDegs);
+    Logger.processInputs("Shooter/Turret", inputs);
+    GeneralUtil.logSubsystem(this, "Shooter/Turret");
 
     encoder1Disconnected.set(encoder1DisconnectedDebouncer.calculate(inputs.encoder1Disconnected));
     encoder2Disconnected.set(encoder2DisconnectedDebouncer.calculate(inputs.encoder2Disconnected));

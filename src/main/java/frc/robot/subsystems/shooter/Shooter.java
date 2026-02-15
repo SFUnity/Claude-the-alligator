@@ -1,16 +1,21 @@
 package frc.robot.subsystems.shooter;
 
 import static edu.wpi.first.wpilibj2.command.Commands.*;
+import static frc.robot.FieldConstants.*;
+import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
+import frc.robot.FieldConstants.LeftTrench;
+import frc.robot.FieldConstants.RightTrench;
 import frc.robot.subsystems.shooter.ShooterUtil.*;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.turret.Turret;
+import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
 import frc.robot.util.VirtualSubsystem;
 import org.littletonrobotics.junction.Logger;
@@ -19,6 +24,15 @@ public class Shooter extends VirtualSubsystem {
   private final Flywheels flywheels;
   private final Turret turret;
   private final Hood hood;
+
+  private final ShooterVisualizer measuredVisualizer =
+      new ShooterVisualizer("Measured", Color.kRed);
+  private final ShooterVisualizer setpointVisualizer =
+      new ShooterVisualizer("Setpoint", Color.kBlue);
+  private final LoggedTunableNumber fakeTurretAngle =
+      new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
+  private final LoggedTunableNumber fakeHoodAngle =
+      new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
 
   private final ShooterUtil shooterUtil;
 
@@ -53,8 +67,43 @@ public class Shooter extends VirtualSubsystem {
       flywheels.setVelocity(solution.flywheelSpeed());
     }
 
+    double myX = poseManager.getPose().getX();
+    double myY = poseManager.getPose().getY();
+
+    double dX = poseManager.getFieldVelocity().dx;
+    double dY = poseManager.getFieldVelocity().dy;
+
+    double closeBorder = RightTrench.openingTopRight.getX() - trenchRadius;
+    double farBorder = RightTrench.openingTopRight.getX() + trenchRadius;
+
+    double rightBorder = RightTrench.openingTopLeft.getY() + trenchRadius;
+    double leftBorder = LeftTrench.openingTopRight.getY() - trenchRadius;
+
+    boolean inXRange = myX > closeBorder && myX < farBorder;
+    boolean inYRange = myY < rightBorder || myY > leftBorder;
+
+    Logger.recordOutput("Controls/Trench Avoidence/closeBorder", closeBorder);
+    Logger.recordOutput("Controls/Trench Avoidence/farBorder", farBorder);
+    Logger.recordOutput("Controls/Trench Avoidence/rightBorder", rightBorder);
+    Logger.recordOutput("Controls/Trench Avoidence/leftBorder", leftBorder);
+
+    Logger.recordOutput("Controls/Trench Avoidence/inXRange", inXRange);
+    Logger.recordOutput("Controls/Trench Avoidence/inYRange", inYRange);
+
+    if (inXRange && inYRange) {
+      hood.setAngle(0);
+    } else {
+      // swap for solution.hoodAngle() when working
+      hood.setAngle(341.5);
+    }
+
     isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
-    Logger.recordOutput("Shooter/isScoring", isScoring);
+    Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
+
+    // TODO uncomment when ready to test
+    // measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
+    // setpointVisualizer.update(solution.turretAngle(), solution.hoodAngle());
+    measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
   }
 
   public boolean readyToShoot() {

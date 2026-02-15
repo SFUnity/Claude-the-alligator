@@ -29,15 +29,15 @@ public class IntakePivot extends SubsystemBase {
 
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Intake", inputs);
-    Logger.recordOutput("Intake/startedIntaking", startedIntaking);
-    Logger.recordOutput("Intake/middleOfIntaking", middleOfIntaking);
+    Logger.processInputs("Intake/IntakePivot", inputs);
+    Logger.recordOutput("Subsystems/Intake/Pivot/startedIntaking", startedIntaking);
+    Logger.recordOutput("Subsystems/Intake/Pivot/middleOfIntaking", middleOfIntaking);
 
     // Logs
     measuredVisualizer.update(Degrees.of(inputs.pivotCurrentPositionDeg));
     setpointVisualizer.update(Degrees.of(positionSetpoint));
-    Logger.recordOutput("Intake/positionSetpoint", positionSetpoint);
-    GeneralUtil.logSubsystem(this, "Intake");
+    Logger.recordOutput("Subsystems/Intake/Pivot/positionSetpoint", positionSetpoint);
+    GeneralUtil.logSubsystem(this, "Intake/IntakePivot");
   }
 
   public Command raise() {
@@ -63,11 +63,22 @@ public class IntakePivot extends SubsystemBase {
         .withName("IntakePivotCurrentZeroing");
   }
 
-  public Command jork() {
-    return raise()
-        .andThen(Commands.waitSeconds(jorkTime.get()))
-        .andThen(lower())
-        .andThen(Commands.waitSeconds(jorkTime.get()))
+  public Command runJork() {
+    return Commands.repeatingSequence(
+            run(() -> {
+                  positionSetpoint = loweredJorkAngle.get();
+                  io.setPivotPosition(positionSetpoint);
+                })
+                .until(() -> inputs.pivotCurrentPositionDeg <= loweredJorkAngle.get()),
+            run(() -> {
+                  positionSetpoint = raisedJorkAngle.get();
+                  io.setPivotPosition(positionSetpoint);
+                })
+                .until(() -> inputs.pivotCurrentPositionDeg >= raisedJorkAngle.get()))
         .withName("IntakePivotJork");
+  }
+
+  public boolean intakeDown() {
+    return inputs.pivotCurrentPositionDeg <= (loweredAngle.get() + raisedAngle.get()) / 2.0;
   }
 }
