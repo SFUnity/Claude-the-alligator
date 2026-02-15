@@ -11,7 +11,7 @@ import frc.robot.Constants;
 public class TurretIOSim implements TurretIO {
   private final DCMotor gearbox = DCMotor.getKrakenX60Foc(1);
   private final DCMotorSim sim =
-      new DCMotorSim(LinearSystemId.createDCMotorSystem(gearbox, 0.001, 100.0), gearbox);
+      new DCMotorSim(LinearSystemId.createDCMotorSystem(gearbox, 0.001, 1.0), gearbox);
 
   private double currentOutput = 0.0;
   private double appliedVoltage = 0.0;
@@ -24,8 +24,7 @@ public class TurretIOSim implements TurretIO {
     sim.setInputVoltage(currentOutput);
     sim.update(Constants.loopPeriodSecs);
 
-    inputs.currentAmps = currentOutput;
-    inputs.appliedVolts = appliedVoltage;
+    inputs.appliedVolts = currentOutput;
     inputs.talonRotations = sim.getAngularPositionRotations();
     inputs.velocityDegsPerSec =
         Units.radiansToDegrees(
@@ -35,7 +34,7 @@ public class TurretIOSim implements TurretIO {
   @Override
   public void turnTurret(double targetRotations, double targetVelocity, double kP, double kD) {
     currentOutput =
-        (Units.degreesToRadians(targetRotations) - sim.getAngularPositionRad()) * kP
+        (Units.rotationsToRadians(targetRotations) - sim.getAngularPositionRad()) * kP
             + (Units.degreesToRadians(targetVelocity) - sim.getAngularVelocityRadPerSec()) * kD;
   }
 

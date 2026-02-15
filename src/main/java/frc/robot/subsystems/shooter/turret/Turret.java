@@ -26,7 +26,7 @@ public class Turret extends SubsystemBase {
   private double truePositionDegs = 0;
   private double positionDegs = 0;
 
-  private LoggedTunableNumber maxVelocity = new LoggedTunableNumber("Turret/maxVelocity", 16);
+  private LoggedTunableNumber maxVelocity = new LoggedTunableNumber("Turret/maxVelocity", 360);
   private LoggedTunableNumber maxAcceleration =
       new LoggedTunableNumber("Turret/maxAcceleration", 99999);
 
@@ -36,8 +36,8 @@ public class Turret extends SubsystemBase {
 
   private State setpoint = new State();
 
-  private LoggedTunableNumber kP = new LoggedTunableNumber("Turret/kP", 0.5);
-  private LoggedTunableNumber kD = new LoggedTunableNumber("Turret/kD", 0.5);
+  private LoggedTunableNumber kP = new LoggedTunableNumber("Turret/kP", 0.1);
+  private LoggedTunableNumber kD = new LoggedTunableNumber("Turret/kD", 0.1);
 
   public final Alert encoder1Disconnected;
   public final Alert encoder2Disconnected;
@@ -65,6 +65,12 @@ public class Turret extends SubsystemBase {
     truePositionDegs = getPositionDegs();
     positionDegs = truePositionDegs % 360;
 
+    if (maxVelocity.hasChanged(hashCode())) {
+      profile =
+          new TrapezoidProfile(
+              new TrapezoidProfile.Constraints(maxVelocity.get(), maxAcceleration.get()));
+    }
+
     Logger.recordOutput("Subsystems/Shooter/Turret/TruePositionDegs", truePositionDegs);
     Logger.recordOutput("Subsystems/Shooter/Turret/PositionDegs", positionDegs);
     Logger.processInputs("Shooter/Turret", inputs);
@@ -79,7 +85,7 @@ public class Turret extends SubsystemBase {
     boolean hasBestAngle = false;
     double bestAngle = 0;
 
-    for (int i = -2; i < 3; i++) {
+    for (int i = 0; i < 5; i++) {
       double potentialSetpoint = targetDegs + 360 * i;
       if (potentialSetpoint < minLegalAngle || potentialSetpoint > maxLegalAngle) {
         continue;
@@ -95,14 +101,18 @@ public class Turret extends SubsystemBase {
     }
     lastTargetDegs = bestAngle;
 
+    Logger.recordOutput("Subsystems/Shooter/Turret/GoalAngle", bestAngle);
+
     State goalState =
         new State(MathUtil.clamp(bestAngle, minLegalAngle, maxLegalAngle), targetVelocity);
 
     setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
 
-    double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
+    Logger.recordOutput("Subsystems/Shooter/Turret/SetpointAngle", setpoint.position);
+
+    double targetRotations = Units.degreesToRotations(setpoint.position) * gearRatio;
     targetRotations -= talonOffsetRots;
-    io.turnTurret(targetRotations, targetVelocity, kP.get(), kD.get());
+    io.turnTurret(targetRotations, setpoint.velocity, kP.get(), kD.get());
   }
 
   @AutoLogOutput
@@ -123,12 +133,10 @@ public class Turret extends SubsystemBase {
     return truePosition;
   }
 
-  @AutoLogOutput
   public double getPositionDegs() {
     return Units.rotationsToDegrees(inputs.talonRotations + talonOffsetRots) / gearRatio;
   }
 
-  @AutoLogOutput
   public boolean atGoal() {
     return Math.abs(positionDegs - targetDegs) < angleToleranceDegs
         && inputs.velocityDegsPerSec

@@ -61,7 +61,7 @@ public class TurretIOTalonFX implements TurretIO {
   public void turnTurret(double targetRotations, double targetVelocity, double kP, double kD) {
     talon.setControl(
         voltageOut.withOutput(
-            (Units.degreesToRadians(targetRotations) - Units.rotationsToRadians(talonRotations))
+            (Units.rotationsToRadians(targetRotations) - Units.rotationsToRadians(talonRotations))
                     * kP
                 + (Units.degreesToRadians(targetVelocity) - Units.rotationsToRadians(talonVelocity))
                     * kD));
