@@ -16,10 +16,9 @@ import frc.robot.Constants;
 public class FlywheelsIOTalonFX implements FlywheelsIO {
   private final TalonFX leader = new TalonFX(leaderID);
   private final TalonFX follow = new TalonFX(followID);
-  private final VoltageOut voltageOut =
-      new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(Constants.loopPeriodSecs);
-  private final MotionMagicVelocityVoltage motionMagicVelocity =
-      new MotionMagicVelocityVoltage(0).withEnableFOC(true);
+  private final VelocityDutyCycle dutyCycle = new VelocityDutyCycle(10.0).withEnableFOC(true);
+  private final VelocityTorqueCurrentFOC torqueControl =
+      new VelocityTorqueCurrentFOC(10.0);
 
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
@@ -51,12 +50,12 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   @Override
   public void runDutyCycle() {
     // duty-cycle bang bang
-    leader.setControl(new VelocityDutyCycle(10.0).withEnableFOC(true));
+    leader.setControl(dutyCycle);
   }
 
   @Override
   public void runTorqueControl() {
     // Torque-current bang-bang
-    leader.setControl(new VelocityTorqueCurrentFOC(10.0));
+    leader.setControl(torqueControl);
   }
 }
