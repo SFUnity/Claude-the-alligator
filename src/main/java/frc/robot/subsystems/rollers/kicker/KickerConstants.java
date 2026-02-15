@@ -9,13 +9,13 @@ public class KickerConstants {
 
   public static final double spinupTime = 0.25;
   public static final LoggedTunableNumber RPMSetpoint =
-      new LoggedTunableNumber("Flywheels/readyRPM", 100);
+      new LoggedTunableNumber("Kicker/RPMSetpoint", 100);
   public static final LoggedTunableNumber torqueCurrentTolerance =
-      new LoggedTunableNumber("Flywheel/TorqueCurrentTolerance", 1200.0);
+      new LoggedTunableNumber("Kicker/TorqueCurrentTolerance", 1200.0);
   public static final LoggedTunableNumber torqueCurrentDebounce =
-      new LoggedTunableNumber("Flywheel/TorqueCurrentDebounce", 0.025);
+      new LoggedTunableNumber("Kicker/TorqueCurrentDebounce", 0.025);
   public static final LoggedTunableNumber atGoalDebounce =
-      new LoggedTunableNumber("Flywheel/AtGoalDebounce", 0.2);
+      new LoggedTunableNumber("Kicker/AtGoalDebounce", 0.2);
   public static final LoggedTunableNumber kickerTolerance =
       new LoggedTunableNumber("Kicker/tolerance", 5); // TODO tune
 
