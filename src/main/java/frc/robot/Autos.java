@@ -149,8 +149,7 @@ public class Autos {
     OutpostClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
     OutpostClimb.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .deadlineFor(RobotCommands.jork(intake, intakePivot)));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     OutpostClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     OutpostClimb.done().onTrue(RobotCommands.climbRetract());
     return routine;
@@ -165,8 +164,7 @@ public class Autos {
     Depot.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     Depot.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .deadlineFor(RobotCommands.jork(intake, intakePivot)));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     Depot.done().onTrue(RobotCommands.climbRetract());
     return routine;
@@ -183,8 +181,7 @@ public class Autos {
     ScoreCenterClimb.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     ScoreCenterClimb.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .deadlineFor(RobotCommands.jork(intake, intakePivot)));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     ScoreCenterClimb.atTime("StopShoot")
         .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     ScoreCenterClimb.done().onTrue(RobotCommands.climbRetract());
@@ -199,8 +196,7 @@ public class Autos {
     DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     DepotFeed.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .deadlineFor(RobotCommands.jork(intake, intakePivot)));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     DepotFeed.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     DepotFeed.atTime("StartDepotIntake").onTrue(RobotCommands.intake());
     DepotFeed.atTime("StopDepotIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
@@ -232,8 +228,7 @@ public class Autos {
     Feed.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     Feed.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .deadlineFor(RobotCommands.jork(intake, intakePivot)));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     Feed.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     return routine;
   }
@@ -246,8 +241,7 @@ public class Autos {
     LowerFeed.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     LowerFeed.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .deadlineFor(RobotCommands.jork(intake, intakePivot)));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     LowerFeed.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     return routine;
   }
@@ -262,8 +256,7 @@ public class Autos {
     LowerFeedClimb.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     LowerFeedClimb.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .deadlineFor(RobotCommands.jork(intake, intakePivot)));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     LowerFeedClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     LowerFeedClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
     LowerFeedClimb.done().onTrue(RobotCommands.climbRetract());
