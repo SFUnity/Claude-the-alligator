@@ -25,6 +25,8 @@ public class IntakePivotVisualizer {
   private final LoggedTunableNumber xOffset = new LoggedTunableNumber("Intake/xOffset", -10.2);
   private final LoggedTunableNumber yOffset = new LoggedTunableNumber("Intake/yOffset", -8);
   private final LoggedTunableNumber zOffset = new LoggedTunableNumber("Intake/zOffset", 9);
+  private final LoggedTunableNumber offset = new LoggedTunableNumber("Intake/offset", 89);
+  private final LoggedTunableNumber factor = new LoggedTunableNumber("Intake/factor", -4.4525);
 
   public IntakePivotVisualizer(String key, Color color) {
     this.key = key;
@@ -43,7 +45,7 @@ public class IntakePivotVisualizer {
 
   /** Update intake visualizer with current intake angle */
   public void update(Angle angle) {
-    angle = Degrees.of(-1.0758 * angle.in(Degrees) + 89);
+    angle = Degrees.of(factor.get() * angle.in(Degrees) + offset.get());
 
     // Log Mechanism2d
     intake.setAngle(angle.in(Degrees));
