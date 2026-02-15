@@ -79,6 +79,7 @@ public class IntakePivot extends SubsystemBase {
   }
 
   public boolean intakeDown() {
-    return inputs.pivotCurrentPositionDeg <= (loweredAngle.get() + raisedAngle.get()) / 2.0;
+    // return inputs.pivotCurrentPositionDeg <= (loweredAngle.get() + raisedAngle.get()) / 2.0;
+    return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
   }
 }
