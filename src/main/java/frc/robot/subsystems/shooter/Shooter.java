@@ -76,8 +76,6 @@ public class Shooter extends VirtualSubsystem {
     boolean inXRange = myX > closeBorder && myX < farBorder;
     boolean inYRange = myY < rightBorder || myY > leftBorder;
 
-    boolean
-
     Logger.recordOutput("Controls/Trench Avoidence/closeBorder", closeBorder);
     Logger.recordOutput("Controls/Trench Avoidence/farBorder", farBorder);
     Logger.recordOutput("Controls/Trench Avoidence/rightBorder", rightBorder);
