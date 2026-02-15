@@ -3,14 +3,12 @@ package frc.robot.commands;
 import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
-import org.littletonrobotics.junction.Logger;
 
 public class RobotCommands {
   // TODO make the spindexer stop a bit before the shooter and kicker stops so that the last ball
@@ -51,7 +49,14 @@ public class RobotCommands {
     return intake.stop().alongWith(intakePivot.runJork()).withName("jork");
   }
 
-  public static Command readyThenShootWithJork(Shooter shooter, Kicker kicker, Spindexer spindexer, IntakeRollers intake, IntakePivot intakePivot) {
-    return readyThenShoot(shooter, kicker, spindexer).deadlineFor(jork(intake, intakePivot)).withName("readyThenShootWithJork");
+  public static Command readyThenShootWithJork(
+      Shooter shooter,
+      Kicker kicker,
+      Spindexer spindexer,
+      IntakeRollers intake,
+      IntakePivot intakePivot) {
+    return readyThenShoot(shooter, kicker, spindexer)
+        .deadlineFor(jork(intake, intakePivot))
+        .withName("readyThenShootWithJork");
   }
 }

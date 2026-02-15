@@ -65,13 +65,11 @@ public class Shooter extends VirtualSubsystem {
     double dX = poseManager.getFieldVelocity().dx;
     double dY = poseManager.getFieldVelocity().dy;
 
-
     double closeBorder = RightTrench.openingTopRight.getX() - trenchRadius;
     double farBorder = RightTrench.openingTopRight.getX() + trenchRadius;
 
     double rightBorder = RightTrench.openingTopLeft.getY() + trenchRadius;
     double leftBorder = LeftTrench.openingTopRight.getY() - trenchRadius;
-
 
     boolean inXRange = myX > closeBorder && myX < farBorder;
     boolean inYRange = myY < rightBorder || myY > leftBorder;

@@ -51,7 +51,8 @@ public class Autos {
       IntakePivot intakePivot,
       Shooter shooter,
       Kicker kicker,
-      Spindexer spindexer, Climb climb) {
+      Spindexer spindexer,
+      Climb climb) {
     this.drive = drive;
     this.poseManager = poseManager;
     this.intake = intake;
@@ -216,7 +217,9 @@ public class Autos {
         .onTrue(Commands.sequence(UpperFeedClimb.resetOdometry(), UpperFeedClimb.cmd()));
     UpperFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     UpperFeedClimb.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
-    UpperFeedClimb.atTime("StartShoot").onTrue(RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
+    UpperFeedClimb.atTime("StartShoot")
+        .onTrue(
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
     UpperFeedClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     UpperFeedClimb.atTime("ExtendClimber").onTrue(climb.climbUp());
     UpperFeedClimb.done().onTrue(climb.climbDown());
