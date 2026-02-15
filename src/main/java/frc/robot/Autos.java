@@ -198,13 +198,18 @@ public class Autos {
     routine.active().onTrue(Commands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
     DepotFeed.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
-    DepotFeed.atTime("StartShoot")
+    DepotFeed.atTime("StartJork").onTrue(RobotCommands.jork(intake, intakePivot));
+    DepotFeed.atTime("StartShoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    DepotFeed.atTime("PreDepot")
         .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
-    DepotFeed.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    DepotFeed.atTime("StartDepotIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    DepotFeed.atTime("StopDepotIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
-    DepotFeed.atTime("ExtendClimber").onTrue(climb.climbUp());
+            RobotCommands.stopShoot(shooter, kicker, spindexer)
+                .alongWith(RobotCommands.intake(intake, intakePivot)));
+    DepotFeed.atTime("PostDepot")
+        .onTrue(
+            RobotCommands.stowIntake(intake, intakePivot)
+                .alongWith(climb.climbUp())
+                .alongWith(RobotCommands.jork(intake, intakePivot))
+                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     DepotFeed.done().onTrue(climb.climbDown());
     return routine;
   }
