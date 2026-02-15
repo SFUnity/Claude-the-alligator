@@ -6,7 +6,6 @@ import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
@@ -32,8 +31,8 @@ public class Shooter extends VirtualSubsystem {
       new ShooterVisualizer("Setpoint", Color.kBlue);
   private final LoggedTunableNumber fakeTurretAngle =
       new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
-  private final LoggedTunableNumber fakeHoodAngle =
-      new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
+  private final LoggedTunableNumber fakeTurretVelocity =
+      new LoggedTunableNumber("Shooter/FakeTurretVelocity", 0);
 
   private final ShooterUtil shooterUtil;
 
@@ -58,15 +57,20 @@ public class Shooter extends VirtualSubsystem {
     turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
 
-    LaunchingParameters solution = shooterUtil.getScoringParameters();
-    if (solution.isValid()) {
-      double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-      double turretVelocity =
-          solution.turretVelocity() - Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
-      turret.setTarget(turretAngle, turretVelocity);
-      hood.setAngle(solution.hoodAngle());
-      flywheels.setVelocity(solution.flywheelSpeed());
-    }
+    // LaunchingParameters solution = shooterUtil.getScoringParameters();
+    // if (solution.isValid()) {
+    //   double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+    //   double turretVelocity =
+    //       solution.turretVelocity() -
+    // Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
+    //   turret.setTarget(turretAngle, turretVelocity);
+    //   hood.setAngle(solution.hoodAngle());
+    //   flywheels.setVelocity(solution.flywheelSpeed());
+    // }
+
+    turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+    hood.setAngle(15);
+    flywheels.setVelocity(100);
 
     double myX = poseManager.getPose().getX();
     double myY = poseManager.getPose().getY();
@@ -102,9 +106,9 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
 
     // TODO uncomment when ready to test
-    // measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
-    // setpointVisualizer.update(solution.turretAngle(), solution.hoodAngle());
-    measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
+    measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
+    setpointVisualizer.update(fakeTurretAngle.get(), fakeTurretVelocity.get());
+    // measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
   }
 
   public boolean readyToShoot() {

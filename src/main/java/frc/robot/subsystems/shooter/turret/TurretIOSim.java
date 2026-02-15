@@ -33,9 +33,9 @@ public class TurretIOSim implements TurretIO {
   }
 
   @Override
-  public void turnTurret(double targetDegs, double targetVelocity, double kP, double kD) {
+  public void turnTurret(double targetRotations, double targetVelocity, double kP, double kD) {
     currentOutput =
-        (Units.degreesToRadians(targetDegs) - sim.getAngularPositionRad()) * kP
+        (Units.degreesToRadians(targetRotations) - sim.getAngularPositionRad()) * kP
             + (Units.degreesToRadians(targetVelocity) - sim.getAngularVelocityRadPerSec()) * kD;
   }
 

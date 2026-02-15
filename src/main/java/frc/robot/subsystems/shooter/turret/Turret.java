@@ -47,13 +47,13 @@ public class Turret extends SubsystemBase {
   private final Debouncer encoder2DisconnectedDebouncer =
       new Debouncer(0.5, Debouncer.DebounceType.kRising);
 
-  private final double talonOffset;
+  private final double talonOffsetRots;
 
   public Turret(TurretIO io) {
     this.io = io;
     io.updateInputs(inputs);
-    double motorOffset = getMotorOffset();
-    talonOffset = Units.degreesToRotations(motorOffset) * gearRatio - inputs.talonRotations;
+    double motorOffsetDegs = getMotorOffsetDegs();
+    talonOffsetRots = Units.degreesToRotations(motorOffsetDegs) * gearRatio - inputs.talonRotations;
 
     encoder1Disconnected = new Alert("Encoder 1 Disconnected!", AlertType.kWarning);
     encoder2Disconnected = new Alert("Encoder 2 Disconnected!", AlertType.kWarning);
@@ -62,8 +62,8 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    truePositionDegs = inputs.talonRotations;
-    positionDegs = (truePositionDegs - (2 * bufferDegs)) % 360;
+    truePositionDegs = getPositionDegs();
+    positionDegs = truePositionDegs % 360;
 
     Logger.recordOutput("Subsystems/Shooter/Turret/TruePositionDegs", truePositionDegs);
     Logger.recordOutput("Subsystems/Shooter/Turret/PositionDegs", positionDegs);
@@ -101,12 +101,12 @@ public class Turret extends SubsystemBase {
     setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
 
     double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
-    targetRotations -= talonOffset;
+    targetRotations -= talonOffsetRots;
     io.turnTurret(targetRotations, targetVelocity, kP.get(), kD.get());
   }
 
   @AutoLogOutput
-  public double getMotorOffset() {
+  public double getMotorOffsetDegs() {
     double truePosition = 0;
     double position1 = inputs.encoder1Rotations;
     double position2 = inputs.encoder2Rotations;
@@ -125,7 +125,7 @@ public class Turret extends SubsystemBase {
 
   @AutoLogOutput
   public double getPositionDegs() {
-    return (inputs.talonRotations + talonOffset) / gearRatio;
+    return Units.rotationsToDegrees(inputs.talonRotations + talonOffsetRots) / gearRatio;
   }
 
   @AutoLogOutput

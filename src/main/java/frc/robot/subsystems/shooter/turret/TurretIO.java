@@ -21,5 +21,6 @@ public interface TurretIO {
 
   public default void stop() {}
 
-  public default void turnTurret(double targetDegs, double targetVelocity, double kP, double kD) {}
+  public default void turnTurret(
+      double targetRotations, double targetVelocity, double kP, double kD) {}
 }
