@@ -60,7 +60,7 @@ public class KickerIOTalonFX implements KickerIO {
     talonFXConfigs.MotorOutput.PeakReverseDutyCycle = 0.0;
     tryUntilOk(5, () -> rollerMotor.getConfigurator().apply(talonFXConfigs, 0.25));
   }
-
+ @SuppressWarnings("resource")
   @Override
   public void updateInputs(KickerIOInputs inputs) {
     inputs.appliedVolts = rollerMotor.getMotorVoltage().getValueAsDouble();
