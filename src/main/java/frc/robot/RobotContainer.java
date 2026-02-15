@@ -198,8 +198,8 @@ public class RobotContainer {
 
         fuelSim.registerIntake(
             minX,
-            minY,
             maxX,
+            minY,
             maxY, // robot-centric coordinates for bounding box in meters
             () -> {
               Logger.recordOutput("Intake Down", intakePivot.intakeDown());
