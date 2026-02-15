@@ -193,8 +193,8 @@ public class RobotContainer {
         // Register an intake to remove fuel from the field as a rectangular bounding box
         double minX = Units.inchesToMeters(17.049462);
         double maxX = Units.inchesToMeters(25.548604);
-        double minY = Units.inchesToMeters(12.625);
-        double maxY = Units.inchesToMeters(-12.625);
+        double minY = Units.inchesToMeters(-12.625);
+        double maxY = Units.inchesToMeters(12.625);
 
         fuelSim.registerIntake(
             minX,
