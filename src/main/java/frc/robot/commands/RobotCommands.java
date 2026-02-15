@@ -13,36 +13,6 @@ import frc.robot.subsystems.shooter.Shooter;
 import org.littletonrobotics.junction.Logger;
 
 public class RobotCommands {
-  public static Command intake() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/Intake", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Intake", false));
-  }
-
-  public static Command stopIntake() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/StopIntake", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopIntake", false));
-  }
-
-  public static Command climbExtend() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/ClimbExtend", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/ClimbExtend", false));
-  }
-
-  public static Command climbRetract() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/ClimbRetract", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/ClimbRetract", false));
-  }
-
-  public static Command shoot() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/Shoot", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/Shoot", false));
-  }
-
-  public static Command stopShoot() {
-    return Commands.run(() -> Logger.recordOutput("RobotCommands/StopShoot", true))
-        .finallyDo((interrupted) -> Logger.recordOutput("RobotCommands/StopShoot", false));
-  }
-
   // TODO make the spindexer stop a bit before the shooter and kicker stops so that the last ball
   // can be fully shot out of the robot
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
