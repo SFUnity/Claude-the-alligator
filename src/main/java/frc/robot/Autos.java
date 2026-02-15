@@ -163,12 +163,11 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("Depot Auto Routine");
     AutoTrajectory Depot = routine.trajectory("DepotClimb");
     routine.active().onTrue(Commands.sequence(Depot.resetOdometry(), Depot.cmd()));
-    Depot.atTime("ExtendClimber").onTrue(climb.climbUp());
-    Depot.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    Depot.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     Depot.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
+            RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    Depot.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+    Depot.atTime("PostDepot").onTrue(RobotCommands.jork(intake, intakePivot).alongWith(climb.climbUp()));
     Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     Depot.done().onTrue(climb.climbDown());
     return routine;
