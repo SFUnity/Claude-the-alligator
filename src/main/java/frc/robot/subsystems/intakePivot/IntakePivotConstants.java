@@ -32,5 +32,4 @@ public class IntakePivotConstants {
       new LoggedTunableNumber("Intake/loweredAngle", 20);
   public static final LoggedTunableNumber raisedAngle =
       new LoggedTunableNumber("Intake/raisedAngle", 0); 
-
 }
