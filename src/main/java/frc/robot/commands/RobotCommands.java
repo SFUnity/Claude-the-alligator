@@ -82,6 +82,6 @@ public class RobotCommands {
   }
 
   public static Command readyThenShootWithJork(Shooter shooter, Kicker kicker, Spindexer spindexer, IntakeRollers intake, IntakePivot intakePivot) {
-    return readyThenShoot(shooter, kicker, spindexer).deadlineFor(jork(intake, intakePivot)).withName("Shoot With Jork");
+    return readyThenShoot(shooter, kicker, spindexer).deadlineFor(jork(intake, intakePivot)).withName("readyThenShootWithJork");
   }
 }
