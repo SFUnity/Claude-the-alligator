@@ -87,7 +87,9 @@ public class Autos {
     // prioritize
     chooser.addRoutine("Climb Center", this::climbCenterAutoRoutine);
     chooser.addRoutine("Depot Climb", this::depotClimbAutoRoutine);
-    chooser.addRoutine("Score Center Climb", this::ScoreCenterClimbAutoRoutine); // TODO make opposite version, make one w/o climb
+    chooser.addRoutine(
+        "Score Center Climb",
+        this::ScoreCenterClimbAutoRoutine); // TODO make opposite version, make one w/o climb
     chooser.addRoutine("Feed", this::FeedAutoRoutine);
     chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
 

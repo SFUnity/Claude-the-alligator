@@ -13,13 +13,13 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 
 public class KickerIOTalonFX implements KickerIO {
-  private final Alert laserCanInvalidAlert = new Alert("Laser can Target out of range", AlertType.kError);
+  private final Alert laserCanInvalidAlert =
+      new Alert("Laser can Target out of range", AlertType.kError);
   private LaserCan lc;
   private final TalonFX rollerMotor = new TalonFX(kickerMotorID);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
@@ -71,8 +71,8 @@ public class KickerIOTalonFX implements KickerIO {
     inputs.velocityRotsPerMin = rollerMotor.getVelocity().getValueAsDouble() * 60;
     LaserCan.Measurement measurement = lc.getMeasurement();
     if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
-     inputs.laserMeasurementInches = Units.metersToInches( measurement.distance_mm*1000);
-     laserCanInvalidAlert.set(false);
+      inputs.laserMeasurementInches = Units.metersToInches(measurement.distance_mm * 1000);
+      laserCanInvalidAlert.set(false);
     } else {
       laserCanInvalidAlert.set(true);
     }
