@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Seconds;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,6 +23,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RobotCommands;
 import frc.robot.generated.TunerConstants;
@@ -67,6 +70,7 @@ import frc.robot.subsystems.shooter.turret.TurretIOSim;
 import frc.robot.subsystems.shooter.turret.TurretIOTalonFX;
 import frc.robot.util.FuelSim;
 import frc.robot.util.PoseManager;
+import frc.robot.util.ShiftHelpers;
 import org.littletonrobotics.junction.Logger;
 
 /**
@@ -354,8 +358,17 @@ public class RobotContainer {
 
     // Shooting
     controller.rightBumper().onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-  }
 
+    new Trigger(
+            () ->
+                ShiftHelpers.timeRemainingInCurrentShift().orElse(Seconds.of(0.0)).in(Seconds)
+                    < 5.0)
+        .onTrue(
+            Commands.runEnd(
+                    () -> controller.setRumble(GenericHID.RumbleType.kBothRumble, 0.5),
+                    () -> controller.setRumble(GenericHID.RumbleType.kBothRumble, 0.0))
+                .withTimeout(0.50));
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
