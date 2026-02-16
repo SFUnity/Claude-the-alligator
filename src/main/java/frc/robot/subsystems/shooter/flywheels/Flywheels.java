@@ -4,7 +4,6 @@ import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -45,10 +44,12 @@ public class Flywheels extends SubsystemBase {
 
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
-    boolean inTolerance =
-        Math.abs(inputs.velocityRotsPerMin - velocityRPM) <= torqueCurrentTolerance.get();
+    Logger.recordOutput("Flywheels/goal", velocityRPM);
+    boolean inTolerance = (velocityRPM - inputs.velocityRotsPerMin <= flywheelTolerance.get());
+    Logger.recordOutput("Flywheels/tolerance", inTolerance);
     boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inTolerance);
     boolean atGoal = atGoalDebouncer.calculate(inTolerance);
+    Logger.recordOutput("Flywheels/atGoal", atGoal);
 
     if (!torqueCurrentControl && lastTorqueCurrentControl) {
       launchCount++;
@@ -64,12 +65,12 @@ public class Flywheels extends SubsystemBase {
     }
   }
 
-  public Command setVelocity(double rpm) {
-    return run(() -> setpointVelocity = rpm);
+  public void setVelocity(double rpm) {
+    setpointVelocity = rpm;
   }
 
-  public Command setIsShooting(boolean ready) {
-    return run(() -> this.ready = ready);
+  public void setIsShooting(boolean ready) {
+    this.ready = ready;
   }
 
   public boolean atGoal() {

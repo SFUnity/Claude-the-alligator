@@ -22,6 +22,7 @@ public class FlywheelsIOSim implements FlywheelsIO {
     inputs.appliedVolts = appliedVolts;
     inputs.supplyCurrent = sim.getCurrentDrawAmps();
     inputs.velocityRotsPerMin = sim.getAngularVelocityRPM();
+    appliedVolts = 0;
   }
 
   @Override

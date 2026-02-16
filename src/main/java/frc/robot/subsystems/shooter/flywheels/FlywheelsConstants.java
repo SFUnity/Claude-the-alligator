@@ -8,15 +8,11 @@ public class FlywheelsConstants {
 
   public static final LoggedTunableNumber readyRPMSetpoint =
       new LoggedTunableNumber("Flywheels/readyRPM", 100);
-  public static final LoggedTunableNumber ballShotSetpointOffset =
-      new LoggedTunableNumber("Flywheels/ballShotSetpointOffset", 100);
 
-  public static final LoggedTunableNumber torqueCurrentTolerance =
-      new LoggedTunableNumber("Flywheel/TorqueCurrentTolerance", 1200.0);
   public static final LoggedTunableNumber torqueCurrentDebounce =
-      new LoggedTunableNumber("Flywheel/TorqueCurrentDebounce", 0.025);
+      new LoggedTunableNumber("Flywheels/TorqueCurrentDebounce", 0.025);
   public static final LoggedTunableNumber atGoalDebounce =
-      new LoggedTunableNumber("Flywheel/AtGoalDebounce", 0.2);
+      new LoggedTunableNumber("Flywheels/AtGoalDebounce", 0.2);
 
   public static final LoggedTunableNumber flywheelTolerance =
       new LoggedTunableNumber("Flywheels/tolerance", 5); // TODO tune
