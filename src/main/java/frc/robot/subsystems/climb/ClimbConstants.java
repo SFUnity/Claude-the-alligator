@@ -7,7 +7,6 @@ import frc.robot.util.LoggedTunableNumber;
 public class ClimbConstants {
   public static final int climbMotorID = 10;
 
-  // TODO change to feet. Meters is for math purposes but we CAD and do most other stuff in feet
   static final double upMeters = Units.inchesToMeters(8.0);
   static final double downMeters = 0.0;
 
@@ -20,7 +19,6 @@ public class ClimbConstants {
 
   public static final LoggedTunableNumber kP;
   public static final LoggedTunableNumber kG;
-  // TODO use keys with the corect name
   static {
     switch (Constants.currentMode) {
       default:
