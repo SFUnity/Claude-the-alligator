@@ -4,6 +4,7 @@ import frc.robot.util.LoggedTunableNumber;
 
 public class HoodConstants {
   public static final int hoodMotorID = 7;
+  public static final double gearRatio = 73.5;
 
   public static final double angleTolerance = 2;
 
