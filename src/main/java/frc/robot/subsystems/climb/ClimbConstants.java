@@ -5,6 +5,7 @@ import frc.robot.Constants;
 import frc.robot.util.LoggedTunableNumber;
 
 public class ClimbConstants {
+  public static final int climbMotorID = 10;
 
   // TODO change to feet. Meters is for math purposes but we CAD and do most other stuff in feet
   static final double upMeters = Units.inchesToMeters(8.0);

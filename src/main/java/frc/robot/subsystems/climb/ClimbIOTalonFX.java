@@ -9,7 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ClimbIOTalonFX implements ClimbIO {
-  private final TalonFX talon = new TalonFX(0);
+  private final TalonFX talon = new TalonFX(climbMotorID);
 
   public ClimbIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();

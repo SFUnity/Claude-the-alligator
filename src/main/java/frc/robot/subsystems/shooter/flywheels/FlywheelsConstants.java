@@ -3,8 +3,8 @@ package frc.robot.subsystems.shooter.flywheels;
 import frc.robot.util.LoggedTunableNumber;
 
 public class FlywheelsConstants {
-  public static final int leaderID = 0;
-  public static final int followID = 0;
+  public static final int leaderID = 5;
+  public static final int followID = 6;
 
   public static final LoggedTunableNumber readyRPMSetpoint =
       new LoggedTunableNumber("Flywheels/readyRPM", 100);

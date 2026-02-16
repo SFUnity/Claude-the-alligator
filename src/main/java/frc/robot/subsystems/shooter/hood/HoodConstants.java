@@ -3,7 +3,7 @@ package frc.robot.subsystems.shooter.hood;
 import frc.robot.util.LoggedTunableNumber;
 
 public class HoodConstants {
-  public static final int hoodMotorID = 0;
+  public static final int hoodMotorID = 7;
 
   public static final double angleTolerance = 2;
 

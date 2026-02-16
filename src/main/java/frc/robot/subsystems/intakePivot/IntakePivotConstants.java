@@ -7,9 +7,7 @@ import frc.robot.Constants.Mode;
 import frc.robot.util.LoggedTunableNumber;
 
 public class IntakePivotConstants {
-
-  public static final int rollersID = 18;
-  public static final int pivotID = 15;
+  public static final int pivotID = 14;
 
   public static final LoggedTunableNumber kP =
       new LoggedTunableNumber("Intake/kP", currentMode == Mode.SIM ? 0.1 : 0.028);
