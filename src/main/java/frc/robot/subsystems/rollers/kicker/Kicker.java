@@ -14,28 +14,6 @@ public class Kicker extends SubsystemBase {
   private final KickerIO io;
   private final KickerIOInputsAutoLogged inputs = new KickerIOInputsAutoLogged();
 
-  // public Kicker(KickerIO io) {
-  //   this.io = io;
-  // }
-
-  // @Override
-  // public void periodic() {
-  //   io.updateInputs(inputs);
-  //   Logger.processInputs("Kicker", inputs);
-  //   GeneralUtil.logSubsystem(this, "Kicker");
-  // }
-
-  // public Command run() {
-  //   return run(() -> io.runVolts(kickerSpeedVolts.get())).withName("runVolts");
-  // }
-
-  // public Command stop() {
-  //   return run(() -> io.runVolts(0)).withName("stop");
-  // }
-
-  // public Command runBack() {
-  //   return run(() -> io.runVolts(-kickerSpeedVolts.get())).withName("runVolts");
-  // }
   private Debouncer torqueCurrentDebouncer =
       new Debouncer(torqueCurrentDebounce.get(), DebounceType.kFalling);
   private Debouncer atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
@@ -94,14 +72,6 @@ public class Kicker extends SubsystemBase {
       }
     }
   }
-
-  // public Command setVelocity(double rpm) {
-  //   return run(() -> setpointVelocity = rpm);
-  // }
-
-  // public Command setReady(boolean ready) {
-  //   return run(() -> this.ready = ready);
-  // }
 
   public Command setState(KickerState state) {
     return run(() -> this.state = state);
