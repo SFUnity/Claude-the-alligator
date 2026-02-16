@@ -84,16 +84,16 @@ public class Autos {
     /* Set up main choreo routines */
     chooser = new LoggedAutoChooser("/ChoreoChooser");
     // chooser.addRoutine("Example Auto Routine", this::exampleAutoRoutine);
-    chooser.addRoutine("Climb Auto Routine", this::climbAutoRoutine);
-    chooser.addRoutine("Climb Center Auto Routine", this::climbCenterAutoRoutine);
-    chooser.addRoutine("Outpost Climb Auto Routine", this::outpostClimbAutoRoutine);
-    chooser.addRoutine("Depot Auto Routine", this::depotAutoRoutine);
-    chooser.addRoutine("Score Center Climb Auto Routine", this::ScoreCenterClimbAutoRoutine);
-    chooser.addRoutine("Depot Feed Auto Routine", this::depotFeedAutoRoutine);
-    chooser.addRoutine("Upper Feed Climb Auto Routine", this::upperFeedClimbAutoRoutine);
-    chooser.addRoutine("Feed Auto Routine", this::FeedAutoRoutine);
-    chooser.addRoutine("Lower Feed Auto Routine", this::LowerFeedAutoRoutine);
-    chooser.addRoutine("Lower Feed Climb Auto Routine", this::LowerFeedClimbAutoRoutine);
+    chooser.addRoutine("Climb", this::climbAutoRoutine);
+    chooser.addRoutine("Climb Center", this::climbCenterAutoRoutine);
+    chooser.addRoutine("Outpost Climb", this::outpostClimbAutoRoutine);
+    chooser.addRoutine("Depot Climb", this::depotClimbAutoRoutine);
+    chooser.addRoutine("Score Center Climb", this::ScoreCenterClimbAutoRoutine);
+    chooser.addRoutine("Depot Feed", this::depotFeedAutoRoutine);
+    chooser.addRoutine("Upper Feed Climb", this::upperFeedClimbAutoRoutine);
+    chooser.addRoutine("Feed", this::FeedAutoRoutine);
+    chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
+    chooser.addRoutine("Lower Feed Climb", this::LowerFeedClimbAutoRoutine);
     if (!DriverStation.isFMSAttached()) {
       // Set up test choreo routines
 
@@ -159,8 +159,8 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine depotAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Depot Auto Routine");
+  public AutoRoutine depotClimbAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("Depot Climb Auto Routine");
     AutoTrajectory Depot = routine.trajectory("DepotClimb");
     routine.active().onTrue(Commands.sequence(Depot.resetOdometry(), Depot.cmd()));
     Depot.atTime("StartShoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
