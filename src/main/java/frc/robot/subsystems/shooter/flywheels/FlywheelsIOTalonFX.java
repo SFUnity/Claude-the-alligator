@@ -27,6 +27,8 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
 
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
+    talonFXConfigs.Feedback.SensorToMechanismRatio = gearRatio;
+
     leader.getConfigurator().apply(talonFXConfigs);
 
     follow.getConfigurator().apply(talonFXConfigs);
