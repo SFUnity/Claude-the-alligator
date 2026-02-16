@@ -9,6 +9,7 @@ public interface KickerIO {
     public double currentAmps = 0.0;
     public double velocity = 0.0;
     public double velocityRotsPerMin = 0.0;
+    public double laserMeasurement = 0;
   }
 
   public default void updateInputs(KickerIOInputs inputs) {}
