@@ -19,6 +19,7 @@ public class ClimbConstants {
 
   public static final LoggedTunableNumber kP;
   public static final LoggedTunableNumber kG;
+
   static {
     switch (Constants.currentMode) {
       default:
