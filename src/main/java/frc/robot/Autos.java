@@ -89,7 +89,10 @@ public class Autos {
     chooser.addRoutine("Depot Climb", this::depotClimbAutoRoutine);
     chooser.addRoutine(
         "Score Center Climb",
-        this::ScoreCenterClimbAutoRoutine); // TODO make opposite version, make one w/o climb
+        this::ScoreCenterClimbAutoRoutine); // TODO make one w/o climb
+    chooser.addRoutine(
+        "Score Upper Center Climb",
+        this::ScoreUpperCenterClimbAutoRoutine);
     chooser.addRoutine("Feed", this::FeedAutoRoutine);
     chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
 
@@ -193,6 +196,24 @@ public class Autos {
     ScoreCenterClimb.atTime("StopShoot")
         .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     ScoreCenterClimb.done().onTrue(climb.climbDown());
+    return routine;
+  }
+
+  public AutoRoutine ScoreUpperCenterClimbAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("ScoreUpperCenterClimb Auto Routine");
+    AutoTrajectory ScoreUpperCenterClimb = routine.trajectory("ScoreUpperCenterClimb");
+    routine
+        .active()
+        .onTrue(Commands.sequence(ScoreUpperCenterClimb.resetOdometry(), ScoreUpperCenterClimb.cmd()));
+    ScoreUpperCenterClimb.atTime("ExtendClimber").onTrue(climb.climbUp());
+    ScoreUpperCenterClimb.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+    ScoreUpperCenterClimb.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    ScoreUpperCenterClimb.atTime("StartShoot")
+        .onTrue(
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
+    ScoreUpperCenterClimb.atTime("StopShoot")
+        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    ScoreUpperCenterClimb.done().onTrue(climb.climbDown());
     return routine;
   }
 
