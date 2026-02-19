@@ -57,8 +57,8 @@ public class Shooter extends VirtualSubsystem {
   private boolean approachingFromAllianceSide;
   private boolean approachingFromRight;
 
-  private boolean onAllianceSideAndMovingToTheMiddle;
-  private boolean inMiddleAndMovingToAllianceSide;
+  private boolean trenchUpAndMovingUp;
+  private boolean trenchDownAndMovingDown;
 
   private boolean onRightAndMovingRight;
   private boolean onLeftAndMovingLeft;
@@ -126,6 +126,7 @@ public class Shooter extends VirtualSubsystem {
   }
 
   private void SetupTrenchAvoidenceInputs() {
+
     myX = poseManager.getPose().getX();
     myY = poseManager.getPose().getY();
     dX = poseManager.getFieldVelocity().dx;
@@ -136,18 +137,32 @@ public class Shooter extends VirtualSubsystem {
     rightBorder = RightTrench.openingTopLeft.getY() + trenchRadius;
     leftBorder = LeftTrench.openingTopRight.getY() - trenchRadius;
 
-    inXRange = myX > closeBorder && myX < farBorder;
-    inYRange = myY < rightBorder || myY > leftBorder;
+    // transpose so that zero zero is the center
+    myX -= LinesVertical.center;
+    myY -= LinesHorizontal.center;
+
+    closeBorder -= LinesVertical.center;
+    farBorder -= LinesVertical.center;
+    rightBorder -= LinesHorizontal.center;
+    leftBorder -= LinesHorizontal.center;
+
+    inXRange = Math.abs(myX) < Math.abs(closeBorder) && Math.abs(myX) > Math.abs(farBorder);
+    inYRange = Math.abs(myY) > leftBorder;
 
     approachingFromAllianceSide = dX > 0f;
     approachingFromRight = dY > 0f;
 
-    onAllianceSideAndMovingToTheMiddle =
-        myX < RightTrench.openingTopRight.getX() && approachingFromAllianceSide;
-    inMiddleAndMovingToAllianceSide =
-        myX > RightTrench.openingTopRight.getX() && !approachingFromAllianceSide;
-    onRightAndMovingRight = myY < RightTrench.openingTopLeft.getY() && approachingFromRight;
-    onLeftAndMovingLeft = myY > LeftTrench.openingTopLeft.getY() && !approachingFromRight;
+    trenchUpAndMovingUp =
+        Math.abs(myX) < Math.abs(RightTrench.openingTopRight.getX() - LinesVertical.center)
+            && approachingFromAllianceSide;
+    trenchDownAndMovingDown =
+        Math.abs(myX) > Math.abs(RightTrench.openingTopRight.getX() - LinesVertical.center)
+            && !approachingFromAllianceSide;
+
+    onRightAndMovingRight =
+        Math.abs(myY) < RightTrench.openingTopLeft.getY() - LinesHorizontal.center && approachingFromRight;
+    onLeftAndMovingLeft =
+        myY > LeftTrench.openingTopLeft.getY() - LinesHorizontal.center && !approachingFromRight;
   }
 
   private void DropHood() {
@@ -161,7 +176,7 @@ public class Shooter extends VirtualSubsystem {
         hood.setAngle(341.5);
       }
 
-      if (onAllianceSideAndMovingToTheMiddle || inMiddleAndMovingToAllianceSide) {
+      if (trenchUpAndMovingUp || trenchDownAndMovingDown) {
         hood.setAngle(0);
       } else {
         // swap for solution.hoodAngle() when working
@@ -184,11 +199,11 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput("Controls/Trench Avoidence/inYRange", inYRange);
 
     Logger.recordOutput(
-        "Controls/Trench Avoidence/inMiddleAndMovingToAllianceSide",
-        inMiddleAndMovingToAllianceSide);
+        "Controls/Trench Avoidence/trenchUpAndMovingUp",
+        trenchUpAndMovingUp);
     Logger.recordOutput(
-        "Controls/Trench Avoidence/inMiddleAndMovingToAllianceSide",
-        inMiddleAndMovingToAllianceSide);
+        "Controls/Trench Avoidence/trenchDownAndMovingDown",
+        trenchDownAndMovingDown);
     Logger.recordOutput("Controls/Trench Avoidence/onRightAndMovingRight", onRightAndMovingRight);
     Logger.recordOutput("Controls/Trench Avoidence/onLeftAndMovingLeft", onLeftAndMovingLeft);
 
@@ -198,6 +213,7 @@ public class Shooter extends VirtualSubsystem {
 
     Logger.recordOutput("Controls/Trench Avoidence/myX", myX);
     Logger.recordOutput("Controls/Trench Avoidence/myY", myY);
+
     Logger.recordOutput("Controls/Trench Avoidence/dX", dX);
     Logger.recordOutput("Controls/Trench Avoidence/dY", dY);
   }
