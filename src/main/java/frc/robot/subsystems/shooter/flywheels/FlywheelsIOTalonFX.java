@@ -19,7 +19,9 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
 
-    talonFXConfigs.Slot0.kP = 0.0;
+    talonFXConfigs.Slot0.kP = 999999.0;
+    talonFXConfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
+    talonFXConfigs.MotorOutput.PeakReverseDutyCycle = 0.0;
 
     talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
