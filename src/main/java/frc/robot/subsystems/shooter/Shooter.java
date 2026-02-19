@@ -6,8 +6,12 @@ import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.LeftTrench;
 import frc.robot.FieldConstants.RightTrench;
@@ -15,6 +19,7 @@ import frc.robot.subsystems.shooter.ShooterUtil.*;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.turret.Turret;
+import frc.robot.util.FuelSim;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
 import frc.robot.util.VirtualSubsystem;
@@ -62,12 +67,14 @@ public class Shooter extends VirtualSubsystem {
 
   private boolean onRightAndMovingRight;
   private boolean onLeftAndMovingLeft;
+  private FuelSim fuelSim;
 
-  public Shooter(Flywheels flywheels, Turret turret, Hood hood, PoseManager poseManager) {
+  public Shooter(Flywheels flywheels, Turret turret, Hood hood, PoseManager poseManager, FuelSim fuelSim) {
     this.flywheels = flywheels;
     this.turret = turret;
     this.hood = hood;
     this.poseManager = poseManager;
+    this.fuelSim = fuelSim;
     this.shooterUtil = new ShooterUtil(this.poseManager);
 
     // TODO add default commands
@@ -76,19 +83,24 @@ public class Shooter extends VirtualSubsystem {
   public void periodic() {
     Pose3d goalPose = new Pose3d();
 
+    isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
+    Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
     turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
 
-    // LaunchingParameters solution = shooterUtil.getScoringParameters();
-    // if (solution.isValid()) {
-    //   double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-    //   double turretVelocity =
-    //       solution.turretVelocity() -
-    // Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
-    //   turret.setTarget(turretAngle, turretVelocity);
-    //   hood.setAngle(solution.hoodAngle());
-    //   flywheels.setVelocity(solution.flywheelSpeed());
-    // }
+    LaunchingParameters solution = shooterUtil.getScoringParameters();
+    if (solution.isValid()) {
+      double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+      double turretVelocity =
+          solution.turretVelocity() -
+    Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
+      turret.setTarget(turretAngle, turretVelocity);
+      hood.setAngle(solution.hoodAngle());
+      flywheels.setVelocity(solution.flywheelSpeed());
+      if(Constants.currentMode == Constants.simMode) {
+        fuelSim.launchFuel(MetersPerSecond.of(Units.degreesToRadians(solution.flywheelSpeed())*WheelRadius), new Rotation2d(solution.hoodAngle()).getMeasure(), new Rotation2d(turretAngle).getMeasure(), turretCenter.getMeasureZ());
+      }
+    }
 
     turret.setTarget(0, fakeTurretVelocity.get());
     hood.setAngle(fakeHoodAngle.get());
@@ -96,8 +108,7 @@ public class Shooter extends VirtualSubsystem {
 
     TrenchAvoidence();
 
-    isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
-    Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
+
 
     // TODO uncomment when ready to test
     measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());

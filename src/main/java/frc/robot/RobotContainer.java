@@ -154,7 +154,7 @@ public class RobotContainer {
         flywheels = new Flywheels(new FlywheelsIOTalonFX());
         turret = new Turret(new TurretIOTalonFX());
         hood = new Hood(new HoodIOTalonFX());
-        shooter = new Shooter(flywheels, turret, hood, poseManager);
+        shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         intakePivot = new IntakePivot(new IntakePivotIOTalon());
         intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         kicker = new Kicker(new KickerIOTalonFX());
@@ -178,7 +178,7 @@ public class RobotContainer {
         turret = new Turret(new TurretIOSim());
         hood = new Hood(new HoodIOSim());
         kicker = new Kicker(new KickerIOSim());
-        shooter = new Shooter(flywheels, turret, hood, poseManager);
+        shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
 
         fuelSim.spawnStartingFuel(); // spawns fuel in the depots and neutral zone
         // Register a robot for collision with fuel
@@ -241,7 +241,7 @@ public class RobotContainer {
         turret = new Turret(new TurretIO() {});
         hood = new Hood(new HoodIO() {});
         kicker = new Kicker(new KickerIO() {});
-        shooter = new Shooter(flywheels, turret, hood, poseManager);
+        shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
     }
 
