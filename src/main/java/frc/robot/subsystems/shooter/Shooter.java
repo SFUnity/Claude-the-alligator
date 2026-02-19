@@ -183,21 +183,11 @@ public class Shooter extends VirtualSubsystem {
 
       if (onRightAndMovingRight || onLeftAndMovingLeft) {
         hood.setAngle(0);
-      } else {
-        // swap for solution.hoodAngle() when working
-        hood.setAngle(341.5);
       }
 
       if (trenchUpAndMovingUp || trenchDownAndMovingDown) {
         hood.setAngle(0);
-      } else {
-        // swap for solution.hoodAngle() when working
-        hood.setAngle(341.5);
       }
-
-    } else {
-      // swap for solution.hoodAngle() when working
-      hood.setAngle(341.5);
     }
   }
 
