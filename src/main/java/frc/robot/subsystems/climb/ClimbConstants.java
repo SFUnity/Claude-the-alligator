@@ -11,11 +11,11 @@ public class ClimbConstants {
   static final double downMeters = 0.0;
 
   public static final double elevatorMassKg = Units.lbsToKilograms(15); // Not the true numbers
-  public static final double drumRadiusMeters = Units.inchesToMeters(1.4); // Not the true numbers
+  public static final double drumRadiusMeters = Units.inchesToMeters(0.75);
   public static final double minHeightMeters = 0; // Not the true numbers
   public static final double maxHeightMeters = 23.1; // Not the true numbers
 
-  public static final double gearRatio = 9; // Not the true numbers
+  public static final double gearRatio = 5;
 
   public static final LoggedTunableNumber kP;
   public static final LoggedTunableNumber kG;
