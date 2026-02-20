@@ -359,7 +359,7 @@ public class RobotContainer {
     // Shooting
     controller
         .rightBumper()
-        .onTrue(
+        .toggleOnTrue(
             shooter.getShooting()
                 ? RobotCommands.stopShoot(shooter, kicker, spindexer)
                 : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
