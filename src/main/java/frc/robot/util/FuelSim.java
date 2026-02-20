@@ -8,7 +8,6 @@ import static edu.wpi.first.units.Units.Radians;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -540,10 +539,7 @@ public class FuelSim {
       throw new IllegalStateException("Robot must be registered before launching fuel.");
     }
 
-    Pose3d launchPose =
-        new Pose3d(this.robotPoseSupplier.get())
-            .plus(
-                turretPose);
+    Pose3d launchPose = new Pose3d(this.robotPoseSupplier.get()).plus(turretPose);
     ChassisSpeeds fieldSpeeds = this.robotFieldSpeedsSupplier.get();
 
     double horizontalVel = Math.cos(hoodAngle.in(Radians)) * launchVelocity.in(MetersPerSecond);
