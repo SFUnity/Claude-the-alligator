@@ -8,6 +8,10 @@ public class HoodConstants {
 
   public static final double angleTolerance = 2;
 
+  // TODO add values
+  public static double minPositionDegs;
+  public static double maxPositionDegs;
+
   public static LoggedTunableNumber kP = new LoggedTunableNumber("Hood/kP", 0);
   public static LoggedTunableNumber kD = new LoggedTunableNumber("Hood/kD", 0);
 }
