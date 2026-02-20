@@ -43,8 +43,7 @@ public class Shooter extends VirtualSubsystem {
   private final LoggedTunableNumber fakeFlywheelVelocity =
       new LoggedTunableNumber("Shooter/FakeFlywheelVelocity", 0);
 
-        private final LoggedTunableNumber clearBalls =
-      new LoggedTunableNumber("Shooter/ClearBalls", 0);
+  private final LoggedTunableNumber clearBalls = new LoggedTunableNumber("Shooter/ClearBalls", 0);
 
   private final ShooterUtil shooterUtil;
 
@@ -93,6 +92,8 @@ public class Shooter extends VirtualSubsystem {
 
     isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
     Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
+    Logger.recordOutput("Subsystems/Shooter/isShooting", isShooting);
+
     turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
 
@@ -116,17 +117,10 @@ public class Shooter extends VirtualSubsystem {
     //   }
     // }
 
-    if (Constants.currentMode == Constants.simMode && isShooting) {
-      fuelSim.launchFuel(
-          MetersPerSecond.of(
-              Units.rotationsPerMinuteToRadiansPerSecond(fakeFlywheelVelocity.get()) * WheelRadius),
-          new Rotation2d(fakeHoodAngle.get()).getMeasure(),
-          new Rotation2d(fakeTurretAngle.get()).getMeasure(),
-          turretCenter.getMeasureZ());
-    }
+    if (Constants.currentMode == Constants.simMode && isShooting) {}
 
-    //rlly fucking cooked way to do this but dont comment pls
-    if(clearBalls.hasChanged(hashCode())) {
+    // rlly fucking cooked way to do this but dont comment pls
+    if (clearBalls.get() == 1) {
       fuelSim.clearFuel();
     }
 
@@ -149,7 +143,12 @@ public class Shooter extends VirtualSubsystem {
   public Command setShooting(boolean shooting) {
     return runOnce(() -> isShooting = shooting)
         .alongWith(runOnce(() -> turret.setIsShooting(shooting)))
-        .alongWith(runOnce(() -> flywheels.setIsShooting(shooting)));
+        .alongWith(runOnce(() -> flywheels.setIsShooting(shooting)))
+        .alongWith(runOnce(() -> simulationShoot()));
+  }
+
+  public boolean getShooting() {
+    return isShooting;
   }
 
   public Command setScoring(boolean scoring) {
@@ -240,5 +239,14 @@ public class Shooter extends VirtualSubsystem {
 
     Logger.recordOutput("Controls/Trench Avoidence/dX", dX);
     Logger.recordOutput("Controls/Trench Avoidence/dY", dY);
+  }
+
+  public void simulationShoot() {
+    fuelSim.launchFuel(
+        MetersPerSecond.of(
+            Units.rotationsPerMinuteToRadiansPerSecond(fakeFlywheelVelocity.get()) * WheelRadius),
+        new Rotation2d(Units.degreesToRadians(fakeHoodAngle.get())).getMeasure(),
+        new Rotation2d(Units.degreesToRadians(fakeTurretAngle.get())).getMeasure(),
+        turretCenter.getMeasureZ());
   }
 }
