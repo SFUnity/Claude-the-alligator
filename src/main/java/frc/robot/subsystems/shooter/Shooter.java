@@ -43,6 +43,9 @@ public class Shooter extends VirtualSubsystem {
   private final LoggedTunableNumber fakeFlywheelVelocity =
       new LoggedTunableNumber("Shooter/FakeFlywheelVelocity", 0);
 
+        private final LoggedTunableNumber clearBalls =
+      new LoggedTunableNumber("Shooter/ClearBalls", 0);
+
   private final ShooterUtil shooterUtil;
 
   private final PoseManager poseManager;
@@ -120,6 +123,11 @@ public class Shooter extends VirtualSubsystem {
           new Rotation2d(fakeHoodAngle.get()).getMeasure(),
           new Rotation2d(fakeTurretAngle.get()).getMeasure(),
           turretCenter.getMeasureZ());
+    }
+
+    //rlly fucking cooked way to do this but dont comment pls
+    if(clearBalls.hasChanged(hashCode())) {
+      fuelSim.clearFuel();
     }
 
     turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
