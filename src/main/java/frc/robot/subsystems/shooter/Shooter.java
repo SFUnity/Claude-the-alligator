@@ -8,6 +8,7 @@ import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -247,6 +248,6 @@ public class Shooter extends VirtualSubsystem {
             Units.rotationsPerMinuteToRadiansPerSecond(fakeFlywheelVelocity.get()) * WheelRadius),
         new Rotation2d(Units.degreesToRadians(fakeHoodAngle.get())).getMeasure(),
         new Rotation2d(Units.degreesToRadians(fakeTurretAngle.get())).getMeasure(),
-        turretCenter.getMeasureZ());
+        turretCenter);
   }
 }
