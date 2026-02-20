@@ -357,7 +357,12 @@ public class RobotContainer {
         .onTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
 
     // Shooting
-    controller.rightBumper().onTrue(shooter.getShooting() ? RobotCommands.stopShoot(shooter, kicker, spindexer) : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    controller
+        .rightBumper()
+        .onTrue(
+            shooter.getShooting()
+                ? RobotCommands.stopShoot(shooter, kicker, spindexer)
+                : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
     // controller rumble when 5 seconds are left in the current shift
     new Trigger(
