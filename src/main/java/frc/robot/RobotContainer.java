@@ -357,6 +357,7 @@ public class RobotContainer {
         .onTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
 
     // Shooting
+    // TODO change to toggle shooting rather than just shoot
     controller.rightBumper().onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
     // controller rumble when 5 seconds are left in the current shift

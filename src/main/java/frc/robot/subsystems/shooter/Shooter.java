@@ -1,13 +1,17 @@
 package frc.robot.subsystems.shooter;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.LeftTrench;
 import frc.robot.FieldConstants.RightTrench;
@@ -98,11 +102,25 @@ public class Shooter extends VirtualSubsystem {
     //   turret.setTarget(turretAngle, turretVelocity);
     //   hood.setAngle(solution.hoodAngle());
     //   flywheels.setVelocity(solution.flywheelSpeed());
-    //   if(Constants.currentMode == Constants.simMode) {
+    //   if (Constants.currentMode == Constants.simMode && isShooting) {
+    //     fuelSim.launchFuel(
     //
-    // fuelSim.launchFuel(MetersPerSecond.of(Units.degreesToRadians(solution.flywheelSpeed())*WheelRadius), new Rotation2d(solution.hoodAngle()).getMeasure(), new Rotation2d(turretAngle).getMeasure(), turretCenter.getMeasureZ());
+    // MetersPerSecond.of(Units.rotationsPerMinuteToRadiansPerSecond(solution.flywheelSpeed()) *
+    // WheelRadius),
+    //         new Rotation2d(solution.hoodAngle()).getMeasure(),
+    //         new Rotation2d(turretAngle).getMeasure(),
+    //         turretCenter.getMeasureZ());
     //   }
     // }
+
+    if (Constants.currentMode == Constants.simMode && isShooting) {
+      fuelSim.launchFuel(
+          MetersPerSecond.of(
+              Units.rotationsPerMinuteToRadiansPerSecond(fakeFlywheelVelocity.get()) * WheelRadius),
+          new Rotation2d(fakeHoodAngle.get()).getMeasure(),
+          new Rotation2d(fakeTurretAngle.get()).getMeasure(),
+          turretCenter.getMeasureZ());
+    }
 
     turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
     hood.setAngle(fakeHoodAngle.get());
@@ -180,7 +198,6 @@ public class Shooter extends VirtualSubsystem {
   private void DropHood() {
 
     if (inXRange && inYRange) {
-
       if (onRightAndMovingRight || onLeftAndMovingLeft) {
         hood.setAngle(0);
       }
