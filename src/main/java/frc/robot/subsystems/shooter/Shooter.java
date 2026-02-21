@@ -202,14 +202,8 @@ public class Shooter extends VirtualSubsystem {
   private void DropHood() {
 
     if (inXRange & inYRange) {
-      if (dX != 0 || dY != 0) {
-
-        if (trenchUpAndMovingUp || trenchDownAndMovingDown || upwardMovmentCorospondWithDirection) {
-          hood.setAngle(0);
-        } else {
-          // swap for solution.hoodAngle() when working
-          hood.setAngle(341.5);
-        }
+      if (trenchUpAndMovingUp || trenchDownAndMovingDown || upwardMovmentCorospondWithDirection) {
+        hood.setAngle(0);
       } else {
         // swap for solution.hoodAngle() when working
         hood.setAngle(341.5);
@@ -218,7 +212,7 @@ public class Shooter extends VirtualSubsystem {
       // swap for solution.hoodAngle() when working
       hood.setAngle(341.5);
     }
-  }
+    }
 
   private void LogTrenchAvoidence() {
     Logger.recordOutput("Controls/Trench Avoidence/closeBorder", closeBorder);
