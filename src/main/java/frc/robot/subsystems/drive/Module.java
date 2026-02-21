@@ -66,7 +66,7 @@ public class Module {
     }
 
     Logger.recordOutput(
-        "Odometry/WrappedModuleAngles/Measured" + index, Math.abs(getAngle().getDegrees() % 90));
+        "Odometry/WrappedModuleAngles/Measured" + index, Math.abs(getAngle().getDegrees() % 180));
 
     // Update alerts
     driveDisconnectedAlert.set(!inputs.driveConnected);
@@ -86,7 +86,7 @@ public class Module {
 
     // Log
     Logger.recordOutput(
-        "Odometry/WrappedModuleAngles/Setpoints" + index, Math.abs(state.angle.getDegrees() % 90));
+        "Odometry/WrappedModuleAngles/Setpoints" + index, Math.abs(state.angle.getDegrees() % 180));
   }
 
   /** Runs the module with the specified output while controlling to zero degrees. */
