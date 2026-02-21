@@ -352,7 +352,7 @@ public class DriveCommands {
 
   public static Command tuneModuleTurn(Drive drive) {
     return Commands.startEnd(drive::tuneModuleTurn, drive::endTuneModule, drive)
-        .withTimeout(2.0)
+        .withTimeout(5.0)
         .withName("tuneModuleTurn");
   }
 

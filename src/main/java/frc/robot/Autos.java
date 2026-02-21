@@ -39,7 +39,7 @@ public class Autos {
 
   private final LoggedDashboardChooser<Command> nonChoreoChooser =
       new LoggedDashboardChooser<Command>("Non-Choreo Chooser");
-  private static final boolean isChoreoAuto = true;
+  private static final boolean isChoreoAuto = false;
 
   public static boolean moveRight = false;
   public static boolean moveLeft = false;
@@ -106,7 +106,7 @@ public class Autos {
       // SysID & non-choreo routines
       if (!isChoreoAuto) {
         nonChoreoChooser.addOption("TuneModuleDrive", DriveCommands.tuneModuleDrive(drive));
-
+        nonChoreoChooser.addOption("TuneModuleTurn", DriveCommands.tuneModuleTurn(drive));
         // Set up SysId routines
         nonChoreoChooser.addOption(
             "Drive Wheel Radius Characterization",
