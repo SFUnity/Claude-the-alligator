@@ -128,6 +128,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     turnConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turnConfig.Slot0.kP = turnKp.get();
     turnConfig.Slot0.kD = turnKd.get();
+    turnConfig.Slot0.kS = turnKs.get();
     turnConfig.Feedback.FeedbackRemoteSensorID = constants.EncoderId;
     turnConfig.Feedback.FeedbackSensorSource =
         switch (constants.FeedbackSource) {
@@ -275,9 +276,10 @@ public class ModuleIOTalonFX implements ModuleIO {
   }
 
   @Override
-  public void setTurnPD(double turnkP, double turnkD) {
+  public void setTurnPDS(double turnkP, double turnkD, double turnkS) {
     turnConfig.Slot0.kP = turnkP;
     turnConfig.Slot0.kD = turnkD;
+    turnConfig.Slot0.kS = turnkS;
     tryUntilOk(5, () -> turnTalon.getConfigurator().apply(turnConfig, 0.25));
   }
 

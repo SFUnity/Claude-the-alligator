@@ -48,7 +48,7 @@ public interface ModuleIO {
   public default void setTurnPosition(Rotation2d rotation) {}
 
   /** Set P and D gains for turn motor */
-  public default void setTurnPD(double turnkP, double turnkD) {}
+  public default void setTurnPDS(double turnkP, double turnkD, double turnkS) {}
 
   /** Set P gain for drive motor */
   public default void setDriveP(double drivekP) {}

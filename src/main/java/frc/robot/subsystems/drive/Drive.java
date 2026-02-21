@@ -377,7 +377,7 @@ public class Drive extends SubsystemBase {
       new LoggedTunableNumber("Drive/ModuleTunables/tuningDriveSpeed", 3);
 
   public void tuneModuleTurn() {
-    for (var module : modules) module.setTurnPD(turnKp.get(), turnKd.get());
+    for (var module : modules) module.setTurnPDS(turnKp.get(), turnKd.get(), turnKs.get());
     setAllModuleSetpointsToSame(0, Rotation2d.fromDegrees(tuningTurnDelta.get()));
   }
 
