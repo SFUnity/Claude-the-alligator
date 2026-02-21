@@ -201,8 +201,8 @@ public class Shooter extends VirtualSubsystem {
 
   private void DropHood() {
 
-    if (inXRange && inYRange) {
-      if (dX != 0 & dY != 0) {
+    if (inXRange & inYRange) {
+      if (dX != 0 || dY != 0) {
 
         if (trenchUpAndMovingUp || trenchDownAndMovingDown || upwardMovmentCorospondWithDirection) {
           hood.setAngle(0);
