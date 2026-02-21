@@ -212,7 +212,7 @@ public class Shooter extends VirtualSubsystem {
       // swap for solution.hoodAngle() when working
       hood.setAngle(341.5);
     }
-    }
+  }
 
   private void LogTrenchAvoidence() {
     Logger.recordOutput("Controls/Trench Avoidence/closeBorder", closeBorder);
