@@ -64,7 +64,7 @@ public class DriveConstants {
   public static final boolean backRightTurnEncoderInverted = false;
 
   // Device CAN IDs. Based off power port on PDH
-  public static final int pigeonCanId = 24;
+  public static final int pigeonCanId = 23;
 
   public static final int frontLeftDriveCanId = 28;
   public static final int frontRightDriveCanId = 18;
