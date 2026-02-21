@@ -227,8 +227,7 @@ public class Autos {
     ScoreCenter.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     ScoreCenter.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
-    ScoreCenter.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot).withTimeout(5));
     return routine;
   }
 
@@ -242,9 +241,7 @@ public class Autos {
     ScoreUpperCenter.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     ScoreUpperCenter.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
-    ScoreUpperCenter.atTime("StopShoot")
-        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot).withTimeout(5));
     return routine;
   }
 
