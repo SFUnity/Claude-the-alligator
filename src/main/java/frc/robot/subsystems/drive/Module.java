@@ -65,7 +65,7 @@ public class Module {
       odometryPositions[i] = new SwerveModulePosition(positionMeters, angle);
     }
 
-    Logger.recordOutput("Odometry/WrappedModuleAngles/" + index, getAngle().getDegrees() % 360);
+    Logger.recordOutput("Odometry/WrappedModuleAngles/Measured" + index, getAngle().getDegrees() % 180);
 
     // Update alerts
     driveDisconnectedAlert.set(!inputs.driveConnected);
@@ -82,6 +82,9 @@ public class Module {
     // Apply setpoints
     io.setDriveVelocity(state.speedMetersPerSecond / constants.WheelRadius);
     io.setTurnPosition(state.angle);
+
+    // Log
+    Logger.recordOutput("Odometry/WrappedModuleAngles/Setpoints" + index, state.angle.getDegrees() % 180);
   }
 
   /** Runs the module with the specified output while controlling to zero degrees. */
