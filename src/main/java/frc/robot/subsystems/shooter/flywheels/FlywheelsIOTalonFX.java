@@ -13,8 +13,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public class FlywheelsIOTalonFX implements FlywheelsIO {
   private final TalonFX leader = new TalonFX(leaderID);
   private final TalonFX follow = new TalonFX(followID);
-  private final VelocityDutyCycle dutyCycle = new VelocityDutyCycle(10.0).withEnableFOC(true);
-  private final VelocityTorqueCurrentFOC torqueControl = new VelocityTorqueCurrentFOC(10.0);
+
+  private final double updateFreqHz = 500;
+
+  private final VelocityDutyCycle dutyCycle = new VelocityDutyCycle(10.0).withEnableFOC(true).withUpdateFreqHz(updateFreqHz);
+  private final VelocityTorqueCurrentFOC torqueControl = new VelocityTorqueCurrentFOC(10.0).withUpdateFreqHz(updateFreqHz);
 
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
@@ -34,7 +37,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
     leader.getConfigurator().apply(talonFXConfigs);
 
     follow.getConfigurator().apply(talonFXConfigs);
-    follow.setControl(new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed));
+    follow.setControl(new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed).withUpdateFreqHz(updateFreqHz));
   }
 
   @Override
