@@ -149,15 +149,23 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight),
                 poseManager);
-        spindexer = new Spindexer(new SpindexerIOTalonFX());
-        climb = new Climb(new ClimbIOTalonFX());
-        flywheels = new Flywheels(new FlywheelsIOTalonFX());
-        turret = new Turret(new TurretIOTalonFX());
-        hood = new Hood(new HoodIOTalonFX());
+        spindexer = new Spindexer(new SpindexerIO() {});
+        climb = new Climb(new ClimbIO() {});
+        intakePivot = new IntakePivot(new IntakePivotIO() {});
+        intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
+        flywheels = new Flywheels(new FlywheelsIO() {});
+        turret = new Turret(new TurretIO() {});
+        hood = new Hood(new HoodIO() {});
+        kicker = new Kicker(new KickerIO() {});
+        // spindexer = new Spindexer(new SpindexerIOTalonFX());
+        // climb = new Climb(new ClimbIOTalonFX());
+        // flywheels = new Flywheels(new FlywheelsIOTalonFX());
+        // turret = new Turret(new TurretIOTalonFX());
+        // hood = new Hood(new HoodIOTalonFX());
+        // intakePivot = new IntakePivot(new IntakePivotIOTalon());
+        // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
+        // kicker = new Kicker(new KickerIOTalonFX());
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
-        intakePivot = new IntakePivot(new IntakePivotIOTalon());
-        intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
-        kicker = new Kicker(new KickerIOTalonFX());
         break;
 
       case SIM:
