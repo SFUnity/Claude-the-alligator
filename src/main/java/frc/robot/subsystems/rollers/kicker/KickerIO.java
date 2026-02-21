@@ -7,7 +7,6 @@ public interface KickerIO {
   public static class KickerIOInputs {
     public double appliedVolts = 0.0;
     public double currentAmps = 0.0;
-    public double velocity = 0.0;
     public double velocityRotsPerMin = 0.0;
     public double laserMeasurementInches = 0;
   }
