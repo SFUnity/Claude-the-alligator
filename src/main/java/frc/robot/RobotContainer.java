@@ -305,10 +305,10 @@ public class RobotContainer {
     if (ShiftHelpers.getCurrentShift().orElse(null) == ShiftHelpers.Shift.TRANSITION
         || ShiftHelpers.getCurrentShift().orElse(null) == ShiftHelpers.Shift.ENDGAME) {
       shiftColor = transitionPeriod;
-    } else if (ShiftHelpers.isActive() == true) {
-      shiftColor = hubOn;
     } else if (shiftTime < 3.0 && shiftTime > 0.0) {
       shiftColor = (System.currentTimeMillis() % 1000 < 500) ? hubOff : hubOn;
+    } else if (ShiftHelpers.isActive() == true) {
+      shiftColor = hubOn;
     } else {
       shiftColor = hubOff;
     }
