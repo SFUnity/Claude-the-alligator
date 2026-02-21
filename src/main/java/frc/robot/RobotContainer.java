@@ -290,8 +290,36 @@ public class RobotContainer {
     }
   }
 
+  /**
+   * Green light when the hub is active, white light when it's inactive. Three seconds before the
+   * end of a shift, the light will blink white and green. During transition perionds yellow light.
+   * 
+   */
   public void dashboardSetup() {
-    
+    Color hubOff = new Color(255, 255, 255);
+    Color hubOn = new Color(0, 255, 0);
+    Color transitionPeriod = new Color(255, 255, 0);
+    Color shiftColor = hubOff;
+    double shiftTime =
+        ShiftHelpers.timeRemainingInCurrentShift().orElse(Seconds.of(0.0)).in(Seconds);
+
+    if (ShiftHelpers.getCurrentShift().orElse(null) == ShiftHelpers.Shift.TRANSITION
+        || ShiftHelpers.getCurrentShift().orElse(null) == ShiftHelpers.Shift.ENDGAME) {
+      shiftColor = transitionPeriod;
+    } else if (ShiftHelpers.isActive() == true) {
+      shiftColor = hubOn;
+    } else if (shiftTime < 3.0 && shiftTime > 0.0) {
+      shiftColor = (System.currentTimeMillis() % 1000 < 500) ? hubOff : hubOn;
+    } else {
+      shiftColor = hubOff;
+    }
+    Logger.recordOutput("Shift Color", shiftColor);
+    Logger.recordOutput(
+        "Shift Time",
+        Math.round(
+                ShiftHelpers.timeRemainingInCurrentShift().orElse(Seconds.of(0.0)).in(Seconds)
+                    * 10.0)
+            / 10.0);
   }
 
   /**
@@ -369,7 +397,9 @@ public class RobotContainer {
                 ? RobotCommands.stopShoot(shooter, kicker, spindexer)
                 : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
-    new Trigger(() -> shooter.readyToShoot()).toggleOnTrue(shooter.getShooting()
+    new Trigger(() -> shooter.readyToShoot())
+        .toggleOnTrue(
+            shooter.getShooting()
                 ? RobotCommands.stopShoot(shooter, kicker, spindexer)
                 : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 

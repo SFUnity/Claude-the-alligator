@@ -5,6 +5,8 @@ import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Constants;
+
 import java.util.Optional;
 
 public class ShiftHelpers {
@@ -122,6 +124,10 @@ public class ShiftHelpers {
    * available.
    */
   public static Optional<Alliance> getAutoWinner() {
+    // if (Constants.currentMode == Constants.Mode.SIM) {
+    //   return Optional.of(Alliance.Blue);
+    // }
+
     String msg = DriverStation.getGameSpecificMessage();
     char msgChar = msg.length() > 0 ? msg.charAt(0) : ' ';
     switch (msgChar) {
