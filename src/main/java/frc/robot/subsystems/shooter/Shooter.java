@@ -203,7 +203,7 @@ public class Shooter extends VirtualSubsystem {
 
     if (inXRange && inYRange) {
       if (dX != 0 & dY != 0) {
-        
+
         if (trenchUpAndMovingUp || trenchDownAndMovingDown || upwardMovmentCorospondWithDirection) {
           hood.setAngle(0);
         } else {
@@ -229,8 +229,11 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput("Controls/Trench Avoidence/inYRange", inYRange);
 
     Logger.recordOutput("Controls/Trench Avoidence/trenchUpAndMovingUp", trenchUpAndMovingUp);
-    Logger.recordOutput("Controls/Trench Avoidence/trenchDownAndMovingDown", trenchDownAndMovingDown);
-    Logger.recordOutput("Controls/Trench Avoidence/upwardMovmentCorospondWithDirection", upwardMovmentCorospondWithDirection);
+    Logger.recordOutput(
+        "Controls/Trench Avoidence/trenchDownAndMovingDown", trenchDownAndMovingDown);
+    Logger.recordOutput(
+        "Controls/Trench Avoidence/upwardMovmentCorospondWithDirection",
+        upwardMovmentCorospondWithDirection);
 
     Logger.recordOutput(
         "Controls/Trench Avoidence/approachingFromAllianceSide", approachingFromAllianceSide);
