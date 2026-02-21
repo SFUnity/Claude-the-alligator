@@ -131,7 +131,7 @@ public class DriveConstants {
       default:
         turnKp = new LoggedTunableNumber("Drive/ModuleTunables/turnKp", 0.5);
         turnKd = new LoggedTunableNumber("Drive/ModuleTunables/turnKd", 0.0);
-        turnKs = new LoggedTunableNumber("Drive/ModuleTunables/turnKs", 3);
+        turnKs = new LoggedTunableNumber("Drive/ModuleTunables/turnKs", 1);
         break;
       case SIM:
         turnKp = new LoggedTunableNumber("Drive/SimModuleTunables/turnKp", 14.0);
