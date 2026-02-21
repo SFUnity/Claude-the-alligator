@@ -33,7 +33,7 @@ public class KickerIOTalonFX implements KickerIO {
   public KickerIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
     var slot0Configs = talonFXConfigs.Slot0;
-    lc = new LaserCan(0);
+    lc = new LaserCan(laserCANID);
 
     try {
       lc.setRangingMode(LaserCan.RangingMode.SHORT);
@@ -44,18 +44,12 @@ public class KickerIOTalonFX implements KickerIO {
     }
     ;
 
-    // slot0Configs.kS = 0;
-    // slot0Configs.kV = kV.get();
-    // slot0Configs.kA = kA.get();
-    // slot0Configs.kP = kP.get();
-    // slot0Configs.kI = 0;
-    // slot0Configs.kD = kD.get();
-    // talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
-    // talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-    // talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
 
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    talonFXConfigs.Slot0.kP = 999999.0;
+    talonFXConfigs.Slot0.kP = 0;
     talonFXConfigs.TorqueCurrent.PeakForwardTorqueCurrent = 40.0;
     talonFXConfigs.TorqueCurrent.PeakReverseTorqueCurrent = 0.0;
     talonFXConfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
