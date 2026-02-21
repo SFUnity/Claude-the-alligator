@@ -59,7 +59,6 @@ public class Shooter extends VirtualSubsystem {
 
   private double closeBorder;
   private double farBorder;
-  private double rightBorder;
   private double leftBorder;
 
   private boolean inXRange;
@@ -73,6 +72,8 @@ public class Shooter extends VirtualSubsystem {
 
   private boolean onRightAndMovingRight;
   private boolean onLeftAndMovingLeft;
+
+  private boolean upwardMovmentCorospondWithDirection;
   private FuelSim fuelSim;
 
   public Shooter(
@@ -170,7 +171,6 @@ public class Shooter extends VirtualSubsystem {
 
     closeBorder = RightTrench.openingTopRight.getX() - trenchRadius;
     farBorder = RightTrench.openingTopRight.getX() + trenchRadius;
-    rightBorder = RightTrench.openingTopLeft.getY() + trenchRadius;
     leftBorder = LeftTrench.openingTopRight.getY() - trenchRadius;
 
     // transpose so that zero zero is the center
@@ -179,7 +179,6 @@ public class Shooter extends VirtualSubsystem {
 
     closeBorder -= LinesVertical.center;
     farBorder -= LinesVertical.center;
-    rightBorder -= LinesHorizontal.center;
     leftBorder -= LinesHorizontal.center;
 
     inXRange = Math.abs(myX) < Math.abs(closeBorder) && Math.abs(myX) > Math.abs(farBorder);
@@ -195,40 +194,43 @@ public class Shooter extends VirtualSubsystem {
         Math.abs(myX) > Math.abs(RightTrench.openingTopRight.getX() - LinesVertical.center)
             && !approachingFromAllianceSide;
 
-    onRightAndMovingRight =
-        Math.abs(myY) < RightTrench.openingTopLeft.getY() - LinesHorizontal.center
-            && approachingFromRight;
-    onLeftAndMovingLeft =
-        myY > LeftTrench.openingTopLeft.getY() - LinesHorizontal.center && !approachingFromRight;
+    upwardMovmentCorospondWithDirection =
+        Math.abs(myY) > LeftTrench.openingTopRight.getY()
+            & ((Math.abs(myY) == myY) & approachingFromRight);
   }
 
   private void DropHood() {
 
     if (inXRange && inYRange) {
-      if (onRightAndMovingRight || onLeftAndMovingLeft) {
-        hood.setAngle(0);
+      if (dX != 0 & dY != 0) {
+        
+        if (trenchUpAndMovingUp || trenchDownAndMovingDown || upwardMovmentCorospondWithDirection) {
+          hood.setAngle(0);
+        } else {
+          // swap for solution.hoodAngle() when working
+          hood.setAngle(341.5);
+        }
+      } else {
+        // swap for solution.hoodAngle() when working
+        hood.setAngle(341.5);
       }
-
-      if (trenchUpAndMovingUp || trenchDownAndMovingDown) {
-        hood.setAngle(0);
-      }
+    } else {
+      // swap for solution.hoodAngle() when working
+      hood.setAngle(341.5);
     }
   }
 
   private void LogTrenchAvoidence() {
     Logger.recordOutput("Controls/Trench Avoidence/closeBorder", closeBorder);
     Logger.recordOutput("Controls/Trench Avoidence/farBorder", farBorder);
-    Logger.recordOutput("Controls/Trench Avoidence/rightBorder", rightBorder);
     Logger.recordOutput("Controls/Trench Avoidence/leftBorder", leftBorder);
 
     Logger.recordOutput("Controls/Trench Avoidence/inXRange", inXRange);
     Logger.recordOutput("Controls/Trench Avoidence/inYRange", inYRange);
 
     Logger.recordOutput("Controls/Trench Avoidence/trenchUpAndMovingUp", trenchUpAndMovingUp);
-    Logger.recordOutput(
-        "Controls/Trench Avoidence/trenchDownAndMovingDown", trenchDownAndMovingDown);
-    Logger.recordOutput("Controls/Trench Avoidence/onRightAndMovingRight", onRightAndMovingRight);
-    Logger.recordOutput("Controls/Trench Avoidence/onLeftAndMovingLeft", onLeftAndMovingLeft);
+    Logger.recordOutput("Controls/Trench Avoidence/trenchDownAndMovingDown", trenchDownAndMovingDown);
+    Logger.recordOutput("Controls/Trench Avoidence/upwardMovmentCorospondWithDirection", upwardMovmentCorospondWithDirection);
 
     Logger.recordOutput(
         "Controls/Trench Avoidence/approachingFromAllianceSide", approachingFromAllianceSide);
