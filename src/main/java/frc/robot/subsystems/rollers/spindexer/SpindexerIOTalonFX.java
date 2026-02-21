@@ -13,7 +13,13 @@ public class SpindexerIOTalonFX implements SpindexerIO {
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
 
   // TODO fill this out
-  public SpindexerIOTalonFX() {}
+  public SpindexerIOTalonFX() {
+
+    var talonFXConfigs = new TalonFXConfiguration();
+    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
+  }
 
   @Override
   public void updateInputs(SpindexerIOInputs inputs) {
