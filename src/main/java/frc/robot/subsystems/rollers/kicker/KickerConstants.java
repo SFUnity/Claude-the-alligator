@@ -3,8 +3,8 @@ package frc.robot.subsystems.rollers.kicker;
 import frc.robot.util.LoggedTunableNumber;
 
 public class KickerConstants {
-  public static final int kickerMotorID = 8;
-  public static final int laserCANID = 12;
+  public static final int kickerMotorID = 7;
+  public static final int laserCANID = 6;
   public static final boolean inverted = false;
   public static final int positionFactor = 3;
 
