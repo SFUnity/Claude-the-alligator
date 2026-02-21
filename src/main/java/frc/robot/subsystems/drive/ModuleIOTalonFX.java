@@ -271,8 +271,9 @@ public class ModuleIOTalonFX implements ModuleIO {
   }
 
   @Override
-  public void setTurnP(double turnkP) {
+  public void setTurnPD(double turnkP, double turnkD) {
     turnConfig.Slot0.kP = turnkP;
+    turnConfig.Slot0.kD = turnkD;
     tryUntilOk(5, () -> turnTalon.getConfigurator().apply(turnConfig, 0.25));
   }
 
