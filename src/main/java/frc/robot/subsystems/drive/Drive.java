@@ -372,8 +372,15 @@ public class Drive extends SubsystemBase {
         rkDAuto);
   }
 
+  private static final LoggedTunableNumber tuningTurnDelta =
+      new LoggedTunableNumber("Drive/ModuleTunables/turnDeltaForTuning", 90);
   private static final LoggedTunableNumber tuningDriveSpeed =
       new LoggedTunableNumber("Drive/ModuleTunables/tuningDriveSpeed", 3);
+
+  public void tuneModuleTurn() {
+    for (var module : modules) module.setTurnP(turnKp.get());
+    setAllModuleSetpointsToSame(0, Rotation2d.fromDegrees(tuningTurnDelta.get()));
+  }
 
   public void tuneModuleDrive() {
     for (var module : modules) module.setDriveP(driveKp.get());

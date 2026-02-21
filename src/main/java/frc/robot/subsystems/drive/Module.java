@@ -139,6 +139,10 @@ public class Module {
     return Units.radiansToRotations(inputs.driveVelocityRadPerSec);
   }
 
+  public void setTurnP(double turnkP) {
+    io.setTurnP(turnkP);
+  }
+
   public void setDriveP(double drivekP) {
     io.setDriveP(drivekP);
   }

@@ -350,6 +350,12 @@ public class DriveCommands {
     double gyroDelta = 0.0;
   }
 
+  public static Command tuneModuleTurn(Drive drive) {
+    return Commands.startEnd(drive::tuneModuleTurn, drive::endTuneModule, drive)
+        .withTimeout(2.0)
+        .withName("tuneModuleTurn");
+  }
+
   public static Command tuneModuleDrive(Drive drive) {
     return Commands.startEnd(drive::tuneModuleDrive, drive::endTuneModule, drive)
         .withTimeout(2.0)
