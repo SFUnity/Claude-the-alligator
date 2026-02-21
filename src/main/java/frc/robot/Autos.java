@@ -105,6 +105,8 @@ public class Autos {
 
       // SysID & non-choreo routines
       if (!isChoreoAuto) {
+        nonChoreoChooser.addOption("TuneModuleDrive", DriveCommands.tuneModuleDrive(drive));
+
         // Set up SysId routines
         nonChoreoChooser.addOption(
             "Drive Wheel Radius Characterization",

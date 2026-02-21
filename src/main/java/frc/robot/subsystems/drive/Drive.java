@@ -8,6 +8,7 @@
 package frc.robot.subsystems.drive;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.subsystems.drive.DriveConstants.*;
 
 import choreo.trajectory.SwerveSample;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
@@ -199,13 +200,26 @@ public class Drive extends SubsystemBase {
   public void runVelocity(ChassisSpeeds speeds) {
     // Calculate module setpoints
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
-    SwerveModuleState[] setpointStates =
-        DriveConstants.kinematics.toSwerveModuleStates(discreteSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, TunerConstants.kSpeedAt12Volts);
+    SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
+    setModuleSetpoints(setpointStates);
+    Logger.recordOutput("Odometry/SwerveChassisSpeeds/Setpoints", discreteSpeeds);
+  }
+
+  private void setAllModuleSetpointsToSame(double speed, Rotation2d angle) {
+    var moduleStates = new SwerveModuleState[4];
+    for (int i = 0; i < 4; i++) {
+      moduleStates[i] = new SwerveModuleState(speed, angle);
+    }
+    setModuleSetpoints(moduleStates);
+    Logger.recordOutput("Odometry/SwerveChassisSpeeds/Setpoints", new ChassisSpeeds());
+  }
+
+  private void setModuleSetpoints(SwerveModuleState[] setpointStates) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        setpointStates, maxSpeedMetersPerSec);
 
     // Log unoptimized setpoints and setpoint speeds
     Logger.recordOutput("Odometry/SwerveStates/Setpoints", setpointStates);
-    Logger.recordOutput("Odometry/SwerveChassisSpeeds/Setpoints", discreteSpeeds);
 
     // Send setpoints to modules
     for (int i = 0; i < 4; i++) {
@@ -356,5 +370,17 @@ public class Drive extends SubsystemBase {
         () -> headingAutoController.setPID(rkPAuto.get(), 0, rkDAuto.get()),
         rkPAuto,
         rkDAuto);
+  }
+
+  private static final LoggedTunableNumber tuningDriveSpeed =
+      new LoggedTunableNumber("Drive/ModuleTunables/tuningDriveSpeed", 3);
+
+  public void tuneModuleDrive() {
+    for (var module : modules) module.setDriveP(driveKp.get());
+    setAllModuleSetpointsToSame(tuningDriveSpeed.get(), new Rotation2d());
+  }
+
+  public void endTuneModule() {
+    for (var module : modules) module.stop();
   }
 }

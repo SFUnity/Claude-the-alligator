@@ -349,4 +349,10 @@ public class DriveCommands {
     Rotation2d lastAngle = Rotation2d.kZero;
     double gyroDelta = 0.0;
   }
+
+  public static Command tuneModuleDrive(Drive drive) {
+    return Commands.startEnd(drive::tuneModuleDrive, drive::endTuneModule, drive)
+        .withTimeout(2.0)
+        .withName("tuneModuleDrive");
+  }
 }
