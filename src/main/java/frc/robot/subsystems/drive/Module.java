@@ -65,6 +65,8 @@ public class Module {
       odometryPositions[i] = new SwerveModulePosition(positionMeters, angle);
     }
 
+    Logger.recordOutput("Odometry/WrappedModuleAngles/" + index, getAngle().getDegrees() % 360);
+
     // Update alerts
     driveDisconnectedAlert.set(!inputs.driveConnected);
     turnDisconnectedAlert.set(!inputs.turnConnected);
