@@ -48,6 +48,7 @@ import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.kicker.KickerIO;
 import frc.robot.subsystems.rollers.kicker.KickerIOSim;
+import frc.robot.subsystems.rollers.kicker.KickerIOTalonFX;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
@@ -134,13 +135,21 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         // ModuleIOTalonFX is intended for modules with TalonFX drive, TalonFX turn, and
         // a CANcoder
+        // drive =
+        //     new Drive(
+        //         new GyroIOPigeon2(),
+        //         new ModuleIOTalonFX(TunerConstants.FrontLeft),
+        //         new ModuleIOTalonFX(TunerConstants.FrontRight),
+        //         new ModuleIOTalonFX(TunerConstants.BackLeft),
+        //         new ModuleIOTalonFX(TunerConstants.BackRight),
+        //         poseManager);
         drive =
             new Drive(
-                new GyroIOPigeon2(),
-                new ModuleIOTalonFX(TunerConstants.FrontLeft),
-                new ModuleIOTalonFX(TunerConstants.FrontRight),
-                new ModuleIOTalonFX(TunerConstants.BackLeft),
-                new ModuleIOTalonFX(TunerConstants.BackRight),
+                new GyroIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
                 poseManager);
         spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
@@ -149,7 +158,7 @@ public class RobotContainer {
         flywheels = new Flywheels(new FlywheelsIO() {});
         turret = new Turret(new TurretIO() {});
         hood = new Hood(new HoodIO() {});
-        kicker = new Kicker(new KickerIO() {});
+        // kicker = new Kicker(new KickerIO() {});
         // spindexer = new Spindexer(new SpindexerIOTalonFX());
         // climb = new Climb(new ClimbIOTalonFX());
         // flywheels = new Flywheels(new FlywheelsIOTalonFX());
@@ -157,7 +166,7 @@ public class RobotContainer {
         // hood = new Hood(new HoodIOTalonFX());
         // intakePivot = new IntakePivot(new IntakePivotIOTalon());
         // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
-        // kicker = new Kicker(new KickerIOTalonFX());
+        kicker = new Kicker(new KickerIOTalonFX());
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
 
