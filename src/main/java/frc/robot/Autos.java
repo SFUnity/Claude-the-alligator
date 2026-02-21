@@ -87,8 +87,7 @@ public class Autos {
     // prioritize
     chooser.addRoutine("Climb Center", this::climbCenterAutoRoutine);
     chooser.addRoutine("Depot Climb", this::depotClimbAutoRoutine);
-    chooser.addRoutine(
-        "Score Center Climb", this::ScoreCenterClimbAutoRoutine); 
+    chooser.addRoutine("Score Center Climb", this::ScoreCenterClimbAutoRoutine);
     chooser.addRoutine("Score Center", this::ScoreCenterAutoRoutine);
     chooser.addRoutine("Score Upper Center", this::ScoreUpperCenterAutoRoutine);
     chooser.addRoutine("Score Upper Center Climb", this::ScoreUpperCenterClimbAutoRoutine);
@@ -225,23 +224,22 @@ public class Autos {
     AutoTrajectory ScoreCenter = routine.trajectory("ScoreCenter");
     routine.active().onTrue(Commands.sequence(ScoreCenter.resetOdometry(), ScoreCenter.cmd()));
     ScoreCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    ScoreCenter.atTime("StopIntake")
-        .onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    ScoreCenter.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     ScoreCenter.atTime("StartShoot")
         .onTrue(
             RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
-    ScoreCenter.atTime("StopShoot")
-        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    ScoreCenter.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     return routine;
   }
 
   public AutoRoutine ScoreUpperCenterAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("ScoreUpperCenter Auto Routine");
     AutoTrajectory ScoreUpperCenter = routine.trajectory("ScoreUpperCenter");
-    routine.active().onTrue(Commands.sequence(ScoreUpperCenter.resetOdometry(), ScoreUpperCenter.cmd()));
+    routine
+        .active()
+        .onTrue(Commands.sequence(ScoreUpperCenter.resetOdometry(), ScoreUpperCenter.cmd()));
     ScoreUpperCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    ScoreUpperCenter.atTime("StopIntake")
-        .onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    ScoreUpperCenter.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     ScoreUpperCenter.atTime("StartShoot")
         .onTrue(
             RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
