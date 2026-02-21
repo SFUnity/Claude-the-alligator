@@ -293,7 +293,6 @@ public class RobotContainer {
   /**
    * Green light when the hub is active, white light when it's inactive. Three seconds before the
    * end of a shift, the light will blink white and green. During transition perionds yellow light.
-   * 
    */
   public void dashboardSetup() {
     Color hubOff = new Color(255, 255, 255);
