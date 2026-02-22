@@ -6,6 +6,7 @@ import static frc.robot.subsystems.rollers.spindexer.SpindexerConstants.*;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class SpindexerIOTalonFX implements SpindexerIO {
   private final TalonFX talon = new TalonFX(talonID);
@@ -15,8 +16,9 @@ public class SpindexerIOTalonFX implements SpindexerIO {
 
   // TODO fill this out
   public SpindexerIOTalonFX() {
-
     var talonFXConfigs = new TalonFXConfiguration();
+    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
     talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
