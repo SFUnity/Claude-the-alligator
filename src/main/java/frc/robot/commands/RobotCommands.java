@@ -67,7 +67,8 @@ public class RobotCommands {
       Kicker kicker,
       Spindexer spindexer,
       IntakeRollers intakeRollers,
-      IntakePivot intakePivot, IntakeRollers intake) {
+      IntakePivot intakePivot,
+      IntakeRollers intake) {
     return Commands.sequence(
             shooter.testTurret(),
             shooter.testHood(),

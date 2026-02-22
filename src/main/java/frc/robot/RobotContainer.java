@@ -431,6 +431,7 @@ public class RobotContainer {
   }
 
   public void testInit() {
-    RobotCommands.test(shooter, kicker, spindexer, intakeRollers, intakePivot, intakeRollers).schedule();
+    RobotCommands.test(shooter, kicker, spindexer, intakeRollers, intakePivot, intakeRollers)
+        .schedule();
   }
 }

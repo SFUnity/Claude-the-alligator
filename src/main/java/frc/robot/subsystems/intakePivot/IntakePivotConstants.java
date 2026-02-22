@@ -21,7 +21,7 @@ public class IntakePivotConstants {
   public static final double intakePIDMinInput = 0;
   public static final double intakePIDMaxInput = 1 * 360;
 
-  public static final double gearRatio = 200.0/3.0;
+  public static final double gearRatio = 200.0 / 3.0;
 
   // In degrees
 
