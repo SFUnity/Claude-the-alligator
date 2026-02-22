@@ -93,6 +93,7 @@ public class Autos {
     chooser.addRoutine("Score Upper Center Climb", this::ScoreUpperCenterClimbAutoRoutine);
     chooser.addRoutine("Feed", this::FeedAutoRoutine);
     chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
+    chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
 
     // not as necessary
     chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -327,6 +328,20 @@ public class Autos {
     LowerFeedClimb.atTime("ExtendClimberandStopShoot")
         .onTrue(climb.climbUp().alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     LowerFeedClimb.done().onTrue(climb.climbDown());
+    return routine;
+  }
+
+  public AutoRoutine LowerFeedScoreAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("Lower Feed Score Auto Routine");
+    AutoTrajectory LowerFeedScore = routine.trajectory("LowerFeedScore");
+    routine.active().onTrue(Commands.sequence(LowerFeedScore.resetOdometry(), LowerFeedScore.cmd()));
+    LowerFeedScore.atTime("StartIntakeandShoot").onTrue(RobotCommands.intake(intake, intakePivot).alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    LowerFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    LowerFeedScore.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    LowerFeedScore.atTime("StartShoot")
+        .onTrue(
+            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot)
+                .withTimeout(5));
     return routine;
   }
 }
