@@ -8,6 +8,8 @@ import frc.robot.Constants;
 public class KickerIOSim implements KickerIO {
   private double appliedVolts = 0.0;
   private double currentAmps = 0.0;
+  private double currentOutput = 0.0;
+  private double currentOutputAsVolt = 0.0;
   private static final DCMotor motorModel = DCMotor.getKrakenX60(1);
   private static final DCMotorSim sim =
       new DCMotorSim(LinearSystemId.createDCMotorSystem(motorModel, .025, 1), motorModel);
@@ -16,7 +18,8 @@ public class KickerIOSim implements KickerIO {
 
   @Override
   public void updateInputs(KickerIOInputs inputs) {
-    inputs.appliedVolts = appliedVolts;
+    currentOutputAsVolt = motorModel.getVoltage(currentOutput, sim.getAngularVelocityRadPerSec());
+    inputs.appliedVolts = currentOutputAsVolt;
     inputs.currentAmps = currentAmps;
     inputs.velocityRotsPerMin = sim.getAngularVelocityRPM();
     sim.setInputVoltage(appliedVolts);
@@ -36,11 +39,11 @@ public class KickerIOSim implements KickerIO {
 
   @Override
   public void runDutyCycle() {
-    appliedVolts = 10;
+    currentOutput = 10;
   }
 
   @Override
   public void runTorqueControl() {
-    appliedVolts = 10;
+    currentOutput = 10;
   }
 }
