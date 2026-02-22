@@ -12,7 +12,7 @@ public class KickerConstants {
   public static final LoggedTunableNumber RPMSetpoint =
       new LoggedTunableNumber("Kicker/RPMSetpoint", 1000);
   public static final LoggedTunableNumber torqueCurrentDebounce =
-      new LoggedTunableNumber("Kicker/TorqueCurrentDebounce", 0.025);
+      new LoggedTunableNumber("Kicker/TorqueCurrentDebounce", 0.03);
   public static final LoggedTunableNumber atGoalDebounce =
       new LoggedTunableNumber("Kicker/AtGoalDebounce", 0.2);
   public static final LoggedTunableNumber kickerTolerance =
