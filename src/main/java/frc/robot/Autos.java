@@ -334,8 +334,13 @@ public class Autos {
   public AutoRoutine LowerFeedScoreAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Lower Feed Score Auto Routine");
     AutoTrajectory LowerFeedScore = routine.trajectory("LowerFeedScore");
-    routine.active().onTrue(Commands.sequence(LowerFeedScore.resetOdometry(), LowerFeedScore.cmd()));
-    LowerFeedScore.atTime("StartIntakeandShoot").onTrue(RobotCommands.intake(intake, intakePivot).alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    routine
+        .active()
+        .onTrue(Commands.sequence(LowerFeedScore.resetOdometry(), LowerFeedScore.cmd()));
+    LowerFeedScore.atTime("StartIntakeandShoot")
+        .onTrue(
+            RobotCommands.intake(intake, intakePivot)
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
     LowerFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     LowerFeedScore.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     LowerFeedScore.atTime("StartShoot")
