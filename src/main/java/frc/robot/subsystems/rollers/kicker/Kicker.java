@@ -18,6 +18,8 @@ public class Kicker extends SubsystemBase {
       new Debouncer(torqueCurrentDebounce.get(), DebounceType.kFalling);
   private Debouncer atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
   private boolean lastTorqueCurrentControl = false;
+  boolean torqueCurrentControl = false;
+  boolean atGoal = false;
 
   @AutoLogOutput(key = "Subsystems/Rollers/Kicker/LaunchCount")
   private long launchCount = 0;
@@ -36,6 +38,8 @@ public class Kicker extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Logger.recordOutput("Kicker/atGoal", atGoal);
+    Logger.recordOutput("Kicker/torque", torqueCurrentControl);
     io.updateInputs(inputs);
     Logger.processInputs("Rollers/Kicker", inputs);
     GeneralUtil.logSubsystem(this, "Rollers/Kicker");
@@ -55,10 +59,8 @@ public class Kicker extends SubsystemBase {
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
     boolean inTolerance = velocityRPM - inputs.velocityRotsPerMin <= kickerTolerance.get();
-    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inTolerance);
-    boolean atGoal = atGoalDebouncer.calculate(inTolerance);
-    Logger.recordOutput("Kicker/atGoal", atGoal);
-    Logger.recordOutput("Kicker/torque", torqueCurrentControl);
+    torqueCurrentControl = torqueCurrentDebouncer.calculate(inTolerance);
+    atGoal = atGoalDebouncer.calculate(inTolerance);
 
     if (!torqueCurrentControl && lastTorqueCurrentControl) {
       launchCount++;
@@ -71,6 +73,8 @@ public class Kicker extends SubsystemBase {
       } else {
         io.runDutyCycle();
       }
+    } else {
+      io.runSlowDutyCycle();
     }
   }
 
