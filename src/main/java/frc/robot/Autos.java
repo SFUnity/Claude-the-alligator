@@ -94,6 +94,7 @@ public class Autos {
     chooser.addRoutine("Feed", this::FeedAutoRoutine);
     chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
     chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
+    chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
 
     // not as necessary
     chooser.addRoutine("Climb", this::climbAutoRoutine);
