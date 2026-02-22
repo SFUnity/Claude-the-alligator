@@ -343,11 +343,12 @@ public class Autos {
             RobotCommands.intake(intake, intakePivot)
                 .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
     LowerFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    LowerFeedScore.atTime("StopIntakeandStartJork").onTrue(RobotCommands.stowIntake(intake, intakePivot).alongWith(RobotCommands.jork(intake, intakePivot)));
-    LowerFeedScore.atTime("StartShoot")
+    LowerFeedScore.atTime("StopIntakeandStartJork")
         .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .withTimeout(5));
+            RobotCommands.stowIntake(intake, intakePivot)
+                .alongWith(RobotCommands.jork(intake, intakePivot)));
+    LowerFeedScore.atTime("StartShoot")
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
   }
 
@@ -362,11 +363,9 @@ public class Autos {
             RobotCommands.intake(intake, intakePivot)
                 .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
     UpperFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    UpperFeedScore.atTime("StopIntakeandStartJork").onTrue(RobotCommands.stowIntake(intake, intakePivot).alongWith(RobotCommands.jork(intake, intakePivot)));
+    UpperFeedScore.atTime("StopIntakeandStartJork").onTrue(RobotCommands.jork(intake, intakePivot));
     UpperFeedScore.atTime("StartShoot")
-        .onTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                .withTimeout(5));
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
   }
 }
