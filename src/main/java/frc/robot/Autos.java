@@ -342,8 +342,27 @@ public class Autos {
             RobotCommands.intake(intake, intakePivot)
                 .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
     LowerFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    LowerFeedScore.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot).alongWith(RobotCommands.jork(intake, intakePivot)));
+    LowerFeedScore.atTime("StopIntakeandStartJork").onTrue(RobotCommands.stowIntake(intake, intakePivot).alongWith(RobotCommands.jork(intake, intakePivot)));
     LowerFeedScore.atTime("StartShoot")
+        .onTrue(
+            RobotCommands.readyThenShoot(shooter, kicker, spindexer)
+                .withTimeout(5));
+    return routine;
+  }
+
+  public AutoRoutine UpperFeedScoreAutoRoutine() {
+    AutoRoutine routine = factory.newRoutine("Upper Feed Score Auto Routine");
+    AutoTrajectory UpperFeedScore = routine.trajectory("UpperFeedScore");
+    routine
+        .active()
+        .onTrue(Commands.sequence(UpperFeedScore.resetOdometry(), UpperFeedScore.cmd()));
+    UpperFeedScore.atTime("StartIntakeandShoot")
+        .onTrue(
+            RobotCommands.intake(intake, intakePivot)
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    UpperFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    UpperFeedScore.atTime("StopIntakeandStartJork").onTrue(RobotCommands.stowIntake(intake, intakePivot).alongWith(RobotCommands.jork(intake, intakePivot)));
+    UpperFeedScore.atTime("StartShoot")
         .onTrue(
             RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                 .withTimeout(5));
