@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import static edu.wpi.first.wpilibj2.command.Commands.waitSeconds;
 import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,13 +12,13 @@ import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
 
 public class RobotCommands {
-  // TODO make the spindexer stop a bit before the shooter and kicker stops so that the last ball
   // can be fully shot out of the robot
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return shooter
-        .setShooting(false)
+    return spindexer
+        .stop()
+        .andThen(waitSeconds(0.3))
         .andThen(kicker.setState(KickerState.STOP))
-        .andThen(spindexer.stop())
+        .andThen(shooter.setShooting(false))
         .withName("StopShoot");
   }
 
