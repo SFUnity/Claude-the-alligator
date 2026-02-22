@@ -432,8 +432,8 @@ public class RobotContainer {
     return autos.getAutonomousCommand();
   }
 
-  public void testInit() {
-    RobotCommands.test(shooter, kicker, spindexer, intakeRollers, intakePivot, intakeRollers)
-        .schedule();
+  public Command testInit() {
+    return RobotCommands.test(
+        shooter, kicker, spindexer, intakeRollers, intakePivot, intakeRollers);
   }
 }
