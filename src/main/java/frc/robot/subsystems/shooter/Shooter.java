@@ -192,7 +192,6 @@ public class Shooter extends VirtualSubsystem {
 
   private void SetupTrenchAvoidenceInputs() {
 
- 
     dX = poseManager.getFieldVelocity().dx;
     dY = poseManager.getFieldVelocity().dy;
 
@@ -201,7 +200,6 @@ public class Shooter extends VirtualSubsystem {
     leftBorder = LeftTrench.openingTopRight.getY() - trenchRadius;
 
     // transpose so that zero zero is the center
-
 
     closeBorder -= LinesVertical.center;
     farBorder -= LinesVertical.center;
