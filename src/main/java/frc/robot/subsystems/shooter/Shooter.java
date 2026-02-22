@@ -96,6 +96,9 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
     Logger.recordOutput("Subsystems/Shooter/isShooting", isShooting);
 
+    myX = poseManager.getPose().getX() - LinesVertical.center;
+    myY = poseManager.getPose().getY() - LinesHorizontal.center;
+
     turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
 
@@ -137,6 +140,12 @@ public class Shooter extends VirtualSubsystem {
     measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
     setpointVisualizer.update(0, fakeTurretVelocity.get());
     // measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
+
+    if (myY > 0f) {
+      // To do add shoot to near the middle top
+    } else {
+      // To do add shoot to near the middle bottom
+    }
   }
 
   public boolean readyToShoot() {
@@ -183,8 +192,7 @@ public class Shooter extends VirtualSubsystem {
 
   private void SetupTrenchAvoidenceInputs() {
 
-    myX = poseManager.getPose().getX();
-    myY = poseManager.getPose().getY();
+ 
     dX = poseManager.getFieldVelocity().dx;
     dY = poseManager.getFieldVelocity().dy;
 
@@ -193,8 +201,7 @@ public class Shooter extends VirtualSubsystem {
     leftBorder = LeftTrench.openingTopRight.getY() - trenchRadius;
 
     // transpose so that zero zero is the center
-    myX -= LinesVertical.center;
-    myY -= LinesHorizontal.center;
+
 
     closeBorder -= LinesVertical.center;
     farBorder -= LinesVertical.center;
