@@ -337,6 +337,6 @@
  "events":[
    {"name":"StartIntakeandShoot", "from":{"target":2, "targetTimestamp":2.01527, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StopShoot", "from":{"target":3, "targetTimestamp":4.28913, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StopIntakeandStartJork", "from":{"target":4, "targetTimestamp":6.54232, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartJork", "from":{"target":4, "targetTimestamp":6.54232, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StartShoot", "from":{"target":6, "targetTimestamp":9.61255, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }

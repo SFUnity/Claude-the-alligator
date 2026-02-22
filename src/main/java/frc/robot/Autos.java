@@ -343,7 +343,7 @@ public class Autos {
             RobotCommands.intake(intake, intakePivot)
                 .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
     LowerFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    LowerFeedScore.atTime("StopIntakeandStartJork")
+    LowerFeedScore.atTime("StartJork")
         .onTrue(
             RobotCommands.stowIntake(intake, intakePivot)
                 .alongWith(RobotCommands.jork(intake, intakePivot)));
@@ -363,7 +363,10 @@ public class Autos {
             RobotCommands.intake(intake, intakePivot)
                 .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
     UpperFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    UpperFeedScore.atTime("StopIntakeandStartJork").onTrue(RobotCommands.jork(intake, intakePivot));
+    UpperFeedScore.atTime("StartJork")
+        .onTrue(
+            RobotCommands.stowIntake(intake, intakePivot)
+                .alongWith(RobotCommands.jork(intake, intakePivot)));
     UpperFeedScore.atTime("StartShoot")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
