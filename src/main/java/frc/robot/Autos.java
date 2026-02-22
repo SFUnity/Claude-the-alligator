@@ -376,10 +376,13 @@ public class Autos {
   public AutoRoutine DoubleScoreCenter() {
     AutoRoutine routine = factory.newRoutine("Double Score Center Auto Routine");
     AutoTrajectory DoubleScoreCenter = routine.trajectory("DoubleScoreCenter");
-    routine.active().onTrue(Commands.sequence(DoubleScoreCenter.resetOdometry(), DoubleScoreCenter.cmd()));
+    routine
+        .active()
+        .onTrue(Commands.sequence(DoubleScoreCenter.resetOdometry(), DoubleScoreCenter.cmd()));
     DoubleScoreCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     DoubleScoreCenter.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreCenter.atTime("StartShoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
+    DoubleScoreCenter.atTime("StartShoot")
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
   }
 }

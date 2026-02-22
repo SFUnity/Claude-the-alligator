@@ -67,18 +67,18 @@ public class RobotCommands {
       Kicker kicker,
       Spindexer spindexer,
       IntakeRollers intakeRollers,
-      IntakePivot intakePivot) {
+      IntakePivot intakePivot, IntakeRollers intake) {
     return Commands.sequence(
-            kicker.testTurret(),
-            kicker.testHood(),
-            shooter.lower().withTimeout(1),
-            shooter.raise().withTimeout(1))
+            shooter.testTurret(),
+            shooter.testHood(),
+            intakePivot.lower().withTimeout(1),
+            intakePivot.raise().withTimeout(1))
         .andThen(
             Commands.parallel(
-                intakeRollers.run().withTimeout(1),
-                spindexer.setState(KickerState.RUN).withTimeout(1),
-                intakePivot.intake().withTimeout(1),
-                kicker.testFlywheels()))
+                spindexer.run().withTimeout(1),
+                kicker.setState(KickerState.RUN).withTimeout(1),
+                intake.intake().withTimeout(1),
+                shooter.testFlywheels()))
         .withName("test");
   }
 }
