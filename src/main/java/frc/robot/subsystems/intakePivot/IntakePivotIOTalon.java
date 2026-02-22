@@ -22,7 +22,7 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
     config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    config.Feedback.SensorToMechanismRatio = 73.5;
+    config.Feedback.SensorToMechanismRatio = gearRatio;
 
     config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
