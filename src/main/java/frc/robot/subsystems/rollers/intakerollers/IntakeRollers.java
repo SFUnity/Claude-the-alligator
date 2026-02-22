@@ -18,8 +18,8 @@ public class IntakeRollers extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Intake/IntakeRollers", inputs);
-    GeneralUtil.logSubsystem(this, "Intake/IntakeRollers");
+    Logger.processInputs("Rollers/IntakeRollers", inputs);
+    GeneralUtil.logSubsystem(this, "Rollers/IntakeRollers");
   }
 
   public Command intake() {

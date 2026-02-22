@@ -19,8 +19,8 @@ public class Spindexer extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
 
-    Logger.processInputs("Spindexer", inputs);
-    GeneralUtil.logSubsystem(this, "Spindexer");
+    Logger.processInputs("Rollers/Spindexer", inputs);
+    GeneralUtil.logSubsystem(this, "Rollers/Spindexer");
   }
 
   // TODO put make an eject command
