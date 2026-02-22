@@ -10,9 +10,7 @@ public class KickerConstants {
 
   public static final double spinupTime = 0.25;
   public static final LoggedTunableNumber RPMSetpoint =
-      new LoggedTunableNumber("Kicker/RPMSetpoint", 100);
-  public static final LoggedTunableNumber torqueCurrentTolerance =
-      new LoggedTunableNumber("Kicker/TorqueCurrentTolerance", 1200.0);
+      new LoggedTunableNumber("Kicker/RPMSetpoint", 1000);
   public static final LoggedTunableNumber torqueCurrentDebounce =
       new LoggedTunableNumber("Kicker/TorqueCurrentDebounce", 0.025);
   public static final LoggedTunableNumber atGoalDebounce =
