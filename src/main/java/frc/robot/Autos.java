@@ -96,6 +96,7 @@ public class Autos {
     chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
     chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
     chooser.addRoutine("Double Score Center", this::DoubleScoreCenter);
+    chooser.addRoutine("Double Upper Score Center", this::DoubleUpperScoreCenter);
 
     // not as necessary
     chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -385,4 +386,18 @@ public class Autos {
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
   }
+
+  public AutoRoutine DoubleUpperScoreCenter() {
+    AutoRoutine routine = factory.newRoutine("Double Upper Score Center Auto Routine");
+    AutoTrajectory DoubleUpperScoreCenter = routine.trajectory("DoubleUpperScoreCenter");
+    routine
+        .active()
+        .onTrue(Commands.sequence(DoubleUpperScoreCenter.resetOdometry(), DoubleUpperScoreCenter.cmd()));
+    DoubleUpperScoreCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+    DoubleUpperScoreCenter.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
+    DoubleUpperScoreCenter.atTime("StartShoot")
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
+    return routine;
+  }
+
 }
