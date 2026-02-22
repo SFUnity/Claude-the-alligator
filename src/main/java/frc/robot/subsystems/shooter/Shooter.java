@@ -121,6 +121,7 @@ public class Shooter extends VirtualSubsystem {
     if (Constants.currentMode == Constants.simMode && isShooting) {}
 
     // rlly fucking cooked way to do this but dont comment pls
+    // hmmmmmmm
     if (clearBalls.get() == 1) {
       fuelSim.clearFuel();
     }
