@@ -18,6 +18,7 @@ import frc.robot.FieldConstants.RightTrench;
 import frc.robot.subsystems.shooter.ShooterUtil.*;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
+import frc.robot.subsystems.shooter.hood.HoodConstants;
 import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.util.FuelSim;
 import frc.robot.util.LoggedTunableNumber;
@@ -155,6 +156,23 @@ public class Shooter extends VirtualSubsystem {
 
   public Command setScoring(boolean scoring) {
     return runOnce(() -> isScoring = scoring);
+  }
+  // TODO Sean needs to make this work better. Make it go from minimum safe angle to maximum safe
+  // angle.
+  public Command testTurret() {
+    return run(() -> turret.setTarget(90, 0)).withName("TestTurret");
+  }
+
+  public Command testHood() {
+    return run(() -> hood.setAngle(HoodConstants.maxPositionDegs))
+        .until(hood::atGoal)
+        .andThen(() -> hood.setAngle(HoodConstants.minPositionDegs))
+        .until(hood::atGoal)
+        .withName("TestHood");
+  }
+
+  public Command testFlywheels() {
+    return run(() -> flywheels.setVelocity(5000)).withTimeout(1).withName("TestFlywheels");
   }
 
   private void TrenchAvoidence() {

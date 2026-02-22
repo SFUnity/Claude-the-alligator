@@ -4,6 +4,7 @@ import static edu.wpi.first.wpilibj2.command.Commands.waitSeconds;
 import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
@@ -59,5 +60,25 @@ public class RobotCommands {
     return readyThenShoot(shooter, kicker, spindexer)
         .deadlineFor(jork(intake, intakePivot))
         .withName("readyThenShootWithJork");
+  }
+
+  public static Command test(
+      Shooter shooter,
+      Kicker kicker,
+      Spindexer spindexer,
+      IntakeRollers intakeRollers,
+      IntakePivot intakePivot) {
+    return Commands.sequence(
+            kicker.testTurret(),
+            kicker.testHood(),
+            shooter.lower().withTimeout(1),
+            shooter.raise().withTimeout(1))
+        .andThen(
+            Commands.parallel(
+                intakeRollers.run().withTimeout(1),
+                spindexer.setState(KickerState.RUN).withTimeout(1),
+                intakePivot.intake().withTimeout(1),
+                kicker.testFlywheels()))
+        .withName("test");
   }
 }
