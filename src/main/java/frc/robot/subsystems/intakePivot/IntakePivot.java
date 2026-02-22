@@ -69,12 +69,12 @@ public class IntakePivot extends SubsystemBase {
                   positionSetpoint = loweredJorkAngle.get();
                   io.setPivotPosition(positionSetpoint);
                 })
-                .until(() -> inputs.pivotCurrentPositionDeg <= loweredJorkAngle.get()),
+                .until(() -> inputs.pivotCurrentPositionDeg <= loweredJorkAngle.get() + 0.1),
             run(() -> {
                   positionSetpoint = raisedJorkAngle.get();
                   io.setPivotPosition(positionSetpoint);
                 })
-                .until(() -> inputs.pivotCurrentPositionDeg >= raisedJorkAngle.get()))
+                .until(() -> inputs.pivotCurrentPositionDeg >= raisedJorkAngle.get() - 0.1))
         .withName("IntakePivotJork");
   }
 
