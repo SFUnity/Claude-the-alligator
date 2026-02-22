@@ -51,6 +51,7 @@ import frc.robot.subsystems.rollers.kicker.KickerIOTalonFX;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
+import frc.robot.subsystems.rollers.spindexer.SpindexerIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.flywheels.FlywheelsIO;
@@ -150,7 +151,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 poseManager);
-        spindexer = new Spindexer(new SpindexerIO() {});
+        // spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
         // intakePivot = new IntakePivot(new IntakePivotIO() {});
         intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
@@ -159,7 +160,7 @@ public class RobotContainer {
         hood = new Hood(new HoodIO() {});
         // kicker = new Kicker(new KickerIO() {});
         // * working ones below this line
-        // spindexer = new Spindexer(new SpindexerIOTalonFX());
+        spindexer = new Spindexer(new SpindexerIOTalonFX());
         // climb = new Climb(new ClimbIOTalonFX());
         // flywheels = new Flywheels(new FlywheelsIOTalonFX());
         // turret = new Turret(new TurretIOTalonFX());
@@ -399,6 +400,7 @@ public class RobotContainer {
 
     // Shooting
     controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN));
+    controller.rightBumper().whileTrue(spindexer.run());
     // .toggleOnTrue(
     //     shooter.getShooting()
     //         ? RobotCommands.stopShoot(shooter, kicker, spindexer)
