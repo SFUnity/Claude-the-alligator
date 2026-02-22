@@ -59,8 +59,8 @@ public class Kicker extends SubsystemBase {
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
     boolean inTolerance = velocityRPM - inputs.velocityRotsPerMin <= kickerTolerance.get();
-    torqueCurrentControl = torqueCurrentDebouncer.calculate(inTolerance);
-    atGoal = atGoalDebouncer.calculate(inTolerance);
+    boolean torqueCurrentControl = !torqueCurrentDebouncer.calculate(inTolerance);
+    boolean atGoal = atGoalDebouncer.calculate(inTolerance);
 
     if (!torqueCurrentControl && lastTorqueCurrentControl) {
       launchCount++;

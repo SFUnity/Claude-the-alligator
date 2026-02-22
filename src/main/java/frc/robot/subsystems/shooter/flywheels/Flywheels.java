@@ -47,7 +47,7 @@ public class Flywheels extends SubsystemBase {
     Logger.recordOutput("Flywheels/goal", velocityRPM);
     boolean inTolerance = (velocityRPM - inputs.velocityRotsPerMin <= flywheelTolerance.get());
     Logger.recordOutput("Flywheels/tolerance", inTolerance);
-    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inTolerance);
+    boolean torqueCurrentControl = !torqueCurrentDebouncer.calculate(inTolerance);
     boolean atGoal = atGoalDebouncer.calculate(inTolerance);
     Logger.recordOutput("Flywheels/atGoal", atGoal);
 
