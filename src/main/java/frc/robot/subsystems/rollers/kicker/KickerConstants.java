@@ -15,8 +15,7 @@ public class KickerConstants {
 
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
       new LoggedTunableNumber(
-          "Kicker/TorqueCurrentControlTolerance",
-          Units.radiansPerSecondToRotationsPerMinute(20.0));
+          "Kicker/TorqueCurrentControlTolerance", Units.radiansPerSecondToRotationsPerMinute(20.0));
   public static final LoggedTunableNumber torqueCurrentControlDebounce =
       new LoggedTunableNumber("Kicker/TorqueCurrentControlDebounce", 0.025);
   public static final LoggedTunableNumber atGoalDebounce =

@@ -44,12 +44,12 @@ public class Flywheels extends SubsystemBase {
 
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
-    Logger.recordOutput("Flywheels/goal", velocityRPM);
+    Logger.recordOutput("Shooter/Flywheels/goal", velocityRPM);
     boolean inTolerance = (velocityRPM - inputs.velocityRotsPerMin <= flywheelTolerance.get());
-    Logger.recordOutput("Flywheels/tolerance", inTolerance);
+    Logger.recordOutput("Shooter/Flywheels/tolerance", inTolerance);
     boolean torqueCurrentControl = !torqueCurrentDebouncer.calculate(inTolerance);
     boolean atGoal = atGoalDebouncer.calculate(inTolerance);
-    Logger.recordOutput("Flywheels/atGoal", atGoal);
+    Logger.recordOutput("Shooter/Flywheels/atGoal", atGoal);
 
     if (!torqueCurrentControl && lastTorqueCurrentControl) {
       launchCount++;

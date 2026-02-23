@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakePivot extends SubsystemBase {
@@ -78,6 +79,7 @@ public class IntakePivot extends SubsystemBase {
         .withName("IntakePivotJork");
   }
 
+  @AutoLogOutput(key = "IntakePivot/IntakeDown")
   public boolean intakeDown() {
     // return inputs.pivotCurrentPositionDeg <= (loweredAngle.get() + raisedAngle.get()) / 2.0;
     return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;

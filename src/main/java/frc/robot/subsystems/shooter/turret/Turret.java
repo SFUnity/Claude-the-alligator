@@ -132,7 +132,7 @@ public class Turret extends SubsystemBase {
     }
   }
 
-  @AutoLogOutput
+  @AutoLogOutput(key = "Shooter/Turret/MotorOffsetDegs")
   public double getMotorOffsetDegs() {
     double truePosition = 0;
     double position1 = inputs.encoder1Rotations;

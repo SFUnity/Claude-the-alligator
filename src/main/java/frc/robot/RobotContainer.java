@@ -217,13 +217,12 @@ public class RobotContainer {
             minY,
             maxY, // robot-centric coordinates for bounding box in meters
             () -> {
-              Logger.recordOutput("Intake Down", intakePivot.intakeDown());
               return intakePivot.intakeDown();
             }, // (optional) BooleanSupplier for whether the intake should be active at
             // a given moment
             () -> {
               fuelCount++;
-              Logger.recordOutput("Fuel Count", fuelCount);
+              Logger.recordOutput("Controls/Fuel Count", fuelCount);
             }); // (optional) Runnable called whenever a fuel is intaked
 
         fuelSim.setSubticks(
@@ -322,9 +321,9 @@ public class RobotContainer {
     } else {
       shiftColor = hubOff;
     }
-    Logger.recordOutput("Shift Color", shiftColor);
+    Logger.recordOutput("Controls/Shift Color", shiftColor);
     Logger.recordOutput(
-        "Shift Time",
+        "Controls/Shift Time",
         Math.round(
                 ShiftHelpers.timeRemainingInCurrentShift().orElse(Seconds.of(0.0)).in(Seconds)
                     * 10.0)

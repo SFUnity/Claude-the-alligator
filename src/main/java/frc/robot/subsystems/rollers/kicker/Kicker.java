@@ -43,8 +43,8 @@ public class Kicker extends SubsystemBase {
     Logger.processInputs("Rollers/Kicker", inputs);
     GeneralUtil.logSubsystem(this, "Rollers/Kicker");
 
-    Logger.recordOutput("Kicker/atGoal", atGoal);
-    Logger.recordOutput("Kicker/torque", torqueCurrentControl);
+    Logger.recordOutput("Rollers/Kicker/atGoal", atGoal);
+    Logger.recordOutput("Rollers/Kicker/torque", torqueCurrentControl);
 
     if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
       torqueCurrentDebouncer =
