@@ -31,6 +31,7 @@ public class TurretIOTalonFX implements TurretIO {
     TalonFXConfiguration configs = new TalonFXConfiguration();
     configs.MotorOutput.Inverted =
         motorInverted ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;
+    // TODO change this to the gearRatio
     configs.Feedback.SensorToMechanismRatio = 1;
     configs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
@@ -42,6 +43,7 @@ public class TurretIOTalonFX implements TurretIO {
     talonRotations = talon.getPosition().getValueAsDouble();
     talonVelocity = talon.getVelocity().getValueAsDouble();
     inputs.appliedVolts = talon.getMotorVoltage().getValueAsDouble();
+    // TODO remove gearRatio from here
     inputs.velocityDegsPerSec = Units.rotationsToDegrees(talonVelocity) / gearRatio;
     inputs.currentAmps = talon.getSupplyCurrent().getValueAsDouble();
     inputs.statorCurrent = talon.getStatorCurrent().getValueAsDouble();
