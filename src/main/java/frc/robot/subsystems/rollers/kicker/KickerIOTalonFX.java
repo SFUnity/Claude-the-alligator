@@ -83,11 +83,6 @@ public class KickerIOTalonFX implements KickerIO {
     rollerMotor.setControl(voltageOut.withOutput(0));
   }
 
-  // @Override
-  // public void runVelocity(double rps) {
-  //   rollerMotor.setControl(velocityVoltage.withVelocity((rps / 60)));
-  // }
-
   @Override
   public void runDutyCycle() {
     rollerMotor.setControl(dutyCycle.withEnableFOC(true));
