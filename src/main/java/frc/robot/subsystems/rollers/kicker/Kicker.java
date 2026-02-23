@@ -87,6 +87,14 @@ public class Kicker extends SubsystemBase {
     } else {
       io.runVolts(0);
     }
+
+    // if(!atGoal) {
+    //   io.runDutyCycle();
+    // } else if(!torqueCurrentControl) {
+    //   io.runTorqueControl();
+    // } else {
+    //   io.runTorqueControl(velocityRPM);
+    // }
   }
 
   public Command setState(KickerState state) {

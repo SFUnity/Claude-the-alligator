@@ -7,6 +7,7 @@ import static frc.robot.util.PhoenixUtil.tryUntilOk;
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TorqueCurrentConfigs;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -29,6 +30,8 @@ public class KickerIOTalonFX implements KickerIO {
   // private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
 
   private final VelocityTorqueCurrentFOC torqueCurrent = new VelocityTorqueCurrentFOC(100);
+  private final VelocityTorqueCurrentFOC torqueCurrentModifiable = new VelocityTorqueCurrentFOC(100);
+
 
   @SuppressWarnings("resource")
   public KickerIOTalonFX() {
@@ -98,6 +101,11 @@ public class KickerIOTalonFX implements KickerIO {
   @Override
   public void runTorqueControl() {
     rollerMotor.setControl(torqueCurrent);
+  }
+
+  @Override
+  public void runTorqueControl(double rps) {
+    rollerMotor.setControl(torqueCurrentModifiable.withVelocity(rps));
   }
 
   @Override
