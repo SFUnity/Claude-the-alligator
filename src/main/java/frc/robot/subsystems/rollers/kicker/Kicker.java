@@ -4,6 +4,7 @@ import static frc.robot.subsystems.rollers.kicker.KickerConstants.*;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
@@ -68,23 +69,24 @@ public class Kicker extends SubsystemBase {
 
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
-    boolean inTolerance = velocityRPM - inputs.velocityRotsPerMin <= kickerTolerance.get();
-    boolean torqueCurrentControl = !torqueCurrentDebouncer.calculate(inTolerance);
-    boolean atGoal = atGoalDebouncer.calculate(inTolerance);
+    double velocityRadsPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
+    double inputVelocityRadsPerSec = Units.rotationsPerMinuteToRadiansPerSecond(inputs.velocityRotsPerMin);
+
+    boolean inTolerance =
+        Math.abs(inputVelocityRadsPerSec - velocityRadsPerSec)
+            <= torqueCurrentControlTolerance.get();
+    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inTolerance);
+    atGoal = atGoalDebouncer.calculate(inTolerance);
 
     if (!torqueCurrentControl && lastTorqueCurrentControl) {
       launchCount++;
     }
     lastTorqueCurrentControl = torqueCurrentControl;
 
-    if (!atGoal) {
-      if (torqueCurrentControl) {
-        io.runTorqueControl();
-      } else {
-        io.runDutyCycle();
-      }
+    if (torqueCurrentControl) {
+      io.runTorqueControl();
     } else {
-      io.runSlowDutyCycle();
+      io.runDutyCycle();
     }
   }
 
@@ -93,6 +95,6 @@ public class Kicker extends SubsystemBase {
   }
 
   public boolean atGoal() {
-    return Math.abs(inputs.velocityRotsPerMin - RPMSetpoint.get()) < kickerTolerance.get();
+    return atGoal;
   }
 }

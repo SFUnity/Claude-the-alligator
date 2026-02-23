@@ -1,5 +1,6 @@
 package frc.robot.subsystems.rollers.kicker;
 
+import edu.wpi.first.math.util.Units;
 import frc.robot.util.LoggedTunableNumber;
 
 public class KickerConstants {
@@ -10,9 +11,7 @@ public class KickerConstants {
 
   public static final double spinupTime = 0.25;
   public static final LoggedTunableNumber RPMSetpoint =
-      new LoggedTunableNumber("Kicker/RPMSetpoint", 1000);
-  public static final LoggedTunableNumber kickerTolerance =
-      new LoggedTunableNumber("Kicker/tolerance", 5); // TODO tune
+      new LoggedTunableNumber("Kicker/RPMSetpoint", Units.radiansPerSecondToRotationsPerMinute(100));
 
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
       new LoggedTunableNumber("Flywheel/TorqueCurrentControlTolerance", 20.0);
