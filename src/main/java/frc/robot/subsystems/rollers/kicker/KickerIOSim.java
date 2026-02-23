@@ -16,14 +16,11 @@ public class KickerIOSim implements KickerIO {
   private static final DCMotorSim sim =
       new DCMotorSim(LinearSystemId.createDCMotorSystem(motorModel, .025, 1), motorModel);
 
-  private final LoggedTunableNumber dutyCyclekP =
-      new LoggedTunableNumber("Kicker/simDutyCycleKp", 9999);
   private final PIDController dutyCycleController =
-      new PIDController(dutyCyclekP.get(), 0, 0, Constants.loopPeriodSecs);
+      new PIDController(999999.0, 0, 0, Constants.loopPeriodSecs);
 
-  private final LoggedTunableNumber torquekP = new LoggedTunableNumber("Kicker/simTorqueKp", 9999);
   private final PIDController torqueController =
-      new PIDController(torquekP.get(), 0, 0, Constants.loopPeriodSecs);
+      new PIDController(999999.0, 0, 0, Constants.loopPeriodSecs);
 
   public KickerIOSim() {
     double setpoint = Units.radiansPerSecondToRotationsPerMinute(10);
@@ -33,11 +30,6 @@ public class KickerIOSim implements KickerIO {
 
   @Override
   public void updateInputs(KickerIOInputs inputs) {
-    LoggedTunableNumber.ifChanged(
-        hashCode(), () -> dutyCycleController.setP(dutyCyclekP.get()), dutyCyclekP);
-    LoggedTunableNumber.ifChanged(
-        hashCode(), () -> torqueController.setP(torquekP.get()), torquekP);
-
     // Update sim state
     sim.setInputVoltage(MathUtil.clamp(appliedVolts, -12.0, 12.0));
     sim.update(Constants.loopPeriodSecs);
