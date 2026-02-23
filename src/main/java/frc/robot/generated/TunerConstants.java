@@ -41,8 +41,7 @@ public class TunerConstants {
   private static final ClosedLoopOutputType kSteerClosedLoopOutput = ClosedLoopOutputType.Voltage;
   // The closed-loop output type to use for the drive motors;
   // This affects the PID/FF gains for the drive motors
-  private static final ClosedLoopOutputType kDriveClosedLoopOutput =
-      ClosedLoopOutputType.TorqueCurrentFOC;
+  private static final ClosedLoopOutputType kDriveClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
   // The type of motor used for the drive motor
   private static final DriveMotorArrangement kDriveMotorType =
@@ -91,7 +90,7 @@ public class TunerConstants {
   private static final double kSteerGearRatio = 18.75;
   private static final Distance kWheelRadius = Inches.of(2);
 
-  private static final boolean kInvertLeftSide = false;
+  private static final boolean kInvertLeftSide = true;
   private static final boolean kInvertRightSide = true;
 
   private static final int kPigeonId = 23;
@@ -172,7 +171,7 @@ public class TunerConstants {
   private static final int kBackRightDriveMotorId = 21;
   private static final int kBackRightSteerMotorId = 20;
   private static final int kBackRightEncoderId = 22;
-  private static final Angle kBackRightEncoderOffset = Rotations.of(0.02783203125);
+  private static final Angle kBackRightEncoderOffset = Rotations.of(-0.08740234375);
   private static final boolean kBackRightSteerMotorInverted = true;
   private static final boolean kBackRightEncoderInverted = false;
 
