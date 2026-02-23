@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -16,10 +17,18 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
 
   private final double updateFreqHz = 500;
 
+  private final VoltageOut voltageOut =
+      new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(updateFreqHz);
   private final VelocityDutyCycle dutyCycle =
-      new VelocityDutyCycle(10.0).withEnableFOC(true).withUpdateFreqHz(updateFreqHz);
-  private final VelocityTorqueCurrentFOC torqueControl =
-      new VelocityTorqueCurrentFOC(10.0).withUpdateFreqHz(updateFreqHz);
+      new VelocityDutyCycle(100).withUpdateFreqHz(updateFreqHz);
+  private final VelocityDutyCycle slowDutyCycle =
+      new VelocityDutyCycle(25).withUpdateFreqHz(updateFreqHz);
+  // private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
+
+  private final VelocityTorqueCurrentFOC torqueCurrent =
+      new VelocityTorqueCurrentFOC(100).withUpdateFreqHz(updateFreqHz);
+  private final VelocityTorqueCurrentFOC torqueCurrentModifiable =
+      new VelocityTorqueCurrentFOC(100).withUpdateFreqHz(updateFreqHz);
 
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
@@ -53,14 +62,32 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   }
 
   @Override
+  public void stop() {
+    leader.setControl(voltageOut.withOutput(0));
+  }
+
+  @Override
   public void runDutyCycle() {
-    // duty-cycle bang bang
-    leader.setControl(dutyCycle);
+    leader.setControl(dutyCycle.withEnableFOC(true));
+  }
+
+  @Override
+  public void runSlowDutyCycle() {
+    leader.setControl(slowDutyCycle.withEnableFOC(true));
   }
 
   @Override
   public void runTorqueControl() {
-    // Torque-current bang-bang
-    leader.setControl(torqueControl);
+    leader.setControl(torqueCurrent);
+  }
+
+  @Override
+  public void runTorqueControl(double rps) {
+    leader.setControl(torqueCurrentModifiable.withVelocity(rps));
+  }
+
+  @Override
+  public void runVolts(double volts) {
+    leader.setControl(voltageOut.withOutput(volts));
   }
 }

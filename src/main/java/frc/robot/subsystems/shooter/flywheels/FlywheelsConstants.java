@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter.flywheels;
 
+import edu.wpi.first.math.util.Units;
 import frc.robot.util.LoggedTunableNumber;
 
 public class FlywheelsConstants {
@@ -11,11 +12,12 @@ public class FlywheelsConstants {
   public static final LoggedTunableNumber readyRPMSetpoint =
       new LoggedTunableNumber("Flywheels/readyRPM", 100);
 
-  public static final LoggedTunableNumber torqueCurrentDebounce =
-      new LoggedTunableNumber("Flywheels/TorqueCurrentDebounce", 0.03);
+  public static final LoggedTunableNumber torqueCurrentControlTolerance =
+      new LoggedTunableNumber(
+          "Flywheels/TorqueCurrentControlTolerance",
+          Units.radiansPerSecondToRotationsPerMinute(20.0));
+  public static final LoggedTunableNumber torqueCurrentControlDebounce =
+      new LoggedTunableNumber("Flywheels/TorqueCurrentControlDebounce", 0.025);
   public static final LoggedTunableNumber atGoalDebounce =
-      new LoggedTunableNumber("Flywheels/AtGoalDebounce", 0.02);
-
-  public static final LoggedTunableNumber flywheelTolerance =
-      new LoggedTunableNumber("Flywheels/tolerance", 5); // TODO tune
+      new LoggedTunableNumber("Flywheels/AtGoalDebounce", 0.2);
 }
