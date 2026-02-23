@@ -15,7 +15,9 @@ public class KickerConstants {
           "Kicker/RPMSetpoint", Units.radiansPerSecondToRotationsPerMinute(100));
 
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
-      new LoggedTunableNumber("Flywheel/TorqueCurrentControlTolerance", Units.radiansPerSecondToRotationsPerMinute(20.0));
+      new LoggedTunableNumber(
+          "Flywheel/TorqueCurrentControlTolerance",
+          Units.radiansPerSecondToRotationsPerMinute(20.0));
   public static final LoggedTunableNumber torqueCurrentControlDebounce =
       new LoggedTunableNumber("Flywheel/TorqueCurrentControlDebounce", 0.025);
   public static final LoggedTunableNumber atGoalDebounce =
