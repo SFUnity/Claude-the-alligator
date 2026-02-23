@@ -17,11 +17,11 @@ public class KickerIOSim implements KickerIO {
       new DCMotorSim(LinearSystemId.createDCMotorSystem(motorModel, .025, 1), motorModel);
 
   private final LoggedTunableNumber dutyCyclekP =
-      new LoggedTunableNumber("Kicker/simDutyCycleKp", 0);
+      new LoggedTunableNumber("Kicker/simDutyCycleKp", 9999);
   private final PIDController dutyCycleController =
       new PIDController(dutyCyclekP.get(), 0, 0, Constants.loopPeriodSecs);
 
-  private final LoggedTunableNumber torquekP = new LoggedTunableNumber("Kicker/simTorqueKp", 0);
+  private final LoggedTunableNumber torquekP = new LoggedTunableNumber("Kicker/simTorqueKp", 9999);
   private final PIDController torqueController =
       new PIDController(torquekP.get(), 0, 0, Constants.loopPeriodSecs);
 
