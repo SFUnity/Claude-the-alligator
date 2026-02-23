@@ -399,12 +399,11 @@ public class RobotContainer {
     //     .onTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
 
     // Shooting
-    controller
-        .rightBumper()
-        .toggleOnTrue(
-            shooter.getShooting()
-                ? RobotCommands.stopShoot(shooter, kicker, spindexer)
-                : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN));
+    // .toggleOnTrue(
+    //     shooter.getShooting()
+    //         ? RobotCommands.stopShoot(shooter, kicker, spindexer)
+    //         : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
     // new Trigger(() -> shooter.readyToShoot())
     //     .toggleOnTrue(
