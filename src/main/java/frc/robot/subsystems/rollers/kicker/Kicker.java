@@ -2,6 +2,7 @@ package frc.robot.subsystems.rollers.kicker;
 
 import static frc.robot.subsystems.rollers.kicker.KickerConstants.*;
 
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
@@ -22,6 +23,8 @@ public class Kicker extends SubsystemBase {
 
   boolean torqueCurrentControl = false;
   boolean atGoal = false;
+
+  private final BangBangController bangBangController = new BangBangController();
 
   @AutoLogOutput(key = "Subsystems/Rollers/Kicker/LaunchCount")
   private long launchCount = 0;
@@ -84,10 +87,14 @@ public class Kicker extends SubsystemBase {
     }
     lastTorqueCurrentControl = torqueCurrentControl;
 
-    if (torqueCurrentControl) {
-      io.runTorqueControl();
+    if (!inTolerance) {
+      if (torqueCurrentControl) {
+        io.runTorqueControl();
+      } else {
+        io.runDutyCycle();
+      }
     } else {
-      io.runDutyCycle();
+      io.runVolts(0);
     }
   }
 
