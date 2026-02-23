@@ -16,17 +16,7 @@ public class KickerIOSim implements KickerIO {
   private static final DCMotorSim sim =
       new DCMotorSim(LinearSystemId.createDCMotorSystem(motorModel, .025, 1), motorModel);
 
-  private final PIDController dutyCycleController =
-      new PIDController(999999.0, 0, 0, Constants.loopPeriodSecs);
-
-  private final PIDController torqueController =
-      new PIDController(999999.0, 0, 0, Constants.loopPeriodSecs);
-
-  public KickerIOSim() {
-    double setpoint = Units.radiansPerSecondToRotationsPerMinute(10);
-    dutyCycleController.setSetpoint(setpoint);
-    torqueController.setSetpoint(setpoint);
-  }
+  public KickerIOSim() {}
 
   @Override
   public void updateInputs(KickerIOInputs inputs) {
@@ -51,15 +41,11 @@ public class KickerIOSim implements KickerIO {
 
   @Override
   public void runDutyCycle() {
-    double dutyCycleOutput = dutyCycleController.calculate(sim.getAngularVelocityRadPerSec());
-    dutyCycleOutput = MathUtil.clamp(dutyCycleOutput, 0, 1.0);
-    appliedVolts = motorModel.getVoltage(dutyCycleOutput, sim.getAngularVelocityRadPerSec());
+    appliedVolts = 10;
   }
 
   @Override
   public void runTorqueControl() {
-    double currentOutput = torqueController.calculate(sim.getAngularVelocityRadPerSec());
-    currentOutput = MathUtil.clamp(currentOutput, 0, 40.0);
-    appliedVolts = motorModel.getVoltage(currentOutput, sim.getAngularVelocityRadPerSec());
+    appliedVolts = 10;
   }
 }
