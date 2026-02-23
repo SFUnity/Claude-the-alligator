@@ -30,13 +30,13 @@ public class IntakePivot extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("IntakePivot", inputs);
-    Logger.recordOutput("Subsystems/IntakePivot/startedIntaking", startedIntaking);
-    Logger.recordOutput("Subsystems/IntakePivot/middleOfIntaking", middleOfIntaking);
+    Logger.recordOutput("IntakePivot/startedIntaking", startedIntaking);
+    Logger.recordOutput("IntakePivot/middleOfIntaking", middleOfIntaking);
 
     // Logs
     measuredVisualizer.update(Degrees.of(inputs.pivotCurrentPositionDeg));
     setpointVisualizer.update(Degrees.of(positionSetpoint));
-    Logger.recordOutput("Subsystems/IntakePivot/positionSetpoint", positionSetpoint);
+    Logger.recordOutput("IntakePivot/positionSetpoint", positionSetpoint);
     GeneralUtil.logSubsystem(this, "IntakePivot");
   }
 

@@ -22,7 +22,7 @@ public class Hood extends SubsystemBase {
     Logger.processInputs("Shooter/Hood", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Hood");
 
-    Logger.recordOutput("Subsystems/Shooter/Hood/Goal", goalPosition);
+    Logger.recordOutput("Shooter/Hood/Goal", goalPosition);
     io.setPosition(goalPosition);
   }
 

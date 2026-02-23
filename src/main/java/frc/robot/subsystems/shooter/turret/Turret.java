@@ -79,8 +79,8 @@ public class Turret extends SubsystemBase {
               new TrapezoidProfile.Constraints(maxVelocity.get(), maxAcceleration.get()));
     }
 
-    Logger.recordOutput("Subsystems/Shooter/Turret/TruePositionDegs", truePositionDegs);
-    Logger.recordOutput("Subsystems/Shooter/Turret/PositionDegs", positionDegs);
+    Logger.recordOutput("Shooter/Turret/TruePositionDegs", truePositionDegs);
+    Logger.recordOutput("Shooter/Turret/PositionDegs", positionDegs);
     Logger.processInputs("Shooter/Turret", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Turret");
 
@@ -116,14 +116,14 @@ public class Turret extends SubsystemBase {
       }
       lastTargetDegs = bestAngle;
 
-      Logger.recordOutput("Subsystems/Shooter/Turret/GoalAngle", bestAngle);
+      Logger.recordOutput("Shooter/Turret/GoalAngle", bestAngle);
 
       State goalState =
           new State(MathUtil.clamp(bestAngle, minLegalAngle, maxLegalAngle), targetVelocity);
 
       setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
 
-      Logger.recordOutput("Subsystems/Shooter/Turret/SetpointAngle", setpoint.position);
+      Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
       targetDegs = setpoint.position;
 
       double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;

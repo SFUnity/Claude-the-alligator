@@ -93,8 +93,8 @@ public class Shooter extends VirtualSubsystem {
     Pose3d goalPose = new Pose3d();
 
     isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
-    Logger.recordOutput("Subsystems/Shooter/isScoring", isScoring);
-    Logger.recordOutput("Subsystems/Shooter/isShooting", isShooting);
+    Logger.recordOutput("Shooter/isScoring", isScoring);
+    Logger.recordOutput("Shooter/isShooting", isShooting);
 
     myX = poseManager.getPose().getX() - LinesVertical.center;
     myY = poseManager.getPose().getY() - LinesHorizontal.center;

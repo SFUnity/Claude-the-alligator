@@ -52,7 +52,7 @@ public class IntakePivotVisualizer {
 
     // Log Mechanism2d
     intake.setAngle(twodangle.in(Degrees));
-    Logger.recordOutput("Subsystems/Intake/Mechanism2d/" + key, mechanism);
+    Logger.recordOutput("IntakePivot/Mechanism2d/" + key, mechanism);
 
     // Log 3D poses
     Angle threedangle = Degrees.of(factor.get() * -angle.in(Degrees) + threedeeoffset.get());
@@ -63,6 +63,6 @@ public class IntakePivotVisualizer {
             Units.inchesToMeters(yOffset.get()),
             Units.inchesToMeters(zOffset.get()),
             new Rotation3d(0.0, threedangle.in(Radians), 0.0));
-    Logger.recordOutput("Subsystems/Intake/Mechanism3d/" + key, intakePose);
+    Logger.recordOutput("IntakePivot/Mechanism3d/" + key, intakePose);
   }
 }

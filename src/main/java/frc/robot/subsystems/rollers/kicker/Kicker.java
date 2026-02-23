@@ -22,7 +22,7 @@ public class Kicker extends SubsystemBase {
   boolean torqueCurrentControl = false;
   boolean atGoal = false;
 
-  @AutoLogOutput(key = "Subsystems/Rollers/Kicker/LaunchCount")
+  @AutoLogOutput(key = "Rollers/Kicker/LaunchCount")
   private long launchCount = 0;
 
   public enum KickerState {
