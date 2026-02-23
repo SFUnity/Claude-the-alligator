@@ -165,7 +165,7 @@ public class RobotContainer {
         // flywheels = new Flywheels(new FlywheelsIOTalonFX());
         // turret = new Turret(new TurretIOTalonFX());
         // hood = new Hood(new HoodIOTalonFX());
-        // intakePivot = new IntakePivot(new IntakePivotIOTalon());
+        intakePivot = new IntakePivot(new IntakePivotIOTalon());
         // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         kicker = new Kicker(new KickerIOTalonFX());
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
