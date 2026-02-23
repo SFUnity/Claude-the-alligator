@@ -15,9 +15,10 @@ public class Kicker extends SubsystemBase {
   private final KickerIOInputsAutoLogged inputs = new KickerIOInputsAutoLogged();
 
   private Debouncer torqueCurrentDebouncer =
-      new Debouncer(torqueCurrentDebounce.get(), DebounceType.kFalling);
+      new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
   private Debouncer atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
   private boolean lastTorqueCurrentControl = false;
+
   boolean torqueCurrentControl = false;
   boolean atGoal = false;
 
@@ -38,11 +39,20 @@ public class Kicker extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Logger.recordOutput("Kicker/atGoal", atGoal);
-    Logger.recordOutput("Kicker/torque", torqueCurrentControl);
     io.updateInputs(inputs);
     Logger.processInputs("Rollers/Kicker", inputs);
     GeneralUtil.logSubsystem(this, "Rollers/Kicker");
+
+    Logger.recordOutput("Kicker/atGoal", atGoal);
+    Logger.recordOutput("Kicker/torque", torqueCurrentControl);
+
+    if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
+      torqueCurrentDebouncer =
+          new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
+    }
+    if (atGoalDebounce.hasChanged(hashCode())) {
+      atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
+    }
 
     switch (state) {
       case STOP:
