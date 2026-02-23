@@ -88,10 +88,10 @@ public class Kicker extends SubsystemBase {
       io.runVolts(0);
     }
 
-    //sean's pid + torque control solution
-    // if(!atGoal) {
+    // sean's pid + torque control solution
+    // if(!torqueCurrentControl) {
     //   io.runDutyCycle();
-    // } else if(!torqueCurrentControl) {
+    // } else if(velocityRPM - inputs.velocityRotsPerMin >= 10) {
     //   io.runTorqueControl();
     // } else {
     //   io.runTorqueControl(velocityRPM);
