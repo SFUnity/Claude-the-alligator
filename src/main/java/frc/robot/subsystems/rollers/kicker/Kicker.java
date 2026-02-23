@@ -70,7 +70,8 @@ public class Kicker extends SubsystemBase {
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
     double velocityRadsPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
-    double inputVelocityRadsPerSec = Units.rotationsPerMinuteToRadiansPerSecond(inputs.velocityRotsPerMin);
+    double inputVelocityRadsPerSec =
+        Units.rotationsPerMinuteToRadiansPerSecond(inputs.velocityRotsPerMin);
 
     boolean inTolerance =
         Math.abs(inputVelocityRadsPerSec - velocityRadsPerSec)

@@ -40,7 +40,8 @@ public class KickerIOTalonFX implements KickerIO {
       lc.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
     } catch (ConfigurationFailedException e) {
       new Alert("Configuration failed" + e, AlertType.kError).set(true);
-    };
+    }
+    ;
 
     var talonFXConfigs = new TalonFXConfiguration();
 
@@ -64,7 +65,7 @@ public class KickerIOTalonFX implements KickerIO {
     inputs.appliedVolts = rollerMotor.getMotorVoltage().getValueAsDouble();
     inputs.currentAmps = rollerMotor.getSupplyCurrent().getValueAsDouble();
     inputs.velocityRotsPerMin = rollerMotor.getVelocity().getValueAsDouble() * 60;
-    
+
     LaserCan.Measurement measurement = lc.getMeasurement();
     if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
       inputs.laserMeasurementInches = Units.metersToInches(measurement.distance_mm * 1000);
@@ -83,7 +84,7 @@ public class KickerIOTalonFX implements KickerIO {
   // public void runVelocity(double rps) {
   //   rollerMotor.setControl(velocityVoltage.withVelocity((rps / 60)));
   // }
-  
+
   @Override
   public void runDutyCycle() {
     rollerMotor.setControl(dutyCycle.withEnableFOC(true));
