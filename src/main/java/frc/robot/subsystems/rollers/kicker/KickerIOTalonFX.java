@@ -9,7 +9,6 @@ import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -22,19 +21,17 @@ public class KickerIOTalonFX implements KickerIO {
       new Alert("Laser can Target out of range", AlertType.kError);
   private LaserCan lc;
   private final TalonFX rollerMotor = new TalonFX(kickerMotorID);
-  private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
 
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
   private final VelocityDutyCycle dutyCycle = new VelocityDutyCycle(100);
   private final VelocityDutyCycle slowDutyCycle = new VelocityDutyCycle(25);
+  // private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
 
   private final VelocityTorqueCurrentFOC torqueCurrent = new VelocityTorqueCurrentFOC(100);
 
   @SuppressWarnings("resource")
   public KickerIOTalonFX() {
-    var talonFXConfigs = new TalonFXConfiguration();
-    var slot0Configs = talonFXConfigs.Slot0;
     lc = new LaserCan(laserCANID);
 
     try {
@@ -43,19 +40,21 @@ public class KickerIOTalonFX implements KickerIO {
       lc.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
     } catch (ConfigurationFailedException e) {
       new Alert("Configuration failed" + e, AlertType.kError).set(true);
-    }
-    ;
+    };
+
+    var talonFXConfigs = new TalonFXConfiguration();
 
     talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
-
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+
     talonFXConfigs.Slot0.kP = 9999.0;
     talonFXConfigs.TorqueCurrent.PeakForwardTorqueCurrent = 40.0;
     talonFXConfigs.TorqueCurrent.PeakReverseTorqueCurrent = 0.0;
     talonFXConfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
     talonFXConfigs.MotorOutput.PeakReverseDutyCycle = 0.0;
+
     tryUntilOk(5, () -> rollerMotor.getConfigurator().apply(talonFXConfigs, 0.25));
   }
 
@@ -65,6 +64,7 @@ public class KickerIOTalonFX implements KickerIO {
     inputs.appliedVolts = rollerMotor.getMotorVoltage().getValueAsDouble();
     inputs.currentAmps = rollerMotor.getSupplyCurrent().getValueAsDouble();
     inputs.velocityRotsPerMin = rollerMotor.getVelocity().getValueAsDouble() * 60;
+    
     LaserCan.Measurement measurement = lc.getMeasurement();
     if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
       inputs.laserMeasurementInches = Units.metersToInches(measurement.distance_mm * 1000);
@@ -83,6 +83,7 @@ public class KickerIOTalonFX implements KickerIO {
   // public void runVelocity(double rps) {
   //   rollerMotor.setControl(velocityVoltage.withVelocity((rps / 60)));
   // }
+  
   @Override
   public void runDutyCycle() {
     rollerMotor.setControl(dutyCycle.withEnableFOC(true));
