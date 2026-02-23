@@ -2,10 +2,8 @@ package frc.robot.subsystems.rollers.kicker;
 
 import static frc.robot.subsystems.rollers.kicker.KickerConstants.*;
 
-import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
@@ -23,8 +21,6 @@ public class Kicker extends SubsystemBase {
 
   boolean torqueCurrentControl = false;
   boolean atGoal = false;
-
-  private final BangBangController bangBangController = new BangBangController();
 
   @AutoLogOutput(key = "Subsystems/Rollers/Kicker/LaunchCount")
   private long launchCount = 0;
@@ -72,22 +68,18 @@ public class Kicker extends SubsystemBase {
 
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
-    double velocityRadsPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
-    double inputVelocityRadsPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(inputs.velocityRotsPerMin);
-
-    boolean inTolerance =
-        Math.abs(inputVelocityRadsPerSec - velocityRadsPerSec)
+    boolean inToleranceForTorqueControl =
+        Math.abs(inputs.velocityRotsPerMin - velocityRPM)
             <= torqueCurrentControlTolerance.get();
-    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inTolerance);
-    atGoal = atGoalDebouncer.calculate(inTolerance);
+    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
+    atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
 
     if (!torqueCurrentControl && lastTorqueCurrentControl) {
       launchCount++;
     }
     lastTorqueCurrentControl = torqueCurrentControl;
 
-    if (!inTolerance) {
+    if (inputs.velocityRotsPerMin < velocityRPM) {
       if (torqueCurrentControl) {
         io.runTorqueControl();
       } else {
