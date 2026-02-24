@@ -40,7 +40,7 @@ public class RobotCommands {
   }
 
   public static Command eject(IntakeRollers intake, IntakePivot intakePivot, Spindexer spindexer) {
-    return intake.eject().alongWith(intakePivot.lower().withName("eject"));
+    return intake.eject().alongWith(intakePivot.lower()).deadlineFor(spindexer.runBack().withTimeout(0.2)).withName("eject");
   }
 
   public static Command stowIntake(IntakeRollers intake, IntakePivot intakePivot) {
