@@ -13,7 +13,6 @@ public class IntakePivotConstants {
       new LoggedTunableNumber("Intake/kP", currentMode == Mode.SIM ? 0.1 : 0.028);
 
   public static final boolean pivotInverted = true;
-  public static final double pivotPositionFactor = 2.9;
 
   public static final double minAngleRads = Units.degreesToRadians(10);
   public static final double maxAngleRads = Units.degreesToRadians(135);
