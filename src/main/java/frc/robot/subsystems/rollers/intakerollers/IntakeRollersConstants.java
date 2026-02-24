@@ -8,5 +8,5 @@ public class IntakeRollersConstants {
   public static final int positionFactor = 3;
 
   public static final LoggedTunableNumber intakeRollersSpeedVolts =
-      new LoggedTunableNumber("IntakeRollers/rollerSpeed", 2);
+      new LoggedTunableNumber("IntakeRollers/rollerSpeed", 10);
 }
