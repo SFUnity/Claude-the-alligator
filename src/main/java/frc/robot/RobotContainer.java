@@ -390,10 +390,10 @@ public class RobotContainer {
         .and(() -> !intakeDown)
         .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
-    // controller
-    //     .leftTrigger()
-    //     .multiPress(2, 0.5)
-    //     .onTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
+    controller
+        .leftBumper()
+        .debounce(1.5)
+        .whileTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
 
     // Shooting
     controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN).alongWith(spindexer.run()));
