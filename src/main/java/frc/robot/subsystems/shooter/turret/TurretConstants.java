@@ -6,7 +6,7 @@ public class TurretConstants {
   public static int encoder1ID = 8;
   public static int encoder2ID = 9;
 
-  public static boolean motorInverted = false;
+  public static boolean motorInverted = true;
 
   public static int turretGear = 85;
   public static int encoder1Gear = 11;

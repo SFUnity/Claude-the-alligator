@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
 import frc.robot.util.LoggedTunableNumber;
-import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Turret extends SubsystemBase {
@@ -41,8 +40,8 @@ public class Turret extends SubsystemBase {
 
   private State setpoint = new State();
 
-  private LoggedTunableNumber kP = new LoggedTunableNumber("Turret/kP", 0.1);
-  private LoggedTunableNumber kD = new LoggedTunableNumber("Turret/kD", 0.1);
+  private LoggedTunableNumber kA = new LoggedTunableNumber("Turret/kA", 0.1);
+  private LoggedTunableNumber kV = new LoggedTunableNumber("Turret/kV", 0.1);
 
   public final Alert encoder1Disconnected;
   public final Alert encoder2Disconnected;
@@ -57,7 +56,8 @@ public class Turret extends SubsystemBase {
   public Turret(TurretIO io) {
     this.io = io;
     io.updateInputs(inputs);
-    double motorOffsetDegs = getMotorOffsetDegs();
+    double motorOffsetDegs = 0; // getMotorOffsetDegs(); TODO change later
+    Logger.recordOutput("Shooter/Turret/MotorOffsetDegs", motorOffsetDegs);
     if (motorOffsetDegs < trueMinAngleDegs || motorOffsetDegs > trueMaxAngleDegs) {
       eDisabled = true;
     }
@@ -71,7 +71,7 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     truePositionDegs = getPositionDegs();
-    positionDegs = truePositionDegs % 360;
+    positionDegs = MathUtil.inputModulus(truePositionDegs, 0, 360);
 
     if (maxVelocity.hasChanged(hashCode())) {
       profile =
@@ -128,11 +128,12 @@ public class Turret extends SubsystemBase {
 
       double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
       targetRotations -= talonOffsetRots;
-      io.turnTurret(targetRotations, setpoint.velocity, kP.get(), kD.get());
+      Logger.recordOutput("Shooter/Turret/SetpointRotations", targetRotations);
+      io.turnTurret(targetRotations, setpoint.velocity, kA.get(), kV.get());
     }
   }
 
-  @AutoLogOutput(key = "Shooter/Turret/MotorOffsetDegs")
+  // @AutoLogOutput(key = "Shooter/Turret/MotorOffsetDegs")
   public double getMotorOffsetDegs() {
     double truePosition = 0;
     double position1 = inputs.encoder1Rotations;
