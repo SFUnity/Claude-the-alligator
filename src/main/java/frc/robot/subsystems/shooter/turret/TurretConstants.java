@@ -3,7 +3,7 @@ package frc.robot.subsystems.shooter.turret;
 public class TurretConstants {
   // TODO please add "final" to all of these so they are actually constants
   public static int motorID = 3;
-  public static int encoder1ID = 4;
+  public static int encoder1ID = 8;
   public static int encoder2ID = 9;
 
   public static boolean motorInverted = false;
