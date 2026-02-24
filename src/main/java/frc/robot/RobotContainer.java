@@ -400,7 +400,7 @@ public class RobotContainer {
     //     .onTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
 
     // Shooting
-    controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN));
+    controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN).alongWith(spindexer.run()));
     // .toggleOnTrue(
     //     shooter.getShooting()
     //         ? RobotCommands.stopShoot(shooter, kicker, spindexer)

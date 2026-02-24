@@ -11,7 +11,7 @@ public class KickerConstants {
 
   public static final double spinupTime = 0.25;
   public static final LoggedTunableNumber RPMSetpoint =
-      new LoggedTunableNumber("Kicker/RPMSetpoint", 1000);
+      new LoggedTunableNumber("Kicker/RPMSetpoint", 3000);
 
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
       new LoggedTunableNumber(
