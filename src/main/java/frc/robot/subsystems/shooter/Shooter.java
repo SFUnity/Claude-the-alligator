@@ -52,6 +52,7 @@ public class Shooter extends VirtualSubsystem {
 
   private boolean isShooting = false;
   private boolean isScoring = false;
+  private boolean hoodIsSafe = false;
 
   private double myX;
   private double myY;
@@ -131,10 +132,11 @@ public class Shooter extends VirtualSubsystem {
     }
 
     turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-    hood.setAngle(fakeHoodAngle.get());
+    hood.setAngle(hoodIsSafe ? HoodConstants.minPositionDegs : fakeHoodAngle.get());
     flywheels.setVelocity(fakeFlywheelVelocity.get());
 
-    TrenchAvoidence();
+    // Avi commented this out because real robot is not ready for it
+    // TrenchAvoidence();
 
     // TODO uncomment when ready to test
     measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
@@ -166,6 +168,11 @@ public class Shooter extends VirtualSubsystem {
   public Command setScoring(boolean scoring) {
     return runOnce(() -> isScoring = scoring);
   }
+
+  public Command toggleHoodIsSafe() {
+    return runOnce(() -> hoodIsSafe = !hoodIsSafe);
+  }
+
   // TODO Sean needs to make this work better. Make it go from minimum safe angle to maximum safe
   // angle.
   public Command testTurret() {

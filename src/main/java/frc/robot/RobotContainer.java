@@ -345,20 +345,10 @@ public class RobotContainer {
             poseManager));
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.climbDown());
-    intakePivot.setDefaultCommand(intakePivot.raise().alongWith(Commands.runOnce(() -> intakeDown = false)));
+    intakePivot.setDefaultCommand(
+        intakePivot.raise().alongWith(Commands.runOnce(() -> intakeDown = false)));
     intakeRollers.setDefaultCommand(intakeRollers.stop());
     kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
-
-    // Lock to 0° when A button is held
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> Rotation2d.kZero,
-                poseManager));
 
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
@@ -393,10 +383,13 @@ public class RobotContainer {
     controller
         .leftBumper()
         .debounce(1.5)
-        .whileTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer).alongWith(Commands.runOnce(() -> intakeDown = true)));
+        .whileTrue(
+            RobotCommands.eject(intakeRollers, intakePivot, spindexer)
+                .alongWith(Commands.runOnce(() -> intakeDown = true)));
 
     // Shooting
     controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN).alongWith(spindexer.run()));
+    controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
     // .toggleOnTrue(
     //     shooter.getShooting()
     //         ? RobotCommands.stopShoot(shooter, kicker, spindexer)
