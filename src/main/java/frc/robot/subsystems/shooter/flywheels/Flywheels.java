@@ -47,6 +47,7 @@ public class Flywheels extends SubsystemBase {
 
     Logger.recordOutput("Shooter/Flywheels/atGoal", atGoal);
     Logger.recordOutput("Shooter/Flywheels/torque", torqueCurrentControl);
+    Logger.recordOutput("Shooter/Flywheels/state", state.toString());
     if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
       torqueCurrentDebouncer =
           new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
@@ -100,7 +101,8 @@ public class Flywheels extends SubsystemBase {
   }
 
   public Command setIsShooting(boolean isShooting) {
-    return setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE);
+    return setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE)
+        .withName("Flywheels Set IsShooting " + isShooting);
   }
 
   public Command stop() {
