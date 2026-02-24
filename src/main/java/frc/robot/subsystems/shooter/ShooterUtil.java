@@ -56,6 +56,7 @@ public class ShooterUtil {
       double hoodVelocity,
       double flywheelSpeed) {}
 
+  // TODO I don't like that these two methods are basically identical.
   public LaunchingParameters getScoringParameters() {
     Pose2d robotPose = poseManager.getPose();
     Twist2d robotVelocity = poseManager.getRobotVelocity();
