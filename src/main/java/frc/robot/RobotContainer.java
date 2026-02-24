@@ -345,7 +345,7 @@ public class RobotContainer {
             poseManager));
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.climbDown());
-    // intakePivot.setDefaultCommand(intakePivot.raise());
+    intakePivot.setDefaultCommand(intakePivot.raise().alongWith(Commands.runOnce(() -> intakeDown = false)));
     intakeRollers.setDefaultCommand(intakeRollers.stop());
     kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
 
@@ -393,7 +393,7 @@ public class RobotContainer {
     controller
         .leftBumper()
         .debounce(1.5)
-        .whileTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer));
+        .whileTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer).alongWith(Commands.runOnce(() -> intakeDown = true)));
 
     // Shooting
     controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN).alongWith(spindexer.run()));
