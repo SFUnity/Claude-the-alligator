@@ -401,7 +401,7 @@ public class RobotContainer {
     //             ? RobotCommands.stopShoot(shooter, kicker, spindexer)
     //             : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
-    // controller rumble when 5 seconds are left in the current shift
+    // Controller rumble when 5 seconds are left in the current shift
     new Trigger(
             () ->
                 ShiftHelpers.timeRemainingInCurrentShift().orElse(Seconds.of(0.0)).in(Seconds)
