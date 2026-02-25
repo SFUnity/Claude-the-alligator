@@ -24,7 +24,7 @@ public class TurretIOSim implements TurretIO {
     sim.setInputVoltage(currentOutput);
     sim.update(Constants.loopPeriodSecs);
 
-    inputs.appliedVolts = currentOutput;
+    inputs.appliedVolts = sim.getInputVoltage();
     inputs.talonRotations = sim.getAngularPositionRotations();
     inputs.velocityDegsPerSec =
         Units.radiansToDegrees(

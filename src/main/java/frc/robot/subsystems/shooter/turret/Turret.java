@@ -20,7 +20,6 @@ public class Turret extends SubsystemBase {
   private final TurretIO io;
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
   private double targetDegs = 0;
-  // private double setpointDegs = 0;
   private double lastTargetDegs = 0;
   private double targetVelocity = 0;
   private boolean isShooting = false;
@@ -29,7 +28,8 @@ public class Turret extends SubsystemBase {
 
   private boolean eDisabled = false; // TODO tune debouncers + their offsets
   private Debouncer outOfBoundsDebouncer = new Debouncer(0.1, DebounceType.kRising);
-  private Debouncer awayFromSetpointDebouncer = new Debouncer(1.0, DebounceType.kRising);
+  private Debouncer encoderBrokenDebouncer = new Debouncer(0.5, DebounceType.kRising);
+  private double lastTalonRotations = 0;
 
   private LoggedTunableNumber maxVelocity = new LoggedTunableNumber("Turret/maxVelocity", 360);
   private LoggedTunableNumber maxAcceleration =
@@ -95,11 +95,19 @@ public class Turret extends SubsystemBase {
     encoder2Disconnected.set(encoder2DisconnectedDebouncer.calculate(inputs.encoder2Disconnected));
 
     if (!eDisabled) {
-      eDisabled =
+      boolean outOfBounds =
           outOfBoundsDebouncer.calculate(
               (truePositionDegs < trueMinAngleDegs + 10 && inputs.velocityDegsPerSec < 0)
                   || (truePositionDegs > trueMaxAngleDegs - 10 && inputs.velocityDegsPerSec > 0));
-      //|| awayFromSetpointDebouncer.calculate(Math.abs(truePositionDegs - targetDegs) > 10);
+      boolean encoderBroken =
+          encoderBrokenDebouncer.calculate(
+              Math.abs(inputs.appliedVolts) > 0.01 && inputs.talonRotations == lastTalonRotations);
+      lastTalonRotations = inputs.talonRotations;
+
+      Logger.recordOutput("Shooter/Turret/outOfBounds", outOfBounds);
+      Logger.recordOutput("Shooter/Turret/encoderBroken", encoderBroken);
+
+      eDisabled = outOfBounds || encoderBroken;
 
       double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
       double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
@@ -107,6 +115,7 @@ public class Turret extends SubsystemBase {
       boolean hasBestAngle = false;
       double bestAngle = 0;
 
+      // replace
       for (int i = 0; i < 5; i++) {
         double potentialSetpoint = targetDegs + 360 * i;
         if (potentialSetpoint < minLegalAngle || potentialSetpoint > maxLegalAngle) {

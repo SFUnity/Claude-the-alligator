@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter.turret;
 
+import frc.robot.util.LoggedTunableNumber;
+
 public class TurretConstants {
   // TODO please add "final" to all of these so they are actually constants
   public static int motorID = 5;
@@ -39,4 +41,7 @@ public class TurretConstants {
 
   public static double angleToleranceDegs = 2.0; // todo change
   public static double velocityToleranceDegs = 0.5; // TODO change
+
+  public static LoggedTunableNumber awayFromSetpointTolerance =
+      new LoggedTunableNumber("Shooter/Turret/awayFromSetpointTolerance", 5.0);
 }
