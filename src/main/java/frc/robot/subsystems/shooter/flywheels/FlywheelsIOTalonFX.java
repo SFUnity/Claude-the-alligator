@@ -49,9 +49,12 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
     tryUntilOk(5, () -> leader.getConfigurator().apply(talonFXConfigs, 0.25));
     tryUntilOk(5, () -> follow.getConfigurator().apply(talonFXConfigs, 0.25));
 
-    tryUntilOk(5, () -> follow.setControl(
-        new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed)
-            .withUpdateFreqHz(updateFreqHz)));
+    tryUntilOk(
+        5,
+        () ->
+            follow.setControl(
+                new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed)
+                    .withUpdateFreqHz(updateFreqHz)));
   }
 
   @Override
