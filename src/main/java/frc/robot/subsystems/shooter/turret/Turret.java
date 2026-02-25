@@ -20,6 +20,7 @@ public class Turret extends SubsystemBase {
   private final TurretIO io;
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
   private double targetDegs = 0;
+  // private double setpointDegs = 0;
   private double lastTargetDegs = 0;
   private double targetVelocity = 0;
   private boolean isShooting = false;
@@ -27,7 +28,7 @@ public class Turret extends SubsystemBase {
   private double positionDegs = 0;
 
   private boolean eDisabled = false; // TODO tune debouncers + their offsets
-  private Debouncer outOfBoundsDebouncer = new Debouncer(0.05, DebounceType.kRising);
+  private Debouncer outOfBoundsDebouncer = new Debouncer(0.1, DebounceType.kRising);
   private Debouncer awayFromSetpointDebouncer = new Debouncer(1.0, DebounceType.kRising);
 
   private LoggedTunableNumber maxVelocity = new LoggedTunableNumber("Turret/maxVelocity", 360);
@@ -78,9 +79,15 @@ public class Turret extends SubsystemBase {
           new TrapezoidProfile(
               new TrapezoidProfile.Constraints(maxVelocity.get(), maxAcceleration.get()));
     }
+    if (maxAcceleration.hasChanged(hashCode())) {
+      profile =
+          new TrapezoidProfile(
+              new TrapezoidProfile.Constraints(maxVelocity.get(), maxAcceleration.get()));
+    }
 
     Logger.recordOutput("Shooter/Turret/TruePositionDegs", truePositionDegs);
     Logger.recordOutput("Shooter/Turret/PositionDegs", positionDegs);
+    Logger.recordOutput("Shooter/Turret/eDisabled", eDisabled);
     Logger.processInputs("Shooter/Turret", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Turret");
 
@@ -90,9 +97,9 @@ public class Turret extends SubsystemBase {
     if (!eDisabled) {
       eDisabled =
           outOfBoundsDebouncer.calculate(
-                  truePositionDegs < trueMinAngleDegs + 10
-                      || truePositionDegs > trueMaxAngleDegs - 10)
-              || awayFromSetpointDebouncer.calculate(Math.abs(positionDegs - targetDegs) > 10);
+              (truePositionDegs < trueMinAngleDegs + 10 && inputs.velocityDegsPerSec < 0)
+                  || (truePositionDegs > trueMaxAngleDegs - 10 && inputs.velocityDegsPerSec > 0));
+      //|| awayFromSetpointDebouncer.calculate(Math.abs(truePositionDegs - targetDegs) > 10);
 
       double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
       double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
@@ -130,6 +137,8 @@ public class Turret extends SubsystemBase {
       targetRotations -= talonOffsetRots;
       Logger.recordOutput("Shooter/Turret/SetpointRotations", targetRotations);
       io.turnTurret(targetRotations, setpoint.velocity, kA.get(), kV.get());
+    } else {
+      io.stop();
     }
   }
 
@@ -143,10 +152,10 @@ public class Turret extends SubsystemBase {
     position2 = Units.rotationsToDegrees(position2);
 
     // chinese remainder theorem from claude check later
-    truePosition =
-        ((encoder1Gear ^ 2 * encoder2Gear * 360) * position1
-                + (encoder2Gear ^ 2 * encoder1Gear * 360) * position2)
-            % (360 ^ 2 * encoder1Gear * encoder2Gear);
+    // truePosition =
+    //     ((encoder1Gear ^ 2 * encoder2Gear * 360) * position1
+    //             + (encoder2Gear ^ 2 * encoder1Gear * 360) * position2)
+    //         % (360 ^ 2 * encoder1Gear * encoder2Gear);
 
     return truePosition;
   }

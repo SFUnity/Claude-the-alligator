@@ -28,7 +28,10 @@ public class TurretIOSim implements TurretIO {
     inputs.talonRotations = sim.getAngularPositionRotations();
     inputs.velocityDegsPerSec =
         Units.radiansToDegrees(
-            Units.rotationsPerMinuteToRadiansPerSecond(sim.getAngularVelocityRPM()));
+                Units.rotationsPerMinuteToRadiansPerSecond(sim.getAngularVelocityRPM()))
+            / gearRatio;
+    inputs.encoder1Rotations = 0;
+    inputs.encoder2Rotations = 0;
   }
 
   @Override
