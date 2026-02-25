@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter.hood;
 
 import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
+import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -33,7 +34,7 @@ public class HoodIOTalonFX implements HoodIO {
     config.CurrentLimits.SupplyCurrentLimit = 60.0;
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    pivot.getConfigurator().apply(config);
+    tryUntilOk(5, () -> pivot.getConfigurator().apply(config, 0.25));
   }
 
   @Override

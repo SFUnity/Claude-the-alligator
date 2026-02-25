@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter.flywheels;
 
 import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
+import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -45,12 +46,12 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
 
     talonFXConfigs.Feedback.SensorToMechanismRatio = gearRatio;
 
-    leader.getConfigurator().apply(talonFXConfigs);
+    tryUntilOk(5, () -> leader.getConfigurator().apply(talonFXConfigs, 0.25));
+    tryUntilOk(5, () -> follow.getConfigurator().apply(talonFXConfigs, 0.25));
 
-    follow.getConfigurator().apply(talonFXConfigs);
-    follow.setControl(
+    tryUntilOk(5, () -> follow.setControl(
         new Follower(leader.getDeviceID(), MotorAlignmentValue.Opposed)
-            .withUpdateFreqHz(updateFreqHz));
+            .withUpdateFreqHz(updateFreqHz)));
   }
 
   @Override

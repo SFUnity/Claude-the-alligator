@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter.turret;
 
 import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
+import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -33,14 +34,15 @@ public class TurretIOTalonFX implements TurretIO {
 
     // TODO add current limits
     TalonFXConfiguration configs = new TalonFXConfiguration();
-    Slot0Configs slot0 = configs.Slot0;
     configs.MotorOutput.Inverted =
         motorInverted ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;
-    // TODO change this to the gearRatio
-    configs.Feedback.SensorToMechanismRatio = 1;
-    configs.MotorOutput.NeutralMode = NeutralModeValue.Brake; // TODO change to brake
+    configs.Feedback.SensorToMechanismRatio = gearRatio;
+    configs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    configs.CurrentLimits.StatorCurrentLimit = 80.0;
+    configs.CurrentLimits.StatorCurrentLimitEnable = true;
+    configs.CurrentLimits.SupplyCurrentLimit = 60.0;
 
-    talon.getConfigurator().apply(configs);
+    tryUntilOk(5, () -> talon.getConfigurator().apply(configs, 0.25));
   }
 
   @Override
@@ -48,8 +50,7 @@ public class TurretIOTalonFX implements TurretIO {
     talonRotations = talon.getPosition().getValueAsDouble();
     talonVelocity = talon.getVelocity().getValueAsDouble();
     inputs.appliedVolts = talon.getMotorVoltage().getValueAsDouble();
-    // TODO remove gearRatio from here
-    inputs.velocityDegsPerSec = Units.rotationsToDegrees(talonVelocity) / gearRatio;
+    inputs.velocityDegsPerSec = Units.rotationsToDegrees(talonVelocity);
     inputs.currentAmps = talon.getSupplyCurrent().getValueAsDouble();
     inputs.statorCurrent = talon.getStatorCurrent().getValueAsDouble();
     inputs.talonRotations = talonRotations;
