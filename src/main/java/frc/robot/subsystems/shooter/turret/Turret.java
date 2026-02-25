@@ -57,7 +57,7 @@ public class Turret extends SubsystemBase {
   public Turret(TurretIO io) {
     this.io = io;
     io.updateInputs(inputs);
-    double motorOffsetDegs = 0; // getMotorOffsetDegs(); TODO change later
+    double motorOffsetDegs = getMotorOffsetDegs(); // TODO change later
     Logger.recordOutput("Shooter/Turret/MotorOffsetDegs", motorOffsetDegs);
     if (motorOffsetDegs < trueMinAngleDegs || motorOffsetDegs > trueMaxAngleDegs) {
       eDisabled = true;
@@ -151,22 +151,32 @@ public class Turret extends SubsystemBase {
     }
   }
 
-  // @AutoLogOutput(key = "Shooter/Turret/MotorOffsetDegs")
+  public double getMotorOffsetDegsTestable(double position1, double position2) {
+
+    int maxEnc1Rotations = (int) Math.ceil(turretGear / encoder1Gear); // = 8
+
+    for (int i = 0; i < maxEnc1Rotations; i++) {
+      // Candidate: enc1 is on its i-th full rotation
+      // Turret position in turret-rotations
+      double candidateTurretPos = (position1 + i) * encoder1Gear / turretGear;
+      // Simplifies to:
+      // double candidateTurretPos = (enc1 + i) / encoder1Gear;
+
+      // What would enc2 read at this turret position?
+      double expectedEnc2 = (candidateTurretPos * turretGear / encoder2Gear) % 1.0;
+
+      if (Math.abs(expectedEnc2 - position2) < 0.01) {
+        return Units.rotationsToDegrees(
+            candidateTurretPos); // in turret rotations, multiply by 360 for degrees
+      }
+    }
+    return -1;
+  }
+
   public double getMotorOffsetDegs() {
-    double truePosition = 0;
     double position1 = inputs.encoder1Rotations;
     double position2 = inputs.encoder2Rotations;
-
-    position1 = Units.rotationsToDegrees(position1);
-    position2 = Units.rotationsToDegrees(position2);
-
-    // chinese remainder theorem from claude check later
-    // truePosition =
-    //     ((encoder1Gear ^ 2 * encoder2Gear * 360) * position1
-    //             + (encoder2Gear ^ 2 * encoder1Gear * 360) * position2)
-    //         % (360 ^ 2 * encoder1Gear * encoder2Gear);
-
-    return truePosition;
+    return getMotorOffsetDegsTestable(position1, position2);
   }
 
   public double getPositionDegs() {

@@ -70,10 +70,10 @@ public class TurretIOTalonFX implements TurretIO {
     //     voltageOut.withOutput(
     //         (Units.rotationsToRadians(targetRotations) -
     // Units.rotationsToRadians(talonRotations))
-    //                 * kP
+    //                 * kA
     //             + (Units.degreesToRadians(targetVelocity) -
     // Units.rotationsToRadians(talonVelocity))
-    //                 * kD));
+    //                 * kV));
     talon.setControl(
         motionMagicExpoVoltage
             .withPosition(targetRotations)
