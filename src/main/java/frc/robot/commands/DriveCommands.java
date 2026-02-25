@@ -9,6 +9,8 @@ package frc.robot.commands;
 
 import static frc.robot.subsystems.drive.DriveConstants.*;
 
+
+
 import choreo.trajectory.SwerveSample;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
@@ -41,6 +43,8 @@ import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.GeomUtil;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
+import frc.robot.util.VirtualSubsystem;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
@@ -83,9 +87,11 @@ public class DriveCommands {
 
   public static final double MAX_LINEAR_VELOCITY = Units.feetToMeters(14.5); // 6328 uses 15 ft/s
   public static final double MAX_LINEAR_ACCELERATION = Units.feetToMeters(75.0); // This is what 6328
+  private static final Module[] modules = new Module[4];
   //Commands stuff
   private DriveCommandsConfig config;
   private static PoseManager poseManager = new PoseManager();
+  private Translation2d lastSetpointTranslation;
   private static final LoggedTunableNumber linearkP =
       new LoggedTunableNumber("Drive/Commands/Linear/kP", 3.5);
   private static final LoggedTunableNumber linearkD =
@@ -102,13 +108,30 @@ public class DriveCommands {
   private static final LoggedTunableNumber maxLinearAcceleration =
       new LoggedTunableNumber(
           "Drive/Commands/Linear/maxAcceleration", DriveCommands.MAX_LINEAR_ACCELERATION * 0.4);
+  private static final LoggedTunableNumber partialAutoLinearkP =
+      new LoggedTunableNumber("Drive/Commands/partialAutoLinearkP", 1.0);
+  private static final LoggedTunableNumber ffMinRadius =
+      new LoggedTunableNumber("AutoAlign/ffMinRadius", 0.2);
+  private static final LoggedTunableNumber ffMaxRadius =
+      new LoggedTunableNumber("AutoAlign/ffMaxRadius", 0.8);
+    
+  private Timer joystickInterruptTimer = new Timer();
+  private LoggedTunableNumber joystickInterruptDelay =
+      new LoggedTunableNumber("Drive/JoystickInterruptDelay", 1);
           
-  private Pose2d getAngularVelocityFromProfiledPID(Pose2d targetPose) {
+  private Pose2d getAngularVelocityFromProfiledPID(double targetPose) {
+    return null;
     //idk bro what am I doing
   }
 
-  private final ProfiledPIDController thetaController;
-  private final static ProfiledPIDController linearController;
+  private final ProfiledPIDController thetaController = new ProfiledPIDController(
+      thetakP.get(), 0, thetakD.get(), new TrapezoidProfile.Constraints(0.0, 0.0));
+  private final ProfiledPIDController linearController = new ProfiledPIDController(
+      linearkP.get(), 0, linearkD.get(), new TrapezoidProfile.Constraints(0, 0));
+
+  
+
+
   
     private Translation2d getLinearVelocityFromProfiledPID(Pose2d targetPose) {
       double currentDistance = poseManager.getDistanceTo(targetPose);
@@ -145,13 +168,33 @@ public class DriveCommands {
   
       return driveVelocity;
     }
-  
-    // Constants
-    private static final double DEADBAND = 0.1;
-    private static final double FF_START_DELAY = 2.0; // Secs
-    private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
-    private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
-    private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
+
+      public static void runVelocity(ChassisSpeeds speeds) {
+    // Calculate module setpoints
+    ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
+    SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveCommands.MAX_LINEAR_VELOCITY);
+
+    // Send setpoints to modules
+    SwerveModuleState[] optimizedSetpointStates = new SwerveModuleState[4];
+    for (int i = 0; i < 4; i++) {
+      // The module returns the optimized state, useful for logging
+      //optimizedSetpointStates[i] = modules[i].runSetpoint(setpointStates[i]);
+          }
+      
+          // Log setpoint states
+          Logger.recordOutput("Odometry/SwerveStates/Setpoints", setpointStates);
+          Logger.recordOutput("Odometry/SwerveStates/SetpointsOptimized", optimizedSetpointStates);
+        }
+        
+          // Constants
+          private static final double DEADBAND = 0.1;
+          private static final double FF_START_DELAY = 2.0; // Secs
+          private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
+          private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
+          private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
+          
+    
   
     // Drive command PID tunables
     private static final LoggedTunableNumber angleKp =
@@ -180,7 +223,6 @@ public class DriveCommands {
       angleController.setTolerance(Units.degreesToRadians(thetaToleranceDeg.get()));
     }
   
-    private DriveCommands() {}
   
     private static Translation2d getLinearVelocityFromJoysticks(double x, double y) {
       // Apply deadband
@@ -195,6 +237,23 @@ public class DriveCommands {
           .transformBy(new Transform2d(linearMagnitude, 0.0, Rotation2d.kZero))
           .getTranslation();
     }
+
+     public void stop() {
+    runVelocity(new ChassisSpeeds(0.0, 0.0, 0.0));
+  }
+
+
+    private boolean noJoystickInput() {
+    if (!joystickInterruptTimer.hasElapsed(joystickInterruptDelay.get())) {
+      return true;
+    }
+    return MathUtil.applyDeadband(config.getOmegaInput(), 0.2) == 0
+        && MathUtil.applyDeadband(Math.hypot(config.getXInput(), config.getYInput()), 0.2) == 0
+        && !config.povDownPressed()
+        && !config.povUpPressed()
+        && !config.povLeftPressed()
+        && !config.povRightPressed();
+  }
 
     private double linearBlending(
       double distance,
@@ -599,29 +658,24 @@ public class DriveCommands {
           Translation2d driveVelocity = getLinearVelocityFromProfiledPID(targetPose);
 
           // Calculate theta speed
-          double thetaVelocity = getAngularVelocityFromProfiledPID(targetPose);
+          Pose2d thetaVelocity = getAngularVelocityFromProfiledPID(targetPose.getRotation().getRadians());
 
           // Send command
           runVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(
                   driveVelocity.getX(),
                   driveVelocity.getY(),
-                  thetaVelocity,
+                  thetaVelocity.getRotation().getRadians(),
                   poseManager.getRotation()));
-
-          Leds.getInstance().alignedWithTarget = linearAtGoal() && thetaAtGoal();
         })
         .beforeStarting(
             () -> {
               joystickInterruptTimer.restart();
               resetControllers(goalPose.get());
-              Leds.getInstance().autoAlignActivated = true;
             })
         .finallyDo(
             () -> {
               stop();
-              Leds.getInstance().alignedWithTarget = false;
-              Leds.getInstance().autoAlignActivated = false;
             })
         .onlyWhile(this::noJoystickInput)
         .withName("Full Auto Drive");
@@ -644,9 +698,9 @@ public class DriveCommands {
           Translation2d driveVelocity = getLinearVelocityFromProfiledPID(targetPose);
 
           // Calculate theta speed
-          double thetaVelocity =
-              getAngularVelocityFromProfiledPID(targetPose.getRotation().getRadians());
-          if (thetaController.atGoal()) thetaVelocity = 0.0;
+          Pose2d thetaVelocity = getAngularVelocityFromProfiledPID(targetPose.getRotation().getRadians());
+          
+          if (thetaController.atGoal()) thetaVelocity = new Pose2d(0, 0, new Rotation2d(0));
           // Send command
           double maxDistance = 2;
           Translation2d distance =
@@ -670,10 +724,11 @@ public class DriveCommands {
 
           runVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(
-                  finalX, finalY, thetaVelocity, poseManager.getRotation()));
+                  finalX, finalY, 0, poseManager.getRotation()));
         })
         .beforeStarting(() -> resetControllers(goalPose.get()))
         .withName("Partial Auto Drive");
   }
 }
+
 
