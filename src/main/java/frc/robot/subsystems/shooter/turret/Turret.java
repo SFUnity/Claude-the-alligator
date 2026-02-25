@@ -189,7 +189,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void setTarget(double targetDegs, double targetVelocity) {
-    this.targetDegs = targetDegs;
+    this.targetDegs = MathUtil.inputModulus(targetDegs, 0, 360);
     this.targetVelocity = targetVelocity;
   }
 
