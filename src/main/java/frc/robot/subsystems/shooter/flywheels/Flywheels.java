@@ -107,7 +107,7 @@ public class Flywheels extends SubsystemBase {
   }
 
   public void setIsShooting(boolean isShooting) {
-    setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE);
+    // setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE);
   }
 
   public Command stop() {
