@@ -34,7 +34,7 @@ public class RobotCommands {
             kicker.setState(KickerState.BACKWARDS).alongWith(spindexer.runBack(shootingBackupRots.get())),
             spindexer.stop(),
             kicker.setState(KickerState.RUN),
-            // TODO also need to wait until the kicker is ready to shoot
+            waitUntil(kicker::atGoal),
             waitUntil(shooter::readyToShoot),
             spindexer.run());
   }
