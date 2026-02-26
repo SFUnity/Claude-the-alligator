@@ -35,6 +35,7 @@ public class SpindexerIOTalonFX implements SpindexerIO {
     inputs.statorCurrentAmps = talon.getStatorCurrent().getValueAsDouble();
     inputs.supplyCurrentAmps = talon.getSupplyCurrent().getValueAsDouble();
     inputs.velocityRotsPerSec = talon.getVelocity().getValueAsDouble();
+    inputs.positionRots = talon.getPosition().getValueAsDouble();
   }
 
   @Override

@@ -11,8 +11,12 @@ import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.util.LoggedTunableNumber;
 
 public class RobotCommands {
+  public static final LoggedTunableNumber ejectBackupRots = new LoggedTunableNumber("RobotCommands/ejectBackupRots", 0.25);
+  public static final LoggedTunableNumber shootingBackupRots = new LoggedTunableNumber("RobotCommands/shootingBackupRots", 0.1);
+
   // can be fully shot out of the robot
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return spindexer
@@ -27,7 +31,7 @@ public class RobotCommands {
     return shooter
         .setShooting(true)
         .andThen(
-            kicker.setState(KickerState.BACKWARDS).alongWith(spindexer.runBack()).withTimeout(0.2),
+            kicker.setState(KickerState.BACKWARDS).alongWith(spindexer.runBack(shootingBackupRots.get())),
             spindexer.stop(),
             kicker.setState(KickerState.RUN),
             // TODO also need to wait until the kicker is ready to shoot
@@ -43,7 +47,7 @@ public class RobotCommands {
     return intake
         .eject()
         .alongWith(intakePivot.lower())
-        .deadlineFor(spindexer.runBack().withTimeout(0.2))
+        .deadlineFor(spindexer.runBack(ejectBackupRots.get()))
         .withName("eject");
   }
 
