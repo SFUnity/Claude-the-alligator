@@ -23,7 +23,6 @@ public class Spindexer extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "Rollers/Spindexer");
   }
 
-  // TODO put make an eject command
   public Command run() {
     return run(() -> io.run(spindexerSpeedVolts.get())).withName("spindexerRun");
   }
