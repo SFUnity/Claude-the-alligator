@@ -8,6 +8,7 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.Seconds;
+import static frc.robot.Constants.loopPeriodSecs;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -118,6 +119,8 @@ public class RobotContainer {
 
   // Callback for fuel sim intake
   private double fuelCount = 0;
+
+  private boolean isShooting = false;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   @SuppressWarnings("resource")
@@ -353,7 +356,7 @@ public class RobotContainer {
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.climbDown());
     intakePivot.setDefaultCommand(
-        intakePivot.raise().alongWith(Commands.runOnce(() -> intakeDown = false)));
+        intakePivot.raise().beforeStarting(() -> intakeDown = false).withName("IntakePivotRaise"));
     intakeRollers.setDefaultCommand(intakeRollers.stop());
     kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
 
@@ -380,11 +383,13 @@ public class RobotContainer {
     controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
     controller
         .leftBumper()
-        .and(() -> intakeDown)
+        .and(() -> !intakeDown)
+        .debounce(loopPeriodSecs)
         .onTrue(RobotCommands.stowIntake(intakeRollers, intakePivot));
     controller
         .leftBumper()
-        .and(() -> !intakeDown)
+        .and(() -> intakeDown)
+        .debounce(loopPeriodSecs)
         .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
     controller
@@ -403,10 +408,17 @@ public class RobotContainer {
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
 
-    // .toggleOnTrue(
-    //     shooter.getShooting()
-    //         ? RobotCommands.stopShoot(shooter, kicker, spindexer)
-    //         : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    // controller.rightBumper().onTrue(Commands.runOnce(() -> isShooting = !isShooting));
+    // controller
+    //     .rightBumper()
+    //     .and(() -> isShooting)
+    //     .debounce(loopPeriodSecs)
+    //     .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    // controller
+    //     .rightBumper()
+    //     .and(() -> !isShooting)
+    //     .debounce(loopPeriodSecs)
+    //     .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
 
     // * Automatic shooting
     // new Trigger(() -> shooter.readyToShoot())

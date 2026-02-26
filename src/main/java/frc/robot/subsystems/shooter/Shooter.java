@@ -172,7 +172,7 @@ public class Shooter extends VirtualSubsystem {
 
   public Command toggleShooting() {
     return runOnce(() -> isShooting = !isShooting, flywheels, turret, hood)
-        .withName("ToggleShooting");
+        .withName("LowLevelToggleShooting");
   }
 
   public boolean getShooting() {

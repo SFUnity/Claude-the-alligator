@@ -46,7 +46,7 @@ public class IntakePivot extends SubsystemBase {
           positionSetpoint = raisedAngle.get();
           io.setPivotPosition(positionSetpoint);
         })
-        .withName("IntakePivotLower");
+        .withName("IntakePivotRaise");
   }
 
   public Command lower() {
