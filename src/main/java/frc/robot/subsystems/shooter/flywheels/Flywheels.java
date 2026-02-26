@@ -31,7 +31,8 @@ public class Flywheels extends SubsystemBase {
   public enum FlywheelsState {
     RUN,
     STOP,
-    IDLE
+    IDLE,
+    VOLTS
   }
 
   private FlywheelsState state = FlywheelsState.STOP;
@@ -68,6 +69,8 @@ public class Flywheels extends SubsystemBase {
         break;
       case RUN:
         runVelocity(RPMSetpoint);
+      case VOLTS:
+        io.runVolts(2);
     }
   }
 

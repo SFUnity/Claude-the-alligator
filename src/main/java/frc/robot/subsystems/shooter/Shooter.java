@@ -17,6 +17,7 @@ import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.LeftTrench;
 import frc.robot.FieldConstants.RightTrench;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
+import frc.robot.subsystems.shooter.flywheels.Flywheels.FlywheelsState;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.hood.HoodConstants;
 import frc.robot.subsystems.shooter.turret.Turret;
@@ -183,10 +184,15 @@ public class Shooter extends VirtualSubsystem {
         .withName("TestHood");
   }
 
-  public Command testFlywheels() {
+  public Command testFlywheelsRPM() {
     return run(() -> flywheels.setVelocity(5000), flywheels)
         .withTimeout(1)
         .withName("TestFlywheels");
+  }
+
+  public Command testFlywheelsVolts() {
+    return runOnce(() -> flywheels.setState(FlywheelsState.VOLTS))
+        .withName("TestFlywheelsVolts");
   }
 
   private void TrenchAvoidence() {
