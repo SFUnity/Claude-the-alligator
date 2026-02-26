@@ -87,7 +87,7 @@ public class Flywheels extends SubsystemBase {
         io.runDutyCycle();
       }
     } else {
-      io.runVolts(0);
+      io.runSlowDutyCycle();
     }
 
     // sean's pid + torque control solution
