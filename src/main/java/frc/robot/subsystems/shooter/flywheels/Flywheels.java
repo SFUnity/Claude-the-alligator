@@ -5,6 +5,7 @@ import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -48,6 +49,8 @@ public class Flywheels extends SubsystemBase {
     Logger.recordOutput("Shooter/Flywheels/atGoal", atGoal);
     Logger.recordOutput("Shooter/Flywheels/torque", torqueCurrentControl);
     Logger.recordOutput("Shooter/Flywheels/state", state.toString());
+    Logger.recordOutput("Shooter/Flywheels/rpmSetpoint", RPMSetpoint);
+
     if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
       torqueCurrentDebouncer =
           new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
@@ -100,17 +103,16 @@ public class Flywheels extends SubsystemBase {
     // }
   }
 
-  public Command setIsShooting(boolean isShooting) {
-    return setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE)
-        .withName("Flywheels Set IsShooting " + isShooting);
+  public void setIsShooting(boolean isShooting) {
+    setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE);
   }
 
   public Command stop() {
-    return setState(FlywheelsState.STOP);
+    return Commands.runOnce(() -> setState(FlywheelsState.STOP));
   }
 
-  public Command setState(FlywheelsState state) {
-    return runOnce(() -> this.state = state);
+  public void setState(FlywheelsState state) {
+    this.state = state;
   }
 
   public Command setVelocity(double velocityRPM) {
