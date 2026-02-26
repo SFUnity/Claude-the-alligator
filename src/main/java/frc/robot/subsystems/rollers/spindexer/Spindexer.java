@@ -22,7 +22,7 @@ public class Spindexer extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
 
-    positionDifference = inputs.positionRots - startingPosition;
+    positionDifference = startingPosition - inputs.positionRots;
 
     Logger.recordOutput("Rollers/Spindexer/PositionDifference", positionDifference);
     Logger.processInputs("Rollers/Spindexer", inputs);
@@ -35,7 +35,11 @@ public class Spindexer extends SubsystemBase {
 
   public Command runBack(double rots) {
     return run(() -> io.run(-(slowSpindexerSpeedVolts.get())))
-        .beforeStarting(() -> startingPosition = inputs.positionRots)
+        .beforeStarting(
+            () -> {
+              startingPosition = inputs.positionRots;
+              positionDifference = 0;
+            })
         .until(() -> positionDifference > rots)
         .withName("spindexerRunBack" + rots + "rots");
   }
