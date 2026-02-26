@@ -396,7 +396,7 @@ public class RobotContainer {
         .leftBumper()
         .debounce(1)
         .whileTrue(
-            RobotCommands.eject(intakeRollers, intakePivot, spindexer)
+            RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker)
                 .beforeStarting(() -> intakeDown = true));
 
     // Shooting

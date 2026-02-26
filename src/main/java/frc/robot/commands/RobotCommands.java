@@ -13,7 +13,7 @@ import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
 
 public class RobotCommands {
-  private static final double ejectBackupRots = 0.1;
+  private static final double ejectBackupRots = 0.5;
   private static final double shootingBackupRots = 0.1;
 
   // can be fully shot out of the robot
@@ -43,11 +43,13 @@ public class RobotCommands {
     return intake.intake().alongWith(intakePivot.lower()).withName("intake");
   }
 
-  public static Command eject(IntakeRollers intake, IntakePivot intakePivot, Spindexer spindexer) {
+  public static Command eject(
+      IntakeRollers intake, IntakePivot intakePivot, Spindexer spindexer, Kicker kicker) {
     return intake
         .eject()
-        .alongWith(intakePivot.lower())
-        .deadlineFor(spindexer.runBack(ejectBackupRots))
+        .alongWith(
+            intakePivot.lower(),
+            spindexer.runBack(ejectBackupRots).andThen(kicker.setState(KickerState.BACKWARDS)))
         .withName("eject");
   }
 

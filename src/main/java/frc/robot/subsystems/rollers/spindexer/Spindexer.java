@@ -34,7 +34,15 @@ public class Spindexer extends SubsystemBase {
   }
 
   public Command runBack(double rots) {
-    return runEnd(() -> io.run(-(slowSpindexerSpeedVolts.get())), () -> io.run(0))
+    return runEnd(
+            () -> {
+              if (inputs.supplyCurrentAmps > 40) {
+                io.run(0);
+              } else {
+                io.run(-(slowSpindexerSpeedVolts.get()));
+              }
+            },
+            () -> io.run(0))
         .beforeStarting(
             () -> {
               startingPosition = inputs.positionRots;
