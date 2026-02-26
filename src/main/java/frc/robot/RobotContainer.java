@@ -384,7 +384,7 @@ public class RobotContainer {
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
     controller
         .leftBumper()
-        .debounce(1.5)
+        .debounce(1)
         .whileTrue(
             RobotCommands.eject(intakeRollers, intakePivot, spindexer)
                 .alongWith(Commands.runOnce(() -> intakeDown = true)));
