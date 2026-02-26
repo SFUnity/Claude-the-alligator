@@ -391,7 +391,7 @@ public class RobotContainer {
         .debounce(1)
         .whileTrue(
             RobotCommands.eject(intakeRollers, intakePivot, spindexer)
-                .alongWith(Commands.runOnce(() -> intakeDown = true)));
+                .beforeStarting(() -> intakeDown = true));
 
     // Shooting
     controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN));
