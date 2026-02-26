@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.robot.FieldConstants.*;
@@ -138,10 +139,9 @@ public class Shooter extends VirtualSubsystem {
 
     if (Constants.currentMode == Constants.simMode && isShooting) {
       fuelSim.launchFuel(
-          MetersPerSecond.of(
-              Units.rotationsPerMinuteToRadiansPerSecond(flywheels.getVelocityRPM()) * WheelRadius),
-          new Rotation2d(hood.getAngleDeg()).getMeasure(),
-          new Rotation2d(turret.getPositionDegs()).getMeasure(),
+          MetersPerSecond.of(flywheels.getVelocityRPM() * 2 * Math.PI * WheelRadius / 60),
+          Degrees.of(hood.getAngleDeg()),
+          Degrees.of(turret.getPositionDegs()),
           turretCenter);
     }
   }
