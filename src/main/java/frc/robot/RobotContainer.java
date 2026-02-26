@@ -400,6 +400,9 @@ public class RobotContainer {
     controller.rightTrigger().whileTrue(spindexer.run());
     controller.y().onTrue(shooter.toggleShooting());
 
+    controller.a().onTrue(shooter.overrideSetScoring(true));
+    controller.b().onTrue(shooter.overrideSetScoring(false));
+
     // .toggleOnTrue(
     //     shooter.getShooting()
     //         ? RobotCommands.stopShoot(shooter, kicker, spindexer)

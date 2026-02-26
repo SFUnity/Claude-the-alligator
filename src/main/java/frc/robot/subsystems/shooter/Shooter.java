@@ -8,6 +8,7 @@ import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -52,8 +53,9 @@ public class Shooter extends VirtualSubsystem {
   private final PoseManager poseManager;
 
   private boolean isShooting = false;
-  private boolean isScoring = false;
+  private boolean isScoring = true;
   private boolean hoodIsSafe = false;
+  private boolean isAutoFeedVsScore = true;
 
   private double myX;
   private double myY;
@@ -93,9 +95,16 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public void periodic() {
-    isScoring =
+    if (DriverStation.isAutonomous()) {
+      isAutoFeedVsScore = true;
+    }
+
+    if (isAutoFeedVsScore) {
+      isScoring =
         AllianceFlipUtil.applyX(poseManager.getPose().getX())
             < FieldConstants.LinesVertical.allianceZone;
+    }
+
     Logger.recordOutput("Shooter/isScoring", isScoring);
     Logger.recordOutput("Shooter/isShooting", isShooting);
 
@@ -172,6 +181,10 @@ public class Shooter extends VirtualSubsystem {
 
   public Command toggleHoodIsSafe() {
     return runOnce(() -> hoodIsSafe = !hoodIsSafe, hood).withName("ToggleHoodIsSafe");
+  }
+
+  public Command overrideSetScoring(boolean scoring) {
+    return runOnce(() -> {isScoring = scoring; isAutoFeedVsScore = false;}).withName("OverrideSetScoring" + scoring);
   }
 
   // TODO Sean needs to make this work better. Make it go from minimum safe angle to maximum safe
