@@ -7,7 +7,6 @@ import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -151,10 +150,13 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public Command setShooting(boolean shooting) {
-    return runOnce(() -> isShooting = shooting)
-        .alongWith(runOnce(() -> turret.setIsShooting(shooting)))
-        .alongWith(runOnce(() -> flywheels.setIsShooting(shooting)))
-        .alongWith(runOnce(() -> simulationShoot()));
+    return runOnce(() -> isShooting = shooting, flywheels, turret, hood)
+        .withName(shooting ? "StartShooting" : "StopShooting");
+  }
+
+  public Command toggleShooting() {
+    return runOnce(() -> isShooting = !isShooting, flywheels, turret, hood)
+        .withName("ToggleShooting");
   }
 
   public boolean getShooting() {
@@ -162,25 +164,27 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public Command toggleHoodIsSafe() {
-    return runOnce(() -> hoodIsSafe = !hoodIsSafe);
+    return runOnce(() -> hoodIsSafe = !hoodIsSafe, hood).withName("ToggleHoodIsSafe");
   }
 
   // TODO Sean needs to make this work better. Make it go from minimum safe angle to maximum safe
   // angle.
   public Command testTurret() {
-    return run(() -> turret.setTarget(90, 0)).withName("TestTurret");
+    return run(() -> turret.setTarget(90, 0), turret).withName("TestTurret");
   }
 
   public Command testHood() {
-    return run(() -> hood.setAngle(HoodConstants.maxPositionDegs))
+    return run(() -> hood.setAngle(HoodConstants.maxPositionDegs), hood)
         .until(hood::atGoal)
-        .andThen(() -> hood.setAngle(HoodConstants.minPositionDegs))
+        .andThen(() -> hood.setAngle(HoodConstants.minPositionDegs), hood)
         .until(hood::atGoal)
         .withName("TestHood");
   }
 
   public Command testFlywheels() {
-    return run(() -> flywheels.setVelocity(5000)).withTimeout(1).withName("TestFlywheels");
+    return run(() -> flywheels.setVelocity(5000), flywheels)
+        .withTimeout(1)
+        .withName("TestFlywheels");
   }
 
   private void TrenchAvoidence() {
@@ -261,14 +265,5 @@ public class Shooter extends VirtualSubsystem {
 
     Logger.recordOutput("Controls/Trench Avoidence/dX", dX);
     Logger.recordOutput("Controls/Trench Avoidence/dY", dY);
-  }
-
-  public void simulationShoot() {
-    fuelSim.launchFuel(
-        MetersPerSecond.of(
-            Units.rotationsPerMinuteToRadiansPerSecond(fakeFlywheelVelocity.get()) * WheelRadius),
-        new Rotation2d(Units.degreesToRadians(fakeHoodAngle.get())).getMeasure(),
-        new Rotation2d(Units.degreesToRadians(fakeTurretAngle.get())).getMeasure(),
-        turretCenter);
   }
 }
