@@ -7,6 +7,8 @@ import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -139,9 +141,9 @@ public class Shooter extends VirtualSubsystem {
     if (Constants.currentMode == Constants.simMode && isShooting) {
       fuelSim.launchFuel(
           MetersPerSecond.of(flywheels.getVelocityRPM() * 2 * Math.PI * WheelRadius / 60),
-          Degrees.of(hood.getAngleDeg()),
+          Degrees.of(90 - hood.getAngleDeg()),
           Degrees.of(turret.getPositionDegs()),
-          turretCenter);
+          turretCenter.plus(new Transform3d(0, 0, 2, new Rotation3d())));
     }
   }
 
