@@ -7,9 +7,8 @@ import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -79,6 +78,7 @@ public class Shooter extends VirtualSubsystem {
 
   private boolean upwardMovmentCorospondWithDirection;
   private FuelSim fuelSim;
+  private final Timer fuelLaunchTimer = new Timer();
 
   public Shooter(
       Flywheels flywheels, Turret turret, Hood hood, PoseManager poseManager, FuelSim fuelSim) {
@@ -89,7 +89,7 @@ public class Shooter extends VirtualSubsystem {
     this.fuelSim = fuelSim;
     this.shooterUtil = new ShooterUtil(this.poseManager);
 
-    // TODO add default commands
+    fuelLaunchTimer.start();
   }
 
   public void periodic() {
@@ -139,12 +139,16 @@ public class Shooter extends VirtualSubsystem {
       // To do add shoot to near the middle bottom
     }
 
-    if (Constants.currentMode == Constants.simMode && isShooting) {
+    if (Constants.currentMode == Constants.simMode
+        && isShooting
+        && fuelLaunchTimer.hasElapsed(0.5)) {
+      fuelLaunchTimer.restart();
+
       fuelSim.launchFuel(
           MetersPerSecond.of(flywheels.getVelocityRPM() * 2 * Math.PI * WheelRadius / 60),
           Degrees.of(90 - hood.getAngleDeg()),
           Degrees.of(turret.getPositionDegs()),
-          turretCenter.plus(new Transform3d(0, 0, 2, new Rotation3d())));
+          turretCenter);
     }
   }
 
