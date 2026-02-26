@@ -390,9 +390,10 @@ public class RobotContainer {
                 .alongWith(Commands.runOnce(() -> intakeDown = true)));
 
     // Shooting
-    controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN).alongWith(spindexer.run()));
+    controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN));
     // controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
-    controller.rightTrigger().onTrue(shooter.testFlywheelsVolts());
+    controller.rightTrigger().whileTrue(spindexer.run());
+    controller.y().onTrue(shooter.testFlywheelsVolts());
 
     // .toggleOnTrue(
     //     shooter.getShooting()
