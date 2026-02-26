@@ -101,8 +101,8 @@ public class Shooter extends VirtualSubsystem {
 
     if (isAutoFeedVsScore) {
       isScoring =
-        AllianceFlipUtil.applyX(poseManager.getPose().getX())
-            < FieldConstants.LinesVertical.allianceZone;
+          AllianceFlipUtil.applyX(poseManager.getPose().getX())
+              < FieldConstants.LinesVertical.allianceZone;
     }
 
     Logger.recordOutput("Shooter/isScoring", isScoring);
@@ -184,7 +184,12 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public Command overrideSetScoring(boolean scoring) {
-    return runOnce(() -> {isScoring = scoring; isAutoFeedVsScore = false;}).withName("OverrideSetScoring" + scoring);
+    return runOnce(
+            () -> {
+              isScoring = scoring;
+              isAutoFeedVsScore = false;
+            })
+        .withName("OverrideSetScoring" + scoring);
   }
 
   // TODO Sean needs to make this work better. Make it go from minimum safe angle to maximum safe

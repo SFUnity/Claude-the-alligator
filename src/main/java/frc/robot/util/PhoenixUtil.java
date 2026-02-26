@@ -8,10 +8,8 @@
 package frc.robot.util;
 
 import com.ctre.phoenix6.StatusCode;
-
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
-
 import java.util.function.Supplier;
 
 public class PhoenixUtil {
@@ -22,6 +20,9 @@ public class PhoenixUtil {
       var error = command.get();
       if (error.isOK()) break;
     }
-    new Alert("Phoenix command failed: " + command.toString() + "With this error: " + command.get(), AlertType.kError).set(true);
+    new Alert(
+            "Phoenix command failed: " + command.toString() + "With this error: " + command.get(),
+            AlertType.kError)
+        .set(true);
   }
 }

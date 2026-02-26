@@ -41,7 +41,7 @@ public class RobotCommands {
             waitUntil(kicker::atGoal),
             waitUntil(shooter::readyToShoot),
             spindexer.run())
-            .withName("ReadyThenShoot");
+        .withName("ReadyThenShoot");
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
