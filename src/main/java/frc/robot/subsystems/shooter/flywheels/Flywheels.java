@@ -50,7 +50,6 @@ public class Flywheels extends SubsystemBase {
     Logger.recordOutput("Shooter/Flywheels/atGoal", atGoal);
     Logger.recordOutput("Shooter/Flywheels/torque", torqueCurrentControl);
     Logger.recordOutput("Shooter/Flywheels/state", state.toString());
-    Logger.recordOutput("Shooter/Flywheels/rpmSetpoint", RPMSetpoint);
 
     if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
       torqueCurrentDebouncer =
@@ -76,6 +75,7 @@ public class Flywheels extends SubsystemBase {
 
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
+    Logger.recordOutput("Shooter/Flywheels/goalRPM", velocityRPM);
     boolean inToleranceForTorqueControl =
         Math.abs(inputs.velocityRotsPerMin - velocityRPM) <= torqueCurrentControlTolerance.get();
     boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
@@ -93,7 +93,8 @@ public class Flywheels extends SubsystemBase {
         io.runDutyCycle();
       }
     } else {
-      io.runSlowDutyCycle();
+      // io.runSlowDutyCycle();
+      io.stop();
     }
 
     // sean's pid + torque control solution
@@ -107,7 +108,7 @@ public class Flywheels extends SubsystemBase {
   }
 
   public void setIsShooting(boolean isShooting) {
-    if (state != FlywheelsState.VOLTS && state != FlywheelsState.STOP) {
+    if (state != FlywheelsState.VOLTS) {
       setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE);
     }
   }
