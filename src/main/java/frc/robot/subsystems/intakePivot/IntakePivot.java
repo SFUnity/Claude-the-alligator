@@ -79,7 +79,7 @@ public class IntakePivot extends SubsystemBase {
         .withName("IntakePivotJork");
   }
 
-  @AutoLogOutput(key = "IntakePivot/IntakeDown")
+  @AutoLogOutput(key = "Controls/IntakeDown")
   public boolean intakeDown() {
     // return inputs.pivotCurrentPositionDeg <= (loweredAngle.get() + raisedAngle.get()) / 2.0;
     return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
