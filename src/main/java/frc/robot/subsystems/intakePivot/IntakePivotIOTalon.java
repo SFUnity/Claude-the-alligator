@@ -33,7 +33,7 @@ public class IntakePivotIOTalon implements IntakePivotIO {
     config.CurrentLimits.StatorCurrentLimitEnable = true;
     config.CurrentLimits.SupplyCurrentLimit = 60.0;
 
-    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
     tryUntilOk(5, () -> pivot.getConfigurator().apply(config, 0.25));
   }
 
