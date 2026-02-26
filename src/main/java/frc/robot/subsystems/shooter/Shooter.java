@@ -191,8 +191,7 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public Command testFlywheelsVolts() {
-    return runOnce(() -> flywheels.setState(FlywheelsState.VOLTS))
-        .withName("TestFlywheelsVolts");
+    return runOnce(() -> flywheels.setState(FlywheelsState.VOLTS)).withName("TestFlywheelsVolts");
   }
 
   private void TrenchAvoidence() {

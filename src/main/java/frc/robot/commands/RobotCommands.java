@@ -83,7 +83,7 @@ public class RobotCommands {
                 spindexer.run().withTimeout(1),
                 kicker.setState(KickerState.RUN).withTimeout(1),
                 intake.intake().withTimeout(1),
-                shooter.testFlywheels()))
+                shooter.testFlywheelsRPM()))
         .withName("test");
   }
 }
