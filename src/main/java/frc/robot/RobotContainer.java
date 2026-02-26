@@ -414,7 +414,7 @@ public class RobotContainer {
     // Controller rumble when 5 seconds are left in the current shift
     new Trigger(
             () ->
-                ShiftHelpers.timeRemainingInCurrentShift().orElse(Seconds.of(0.0)).in(Seconds)
+                ShiftHelpers.timeRemainingInCurrentShift().orElse(Seconds.of(10.0)).in(Seconds)
                     < 5.0)
         .onTrue(
             Commands.runEnd(
