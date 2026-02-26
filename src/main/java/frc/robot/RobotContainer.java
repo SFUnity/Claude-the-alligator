@@ -389,7 +389,9 @@ public class RobotContainer {
 
     // Shooting
     controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN).alongWith(spindexer.run()));
-    controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
+    // controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
+    controller.rightTrigger().onTrue(shooter.setShooting(!shooter.getShooting()));
+
     // .toggleOnTrue(
     //     shooter.getShooting()
     //         ? RobotCommands.stopShoot(shooter, kicker, spindexer)

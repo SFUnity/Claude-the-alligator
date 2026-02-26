@@ -6,7 +6,6 @@ import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
@@ -15,11 +14,11 @@ import frc.robot.Constants;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.LeftTrench;
 import frc.robot.FieldConstants.RightTrench;
-import frc.robot.subsystems.shooter.ShooterUtil.*;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.hood.HoodConstants;
 import frc.robot.subsystems.shooter.turret.Turret;
+import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.FuelSim;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
@@ -91,42 +90,31 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public void periodic() {
-    Pose3d goalPose = new Pose3d();
-
-    isScoring = poseManager.getPose().getX() < FieldConstants.LinesVertical.allianceZone;
+    isScoring =
+        AllianceFlipUtil.applyX(poseManager.getPose().getX())
+            < FieldConstants.LinesVertical.allianceZone;
     Logger.recordOutput("Shooter/isScoring", isScoring);
     Logger.recordOutput("Shooter/isShooting", isShooting);
-
-    myX = poseManager.getPose().getX() - LinesVertical.center;
-    myY = poseManager.getPose().getY() - LinesHorizontal.center;
 
     turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
 
-    // LaunchingParameters solution = shooterUtil.getScoringParameters();
-    // if (solution.isValid()) {
-    //   double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-    //   double turretVelocity =
-    //       solution.turretVelocity() -
-    // Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
-    //   turret.setTarget(turretAngle, turretVelocity);
-    //   hood.setAngle(solution.hoodAngle());
-    //   flywheels.setVelocity(solution.flywheelSpeed());
-    //   if (Constants.currentMode == Constants.simMode && isShooting) {
-    //     fuelSim.launchFuel(
-    //
-    // MetersPerSecond.of(Units.rotationsPerMinuteToRadiansPerSecond(solution.flywheelSpeed()) *
-    // WheelRadius),
-    //         new Rotation2d(solution.hoodAngle()).getMeasure(),
-    //         new Rotation2d(turretAngle).getMeasure(),
-    //         turretCenter.getMeasureZ());
-    //   }
-    // }
+    myX = poseManager.getPose().getX() - LinesVertical.center;
+    myY = poseManager.getPose().getY() - LinesHorizontal.center;
 
-    if (Constants.currentMode == Constants.simMode && isShooting) {}
+    LaunchingParameters solution = shooterUtil.getScoringParameters();
+    if (solution.isValid()) {
+      double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+      double turretVelocity =
+          solution.turretVelocity() - Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
+      turret.setTarget(turretAngle, turretVelocity);
+      hood.setAngle(solution.hoodAngle());
+      flywheels.setVelocity(solution.flywheelSpeed());
+    }
 
     // rlly fucking cooked way to do this but dont comment pls
     // hmmmmmmm
+    // comment
     if (clearBalls.get() == 1) {
       fuelSim.clearFuel();
     }
@@ -138,8 +126,7 @@ public class Shooter extends VirtualSubsystem {
     // Avi commented this out because real robot is not ready for it
     // TrenchAvoidence();
 
-    // TODO uncomment when ready to test
-    measuredVisualizer.update(turret.getPositionDegs(), hood.getAngle());
+    measuredVisualizer.update(turret.getPositionDegs(), hood.getAngleDeg());
     setpointVisualizer.update(0, fakeTurretVelocity.get());
     // measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
 
@@ -147,6 +134,15 @@ public class Shooter extends VirtualSubsystem {
       // To do add shoot to near the middle top
     } else {
       // To do add shoot to near the middle bottom
+    }
+
+    if (Constants.currentMode == Constants.simMode && isShooting) {
+      fuelSim.launchFuel(
+          MetersPerSecond.of(
+              Units.rotationsPerMinuteToRadiansPerSecond(flywheels.getVelocityRPM()) * WheelRadius),
+          new Rotation2d(hood.getAngleDeg()).getMeasure(),
+          new Rotation2d(turret.getPositionDegs()).getMeasure(),
+          turretCenter);
     }
   }
 
@@ -163,10 +159,6 @@ public class Shooter extends VirtualSubsystem {
 
   public boolean getShooting() {
     return isShooting;
-  }
-
-  public Command setScoring(boolean scoring) {
-    return runOnce(() -> isScoring = scoring);
   }
 
   public Command toggleHoodIsSafe() {

@@ -4,6 +4,7 @@ import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.Logger;
 
@@ -36,7 +37,10 @@ public class Hood extends SubsystemBase {
     return Math.abs(inputs.positionDeg - goalPosition) < HoodConstants.angleTolerance;
   }
 
-  public double getAngle() {
+  public double getAngleDeg() {
+    if (Constants.currentMode == Constants.simMode) {
+      return goalPosition;
+    }
     return inputs.positionDeg;
   }
 }

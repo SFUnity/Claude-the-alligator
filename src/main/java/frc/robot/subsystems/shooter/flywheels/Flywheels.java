@@ -123,4 +123,8 @@ public class Flywheels extends SubsystemBase {
   public boolean atGoal() {
     return atGoal;
   }
+
+  public double getVelocityRPM() {
+    return inputs.velocityRotsPerMin;
+  }
 }
