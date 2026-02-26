@@ -114,15 +114,15 @@ public class Shooter extends VirtualSubsystem {
     myX = poseManager.getPose().getX() - LinesVertical.center;
     myY = poseManager.getPose().getY() - LinesHorizontal.center;
 
-    LaunchingParameters solution = shooterUtil.getScoringParameters();
-    if (solution.isValid()) {
-      double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-      double turretVelocity =
-          solution.turretVelocity() - Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
-      turret.setTarget(turretAngle, turretVelocity);
-      hood.setAngle(solution.hoodAngle());
-      flywheels.setVelocity(solution.flywheelSpeed());
-    }
+    // LaunchingParameters solution = shooterUtil.getScoringParameters();
+    // if (solution.isValid()) {
+    //   double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+    //   double turretVelocity =
+    //       solution.turretVelocity() - Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
+    //   turret.setTarget(turretAngle, turretVelocity);
+    //   hood.setAngle(solution.hoodAngle());
+    //   flywheels.setVelocity(solution.flywheelSpeed());
+    // }
 
     // rlly fucking cooked way to do this but dont comment pls
     // hmmmmmmm
