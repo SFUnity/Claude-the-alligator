@@ -7,7 +7,6 @@ import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
@@ -118,7 +117,8 @@ public class Shooter extends VirtualSubsystem {
     // if (solution.isValid()) {
     //   double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
     //   double turretVelocity =
-    //       solution.turretVelocity() - Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
+    //       solution.turretVelocity() -
+    // Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
     //   turret.setTarget(turretAngle, turretVelocity);
     //   hood.setAngle(solution.hoodAngle());
     //   flywheels.setVelocity(solution.flywheelSpeed());
