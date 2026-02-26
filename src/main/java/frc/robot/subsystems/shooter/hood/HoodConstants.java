@@ -4,14 +4,14 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.util.LoggedTunableNumber;
 
 public class HoodConstants {
-  public static final int hoodMotorID = 7;
-  public static final double gearRatio = 23 * 26 / 12; // ~25
+  public static final int hoodMotorID = 12;
+  public static final double gearRatio = 12f/598f;
 
   // TODO add values
   public static final double minPositionDegs = 14.06;
-  public static final double maxPositionDegs = 46.5;
+  public static final double maxPositionDegs = 46.333;
 
-  public static final double angleTolerance = 2;
+  public static final double angleTolerance = 0.5;
   public static final double minAngleRads = Units.degreesToRadians(minPositionDegs);
   public static final double maxAngleRads = Units.degreesToRadians(maxPositionDegs);
   public static final double armLengthMeters = Units.inchesToMeters(15);
