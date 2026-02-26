@@ -6,6 +6,7 @@ public interface HoodIO {
   @AutoLog
   public static class HoodIOInputs {
     public double positionDeg = 0;
+    public double talonRotations = 0;
     public double appliedVolts = 0;
     public double statorCurrent = 0;
     public double supplyCurrent = 0;
