@@ -408,6 +408,7 @@ public class RobotContainer {
     //         ? RobotCommands.stopShoot(shooter, kicker, spindexer)
     //         : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
+    // * Automatic shooting
     // new Trigger(() -> shooter.readyToShoot())
     //     .toggleOnTrue(
     //         shooter.getShooting()
