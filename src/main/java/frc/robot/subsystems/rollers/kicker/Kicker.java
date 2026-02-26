@@ -99,7 +99,7 @@ public class Kicker extends SubsystemBase {
   }
 
   public Command setState(KickerState state) {
-    return run(() -> this.state = state);
+    return run(() -> this.state = state).withName("Set " + state);
   }
 
   public boolean atGoal() {
