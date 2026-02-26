@@ -22,8 +22,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(updateFreqHz);
   private final VelocityDutyCycle dutyCycle =
       new VelocityDutyCycle(100).withUpdateFreqHz(updateFreqHz);
-  private final VelocityDutyCycle slowDutyCycle =
-      new VelocityDutyCycle(25).withUpdateFreqHz(updateFreqHz);
+  private final VoltageOut slowDutyCycle = new VoltageOut(1);
   // private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
 
   private final VelocityTorqueCurrentFOC torqueCurrent =
