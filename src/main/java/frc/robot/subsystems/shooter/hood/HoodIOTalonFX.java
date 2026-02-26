@@ -40,7 +40,8 @@ public class HoodIOTalonFX implements HoodIO {
   @Override
   public void updateInputs(HoodIOInputs inputs) {
     inputs.appliedVolts = pivot.getMotorVoltage().getValueAsDouble();
-    inputs.positionDeg = Units.rotationsToDegrees(pivot.getPosition().getValueAsDouble())*gearRatio;
+    inputs.positionDeg =
+        Units.rotationsToDegrees(pivot.getPosition().getValueAsDouble()) * gearRatio;
     inputs.talonRotations = pivot.getRotorPosition().getValueAsDouble();
     inputs.statorCurrent = pivot.getStatorCurrent().getValueAsDouble();
     inputs.supplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
@@ -49,6 +50,7 @@ public class HoodIOTalonFX implements HoodIO {
   @Override
   public void setPosition(double positionDeg) {
     pivot.setControl(
-        positionVoltage.withPosition(Units.degreesToRotations(positionDeg - minPositionDegs)/gearRatio));
+        positionVoltage.withPosition(
+            Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
   }
 }
