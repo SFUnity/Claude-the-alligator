@@ -40,7 +40,8 @@ public class RobotCommands {
             kicker.setState(KickerState.RUN),
             waitUntil(kicker::atGoal),
             waitUntil(shooter::readyToShoot),
-            spindexer.run());
+            spindexer.run())
+            .withName("ReadyThenShoot");
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
