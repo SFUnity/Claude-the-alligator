@@ -2,6 +2,7 @@ package frc.robot.subsystems.rollers.spindexer;
 
 import static frc.robot.subsystems.rollers.spindexer.SpindexerConstants.*;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
@@ -14,6 +15,8 @@ public class Spindexer extends SubsystemBase {
 
   private double positionDifference = 0;
   private double startingPosition = 0;
+
+  private Debouncer currentDebouncer = new Debouncer(0.1);
 
   public Spindexer(SpindexerIO io) {
     this.io = io;
@@ -50,6 +53,17 @@ public class Spindexer extends SubsystemBase {
             })
         .until(() -> positionDifference > rots)
         .withName("spindexerRunBack" + rots + "rots");
+  }
+
+  public Command runBackUntilJam() {
+    return runEnd(
+            () -> {
+              io.run(-(slowSpindexerSpeedVolts.get()));
+            },
+            () -> io.run(0))
+        // Consider switching to stator current
+        .until(() -> currentDebouncer.calculate(inputs.supplyCurrentAmps > 40))
+        .withName("spindexerRunBack");
   }
 
   public Command stop() {
