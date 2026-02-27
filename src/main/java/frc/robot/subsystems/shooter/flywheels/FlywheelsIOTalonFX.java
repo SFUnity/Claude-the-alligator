@@ -35,7 +35,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
     var talonFXConfigs = new TalonFXConfiguration();
 
     talonFXConfigs.Slot0.kP = 0.5;
-    talonFXConfigs.Slot0.kV = 0.137;
+    talonFXConfigs.Slot0.kV = 0.15;
     talonFXConfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
     talonFXConfigs.MotorOutput.PeakReverseDutyCycle = 0.0;
 
