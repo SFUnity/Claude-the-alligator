@@ -398,25 +398,25 @@ public class RobotContainer {
                 .beforeStarting(() -> intakeDown = true));
 
     // Shooting
-    // controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN));
-    // controller.rightTrigger().whileTrue(spindexer.run());
-    // controller.y().onTrue(shooter.toggleShooting());
+    controller.rightBumper().whileTrue(kicker.setState(KickerState.RUN));
+    controller.rightTrigger().whileTrue(spindexer.run());
+    controller.y().onTrue(shooter.toggleShooting());
 
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
 
-    controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
-    controller.rightBumper().onTrue(Commands.runOnce(() -> isShooting = !isShooting));
-    controller
-        .rightBumper()
-        .and(() -> isShooting)
-        .debounce(loopPeriodSecs)
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-    controller
-        .rightBumper()
-        .and(() -> !isShooting)
-        .debounce(loopPeriodSecs)
-        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    // controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
+    // controller.rightBumper().onTrue(Commands.runOnce(() -> isShooting = !isShooting));
+    // controller
+    //     .rightBumper()
+    //     .and(() -> isShooting)
+    //     .debounce(loopPeriodSecs)
+    //     .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    // controller
+    //     .rightBumper()
+    //     .and(() -> !isShooting)
+    //     .debounce(loopPeriodSecs)
+    //     .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
 
     // * Automatic shooting
     // new Trigger(() -> shooter.readyToShoot())
