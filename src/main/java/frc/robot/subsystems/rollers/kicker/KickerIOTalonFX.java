@@ -88,8 +88,8 @@ public class KickerIOTalonFX implements KickerIO {
   }
 
   @Override
-  public void runSlowDutyCycle() {
-    rollerMotor.setControl(slowDutyCycle.withEnableFOC(true));
+  public void runSlowDutyCycle(double rpm) {
+    rollerMotor.setControl(slowDutyCycle.withOutput(rpm / 6000 * 10).withEnableFOC(true));
   }
 
   @Override

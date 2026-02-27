@@ -85,7 +85,7 @@ public class Kicker extends SubsystemBase {
         io.runDutyCycle();
       }
     } else {
-      io.runSlowDutyCycle();
+      io.runSlowDutyCycle(velocityRPM);
     }
 
     // sean's pid + torque control solution

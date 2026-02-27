@@ -23,5 +23,5 @@ public interface KickerIO {
 
   public default void runTorqueControl(double rps) {}
 
-  public default void runSlowDutyCycle() {}
+  public default void runSlowDutyCycle(double rpm) {}
 }
