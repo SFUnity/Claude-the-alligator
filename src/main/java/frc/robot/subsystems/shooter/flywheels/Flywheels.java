@@ -15,10 +15,10 @@ public class Flywheels extends SubsystemBase {
   private final FlywheelsIO io;
   private final FlywheelsIOInputsAutoLogged inputs = new FlywheelsIOInputsAutoLogged();
 
-  private Debouncer torqueCurrentDebouncer =
-      new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
+  // private Debouncer torqueCurrentDebouncer =
+  //     new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
   private Debouncer atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
-  private boolean lastTorqueCurrentControl = false;
+  // private boolean lastTorqueCurrentControl = false;
 
   private double RPMSetpoint = 0;
 
@@ -51,10 +51,10 @@ public class Flywheels extends SubsystemBase {
     Logger.recordOutput("Shooter/Flywheels/torque", torqueCurrentControl);
     Logger.recordOutput("Shooter/Flywheels/state", state.toString());
 
-    if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
-      torqueCurrentDebouncer =
-          new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
-    }
+    // if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
+    //   torqueCurrentDebouncer =
+    //       new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
+    // }
     if (atGoalDebounce.hasChanged(hashCode())) {
       atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
     }
@@ -68,8 +68,10 @@ public class Flywheels extends SubsystemBase {
         break;
       case RUN:
         runVelocity(RPMSetpoint);
+        break;
       case VOLTS:
         io.runVolts(2);
+        break;
     }
   }
 
@@ -77,40 +79,40 @@ public class Flywheels extends SubsystemBase {
   private void runVelocity(double velocityRPM) {
     Logger.recordOutput("Shooter/Flywheels/goalRPM", velocityRPM);
     boolean inToleranceForTorqueControl =
-        Math.abs(inputs.velocityRotsPerMin - velocityRPM) <= torqueCurrentControlTolerance.get();
-    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
+        velocityRPM - inputs.velocityRotsPerMin <= torqueCurrentControlTolerance.get();
+    // boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
     atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
 
-    if (!torqueCurrentControl && lastTorqueCurrentControl) {
-      launchCount++;
-    }
-    lastTorqueCurrentControl = torqueCurrentControl;
+    io.runVelocityVoltage(velocityRPM);
 
-    if (inputs.velocityRotsPerMin < velocityRPM) {
-      if (torqueCurrentControl) {
-        io.runTorqueControl();
-      } else {
-        io.runDutyCycle();
-      }
-    } else {
-      // io.runSlowDutyCycle();
-      io.stop();
-    }
+    // if (!torqueCurrentControl && lastTorqueCurrentControl) {
+    //   launchCount++;
+    // }
+    // lastTorqueCurrentControl = torqueCurrentControl;
+
+    // if (inputs.velocityRotsPerMin < velocityRPM) {
+    //   if (torqueCurrentControl) {
+    //     io.runTorqueControl();
+    //   } else {
+    //     io.runDutyCycle();
+    //   }
+    // } else {
+    //   io.runSlowDutyCycle();
+    //   // io.stop();
+    // }
 
     // sean's pid + torque control solution
-    // if(!torqueCurrentControl) {
+    // if (!torqueCurrentControl) {
     //   io.runDutyCycle();
-    // } else if(velocityRPM - inputs.velocityRotsPerMin >= 10) {
-    //   io.runTorqueControl();
+    //   System.out.println("rundutycycle");
     // } else {
-    //   io.runTorqueControl(velocityRPM);
+    //   io.runTorqueControl(velocityRPM / 60);
+    //   System.out.println("runtorque pid");
     // }
   }
 
   public void setIsShooting(boolean isShooting) {
-    if (state != FlywheelsState.VOLTS) {
-      setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE);
-    }
+    setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE);
   }
 
   public Command stop() {
@@ -121,11 +123,8 @@ public class Flywheels extends SubsystemBase {
     this.state = state;
   }
 
-  public Command setVelocity(double velocityRPM) {
-    return runOnce(
-        () -> {
-          this.RPMSetpoint = velocityRPM;
-        });
+  public void setVelocity(double velocityRPM) {
+    this.RPMSetpoint = velocityRPM;
   }
 
   public boolean atGoal() {

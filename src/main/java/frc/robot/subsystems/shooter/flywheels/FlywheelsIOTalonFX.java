@@ -5,8 +5,7 @@ import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.VelocityDutyCycle;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -20,20 +19,23 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
 
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(updateFreqHz);
-  private final VelocityDutyCycle dutyCycle =
-      new VelocityDutyCycle(80).withUpdateFreqHz(updateFreqHz);
-  private final VoltageOut slowDutyCycle = new VoltageOut(1);
-  // private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
+  // private final VelocityDutyCycle dutyCycle =
+  //     new VelocityDutyCycle(1000).withUpdateFreqHz(updateFreqHz);
+  // // private final DutyCycleOut dutyCycle = new DutyCycleOut(1.0);
+  // private final VoltageOut slowDutyCycle = new VoltageOut(4.5);
+  private final VelocityVoltage velocityVoltage =
+      new VelocityVoltage(0).withUpdateFreqHz(updateFreqHz);
 
-  private final VelocityTorqueCurrentFOC torqueCurrent =
-      new VelocityTorqueCurrentFOC(100).withUpdateFreqHz(updateFreqHz);
-  private final VelocityTorqueCurrentFOC torqueCurrentModifiable =
-      new VelocityTorqueCurrentFOC(100).withUpdateFreqHz(updateFreqHz);
+  // private final VelocityTorqueCurrentFOC torqueCurrent =
+  //     new VelocityTorqueCurrentFOC(100).withUpdateFreqHz(updateFreqHz);
+  // private final VelocityTorqueCurrentFOC torqueCurrentModifiable =
+  //     new VelocityTorqueCurrentFOC(100).withUpdateFreqHz(updateFreqHz);
 
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
 
-    talonFXConfigs.Slot0.kP = 999999.0;
+    talonFXConfigs.Slot0.kP = 0.5;
+    talonFXConfigs.Slot0.kV = 0.137;
     talonFXConfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
     talonFXConfigs.MotorOutput.PeakReverseDutyCycle = 0.0;
 
@@ -69,28 +71,33 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
     leader.setControl(voltageOut.withOutput(0));
   }
 
-  @Override
-  public void runDutyCycle() {
-    leader.setControl(dutyCycle.withEnableFOC(true));
-  }
+  // @Override
+  // public void runDutyCycle() {
+  //   leader.setControl(dutyCycle.withEnableFOC(true));
+  // }
 
-  @Override
-  public void runSlowDutyCycle() {
-    leader.setControl(slowDutyCycle.withEnableFOC(true));
-  }
+  // @Override
+  // public void runSlowDutyCycle() {
+  //   leader.setControl(slowDutyCycle.withEnableFOC(true));
+  // }
 
-  @Override
-  public void runTorqueControl() {
-    leader.setControl(torqueCurrent);
-  }
+  // @Override
+  // public void runTorqueControl() {
+  //   leader.setControl(torqueCurrent);
+  // }
 
-  @Override
-  public void runTorqueControl(double rps) {
-    leader.setControl(torqueCurrentModifiable.withVelocity(rps));
-  }
+  // @Override
+  // public void runTorqueControl(double rps) {
+  //   leader.setControl(torqueCurrentModifiable.withVelocity(rps));
+  // }
 
   @Override
   public void runVolts(double volts) {
     leader.setControl(voltageOut.withOutput(volts));
+  }
+
+  @Override
+  public void runVelocityVoltage(double rpm) {
+    leader.setControl(velocityVoltage.withVelocity(rpm / 60));
   }
 }

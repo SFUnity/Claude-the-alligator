@@ -12,9 +12,9 @@ public class FlywheelsConstants {
       new LoggedTunableNumber("Flywheels/readyRPM", 100);
 
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
-      new LoggedTunableNumber("Flywheels/TorqueCurrentControlTolerance", 20);
+      new LoggedTunableNumber("Flywheels/TorqueCurrentControlTolerance", 50);
   public static final LoggedTunableNumber torqueCurrentControlDebounce =
-      new LoggedTunableNumber("Flywheels/TorqueCurrentControlDebounce", 0.025);
+      new LoggedTunableNumber("Flywheels/TorqueCurrentControlDebounce", 0.03);
   public static final LoggedTunableNumber atGoalDebounce =
       new LoggedTunableNumber("Flywheels/AtGoalDebounce", 0.2);
 }

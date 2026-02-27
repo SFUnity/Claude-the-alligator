@@ -36,13 +36,15 @@ public class FlywheelsIOSim implements FlywheelsIO {
     appliedVolts = volts;
   }
 
-  @Override
-  public void runDutyCycle() {
-    appliedVolts = 10;
-  }
+  // @Override
+  // public void runDutyCycle() {
+  //   appliedVolts = 10;
+  // }
 
-  @Override
-  public void runTorqueControl() {
-    appliedVolts = 10;
-  }
+  // @Override
+  // public void runTorqueControl() {
+  //   appliedVolts = 10;
+  // }
+
+  // TODO write code for velocity voltage pid
 }
