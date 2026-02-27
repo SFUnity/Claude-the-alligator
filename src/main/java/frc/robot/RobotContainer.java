@@ -150,8 +150,8 @@ public class RobotContainer {
         // spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
         intakePivot = new IntakePivot(new IntakePivotIO() {});
-        // intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
-        // flywheels = new Flywheels(new FlywheelsIO() {});
+        intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
+        flywheels = new Flywheels(new FlywheelsIO() {});
         turret = new Turret(new TurretIO() {});
         hood = new Hood(new HoodIO() {});
         // kicker = new Kicker(new KickerIO() {});
@@ -168,8 +168,8 @@ public class RobotContainer {
         spindexer = new Spindexer(new SpindexerIOTalonFX());
         // climb = new Climb(new ClimbIOTalonFX());
         // intakePivot = new IntakePivot(new IntakePivotIOTalon());
-        intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
-        flywheels = new Flywheels(new FlywheelsIOTalonFX());
+        // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
+        // flywheels = new Flywheels(new FlywheelsIOTalonFX());
         // turret = new Turret(new TurretIOTalonFX());
         // hood = new Hood(new HoodIOTalonFX());
         kicker = new Kicker(new KickerIOTalonFX());
