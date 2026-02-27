@@ -425,6 +425,9 @@ public class RobotContainer {
     //             ? RobotCommands.stopShoot(shooter, kicker, spindexer)
     //             : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
+    // Current zeroing
+    controller.povDownRight().onTrue(intakePivot.runCurrentZeroing());
+
     // Controller rumble when 5 seconds are left in the current shift
     new Trigger(
             () ->
