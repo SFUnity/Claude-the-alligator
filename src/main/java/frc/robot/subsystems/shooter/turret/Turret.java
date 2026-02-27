@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
 import frc.robot.util.LoggedTunableNumber;
-
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -193,7 +192,7 @@ public class Turret extends SubsystemBase {
     eDisabled = false;
   }
 
-  @AutoLogOutput (key = "Shooter/Turret/AtGoal")
+  @AutoLogOutput(key = "Shooter/Turret/AtGoal")
   public boolean atGoal() {
     return Math.abs(positionDegs - targetDegs) < angleToleranceDegs
         && inputs.velocityDegsPerSec
