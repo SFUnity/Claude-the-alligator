@@ -27,7 +27,7 @@ public class IntakePivotIOTalon implements IntakePivotIO {
     config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
     config.Slot0.kP = 35;
-    config.Slot0.kD = 0.25;
+    config.Slot0.kG = 1;
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;

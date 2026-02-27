@@ -1,16 +1,13 @@
 package frc.robot.subsystems.intakePivot;
 
-import static frc.robot.Constants.*;
-
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.Mode;
 import frc.robot.util.LoggedTunableNumber;
 
 public class IntakePivotConstants {
   public static final int pivotID = 13;
 
-  public static final LoggedTunableNumber kP =
-      new LoggedTunableNumber("Intake/kP", currentMode == Mode.SIM ? 0.1 : 0.028);
+  public static final LoggedTunableNumber simkP =
+      new LoggedTunableNumber("Intake/simkP", 0.1);
 
   public static final boolean pivotInverted = true;
 
@@ -26,11 +23,11 @@ public class IntakePivotConstants {
 
   // In rotations
   public static final LoggedTunableNumber loweredJorkAngle =
-      new LoggedTunableNumber("Intake/lowJorkAngle", 20);
+      new LoggedTunableNumber("Intake/lowJorkAngle", Units.rotationsToDegrees(.2));
   public static final LoggedTunableNumber raisedJorkAngle =
-      new LoggedTunableNumber("Intake/raisedJorkAngle", 40);
+      new LoggedTunableNumber("Intake/raisedJorkAngle", Units.rotationsToDegrees(.1));
   public static final LoggedTunableNumber loweredAngle =
-      new LoggedTunableNumber("Intake/loweredAngle", 10);
+      new LoggedTunableNumber("Intake/loweredAngle", Units.rotationsToDegrees(.29));
   public static final LoggedTunableNumber raisedAngle =
-      new LoggedTunableNumber("Intake/raisedAngle", 50);
+      new LoggedTunableNumber("Intake/raisedAngle", 0);
 }
