@@ -20,9 +20,8 @@ public class RobotCommands {
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return spindexer
         .stop()
-        .andThen(waitSeconds(0.3))
-        .andThen(kicker.setState(KickerState.STOP))
-        .andThen(shooter.setShooting(false))
+        .alongWith(waitSeconds(0.3)
+        .andThen(kicker.setState(KickerState.STOP), shooter.setShooting(false)))
         .withName("StopShoot");
   }
 
@@ -30,8 +29,7 @@ public class RobotCommands {
     return shooter
         .setShooting(true)
         .andThen(
-            kicker.setState(KickerState.BACKWARDS).alongWith(spindexer.runBack(shootingBackupRots)),
-            spindexer.stop(),
+            spindexer.runBack(shootingBackupRots).deadlineFor(kicker.setState(KickerState.BACKWARDS)),
             kicker.setState(KickerState.RUN),
             waitUntil(kicker::atGoal),
             waitUntil(shooter::readyToShoot),
