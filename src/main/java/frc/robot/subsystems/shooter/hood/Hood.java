@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter.hood;
 import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.GeneralUtil;
@@ -12,6 +13,7 @@ public class Hood extends SubsystemBase {
   private final HoodIO io;
   private final HoodIOInputsAutoLogged inputs = new HoodIOInputsAutoLogged();
   private double goalPosition;
+  private boolean isZeroing = false;
 
   public Hood(HoodIO io) {
     this.io = io;
@@ -24,7 +26,10 @@ public class Hood extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "Shooter/Hood");
 
     Logger.recordOutput("Shooter/Hood/Goal", goalPosition);
-    io.setPosition(goalPosition);
+    Logger.recordOutput("Shooter/Hood/IsZeroing", isZeroing);
+    if (!isZeroing) {
+      io.setPosition(goalPosition);
+    }
   }
 
   public void setAngle(double angle) {
@@ -42,5 +47,17 @@ public class Hood extends SubsystemBase {
       return goalPosition;
     }
     return inputs.positionDeg;
+  }
+
+  public Command runCurrentZeroing() {
+    return run(() -> io.runVolts(-1.0))
+        .until(() -> inputs.supplyCurrent > 30.0)
+        .finallyDo(
+            () -> {
+              io.resetEncoder(0.0);
+              isZeroing = false;
+            })
+        .beforeStarting(() -> isZeroing = true)
+        .withName("HoodCurrentZeroing");
   }
 }

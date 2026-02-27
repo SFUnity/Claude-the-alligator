@@ -5,6 +5,7 @@ import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -13,6 +14,7 @@ import edu.wpi.first.math.util.Units;
 public class HoodIOTalonFX implements HoodIO {
   private final TalonFX pivot = new TalonFX(0);
   private PositionVoltage positionVoltage = new PositionVoltage(0.0).withEnableFOC(true);
+  private VoltageOut voltageOut = new VoltageOut(0.0);
 
   public HoodIOTalonFX() {
     TalonFXConfiguration config = new TalonFXConfiguration();
@@ -52,5 +54,15 @@ public class HoodIOTalonFX implements HoodIO {
     pivot.setControl(
         positionVoltage.withPosition(
             Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
+  }
+
+  @Override
+  public void runVolts(double volts) {
+    pivot.setControl(voltageOut.withOutput(volts));
+  }
+
+  @Override
+  public void resetEncoder(double positionDeg) {
+    pivot.setPosition(Units.degreesToRotations(positionDeg));
   }
 }
