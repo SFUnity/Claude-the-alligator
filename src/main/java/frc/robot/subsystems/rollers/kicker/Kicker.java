@@ -99,6 +99,7 @@ public class Kicker extends SubsystemBase {
   }
 
   public Command setState(KickerState state) {
+    // This was changed from run to runOnce
     return runOnce(() -> this.state = state).withName("Set " + state);
   }
 
