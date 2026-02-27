@@ -6,8 +6,7 @@ import frc.robot.util.LoggedTunableNumber;
 public class IntakePivotConstants {
   public static final int pivotID = 13;
 
-  public static final LoggedTunableNumber simkP =
-      new LoggedTunableNumber("Intake/simkP", 0.1);
+  public static final LoggedTunableNumber simkP = new LoggedTunableNumber("Intake/simkP", 0.1);
 
   public static final boolean pivotInverted = true;
 
