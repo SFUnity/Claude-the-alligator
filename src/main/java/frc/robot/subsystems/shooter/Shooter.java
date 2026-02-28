@@ -6,7 +6,6 @@ import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
-import static frc.robot.subsystems.shooter.hood.HoodConstants.minAngleRads;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -43,9 +42,10 @@ public class Shooter extends VirtualSubsystem {
       new LoggedTunableNumber("Shooter/FakeTurretVelocity", 0);
   private final LoggedTunableNumber fakeHoodAngle =
       new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
-  private final LoggedTunableNumber farFlywheelVelocity =  new LoggedTunableNumber("Shooter/FarVelocity", 1100);
-  private final LoggedTunableNumber hubFlywheelVelocity =  new LoggedTunableNumber("Shooter/HubVelocity", 1400);
-
+  private final LoggedTunableNumber farFlywheelVelocity =
+      new LoggedTunableNumber("Shooter/FarVelocity", 1100);
+  private final LoggedTunableNumber hubFlywheelVelocity =
+      new LoggedTunableNumber("Shooter/HubVelocity", 1400);
 
   private final LoggedTunableNumber fakeFeedingVelocity =
       new LoggedTunableNumber("Shooter/FeedingVelocity", 1600);
@@ -141,7 +141,7 @@ public class Shooter extends VirtualSubsystem {
     hood.setAngle(hoodIsSafe ? HoodConstants.minPositionDegs : fakeHoodAngle.get());
     if (isScoring) {
       if (isClose) {
-          flywheels.setVelocity(hubFlywheelVelocity.get());
+        flywheels.setVelocity(hubFlywheelVelocity.get());
       } else {
         flywheels.setVelocity(farFlywheelVelocity.get());
       }
@@ -230,7 +230,6 @@ public class Shooter extends VirtualSubsystem {
     return runOnce(() -> this.isClose = isClose);
   }
 
-
   // public void incrementFlywheelVelocity(double increment) {
   //   flywheelVelocity += increment;
   //   if(flywheelVelocity < 500) {
@@ -251,8 +250,6 @@ public class Shooter extends VirtualSubsystem {
   //       .withTimeout(0.1)
   //       .withName("DecreaseFlywheelVelocity");
   // }
-
-
 
   public Command testFlywheelsVolts() {
     return runOnce(() -> flywheels.setState(FlywheelsState.VOLTS)).withName("TestFlywheelsVolts");

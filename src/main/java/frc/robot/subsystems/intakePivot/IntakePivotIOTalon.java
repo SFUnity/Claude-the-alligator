@@ -19,7 +19,6 @@ public class IntakePivotIOTalon implements IntakePivotIO {
   private VoltageOut voltageOut = new VoltageOut(0.0);
   private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0.0).withEnableFOC(true);
 
-
   public IntakePivotIOTalon() {
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
@@ -29,7 +28,7 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
     config.Slot0.kP = 35;
     config.Slot0.kD = 0.25;
-        config.MotionMagic.MotionMagicAcceleration = 160.0;
+    config.MotionMagic.MotionMagicAcceleration = 160.0;
     config.MotionMagic.MotionMagicCruiseVelocity = 100.0;
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
@@ -53,7 +52,6 @@ public class IntakePivotIOTalon implements IntakePivotIO {
   public void setPivotPosition(double setpointDeg) {
     pivot.setControl(motionMagicVoltage.withPosition(Units.degreesToRotations(setpointDeg)));
   }
-
 
   @Override
   public void runVolts(double volts) {

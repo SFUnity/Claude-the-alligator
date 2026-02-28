@@ -404,7 +404,7 @@ public class RobotContainer {
 
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
-    
+
     controller.povUp().whileTrue(shooter.setIsClose(true));
     controller.povDown().whileTrue(shooter.setIsClose(false));
 

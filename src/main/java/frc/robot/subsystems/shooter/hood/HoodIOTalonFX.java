@@ -54,10 +54,11 @@ public class HoodIOTalonFX implements HoodIO {
 
   @Override
   public void setPosition(double positionDeg) {
-    pivot.setControl(motionMagicVoltage.withPosition(
-        Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
-        // positionVoltage.withPosition(
-        //     Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
+    pivot.setControl(
+        motionMagicVoltage.withPosition(
+            Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
+    // positionVoltage.withPosition(
+    //     Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
 
   }
 
