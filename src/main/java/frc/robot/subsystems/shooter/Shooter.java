@@ -43,10 +43,8 @@ public class Shooter extends VirtualSubsystem {
       new LoggedTunableNumber("Shooter/FakeTurretVelocity", 0);
   private final LoggedTunableNumber fakeHoodAngle =
       new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
-  private final LoggedTunableNumber fakeFlywheelVelocity =
-      new LoggedTunableNumber("Shooter/ScoringVelocity", 1100);
-    private final LoggedTunableNumber farFlywheelVelocity =  new LoggedTunableNumber("Shooter/FarVelocity", 1100);
-        private final LoggedTunableNumber hubFlywheelVelocity =  new LoggedTunableNumber("Shooter/HubVelocity", 1100);
+  private final LoggedTunableNumber farFlywheelVelocity =  new LoggedTunableNumber("Shooter/FarVelocity", 1100);
+  private final LoggedTunableNumber hubFlywheelVelocity =  new LoggedTunableNumber("Shooter/HubVelocity", 1400);
 
 
   private final LoggedTunableNumber fakeFeedingVelocity =
@@ -62,6 +60,7 @@ public class Shooter extends VirtualSubsystem {
   private boolean isScoring = true;
   private boolean hoodIsSafe = false;
   private boolean isAutoFeedVsScore = true;
+  private boolean isClose = true;
 
   private double myX;
   private double myY;
@@ -141,7 +140,11 @@ public class Shooter extends VirtualSubsystem {
     turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
     hood.setAngle(hoodIsSafe ? HoodConstants.minPositionDegs : fakeHoodAngle.get());
     if (isScoring) {
-      flywheels.setVelocity(fakeFlywheelVelocity.get());
+      if (isClose) {
+          flywheels.setVelocity(hubFlywheelVelocity.get());
+      } else {
+        flywheels.setVelocity(farFlywheelVelocity.get());
+      }
     } else {
       flywheels.setVelocity(fakeFeedingVelocity.get());
     }
@@ -223,13 +226,8 @@ public class Shooter extends VirtualSubsystem {
         .withName("TestFlywheels");
   }
 
-  public Command setFarFlywheels() {
-    return runOnce(() -> flywheels.setVelocity(farFlywheelVelocity.get()), flywheels)
-        .withName("SetFarFlywheels");
-  }
-public Command setHubFlywheels() {
-    return runOnce(() -> flywheels.setVelocity(hubFlywheelVelocity.get()), flywheels)
-        .withName("SetHubFlywheels");
+  public Command setIsClose(boolean isClose) {
+    return runOnce(() -> this.isClose = isClose);
   }
 
 
