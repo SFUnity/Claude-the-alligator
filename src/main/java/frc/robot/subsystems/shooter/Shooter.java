@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
+import static frc.robot.Constants.currentMode;
 import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
@@ -42,6 +43,8 @@ public class Shooter extends VirtualSubsystem {
       new LoggedTunableNumber("Shooter/FakeTurretVelocity", 0);
   private final LoggedTunableNumber fakeHoodAngle =
       new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
+  private final LoggedTunableNumber fakeFlywheelVelocity =
+      new LoggedTunableNumber("Shooter/FakeFlywheelVelocity", 0);
   private final LoggedTunableNumber farFlywheelVelocity =
       new LoggedTunableNumber("Shooter/FarVelocity", 1600);
   private final LoggedTunableNumber hubFlywheelVelocity =
@@ -120,7 +123,7 @@ public class Shooter extends VirtualSubsystem {
     myX = poseManager.getPose().getX() - LinesVertical.center;
     myY = poseManager.getPose().getY() - LinesHorizontal.center;
 
-    // LaunchingParameters solution = shooterUtil.getScoringParameters();
+    // LaunchingParameters solution = shooterUtil.getLaunchingParameters(isScoring, Constants.currentMode != Constants.simMode);
     // if (solution.isValid()) {
     //   double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
     //   double turretVelocity =
@@ -138,18 +141,23 @@ public class Shooter extends VirtualSubsystem {
       fuelSim.clearFuel();
     }
 
-    turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-    hood.setAngle(hoodIsSafe ? HoodConstants.minPositionDegs : fakeHoodAngle.get());
-    if (isScoring) {
-      if (isClose) {
-        flywheels.setVelocity(hubFlywheelVelocity.get());
-      } else {
-        flywheels.setVelocity(farFlywheelVelocity.get());
-      }
+    if(currentMode != Constants.simMode) {
+        turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+        hood.setAngle(hoodIsSafe ? HoodConstants.minPositionDegs : fakeHoodAngle.get());
+        if (isScoring) {
+        if (isClose) {
+            flywheels.setVelocity(hubFlywheelVelocity.get());
+        } else {
+            flywheels.setVelocity(farFlywheelVelocity.get());
+        }
+        } else {
+        flywheels.setVelocity(fakeFeedingVelocity.get());
+        }
     } else {
-      flywheels.setVelocity(fakeFeedingVelocity.get());
+        turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+        hood.setAngle(fakeHoodAngle.get());
+        flywheels.setVelocity(fakeFlywheelVelocity.get());
     }
-
     // Avi commented this out because real robot is not ready for it
     // TrenchAvoidence();
 
