@@ -12,7 +12,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.util.Units;
 
 public class HoodIOTalonFX implements HoodIO {
-  private final TalonFX pivot = new TalonFX(0);
+  private final TalonFX pivot = new TalonFX(hoodMotorID);
   private PositionVoltage positionVoltage = new PositionVoltage(0.0).withEnableFOC(true);
   private VoltageOut voltageOut = new VoltageOut(0.0);
 
