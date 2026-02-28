@@ -381,8 +381,18 @@ public class RobotContainer {
     // controller.povDown().onTrue(climb.climbDown());
 
     // Intaking
-    controller.leftBumper().whileTrue(intakePivot.raise().alongWith(intakeRollers.stop()));
-    controller.leftTrigger().whileTrue(intakePivot.lower().alongWith(intakeRollers.intake()));
+    controller
+        .leftBumper()
+        .whileTrue(
+            intakePivot
+                .raise()
+                .alongWith(intakeRollers.stop(), Commands.runOnce(() -> intakeDown = false)));
+    controller
+        .leftTrigger()
+        .whileTrue(
+            intakePivot
+                .lower()
+                .alongWith(intakeRollers.intake(), Commands.runOnce(() -> intakeDown = true)));
     // controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
     // controller
     //     .leftBumper()
