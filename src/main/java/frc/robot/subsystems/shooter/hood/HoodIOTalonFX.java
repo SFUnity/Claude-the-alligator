@@ -60,4 +60,9 @@ public class HoodIOTalonFX implements HoodIO {
         //     Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
 
   }
+
+  @Override
+  public void resetEncoder(double positionDeg) {
+    pivot.setPosition(Units.degreesToRotations(positionDeg));
+  }
 }
