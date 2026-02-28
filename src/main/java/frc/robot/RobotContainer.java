@@ -358,7 +358,7 @@ public class RobotContainer {
             .zeroOutput()
             .beforeStarting(() -> intakeDown = false)
             .withName("IntakePivotRaise"));
-    intakeRollers.setDefaultCommand(intakeRollers.stop());
+    // intakeRollers.setDefaultCommand(intakeRollers.stop());
     kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
 
     // Switch to X pattern when X button is pressed
