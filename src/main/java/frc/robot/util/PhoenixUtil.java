@@ -18,7 +18,7 @@ public class PhoenixUtil {
   public static void tryUntilOk(int maxAttempts, Supplier<StatusCode> command) {
     for (int i = 0; i < maxAttempts; i++) {
       var error = command.get();
-      if (error.isOK()) break;
+      if (error.isOK()) return;
     }
     new Alert(
             "Phoenix command failed: " + command.toString() + "With this error: " + command.get(),
