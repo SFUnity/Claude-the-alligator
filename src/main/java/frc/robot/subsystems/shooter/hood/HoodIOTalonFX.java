@@ -7,7 +7,6 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.util.Units;
 
@@ -23,13 +22,13 @@ public class HoodIOTalonFX implements HoodIO {
 
     config.Feedback.SensorToMechanismRatio = gearRatio;
 
-    config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+    // config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
     // config.Slot0.kS = 0.055;
     // config.Slot0.kG = 0.445;
     // config.Slot0.kV = 1.45;
     config.Slot0.kP = kP.get();
-    config.Slot0.kD = kD.get();
+    // config.Slot0.kD = kD.get();
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
