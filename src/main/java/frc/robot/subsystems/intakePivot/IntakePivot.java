@@ -37,7 +37,7 @@ public class IntakePivot extends SubsystemBase {
     // Logs
     measuredVisualizer.update(Degrees.of(inputs.pivotCurrentPositionDeg));
     setpointVisualizer.update(Degrees.of(positionSetpoint));
-    Logger.recordOutput("IntakePivot/positionSetpoint", positionSetpoint);
+    Logger.recordOutput("IntakePivot/positionSetpointDeg", positionSetpoint);
     GeneralUtil.logSubsystem(this, "IntakePivot");
   }
 
