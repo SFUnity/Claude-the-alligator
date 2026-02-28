@@ -16,7 +16,6 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
-import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.util.AllianceFlipUtil;

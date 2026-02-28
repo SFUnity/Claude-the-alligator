@@ -8,8 +8,6 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.wpilibj2.command.Commands.waitSeconds;
-import static frc.robot.Constants.loopPeriodSecs;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -402,9 +400,7 @@ public class RobotContainer {
     //             .beforeStarting(() -> intakeDown = true));
 
     // Shooting
-    controller
-        .rightBumper()
-        .whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
     controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer));
 
     controller.a().onTrue(shooter.overrideSetScoring(true));
