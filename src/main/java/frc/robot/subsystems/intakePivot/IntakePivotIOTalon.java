@@ -28,14 +28,15 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
     config.Slot0.kP = 35;
     config.Slot0.kD = 0.25;
-    config.MotionMagic.MotionMagicAcceleration = 160.0;
-    config.MotionMagic.MotionMagicCruiseVelocity = 100.0;
+    config.MotionMagic.MotionMagicAcceleration = 1 / 10;
+    config.MotionMagic.MotionMagicCruiseVelocity = 1 / 2;
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
     config.CurrentLimits.SupplyCurrentLimit = 60.0;
 
-    config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
     tryUntilOk(5, () -> pivot.getConfigurator().apply(config, 0.25));
   }
 
