@@ -112,6 +112,7 @@ public class Shooter extends VirtualSubsystem {
 
     Logger.recordOutput("Shooter/isScoring", isScoring);
     Logger.recordOutput("Shooter/isShooting", isShooting);
+    Logger.recordOutput("Shooter/isClose", isClose);
 
     turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
