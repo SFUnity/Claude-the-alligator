@@ -377,7 +377,8 @@ public class RobotContainer {
     // controller.povUp().onTrue(climb.climbUp());
     // controller.povDown().onTrue(climb.climbDown());
 
-    controller.povUp().whileTrue(climb.climbUp());
+    controller.povUp().whileTrue(shooter.setFarFlywheels());
+    controller.povDown().whileTrue(shooter.setHubFlywheels());
 
     // Intaking
     controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
