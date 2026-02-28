@@ -296,10 +296,7 @@ public class Autos {
     Feed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
-                .alongWith(
-                    shooter
-                        .setShooting(true)
-                        .alongWith(kicker.setState(KickerState.RUN), spindexer.run())));
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
     Feed.atTime("StopIntakeandShoot")
         .onTrue(
             RobotCommands.stowIntake(intake, intakePivot)
@@ -314,10 +311,7 @@ public class Autos {
     LowerFeed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
-                .alongWith(
-                    shooter
-                        .setShooting(true)
-                        .alongWith(kicker.setState(KickerState.RUN), spindexer.run())));
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
     LowerFeed.atTime("StopIntakeandShoot")
         .onTrue(
             RobotCommands.stowIntake(intake, intakePivot)
@@ -325,7 +319,10 @@ public class Autos {
     // LowerFeed.atTime("StartIntakeandShoot")
     //     .onTrue(
     //         RobotCommands.intake(intake, intakePivot)
-    //             .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    //             .alongWith(
+    //                 shooter
+    //                     .setShooting(true)
+    //                     .alongWith(kicker.setState(KickerState.RUN), spindexer.run())));
     // LowerFeed.atTime("StopIntakeandShoot")
     //     .onTrue(
     //         RobotCommands.stowIntake(intake, intakePivot)

@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import static edu.wpi.first.wpilibj2.command.Commands.waitSeconds;
-import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -14,29 +13,32 @@ import frc.robot.subsystems.shooter.Shooter;
 
 public class RobotCommands {
   private static final double ejectBackupRots = 0.5;
-  private static final double shootingBackupRots = 0.1;
+  // private static final double shootingBackupRots = 0.1;
 
   // can be fully shot out of the robot
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return spindexer
-        .stop()
-        .alongWith(
-            waitSeconds(0.3)
-                .andThen(kicker.setState(KickerState.STOP).alongWith(shooter.setShooting(false))))
+    return Commands.parallel(
+            spindexer.stop(),
+            waitSeconds(0.3).andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP)))
         .withName("StopShoot");
   }
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return shooter
-        .setShooting(true)
-        .andThen(
-            spindexer
-                .runBack(shootingBackupRots)
-                .deadlineFor(kicker.setState(KickerState.BACKWARDS)),
-            kicker
-                .setState(KickerState.RUN)
-                .alongWith(
-                    waitUntil(kicker::atGoal), waitUntil(shooter::readyToShoot), spindexer.run()))
+    // return shooter
+    //     .setShooting(true)
+    //     .andThen(
+    //         spindexer
+    //             .runBack(shootingBackupRots)
+    //             .deadlineFor(kicker.setState(KickerState.BACKWARDS)),
+    //         kicker
+    //             .setState(KickerState.RUN)
+    //             .alongWith(
+    //                 waitUntil(kicker::atGoal), waitUntil(shooter::readyToShoot),
+    // spindexer.run()))
+    return Commands.parallel(
+            kicker.setState(KickerState.RUN),
+            shooter.setShooting(true),
+            waitSeconds(1.5).andThen(spindexer.run()))
         .withName("ReadyThenShoot");
   }
 
