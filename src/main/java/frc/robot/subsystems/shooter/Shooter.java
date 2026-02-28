@@ -123,7 +123,8 @@ public class Shooter extends VirtualSubsystem {
     myX = poseManager.getPose().getX() - LinesVertical.center;
     myY = poseManager.getPose().getY() - LinesHorizontal.center;
 
-    // LaunchingParameters solution = shooterUtil.getLaunchingParameters(isScoring, Constants.currentMode != Constants.simMode);
+    // LaunchingParameters solution = shooterUtil.getLaunchingParameters(isScoring,
+    // Constants.currentMode != Constants.simMode);
     // if (solution.isValid()) {
     //   double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
     //   double turretVelocity =
@@ -141,22 +142,22 @@ public class Shooter extends VirtualSubsystem {
       fuelSim.clearFuel();
     }
 
-    if(currentMode != Constants.simMode) {
-        turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-        hood.setAngle(hoodIsSafe ? HoodConstants.minPositionDegs : fakeHoodAngle.get());
-        if (isScoring) {
+    if (currentMode != Constants.simMode) {
+      turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+      hood.setAngle(hoodIsSafe ? HoodConstants.minPositionDegs : fakeHoodAngle.get());
+      if (isScoring) {
         if (isClose) {
-            flywheels.setVelocity(hubFlywheelVelocity.get());
+          flywheels.setVelocity(hubFlywheelVelocity.get());
         } else {
-            flywheels.setVelocity(farFlywheelVelocity.get());
+          flywheels.setVelocity(farFlywheelVelocity.get());
         }
-        } else {
+      } else {
         flywheels.setVelocity(fakeFeedingVelocity.get());
-        }
+      }
     } else {
-        turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-        hood.setAngle(fakeHoodAngle.get());
-        flywheels.setVelocity(fakeFlywheelVelocity.get());
+      turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+      hood.setAngle(fakeHoodAngle.get());
+      flywheels.setVelocity(fakeFlywheelVelocity.get());
     }
     // Avi commented this out because real robot is not ready for it
     // TrenchAvoidence();
