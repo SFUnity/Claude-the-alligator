@@ -4,6 +4,7 @@ import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -13,6 +14,7 @@ import edu.wpi.first.math.util.Units;
 public class HoodIOTalonFX implements HoodIO {
   private final TalonFX pivot = new TalonFX(hoodMotorID);
   private PositionVoltage positionVoltage = new PositionVoltage(0.0).withEnableFOC(true);
+  private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0.0).withEnableFOC(true);
   private VoltageOut voltageOut = new VoltageOut(0.0);
 
   public HoodIOTalonFX() {
@@ -28,7 +30,9 @@ public class HoodIOTalonFX implements HoodIO {
     // config.Slot0.kG = 0.445;
     // config.Slot0.kV = 1.45;
     config.Slot0.kP = kP.get();
-    // config.Slot0.kD = kD.get();
+    config.Slot0.kD = kD.get();
+    config.MotionMagic.MotionMagicAcceleration = 160.0;
+    config.MotionMagic.MotionMagicCruiseVelocity = 100.0;
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -50,18 +54,10 @@ public class HoodIOTalonFX implements HoodIO {
 
   @Override
   public void setPosition(double positionDeg) {
-    pivot.setControl(
-        positionVoltage.withPosition(
-            Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
-  }
+    pivot.setControl(motionMagicVoltage.withPosition(
+        Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
+        // positionVoltage.withPosition(
+        //     Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
 
-  @Override
-  public void runVolts(double volts) {
-    pivot.setControl(voltageOut.withOutput(volts));
-  }
-
-  @Override
-  public void resetEncoder(double positionDeg) {
-    pivot.setPosition(Units.degreesToRotations(positionDeg));
   }
 }
