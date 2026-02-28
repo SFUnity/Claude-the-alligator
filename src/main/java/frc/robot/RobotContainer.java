@@ -354,7 +354,10 @@ public class RobotContainer {
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.climbDown());
     intakePivot.setDefaultCommand(
-        intakePivot.raise().beforeStarting(() -> intakeDown = false).withName("IntakePivotRaise"));
+        intakePivot
+            .zeroOutput()
+            .beforeStarting(() -> intakeDown = false)
+            .withName("IntakePivotRaise"));
     intakeRollers.setDefaultCommand(intakeRollers.stop());
     kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
 

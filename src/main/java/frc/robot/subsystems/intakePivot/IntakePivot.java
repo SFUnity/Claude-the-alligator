@@ -95,4 +95,8 @@ public class IntakePivot extends SubsystemBase {
     // return inputs.pivotCurrentPositionDeg <= (loweredAngle.get() + raisedAngle.get()) / 2.0;
     return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
   }
+
+  public Command zeroOutput() {
+    return run(() -> io.runVolts(0)).withName("Zero");
+  }
 }
