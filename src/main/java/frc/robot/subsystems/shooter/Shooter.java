@@ -45,6 +45,10 @@ public class Shooter extends VirtualSubsystem {
       new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
   private final LoggedTunableNumber fakeFlywheelVelocity =
       new LoggedTunableNumber("Shooter/ScoringVelocity", 1100);
+    private final LoggedTunableNumber farFlywheelVelocity =  new LoggedTunableNumber("Shooter/FarVelocity", 1100);
+        private final LoggedTunableNumber hubFlywheelVelocity =  new LoggedTunableNumber("Shooter/HubVelocity", 1100);
+
+
   private final LoggedTunableNumber fakeFeedingVelocity =
       new LoggedTunableNumber("Shooter/FeedingVelocity", 1600);
 
@@ -218,6 +222,16 @@ public class Shooter extends VirtualSubsystem {
         .withTimeout(1)
         .withName("TestFlywheels");
   }
+
+  public Command setFarFlywheels() {
+    return runOnce(() -> flywheels.setVelocity(farFlywheelVelocity.get()), flywheels)
+        .withName("SetFarFlywheels");
+  }
+public Command setHubFlywheels() {
+    return runOnce(() -> flywheels.setVelocity(hubFlywheelVelocity.get()), flywheels)
+        .withName("SetHubFlywheels");
+  }
+
 
   // public void incrementFlywheelVelocity(double increment) {
   //   flywheelVelocity += increment;
