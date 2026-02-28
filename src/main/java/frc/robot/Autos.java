@@ -16,6 +16,7 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
+import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.util.AllianceFlipUtil;
@@ -295,7 +296,10 @@ public class Autos {
     Feed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
-                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+                .alongWith(
+                    shooter
+                        .setShooting(true)
+                        .alongWith(kicker.setState(KickerState.RUN), spindexer.run())));
     Feed.atTime("StopIntakeandShoot")
         .onTrue(
             RobotCommands.stowIntake(intake, intakePivot)
@@ -310,11 +314,22 @@ public class Autos {
     LowerFeed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
-                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+                .alongWith(
+                    shooter
+                        .setShooting(true)
+                        .alongWith(kicker.setState(KickerState.RUN), spindexer.run())));
     LowerFeed.atTime("StopIntakeandShoot")
         .onTrue(
             RobotCommands.stowIntake(intake, intakePivot)
                 .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+    // LowerFeed.atTime("StartIntakeandShoot")
+    //     .onTrue(
+    //         RobotCommands.intake(intake, intakePivot)
+    //             .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    // LowerFeed.atTime("StopIntakeandShoot")
+    //     .onTrue(
+    //         RobotCommands.stowIntake(intake, intakePivot)
+    //             .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
 

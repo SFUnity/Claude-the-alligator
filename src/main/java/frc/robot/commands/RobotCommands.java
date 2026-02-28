@@ -21,7 +21,8 @@ public class RobotCommands {
     return spindexer
         .stop()
         .alongWith(
-            waitSeconds(0.3).andThen(kicker.setState(KickerState.STOP), shooter.setShooting(false)))
+            waitSeconds(0.3)
+                .andThen(kicker.setState(KickerState.STOP).alongWith(shooter.setShooting(false))))
         .withName("StopShoot");
   }
 
@@ -32,10 +33,10 @@ public class RobotCommands {
             spindexer
                 .runBack(shootingBackupRots)
                 .deadlineFor(kicker.setState(KickerState.BACKWARDS)),
-            kicker.setState(KickerState.RUN),
-            waitUntil(kicker::atGoal),
-            waitUntil(shooter::readyToShoot),
-            spindexer.run())
+            kicker
+                .setState(KickerState.RUN)
+                .alongWith(
+                    waitUntil(kicker::atGoal), waitUntil(shooter::readyToShoot), spindexer.run()))
         .withName("ReadyThenShoot");
   }
 
