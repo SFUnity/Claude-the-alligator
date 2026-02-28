@@ -3,6 +3,7 @@ package frc.robot.subsystems.intakePivot;
 import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.subsystems.intakePivot.IntakePivotConstants.*;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -43,7 +44,11 @@ public class IntakePivot extends SubsystemBase {
 
   public Command raise() {
     return run(() -> {
-          io.runVolts(1.25);
+          if (DriverStation.isAutonomous()) {
+            io.runVolts(0);
+          } else {
+            io.runVolts(1.25);
+          }
           // positionSetpoint = raisedAngle.get();
           // io.setPivotPosition(positionSetpoint);
         })
@@ -52,7 +57,11 @@ public class IntakePivot extends SubsystemBase {
 
   public Command lower() {
     return run(() -> {
-          io.runVolts(-.75);
+          if (DriverStation.isAutonomous()) {
+            io.runVolts(0);
+          } else {
+            io.runVolts(-0.75);
+          }
           // positionSetpoint = loweredAngle.get();
           // io.setPivotPosition(positionSetpoint);
         })
