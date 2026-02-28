@@ -19,11 +19,7 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
   public IntakePivotIOTalon() {
     TalonFXConfiguration config = new TalonFXConfiguration();
-
-    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-
     config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-
     config.Feedback.SensorToMechanismRatio = gearRatio;
 
     config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
