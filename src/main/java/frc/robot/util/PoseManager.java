@@ -114,7 +114,7 @@ public class PoseManager {
   /** Resets the current odometry pose. */
   public void setPose(Pose2d pose) {
     poseEstimator.resetPosition(
-        rawGyroRotation, lastModulePositions, pose.rotateBy(Rotation2d.k180deg));
+        rawGyroRotation, lastModulePositions, pose);
   }
 
   // public void setPoseForAuto(Pose2d pose) {

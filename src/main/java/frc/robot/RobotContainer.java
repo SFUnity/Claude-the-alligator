@@ -369,7 +369,7 @@ public class RobotContainer {
             Commands.runOnce(
                     () ->
                         poseManager.setPose(
-                            new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.kZero)),
+                            new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.k180deg)),
                     drive)
                 .ignoringDisable(true));
 
