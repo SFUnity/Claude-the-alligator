@@ -43,7 +43,7 @@ public class IntakePivot extends SubsystemBase {
 
   public Command raise() {
     return run(() -> {
-          io.runVolts(2);
+          io.runVolts(1.25);
           // positionSetpoint = raisedAngle.get();
           // io.setPivotPosition(positionSetpoint);
         })
@@ -52,7 +52,7 @@ public class IntakePivot extends SubsystemBase {
 
   public Command lower() {
     return run(() -> {
-          io.runVolts(-2);
+          io.runVolts(-.75);
           // positionSetpoint = loweredAngle.get();
           // io.setPivotPosition(positionSetpoint);
         })
