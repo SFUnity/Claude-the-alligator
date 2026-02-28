@@ -6,6 +6,7 @@ import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
+import static frc.robot.subsystems.shooter.hood.HoodConstants.minAngleRads;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -217,6 +218,29 @@ public class Shooter extends VirtualSubsystem {
         .withTimeout(1)
         .withName("TestFlywheels");
   }
+
+  // public void incrementFlywheelVelocity(double increment) {
+  //   flywheelVelocity += increment;
+  //   if(flywheelVelocity < 500) {
+  //     flywheelVelocity = 500;
+  //   } else if(flywheelVelocity > 5000) {
+  //     flywheelVelocity = 5000;
+  //   }
+  // }
+
+  // public Command increaseFlywheelVelocity() {
+  //   return runOnce(() -> incrementFlywheelVelocity(10), flywheels)
+  //       .withTimeout(0.1)
+  //       .withName("IncreaseFlywheelVelocity");
+  // }
+
+  // public Command decreaseFlywheelVelocity() {
+  //   return runOnce(() -> incrementFlywheelVelocity(-10), flywheels)
+  //       .withTimeout(0.1)
+  //       .withName("DecreaseFlywheelVelocity");
+  // }
+
+
 
   public Command testFlywheelsVolts() {
     return runOnce(() -> flywheels.setState(FlywheelsState.VOLTS)).withName("TestFlywheelsVolts");

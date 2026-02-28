@@ -374,8 +374,10 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Climbing
-    controller.povUp().onTrue(climb.climbUp());
-    controller.povDown().onTrue(climb.climbDown());
+    // controller.povUp().onTrue(climb.climbUp());
+    // controller.povDown().onTrue(climb.climbDown());
+
+    controller.povUp().whileTrue(climb.climbUp());
 
     // Intaking
     controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
@@ -404,6 +406,7 @@ public class RobotContainer {
 
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
+    
 
     // controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
     // controller.rightBumper().onTrue(Commands.runOnce(() -> isShooting = !isShooting));
