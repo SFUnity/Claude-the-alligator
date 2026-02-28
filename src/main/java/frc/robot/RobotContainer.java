@@ -42,7 +42,6 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.intakePivot.IntakePivotIO;
 import frc.robot.subsystems.intakePivot.IntakePivotIOSim;
-import frc.robot.subsystems.intakePivot.IntakePivotIOTalon;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIO;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIOSim;
@@ -148,7 +147,7 @@ public class RobotContainer {
         //         poseManager);
         // spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
-        // intakePivot = new IntakePivot(new IntakePivotIO() {});
+        intakePivot = new IntakePivot(new IntakePivotIO() {});
         intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
         flywheels = new Flywheels(new FlywheelsIO() {});
         turret = new Turret(new TurretIO() {});
@@ -166,7 +165,7 @@ public class RobotContainer {
                 poseManager);
         spindexer = new Spindexer(new SpindexerIOTalonFX());
         // climb = new Climb(new ClimbIOTalonFX());
-        intakePivot = new IntakePivot(new IntakePivotIOTalon());
+        // intakePivot = new IntakePivot(new IntakePivotIOTalon());
         // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         // flywheels = new Flywheels(new FlywheelsIOTalonFX());
         // turret = new Turret(new TurretIOTalonFX());
@@ -425,7 +424,7 @@ public class RobotContainer {
     //             : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
     // Current zeroing
-    controller.povRight().onTrue(intakePivot.runCurrentZeroing());
+    controller.povRight().whileTrue(intakePivot.runCurrentZeroing());
     controller.povLeft().onTrue(hood.runCurrentZeroing());
 
     // Controller rumble when 5 seconds are left in the current shift
