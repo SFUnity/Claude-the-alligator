@@ -379,24 +379,26 @@ public class RobotContainer {
     // controller.povDown().onTrue(climb.climbDown());
 
     // Intaking
-    controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
-    controller
-        .leftBumper()
-        .and(() -> !intakeDown)
-        .debounce(loopPeriodSecs)
-        .onTrue(RobotCommands.stowIntake(intakeRollers, intakePivot));
-    controller
-        .leftBumper()
-        .and(() -> intakeDown)
-        .debounce(loopPeriodSecs)
-        .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
-    controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
-    controller
-        .leftBumper()
-        .debounce(1)
-        .whileTrue(
-            RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker)
-                .beforeStarting(() -> intakeDown = true));
+    controller.leftBumper().whileTrue(intakePivot.raise().alongWith(intakeRollers.stop()));
+    controller.leftTrigger().whileTrue(intakePivot.lower().alongWith(intakeRollers.intake()));
+    // controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
+    // controller
+    //     .leftBumper()
+    //     .and(() -> !intakeDown)
+    //     .debounce(loopPeriodSecs)
+    //     .onTrue(RobotCommands.stowIntake(intakeRollers, intakePivot));
+    // controller
+    //     .leftBumper()
+    //     .and(() -> intakeDown)
+    //     .debounce(loopPeriodSecs)
+    //     .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
+    // controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
+    // controller
+    //     .leftBumper()
+    //     .debounce(1)
+    //     .whileTrue(
+    //         RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker)
+    //             .beforeStarting(() -> intakeDown = true));
 
     // Shooting
     controller
@@ -431,8 +433,8 @@ public class RobotContainer {
     //             : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
     // Current zeroing
-    controller.povRight().whileTrue(intakePivot.runCurrentZeroing());
-    controller.povLeft().onTrue(hood.runCurrentZeroing());
+    // controller.povRight().whileTrue(intakePivot.runCurrentZeroing());
+    // controller.povLeft().onTrue(hood.runCurrentZeroing());
 
     // Controller rumble when 5 seconds are left in the current shift
     new Trigger(
