@@ -7,6 +7,7 @@ import static frc.robot.Constants.currentMode;
 import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
+import static frc.robot.util.FuelSim.Hub.*;
 import static frc.robot.util.GeomUtil.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -90,6 +91,7 @@ public class Shooter extends VirtualSubsystem {
   private boolean upwardMovmentCorospondWithDirection;
   private FuelSim fuelSim;
   private final Timer fuelLaunchTimer = new Timer();
+  private int prevHubScore = 0;
 
   public Shooter(
       Flywheels flywheels, Turret turret, Hood hood, PoseManager poseManager, FuelSim fuelSim) {
@@ -179,10 +181,14 @@ public class Shooter extends VirtualSubsystem {
       fuelLaunchTimer.restart();
 
       fuelSim.launchFuel(
-          MetersPerSecond.of(flywheels.getVelocityRPM() * 2 * Math.PI * WheelRadius / 60),
+          MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
           Degrees.of(90 - hood.getAngleDeg()),
           Degrees.of(turret.getPositionDegs()),
           turretCenter);
+    }
+    if (prevHubScore != BLUE_HUB.getScore() + RED_HUB.getScore()) {
+      Logger.recordOutput("Shooter/FlightTime", fuelLaunchTimer.get());
+      prevHubScore = BLUE_HUB.getScore() + RED_HUB.getScore();
     }
     Logger.recordOutput(
         "Shooter/Turret/DistToHub",
@@ -190,9 +196,7 @@ public class Shooter extends VirtualSubsystem {
             .getPose()
             .plus(toTransform2d(turretCenter.getX(), turretCenter.getY()))
             .getTranslation()
-            .getDistance(
-                toTransform2d(Hub.innerCenterPoint.getX(), Hub.innerCenterPoint.getY())
-                    .getTranslation()));
+            .getDistance(Hub.topCenterPoint.toTranslation2d()));
   }
 
   public boolean readyToShoot() {

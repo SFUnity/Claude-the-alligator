@@ -63,6 +63,14 @@ public class ShooterUtil {
 
   public ShooterUtil(PoseManager poseManager) {
     this.poseManager = poseManager;
+
+    scoreSimFlywheelSpeedMap.put(1.256, 1200.0);
+    scoreSimHoodAngleMap.put(1.256, 14.6);
+    scoreSimTimeOfFlightMap.put(1.256, 0.900);
+
+    scoreSimFlywheelSpeedMap.put(2.117, 1300.0);
+    scoreSimHoodAngleMap.put(2.117, 17.5);
+    scoreSimTimeOfFlightMap.put(2.117, 1.020);
   }
 
   public record LaunchingParameters(
