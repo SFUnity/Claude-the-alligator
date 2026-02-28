@@ -31,8 +31,8 @@ public class HoodIOTalonFX implements HoodIO {
     // config.Slot0.kV = 1.45;
     config.Slot0.kP = kP.get();
     config.Slot0.kD = kD.get();
-    config.MotionMagic.MotionMagicAcceleration = 160.0;
-    config.MotionMagic.MotionMagicCruiseVelocity = 100.0;
+    config.MotionMagic.MotionMagicAcceleration = 8.0;
+    config.MotionMagic.MotionMagicCruiseVelocity = 4.0;
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
