@@ -7,6 +7,7 @@ import static frc.robot.Constants.currentMode;
 import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
+import static frc.robot.util.GeomUtil.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -183,6 +184,15 @@ public class Shooter extends VirtualSubsystem {
           Degrees.of(turret.getPositionDegs()),
           turretCenter);
     }
+    Logger.recordOutput(
+        "Shooter/Turret/DistToHub",
+        poseManager
+            .getPose()
+            .plus(toTransform2d(turretCenter.getX(), turretCenter.getY()))
+            .getTranslation()
+            .getDistance(
+                toTransform2d(Hub.innerCenterPoint.getX(), Hub.innerCenterPoint.getY())
+                    .getTranslation()));
   }
 
   public boolean readyToShoot() {

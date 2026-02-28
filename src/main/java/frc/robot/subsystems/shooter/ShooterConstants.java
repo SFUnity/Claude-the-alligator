@@ -13,7 +13,7 @@ public class ShooterConstants {
   public static final double TopBottomFlywheelRatio = 1.3;
 
   public static final Transform3d turretCenter =
-      new Transform3d(0.121, 0.133, 0.331, Rotation3d.kZero);
+      new Transform3d(-0.121, 0.133, 0.331, Rotation3d.kZero);
   public static final Translation3d hoodOffset = new Translation3d(0.038, 0, 0.197);
 
   // Trench passign stuff
