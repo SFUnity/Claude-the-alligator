@@ -85,25 +85,25 @@ public class Autos {
     chooser = new LoggedAutoChooser("/ChoreoChooser");
     // chooser.addRoutine("Example Auto Routine", this::exampleAutoRoutine);
     // prioritize
-    chooser.addRoutine("Climb Center", this::climbCenterAutoRoutine);
-    chooser.addRoutine("Depot Climb", this::depotClimbAutoRoutine);
-    chooser.addRoutine("Score Center Climb", this::ScoreCenterClimbAutoRoutine);
-    chooser.addRoutine("Score Center", this::ScoreCenterAutoRoutine);
-    chooser.addRoutine("Score Upper Center", this::ScoreUpperCenterAutoRoutine);
-    chooser.addRoutine("Score Upper Center Climb", this::ScoreUpperCenterClimbAutoRoutine);
+    // chooser.addRoutine("Climb Center", this::climbCenterAutoRoutine);
+    // chooser.addRoutine("Depot Climb", this::depotClimbAutoRoutine);
+    // chooser.addRoutine("Score Center Climb", this::ScoreCenterClimbAutoRoutine);
+    // chooser.addRoutine("Score Center", this::ScoreCenterAutoRoutine);
+    // chooser.addRoutine("Score Upper Center", this::ScoreUpperCenterAutoRoutine);
+    // chooser.addRoutine("Score Upper Center Climb", this::ScoreUpperCenterClimbAutoRoutine);
     chooser.addRoutine("Feed", this::FeedAutoRoutine);
     chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
-    chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
-    chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
-    chooser.addRoutine("Double Score Center", this::DoubleScoreCenter);
-    chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
+    // chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
+    // chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
+    // chooser.addRoutine("Double Score Center", this::DoubleScoreCenter);
+    // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
 
     // not as necessary
-    chooser.addRoutine("Climb", this::climbAutoRoutine);
-    chooser.addRoutine("Outpost Climb", this::outpostClimbAutoRoutine);
-    chooser.addRoutine("Depot Feed", this::depotFeedAutoRoutine);
-    chooser.addRoutine("Upper Feed Climb", this::upperFeedClimbAutoRoutine);
-    chooser.addRoutine("Lower Feed Climb", this::LowerFeedClimbAutoRoutine);
+    // chooser.addRoutine("Climb", this::climbAutoRoutine);
+    // chooser.addRoutine("Outpost Climb", this::outpostClimbAutoRoutine);
+    // chooser.addRoutine("Depot Feed", this::depotFeedAutoRoutine);
+    // chooser.addRoutine("Upper Feed Climb", this::upperFeedClimbAutoRoutine);
+    // chooser.addRoutine("Lower Feed Climb", this::LowerFeedClimbAutoRoutine);
 
     if (!DriverStation.isFMSAttached()) {
       // Set up test choreo routines
