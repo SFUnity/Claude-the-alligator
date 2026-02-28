@@ -4,6 +4,7 @@ import static frc.robot.subsystems.intakePivot.IntakePivotConstants.*;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -15,7 +16,9 @@ import edu.wpi.first.math.util.Units;
 public class IntakePivotIOTalon implements IntakePivotIO {
   private final TalonFX pivot = new TalonFX(pivotID);
   private PositionVoltage positionVoltage = new PositionVoltage(0.0).withEnableFOC(true);
-  private VoltageOut voltageOut = new VoltageOut(0);
+  private VoltageOut voltageOut = new VoltageOut(0.0);
+  private MotionMagicVoltage motionMagicVoltage = new MotionMagicVoltage(0.0).withEnableFOC(true);
+
 
   public IntakePivotIOTalon() {
     TalonFXConfiguration config = new TalonFXConfiguration();
@@ -25,7 +28,9 @@ public class IntakePivotIOTalon implements IntakePivotIO {
     config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
     config.Slot0.kP = 35;
-    config.Slot0.kG = 1;
+    config.Slot0.kD = 0.25;
+        config.MotionMagic.MotionMagicAcceleration = 160.0;
+    config.MotionMagic.MotionMagicCruiseVelocity = 100.0;
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -46,8 +51,9 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
   @Override
   public void setPivotPosition(double setpointDeg) {
-    pivot.setControl(positionVoltage.withPosition(Units.degreesToRotations(setpointDeg)));
+    pivot.setControl(motionMagicVoltage.withPosition(Units.degreesToRotations(setpointDeg)));
   }
+
 
   @Override
   public void runVolts(double volts) {
