@@ -43,7 +43,9 @@ public class Shooter extends VirtualSubsystem {
   private final LoggedTunableNumber fakeHoodAngle =
       new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
   private final LoggedTunableNumber fakeFlywheelVelocity =
-      new LoggedTunableNumber("Shooter/FakeFlywheelVelocity", 1100);
+      new LoggedTunableNumber("Shooter/ScoringVelocity", 1100);
+  private final LoggedTunableNumber fakeFeedingVelocity =
+      new LoggedTunableNumber("Shooter/FeedingVelocity", 1600);
 
   private final LoggedTunableNumber clearBalls = new LoggedTunableNumber("Shooter/ClearBalls", 0);
 
@@ -133,7 +135,11 @@ public class Shooter extends VirtualSubsystem {
 
     turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
     hood.setAngle(hoodIsSafe ? HoodConstants.minPositionDegs : fakeHoodAngle.get());
-    flywheels.setVelocity(fakeFlywheelVelocity.get());
+    if (isScoring) {
+      flywheels.setVelocity(fakeFlywheelVelocity.get());
+    } else {
+      flywheels.setVelocity(fakeFeedingVelocity.get());
+    }
 
     // Avi commented this out because real robot is not ready for it
     // TrenchAvoidence();
