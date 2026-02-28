@@ -50,7 +50,7 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
   @Override
   public void setPivotPosition(double setpointDeg) {
-    pivot.setControl(motionMagicVoltage.withPosition(Units.degreesToRotations(setpointDeg)));
+    pivot.setControl(motionMagicVoltage.withPosition(setpointDeg));
   }
 
   @Override
