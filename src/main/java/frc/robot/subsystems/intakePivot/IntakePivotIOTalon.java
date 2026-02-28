@@ -28,8 +28,8 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
     config.Slot0.kP = 35;
     config.Slot0.kD = 0.25;
-        config.MotionMagic.MotionMagicAcceleration = 8.0;
-    config.MotionMagic.MotionMagicCruiseVelocity = 4.0;
+        config.MotionMagic.MotionMagicAcceleration = 2.0;
+    config.MotionMagic.MotionMagicCruiseVelocity = 1.0;
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
