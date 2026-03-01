@@ -160,7 +160,6 @@ public class ShooterUtil {
                 turretCenter.getTranslation().toTranslation2d(),
                 turretCenter.getRotation().toRotation2d()));
     double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation());
-    
 
     Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
     double robotAngle = robotPose.getRotation().getRadians();
