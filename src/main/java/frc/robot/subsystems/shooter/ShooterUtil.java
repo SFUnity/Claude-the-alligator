@@ -4,7 +4,6 @@ import static frc.robot.Constants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.util.GeomUtil.*;
 
-import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -16,6 +15,7 @@ import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.PoseManager;
 import java.util.LinkedList;
 import java.util.Queue;
+import org.littletonrobotics.junction.Logger;
 
 public class ShooterUtil {
 
@@ -145,7 +145,8 @@ public class ShooterUtil {
               turretPosition.getRotation());
       lookaheadTurretToTargetDistance = targetPose.getDistance(lookeaheadPose.getTranslation());
     }
-    Logger.recordOutput("Shooter/Turret/LookaheadTurretToTargetDist", lookaheadTurretToTargetDistance);
+    Logger.recordOutput(
+        "Shooter/Turret/LookaheadTurretToTargetDist", lookaheadTurretToTargetDistance);
 
     turretAngle = targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees();
     hoodAngle = hoodAngleMap.get(lookaheadTurretToTargetDistance);
