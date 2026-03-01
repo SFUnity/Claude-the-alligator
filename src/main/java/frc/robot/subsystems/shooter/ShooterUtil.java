@@ -68,6 +68,10 @@ public class ShooterUtil {
     scoreSimHoodAngleMap.put(1.256, 14.6);
     scoreSimTimeOfFlightMap.put(1.256, 0.900);
 
+    scoreSimFlywheelSpeedMap.put(1.454, 1200.0);
+    scoreSimHoodAngleMap.put(1.454, 18.0);
+    scoreSimTimeOfFlightMap.put(1.454, 0.860);
+
     scoreSimFlywheelSpeedMap.put(1.784, 1200.0);
     scoreSimHoodAngleMap.put(1.784, 25.0);
     scoreSimTimeOfFlightMap.put(1.784, 0.760);
@@ -75,6 +79,18 @@ public class ShooterUtil {
     scoreSimFlywheelSpeedMap.put(2.117, 1300.0);
     scoreSimHoodAngleMap.put(2.117, 17.5);
     scoreSimTimeOfFlightMap.put(2.117, 1.020);
+
+    scoreSimFlywheelSpeedMap.put(2.302, 1300.0);
+    scoreSimHoodAngleMap.put(2.302, 24.0);
+    scoreSimTimeOfFlightMap.put(2.302, 0.940);
+
+    scoreSimFlywheelSpeedMap.put(2.569, 1400.0);
+    scoreSimHoodAngleMap.put(2.569, 26.0);
+    scoreSimTimeOfFlightMap.put(2.569, 1.043);
+
+    scoreSimFlywheelSpeedMap.put(2.700, 1350.0);
+    scoreSimHoodAngleMap.put(2.700, 26.0);
+    scoreSimTimeOfFlightMap.put(2.700, 0.960);
 
     scoreSimFlywheelSpeedMap.put(3.074, 1500.0);
     scoreSimHoodAngleMap.put(3.074, 20.5);
