@@ -126,13 +126,12 @@ public class Shooter extends VirtualSubsystem {
     myX = poseManager.getPose().getX() - LinesVertical.center;
     myY = poseManager.getPose().getY() - LinesHorizontal.center;
 
-    // LaunchingParameters solution = shooterUtil.getLaunchingParameters(isScoring,
-    // Constants.currentMode != Constants.simMode);
+    // LaunchingParameters solution =
+    //     shooterUtil.getLaunchingParameters(isScoring, Constants.currentMode != Constants.simMode);
     // if (solution.isValid()) {
     //   double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
     //   double turretVelocity =
-    //       solution.turretVelocity() -
-    // Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
+    //       solution.turretVelocity() - Units.radiansToDegrees(poseManager.getRobotVelocity().dtheta);
     //   turret.setTarget(turretAngle, turretVelocity);
     //   hood.setAngle(solution.hoodAngle());
     //   flywheels.setVelocity(solution.flywheelSpeed());

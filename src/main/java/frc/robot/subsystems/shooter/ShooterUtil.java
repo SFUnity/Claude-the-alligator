@@ -118,27 +118,30 @@ public class ShooterUtil {
     InterpolatingDoubleTreeMap flywheelSpeedMap;
     InterpolatingDoubleTreeMap timeOfFlightMap;
 
-    if (isScoring) {
-      if (isReal) {
-        hoodAngleMap = scoreRealHoodAngleMap;
-        flywheelSpeedMap = scoreRealFlywheelSpeedMap;
-        timeOfFlightMap = scoreRealTimeOfFlightMap;
-      } else {
-        hoodAngleMap = scoreSimHoodAngleMap;
-        flywheelSpeedMap = scoreSimFlywheelSpeedMap;
-        timeOfFlightMap = scoreSimTimeOfFlightMap;
-      }
-    } else {
-      if (isReal) {
-        hoodAngleMap = feedRealHoodAngleMap;
-        flywheelSpeedMap = feedRealFlywheelSpeedMap;
-        timeOfFlightMap = feedRealTimeOfFlightMap;
-      } else {
-        hoodAngleMap = feedSimHoodAngleMap;
-        flywheelSpeedMap = feedSimFlywheelSpeedMap;
-        timeOfFlightMap = feedSimTimeOfFlightMap;
-      }
-    }
+    hoodAngleMap = scoreSimHoodAngleMap;
+    flywheelSpeedMap = scoreSimFlywheelSpeedMap;
+    timeOfFlightMap = scoreSimTimeOfFlightMap;
+    // if (isScoring) {
+    //   if (isReal) {
+    //     hoodAngleMap = scoreRealHoodAngleMap;
+    //     flywheelSpeedMap = scoreRealFlywheelSpeedMap;
+    //     timeOfFlightMap = scoreRealTimeOfFlightMap;
+    //   } else {
+    //     hoodAngleMap = scoreSimHoodAngleMap;
+    //     flywheelSpeedMap = scoreSimFlywheelSpeedMap;
+    //     timeOfFlightMap = scoreSimTimeOfFlightMap;
+    //   }
+    // } else {
+    //   if (isReal) {
+    //     hoodAngleMap = feedRealHoodAngleMap;
+    //     flywheelSpeedMap = feedRealFlywheelSpeedMap;
+    //     timeOfFlightMap = feedRealTimeOfFlightMap;
+    //   } else {
+    //     hoodAngleMap = feedSimHoodAngleMap;
+    //     flywheelSpeedMap = feedSimFlywheelSpeedMap;
+    //     timeOfFlightMap = feedSimTimeOfFlightMap;
+    //   }
+    // }
 
     Pose2d robotPose = poseManager.getPose();
     Twist2d robotVelocity = poseManager.getRobotVelocity();
@@ -157,6 +160,7 @@ public class ShooterUtil {
                 turretCenter.getTranslation().toTranslation2d(),
                 turretCenter.getRotation().toRotation2d()));
     double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation());
+    
 
     Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
     double robotAngle = robotPose.getRotation().getRadians();
