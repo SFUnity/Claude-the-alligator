@@ -395,6 +395,10 @@ public class Autos {
     DoubleScoreCenter.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
     DoubleScoreCenter.atTime("StartShoot")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
+    DoubleScoreCenter.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
+    DoubleScoreCenter.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
+    DoubleScoreCenter.atTime("StartShoot2")
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
   }
 
