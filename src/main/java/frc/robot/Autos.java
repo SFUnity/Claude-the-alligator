@@ -423,15 +423,19 @@ public class Autos {
     AutoTrajectory CompleteLowerFeed = routine.trajectory("CompleteLowerFeed");
     routine
         .active()
+        .onTrue(Commands.sequence(CompleteLowerFeed.resetOdometry(), CompleteLowerFeed.cmd()));
+    CompleteLowerFeed.atTime("StartIntakeandShoot")
         .onTrue(
-            Commands.sequence(
-                CompleteLowerFeed.resetOdometry(), CompleteLowerFeed.cmd()));
-    CompleteLowerFeed.atTime("StartIntakeandShoot").onTrue(RobotCommands.intake(intake, intakePivot).alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
-    CompleteLowerFeed.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+            RobotCommands.intake(intake, intakePivot)
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+    CompleteLowerFeed.atTime("StopShoot")
+        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     CompleteLowerFeed.atTime("StartShoot")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
     CompleteLowerFeed.atTime("StopIntakeandShoot")
-        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer).alongWith(RobotCommands.jork(intake, intakePivot)));
+        .onTrue(
+            RobotCommands.stopShoot(shooter, kicker, spindexer)
+                .alongWith(RobotCommands.jork(intake, intakePivot)));
     return routine;
   }
 }
