@@ -5,7 +5,7 @@ import frc.robot.util.LoggedTunableNumber;
 
 public class HoodConstants {
   public static final int hoodMotorID = 12;
-  public static final double gearRatio = 12f / 598f;
+  public static final double gearRatio = 23f*26f/12;
 
   // TODO add values
   public static final double minPositionDegs = 14.06 + 1;

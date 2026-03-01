@@ -92,8 +92,8 @@ public class IntakePivot extends SubsystemBase {
 
   @AutoLogOutput(key = "Controls/IntakeDown")
   public boolean intakeDown() {
-    // return inputs.pivotCurrentPositionDeg <= (loweredAngle.get() + raisedAngle.get()) / 2.0;
-    return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
+    // return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
+    return Math.abs(inputs.pivotCurrentPositionDeg) < .5;
   }
 
   public Command zeroOutput() {
