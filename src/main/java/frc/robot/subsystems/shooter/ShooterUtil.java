@@ -71,6 +71,10 @@ public class ShooterUtil {
     scoreSimFlywheelSpeedMap.put(2.117, 1300.0);
     scoreSimHoodAngleMap.put(2.117, 17.5);
     scoreSimTimeOfFlightMap.put(2.117, 1.020);
+
+    scoreSimFlywheelSpeedMap.put(3.074, 1500.0);
+    scoreSimHoodAngleMap.put(3.074, 20.5);
+    scoreSimTimeOfFlightMap.put(3.074, 1.220);
   }
 
   public record LaunchingParameters(
