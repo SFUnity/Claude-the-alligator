@@ -29,7 +29,7 @@ public class IntakePivotVisualizer {
       new LoggedTunableNumber("Intake/twodeeoffset", 89);
   private final LoggedTunableNumber threedeeoffset =
       new LoggedTunableNumber("Intake/threedeeoffset", -86);
-  private final LoggedTunableNumber factor = new LoggedTunableNumber("Intake/factor", -4.4525);
+  private final LoggedTunableNumber factor = new LoggedTunableNumber("Intake/factor", -1);
 
   public IntakePivotVisualizer(String key, Color color) {
     this.key = key;
