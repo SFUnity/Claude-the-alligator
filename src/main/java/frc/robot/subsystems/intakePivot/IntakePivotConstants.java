@@ -13,8 +13,6 @@ public class IntakePivotConstants {
   public static final double minAngleRads = Units.degreesToRadians(10);
   public static final double maxAngleRads = Units.degreesToRadians(135);
   public static final double armLengthMeters = Units.inchesToMeters(15);
-  public static final double intakePIDMinInput = 0;
-  public static final double intakePIDMaxInput = 1 * 360;
 
   public static final double gearRatio = 66 + 2 / 3;
 
