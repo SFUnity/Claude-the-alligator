@@ -8,7 +8,6 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.Seconds;
-import static frc.robot.Constants.loopPeriodSecs;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -347,12 +346,8 @@ public class RobotContainer {
             poseManager));
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.climbDown());
-    intakePivot.setDefaultCommand(
-        intakePivot
-            .zeroOutput()
-            .beforeStarting(() -> intakeDown = false)
-            .withName("IntakePivotRaise"));
-    // intakeRollers.setDefaultCommand(intakeRollers.stop());
+    intakePivot.setDefaultCommand(RobotCommands.stowIntake(intakeRollers, intakePivot));
+    intakeRollers.setDefaultCommand(RobotCommands.stowIntake(intakeRollers, intakePivot));
     kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
 
     // Switch to X pattern when X button is pressed
@@ -389,17 +384,7 @@ public class RobotContainer {
     //         intakePivot
     //             .lower()
     //             .alongWith(intakeRollers.intake(), Commands.runOnce(() -> intakeDown = true)));
-    controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
-    controller
-        .leftBumper()
-        .and(() -> !intakeDown)
-        .debounce(loopPeriodSecs)
-        .onTrue(RobotCommands.stowIntake(intakeRollers, intakePivot));
-    controller
-        .leftBumper()
-        .and(() -> intakeDown)
-        .debounce(loopPeriodSecs)
-        .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
+    controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
     controller
         .leftBumper()
@@ -453,6 +438,7 @@ public class RobotContainer {
                     () -> controller.setRumble(GenericHID.RumbleType.kBothRumble, 0.0))
                 .withTimeout(0.50));
   }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

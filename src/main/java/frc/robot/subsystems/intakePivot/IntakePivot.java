@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -93,7 +94,11 @@ public class IntakePivot extends SubsystemBase {
   @AutoLogOutput(key = "Controls/IntakeDown")
   public boolean intakeDown() {
     // return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
-    return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) < isDownTolerance.get();
+    return Math.abs(loweredAngle.get() - inputs.pivotCurrentPositionDeg) < isDownTolerance.get();
+  }
+
+  public Trigger filteredIntakeUp() {
+    return new Trigger(() -> !intakeDown()).debounce(.25);
   }
 
   public Command zeroOutput() {
