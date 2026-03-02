@@ -75,19 +75,25 @@ public class IntakePivot extends SubsystemBase {
                   positionSetpoint = loweredJorkAngle.get();
                   io.setPivotPosition(positionSetpoint);
                 })
-                .until(() -> inputs.pivotCurrentPositionDeg >= loweredJorkAngle.get() - 0.1),
+                .until(
+                    () ->
+                        inputs.pivotCurrentPositionDeg
+                            >= loweredJorkAngle.get() - jorkTolerance.get()),
             run(() -> {
                   positionSetpoint = raisedJorkAngle.get();
                   io.setPivotPosition(positionSetpoint);
                 })
-                .until(() -> inputs.pivotCurrentPositionDeg <= raisedJorkAngle.get() + 0.1))
+                .until(
+                    () ->
+                        inputs.pivotCurrentPositionDeg
+                            <= raisedJorkAngle.get() + jorkTolerance.get()))
         .withName("IntakePivotJork");
   }
 
   @AutoLogOutput(key = "Controls/IntakeDown")
   public boolean intakeDown() {
     // return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
-    return Math.abs(inputs.pivotCurrentPositionDeg) < .5;
+    return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) < isDownTolerance.get();
   }
 
   public Command zeroOutput() {

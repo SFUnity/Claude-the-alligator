@@ -25,4 +25,9 @@ public class IntakePivotConstants {
       new LoggedTunableNumber("Intake/loweredAngle", Units.rotationsToDegrees(0.26));
   public static final LoggedTunableNumber raisedAngle =
       new LoggedTunableNumber("Intake/raisedAngle", Units.rotationsToDegrees(0.0));
+
+  public static final LoggedTunableNumber jorkTolerance =
+      new LoggedTunableNumber("Intake/jorkTolerance", 4);
+  public static final LoggedTunableNumber isDownTolerance =
+      new LoggedTunableNumber("Intake/isDownTolerance", 4);
 }
