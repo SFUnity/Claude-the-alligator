@@ -260,7 +260,7 @@ public class RobotContainer {
 
     // For tuning visualizations
     // Logger.recordOutput("ZeroedPose2d", new Pose2d());
-    Logger.recordOutput("ZeroedPose3d", new Pose3d[] {new Pose3d(), new Pose3d()});
+    Logger.recordOutput("ZeroedPose3d", new Pose3d());
 
     // Configure the button bindings
     configureButtonBindings();
