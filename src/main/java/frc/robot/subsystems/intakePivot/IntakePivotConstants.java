@@ -17,14 +17,12 @@ public class IntakePivotConstants {
   public static final double gearRatio = 66 + 2 / 3;
 
   // In degrees
-
-  // In rotations
   public static final LoggedTunableNumber loweredJorkAngle =
-      new LoggedTunableNumber("Intake/lowJorkAngle", .2);
+      new LoggedTunableNumber("Intake/lowJorkAngle", Units.rotationsToDegrees(0.2));
   public static final LoggedTunableNumber raisedJorkAngle =
-      new LoggedTunableNumber("Intake/raisedJorkAngle", .1);
+      new LoggedTunableNumber("Intake/raisedJorkAngle", Units.rotationsToDegrees(0.1));
   public static final LoggedTunableNumber loweredAngle =
-      new LoggedTunableNumber("Intake/loweredAngle", .29);
+      new LoggedTunableNumber("Intake/loweredAngle", Units.rotationsToDegrees(0.29));
   public static final LoggedTunableNumber raisedAngle =
-      new LoggedTunableNumber("Intake/raisedAngle", 0);
+      new LoggedTunableNumber("Intake/raisedAngle", Units.rotationsToDegrees(0.0));
 }

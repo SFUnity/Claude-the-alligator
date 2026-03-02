@@ -8,6 +8,7 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.Seconds;
+import static frc.robot.Constants.loopPeriodSecs;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -374,38 +375,38 @@ public class RobotContainer {
     // controller.povDown().onTrue(climb.climbDown());
 
     // Intaking
-    new Trigger(intakePivot::intakeDown).whileTrue(intakeRollers.intake());
-    new Trigger(intakePivot::intakeDown).negate().whileTrue(intakeRollers.stop());
+    // new Trigger(intakePivot::intakeDown).whileTrue(intakeRollers.intake());
+    // new Trigger(intakePivot::intakeDown).negate().whileTrue(intakeRollers.stop());
+    // controller
+    //     .leftBumper()
+    //     .whileTrue(
+    //         intakePivot
+    //             .raise()
+    //             .alongWith(intakeRollers.stop(), Commands.runOnce(() -> intakeDown = false)));
+    // controller
+    //     .leftTrigger()
+    //     .whileTrue(
+    //         intakePivot
+    //             .lower()
+    //             .alongWith(intakeRollers.intake(), Commands.runOnce(() -> intakeDown = true)));
+    controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
     controller
         .leftBumper()
-        .whileTrue(
-            intakePivot
-                .raise()
-                .alongWith(intakeRollers.stop(), Commands.runOnce(() -> intakeDown = false)));
+        .and(() -> !intakeDown)
+        .debounce(loopPeriodSecs)
+        .onTrue(RobotCommands.stowIntake(intakeRollers, intakePivot));
     controller
-        .leftTrigger()
+        .leftBumper()
+        .and(() -> intakeDown)
+        .debounce(loopPeriodSecs)
+        .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
+    controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
+    controller
+        .leftBumper()
+        .debounce(1)
         .whileTrue(
-            intakePivot
-                .lower()
-                .alongWith(intakeRollers.intake(), Commands.runOnce(() -> intakeDown = true)));
-    // controller.leftBumper().toggleOnTrue(Commands.runOnce(() -> intakeDown = !intakeDown));
-    // controller
-    //     .leftBumper()
-    //     .and(() -> !intakeDown)
-    //     .debounce(loopPeriodSecs)
-    //     .onTrue(RobotCommands.stowIntake(intakeRollers, intakePivot));
-    // controller
-    //     .leftBumper()
-    //     .and(() -> intakeDown)
-    //     .debounce(loopPeriodSecs)
-    //     .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
-    // controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
-    // controller
-    //     .leftBumper()
-    //     .debounce(1)
-    //     .whileTrue(
-    //         RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker)
-    //             .beforeStarting(() -> intakeDown = true));
+            RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker)
+                .beforeStarting(() -> intakeDown = true));
 
     // Shooting
     controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));

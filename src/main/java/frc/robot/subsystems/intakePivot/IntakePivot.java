@@ -3,7 +3,6 @@ package frc.robot.subsystems.intakePivot;
 import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.subsystems.intakePivot.IntakePivotConstants.*;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -44,26 +43,26 @@ public class IntakePivot extends SubsystemBase {
 
   public Command raise() {
     return run(() -> {
-          if (DriverStation.isAutonomous()) {
-            io.runVolts(0);
-          } else {
-            io.runVolts(1.25);
-          }
-          // positionSetpoint = raisedAngle.get();
-          // io.setPivotPosition(positionSetpoint);
+          // if (DriverStation.isAutonomous()) {
+          //   io.runVolts(0);
+          // } else {
+          //   io.runVolts(1.25);
+          // }
+          positionSetpoint = raisedAngle.get();
+          io.setPivotPosition(positionSetpoint);
         })
         .withName("IntakePivotRaise");
   }
 
   public Command lower() {
     return run(() -> {
-          if (DriverStation.isAutonomous()) {
-            io.runVolts(0);
-          } else {
-            io.runVolts(-0.75);
-          }
-          // positionSetpoint = loweredAngle.get();
-          // io.setPivotPosition(positionSetpoint);
+          // if (DriverStation.isAutonomous()) {
+          //   io.runVolts(0);
+          // } else {
+          //   io.runVolts(-0.75);
+          // }
+          positionSetpoint = loweredAngle.get();
+          io.setPivotPosition(positionSetpoint);
         })
         .withName("IntakePivotLower");
   }
@@ -81,12 +80,12 @@ public class IntakePivot extends SubsystemBase {
                   positionSetpoint = loweredJorkAngle.get();
                   io.setPivotPosition(positionSetpoint);
                 })
-                .until(() -> inputs.pivotCurrentPositionDeg <= loweredJorkAngle.get() + 0.1),
+                .until(() -> inputs.pivotCurrentPositionDeg >= loweredJorkAngle.get() - 0.1),
             run(() -> {
                   positionSetpoint = raisedJorkAngle.get();
                   io.setPivotPosition(positionSetpoint);
                 })
-                .until(() -> inputs.pivotCurrentPositionDeg >= raisedJorkAngle.get() - 0.1))
+                .until(() -> inputs.pivotCurrentPositionDeg <= raisedJorkAngle.get() + 0.1))
         .withName("IntakePivotJork");
   }
 
