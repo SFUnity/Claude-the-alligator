@@ -92,7 +92,6 @@ public class RobotContainer {
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Alert driverDisconnected =
       new Alert("Driver controller disconnected (port 0).", AlertType.kWarning);
-  private boolean intakeDown = false;
 
   // Alerts
   private static final double canErrorTimeThreshold = 0.5; // Seconds to disable alert
@@ -390,8 +389,7 @@ public class RobotContainer {
         .leftBumper()
         .debounce(1)
         .whileTrue(
-            RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker)
-                .beforeStarting(() -> intakeDown = true));
+            RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker));
 
     // Shooting
     controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
