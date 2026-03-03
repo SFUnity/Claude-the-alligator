@@ -18,6 +18,6 @@ public class HoodConstants {
   public static final double intakePIDMinInput = 0;
   public static final double intakePIDMaxInput = 1 * 360;
 
-  public static LoggedTunableNumber kP = new LoggedTunableNumber("Hood/kP", 5);
-  public static LoggedTunableNumber kD = new LoggedTunableNumber("Hood/kD", 0);
+  public static LoggedTunableNumber kP = new LoggedTunableNumber("Hood/kP", 550);
+  public static LoggedTunableNumber kD = new LoggedTunableNumber("Hood/kD", 3);
 }

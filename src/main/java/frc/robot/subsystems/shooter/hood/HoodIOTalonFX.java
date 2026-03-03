@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 
 public class HoodIOTalonFX implements HoodIO {
@@ -45,8 +46,7 @@ public class HoodIOTalonFX implements HoodIO {
   @Override
   public void updateInputs(HoodIOInputs inputs) {
     inputs.appliedVolts = pivot.getMotorVoltage().getValueAsDouble();
-    inputs.positionDeg =
-        Units.rotationsToDegrees(pivot.getPosition().getValueAsDouble()) * gearRatio;
+    inputs.positionDeg = Units.rotationsToDegrees(pivot.getPosition().getValueAsDouble());
     inputs.talonRotations = pivot.getRotorPosition().getValueAsDouble();
     inputs.statorCurrent = pivot.getStatorCurrent().getValueAsDouble();
     inputs.supplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
@@ -55,8 +55,11 @@ public class HoodIOTalonFX implements HoodIO {
   @Override
   public void setPosition(double positionDeg) {
     pivot.setControl(
-        motionMagicVoltage.withPosition(
-            Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
+        positionVoltage.withPosition(
+            MathUtil.clamp(
+                Units.degreesToRotations(positionDeg - minPositionDegs),
+                Units.degreesToRotations(0.1),
+                Units.degreesToRotations(maxPositionDegs - minPositionDegs))));
     // positionVoltage.withPosition(
     //     Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
 

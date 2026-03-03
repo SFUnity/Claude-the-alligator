@@ -56,6 +56,7 @@ import frc.robot.subsystems.shooter.flywheels.FlywheelsIOSim;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.hood.HoodIO;
 import frc.robot.subsystems.shooter.hood.HoodIOSim;
+import frc.robot.subsystems.shooter.hood.HoodIOTalonFX;
 import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
@@ -145,7 +146,7 @@ public class RobotContainer {
         intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
         flywheels = new Flywheels(new FlywheelsIO() {});
         turret = new Turret(new TurretIO() {});
-        hood = new Hood(new HoodIO() {});
+        // hood = new Hood(new HoodIO() {});
         kicker = new Kicker(new KickerIO() {});
 
         // * working ones below this line
@@ -163,7 +164,7 @@ public class RobotContainer {
         // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         // flywheels = new Flywheels(new FlywheelsIOTalonFX());
         // turret = new Turret(new TurretIOTalonFX());
-        // hood = new Hood(new HoodIOTalonFX());
+        hood = new Hood(new HoodIOTalonFX());
         // kicker = new Kicker(new KickerIOTalonFX());
 
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
