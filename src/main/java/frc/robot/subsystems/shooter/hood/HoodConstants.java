@@ -20,4 +20,8 @@ public class HoodConstants {
 
   public static LoggedTunableNumber kP = new LoggedTunableNumber("Hood/kP", 550);
   public static LoggedTunableNumber kD = new LoggedTunableNumber("Hood/kD", 3);
+  public static LoggedTunableNumber statorCurrentTolerance =
+      new LoggedTunableNumber("Hood/StatorCurrentTolerance", 4);
+  public static LoggedTunableNumber statorCurrentDebounce =
+      new LoggedTunableNumber("Hood/StatorCurrentDebounce", 0.2);
 }

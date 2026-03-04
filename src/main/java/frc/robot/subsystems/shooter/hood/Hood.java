@@ -3,6 +3,8 @@ package frc.robot.subsystems.shooter.hood;
 import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -15,6 +17,10 @@ public class Hood extends SubsystemBase {
   private final HoodIOInputsAutoLogged inputs = new HoodIOInputsAutoLogged();
   private double goalPosition;
   private boolean isZeroing = false;
+
+  private final Debouncer statorCurrentDebouncer =
+      new Debouncer(statorCurrentDebounce.get(), DebounceType.kRising);
+  private double lastPosition = 0;
 
   public Hood(HoodIO io) {
     this.io = io;
@@ -29,8 +35,20 @@ public class Hood extends SubsystemBase {
     Logger.recordOutput("Shooter/Hood/Goal", goalPosition);
     Logger.recordOutput("Shooter/Hood/IsZeroing", isZeroing);
     if (!isZeroing) {
-      io.setPosition(goalPosition);
+      if (statorCurrentDebouncer.calculate(
+          inputs.statorCurrent < statorCurrentTolerance.get()
+              || Math.abs(lastPosition - inputs.positionDeg) > 0.05)) {
+        io.setPosition(goalPosition);
+      } else {
+        io.runVolts(0.0);
+        if (inputs.positionDeg - minPositionDegs > (maxPositionDegs - minPositionDegs) / 2.0) {
+          io.resetEncoder(maxPositionDegs - minPositionDegs);
+        } else {
+          io.resetEncoder(0.0);
+        }
+      }
     }
+    lastPosition = inputs.positionDeg;
   }
 
   public void setAngle(double angle) {
