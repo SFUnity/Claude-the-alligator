@@ -142,7 +142,7 @@ public class RobotContainer {
                 poseManager);
         spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
-        //intakePivot = new IntakePivot(new IntakePivotIO() {});
+        // intakePivot = new IntakePivot(new IntakePivotIO() {});
         intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
         flywheels = new Flywheels(new FlywheelsIO() {});
         turret = new Turret(new TurretIO() {});
@@ -370,20 +370,6 @@ public class RobotContainer {
     // controller.povDown().onTrue(climb.climbDown());
 
     // Intaking
-    new Trigger(intakePivot::intakeDown).whileTrue(intakeRollers.intake());
-    new Trigger(intakePivot::intakeDown).negate().whileTrue(intakeRollers.stop());
-    controller
-        .leftBumper()
-        .whileTrue(
-            intakePivot
-                .raise()
-                .alongWith(intakeRollers.stop(), Commands.runOnce(() -> intakeDown = false)));
-    controller
-        .leftTrigger()
-        .whileTrue(
-            intakePivot
-                .lower()
-                .alongWith(intakeRollers.intake(), Commands.runOnce(() -> intakeDown = true)));
     controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
     controller
