@@ -39,6 +39,7 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.intakePivot.IntakePivotIO;
 import frc.robot.subsystems.intakePivot.IntakePivotIOSim;
+import frc.robot.subsystems.intakePivot.IntakePivotIOTalon;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIO;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIOSim;
@@ -56,7 +57,6 @@ import frc.robot.subsystems.shooter.flywheels.FlywheelsIOSim;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.hood.HoodIO;
 import frc.robot.subsystems.shooter.hood.HoodIOSim;
-import frc.robot.subsystems.shooter.hood.HoodIOTalonFX;
 import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
@@ -142,11 +142,11 @@ public class RobotContainer {
                 poseManager);
         spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
-        intakePivot = new IntakePivot(new IntakePivotIO() {});
+        //intakePivot = new IntakePivot(new IntakePivotIO() {});
         intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
         flywheels = new Flywheels(new FlywheelsIO() {});
         turret = new Turret(new TurretIO() {});
-        // hood = new Hood(new HoodIO() {});
+        hood = new Hood(new HoodIO() {});
         kicker = new Kicker(new KickerIO() {});
 
         // * working ones below this line
@@ -160,11 +160,11 @@ public class RobotContainer {
         //         poseManager);
         // spindexer = new Spindexer(new SpindexerIOTalonFX());
         // climb = new Climb(new ClimbIOTalonFX());
-        // intakePivot = new IntakePivot(new IntakePivotIOTalon());
+        intakePivot = new IntakePivot(new IntakePivotIOTalon());
         // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         // flywheels = new Flywheels(new FlywheelsIOTalonFX());
         // turret = new Turret(new TurretIOTalonFX());
-        hood = new Hood(new HoodIOTalonFX());
+        // hood = new Hood(new HoodIOTalonFX());
         // kicker = new Kicker(new KickerIOTalonFX());
 
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
@@ -370,20 +370,20 @@ public class RobotContainer {
     // controller.povDown().onTrue(climb.climbDown());
 
     // Intaking
-    // new Trigger(intakePivot::intakeDown).whileTrue(intakeRollers.intake());
-    // new Trigger(intakePivot::intakeDown).negate().whileTrue(intakeRollers.stop());
-    // controller
-    //     .leftBumper()
-    //     .whileTrue(
-    //         intakePivot
-    //             .raise()
-    //             .alongWith(intakeRollers.stop(), Commands.runOnce(() -> intakeDown = false)));
-    // controller
-    //     .leftTrigger()
-    //     .whileTrue(
-    //         intakePivot
-    //             .lower()
-    //             .alongWith(intakeRollers.intake(), Commands.runOnce(() -> intakeDown = true)));
+    new Trigger(intakePivot::intakeDown).whileTrue(intakeRollers.intake());
+    new Trigger(intakePivot::intakeDown).negate().whileTrue(intakeRollers.stop());
+    controller
+        .leftBumper()
+        .whileTrue(
+            intakePivot
+                .raise()
+                .alongWith(intakeRollers.stop(), Commands.runOnce(() -> intakeDown = false)));
+    controller
+        .leftTrigger()
+        .whileTrue(
+            intakePivot
+                .lower()
+                .alongWith(intakeRollers.intake(), Commands.runOnce(() -> intakeDown = true)));
     controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
     controller
