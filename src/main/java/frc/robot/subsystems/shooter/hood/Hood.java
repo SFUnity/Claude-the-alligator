@@ -19,7 +19,7 @@ public class Hood extends SubsystemBase {
   private boolean isZeroing = false;
 
   private final Debouncer statorCurrentDebouncer =
-      new Debouncer(statorCurrentDebounce.get(), DebounceType.kRising);
+      new Debouncer(statorCurrentDebounce.get(), DebounceType.kFalling);
   private double lastPosition = 0;
 
   public Hood(HoodIO io) {
@@ -37,7 +37,7 @@ public class Hood extends SubsystemBase {
     if (!isZeroing) {
       if (statorCurrentDebouncer.calculate(
           inputs.statorCurrent < statorCurrentTolerance.get()
-              || Math.abs(lastPosition - inputs.positionDeg) > 0.05)) {
+              || Math.abs(lastPosition - inputs.positionDeg) > 0.02)) {
         io.setPosition(goalPosition);
       } else {
         io.runVolts(0.0);
