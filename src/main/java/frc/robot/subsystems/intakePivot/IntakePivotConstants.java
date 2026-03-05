@@ -30,4 +30,9 @@ public class IntakePivotConstants {
       new LoggedTunableNumber("Intake/jorkTolerance", 4);
   public static final LoggedTunableNumber isDownTolerance =
       new LoggedTunableNumber("Intake/isDownTolerance", 4);
+
+  public static final LoggedTunableNumber jorkUpVoltage =
+      new LoggedTunableNumber("Intake/jorkUpVoltage", -3.5);
+  public static final LoggedTunableNumber jorkDownVoltage =
+      new LoggedTunableNumber("Intake/jorkDownVoltage", 3.5);
 }

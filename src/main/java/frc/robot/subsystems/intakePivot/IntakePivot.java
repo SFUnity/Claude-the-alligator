@@ -73,7 +73,7 @@ public class IntakePivot extends SubsystemBase {
     return Commands.repeatingSequence(
             run(() -> {
                   positionSetpoint = loweredJorkAngle.get();
-                  io.setPivotPosition(positionSetpoint);
+                  io.runVolts(jorkDownVoltage.get());
                 })
                 .until(
                     () ->
@@ -81,7 +81,7 @@ public class IntakePivot extends SubsystemBase {
                             >= loweredJorkAngle.get() - jorkTolerance.get()),
             run(() -> {
                   positionSetpoint = raisedJorkAngle.get();
-                  io.setPivotPosition(positionSetpoint);
+                  io.runVolts(jorkUpVoltage.get());
                 })
                 .until(
                     () ->
