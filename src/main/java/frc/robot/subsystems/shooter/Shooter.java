@@ -91,6 +91,11 @@ public class Shooter extends VirtualSubsystem {
   private boolean upwardMovmentCorospondWithDirection;
   private FuelSim fuelSim;
   private final Timer fuelLaunchTimer = new Timer();
+  private final Timer fuelDelayTimer = new Timer();
+  private final LoggedTunableNumber fuelDelay = new LoggedTunableNumber("Shooter/FuelDelay", 0.02);
+  private boolean shoot = false;
+  LaunchingParameters params;
+
   private int prevHubScore = 0;
 
   public Shooter(
@@ -181,11 +186,16 @@ public class Shooter extends VirtualSubsystem {
         && isShooting
         && fuelLaunchTimer.hasElapsed(0.5)) {
       fuelLaunchTimer.restart();
-
+      fuelDelayTimer.restart();
+      shoot = true;
+      params = shooterUtil.getLaunchingParameters(true, false);
+    }
+    if (fuelDelayTimer.hasElapsed(fuelDelay.get()) && shoot) {
+      shoot = false;
       fuelSim.launchFuel(
-          MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
-          Degrees.of(90 - hood.getAngleDeg()),
-          Degrees.of(turret.getPositionDegs()),
+          MetersPerSecond.of(params.flywheelSpeed() * 2 * Math.PI * WheelRadius / 60),
+          Degrees.of(90 - params.hoodAngle()),
+          Degrees.of(params.turretAngle()),
           turretCenter);
     }
     if (prevHubScore != BLUE_HUB.getScore() + RED_HUB.getScore()) {
@@ -198,7 +208,8 @@ public class Shooter extends VirtualSubsystem {
             .getPose()
             .plus(toTransform2d(turretCenter.getX(), turretCenter.getY()))
             .getTranslation()
-            .getDistance(Hub.topCenterPoint.toTranslation2d()));
+            .getDistance(
+                AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d())));
   }
 
   public boolean readyToShoot() {

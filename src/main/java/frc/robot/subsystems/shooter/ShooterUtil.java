@@ -118,35 +118,33 @@ public class ShooterUtil {
     InterpolatingDoubleTreeMap flywheelSpeedMap;
     InterpolatingDoubleTreeMap timeOfFlightMap;
 
-    hoodAngleMap = scoreSimHoodAngleMap;
-    flywheelSpeedMap = scoreSimFlywheelSpeedMap;
-    timeOfFlightMap = scoreSimTimeOfFlightMap;
-    // if (isScoring) {
-    //   if (isReal) {
-    //     hoodAngleMap = scoreRealHoodAngleMap;
-    //     flywheelSpeedMap = scoreRealFlywheelSpeedMap;
-    //     timeOfFlightMap = scoreRealTimeOfFlightMap;
-    //   } else {
-    //     hoodAngleMap = scoreSimHoodAngleMap;
-    //     flywheelSpeedMap = scoreSimFlywheelSpeedMap;
-    //     timeOfFlightMap = scoreSimTimeOfFlightMap;
-    //   }
-    // } else {
-    //   if (isReal) {
-    //     hoodAngleMap = feedRealHoodAngleMap;
-    //     flywheelSpeedMap = feedRealFlywheelSpeedMap;
-    //     timeOfFlightMap = feedRealTimeOfFlightMap;
-    //   } else {
-    //     hoodAngleMap = feedSimHoodAngleMap;
-    //     flywheelSpeedMap = feedSimFlywheelSpeedMap;
-    //     timeOfFlightMap = feedSimTimeOfFlightMap;
-    //   }
-    // }
+    if (isScoring) {
+      if (isReal) {
+        hoodAngleMap = scoreRealHoodAngleMap;
+        flywheelSpeedMap = scoreRealFlywheelSpeedMap;
+        timeOfFlightMap = scoreRealTimeOfFlightMap;
+      } else {
+        hoodAngleMap = scoreSimHoodAngleMap;
+        flywheelSpeedMap = scoreSimFlywheelSpeedMap;
+        timeOfFlightMap = scoreSimTimeOfFlightMap;
+      }
+    } else {
+      if (isReal) {
+        hoodAngleMap = feedRealHoodAngleMap;
+        flywheelSpeedMap = feedRealFlywheelSpeedMap;
+        timeOfFlightMap = feedRealTimeOfFlightMap;
+      } else {
+        hoodAngleMap = feedSimHoodAngleMap;
+        flywheelSpeedMap = feedSimFlywheelSpeedMap;
+        timeOfFlightMap = feedSimTimeOfFlightMap;
+      }
+    }
 
     Pose2d robotPose = poseManager.getPose();
     Twist2d robotVelocity = poseManager.getRobotVelocity();
-    Translation2d targetPose =
+    Translation2d targetPose = // TODO change if feeding and not scoring
         AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
+    Logger.recordOutput("Shooter/Turret/Target", targetPose);
     robotPose =
         robotPose.exp(
             new Twist2d(
@@ -159,6 +157,8 @@ public class ShooterUtil {
             new Transform2d(
                 turretCenter.getTranslation().toTranslation2d(),
                 turretCenter.getRotation().toRotation2d()));
+
+    Logger.recordOutput("Shooter/Turret/CurrentTurretPose", turretPosition);
     double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation());
 
     Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
@@ -179,7 +179,7 @@ public class ShooterUtil {
     double lookaheadTurretToTargetDistance = turretToTargetDistance;
     for (int i = 0; i < 20; i++) {
       timeOfFlight = timeOfFlightMap.get(lookaheadTurretToTargetDistance);
-      timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
+      // timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
       double offsetX = turretVelocityX * timeOfFlight;
       double offsetY = turretVelocityY * timeOfFlight;
       lookeaheadPose =
@@ -188,8 +188,21 @@ public class ShooterUtil {
               turretPosition.getRotation());
       lookaheadTurretToTargetDistance = targetPose.getDistance(lookeaheadPose.getTranslation());
     }
+    // if (lookeaheadPose.getX() < 0)
+    //   lookeaheadPose = new Pose2d(0, lookeaheadPose.getY(), lookeaheadPose.getRotation());
+    // if (lookeaheadPose.getX() > fieldLength)
+    //   lookeaheadPose = new Pose2d(fieldLength, lookeaheadPose.getY(),
+    // lookeaheadPose.getRotation());
+    // if (lookeaheadPose.getY() < 0)
+    //   lookeaheadPose = new Pose2d(lookeaheadPose.getX(), 0, lookeaheadPose.getRotation());
+    // if (lookeaheadPose.getY() > fieldWidth)
+    //   lookeaheadPose = new Pose2d(lookeaheadPose.getX(), fieldWidth,
+    // lookeaheadPose.getRotation());
+
     Logger.recordOutput(
         "Shooter/Turret/LookaheadTurretToTargetDist", lookaheadTurretToTargetDistance);
+
+    Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
 
     turretAngle = targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees();
     hoodAngle = hoodAngleMap.get(lookaheadTurretToTargetDistance);
