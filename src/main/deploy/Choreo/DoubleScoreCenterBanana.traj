@@ -534,7 +534,7 @@
    {"name":"StartShoot", "from":{"target":5, "targetTimestamp":6.14017, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StartIntake", "from":{"target":1, "targetTimestamp":1.04843, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StopIntake", "from":{"target":3, "targetTimestamp":3.78655, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StartIntake", "from":{"target":6, "targetTimestamp":7.1354, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StopIntake", "from":{"target":9, "targetTimestamp":12.91735, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StartShoot", "from":{"target":10, "targetTimestamp":13.76528, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
+   {"name":"StartIntake2", "from":{"target":6, "targetTimestamp":7.1354, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StopIntake2", "from":{"target":9, "targetTimestamp":12.91735, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartShoot2", "from":{"target":10, "targetTimestamp":13.76528, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
