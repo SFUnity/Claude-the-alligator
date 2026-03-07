@@ -39,7 +39,6 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.intakePivot.IntakePivotIO;
 import frc.robot.subsystems.intakePivot.IntakePivotIOSim;
-import frc.robot.subsystems.intakePivot.IntakePivotIOTalon;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIO;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIOSim;
@@ -60,6 +59,7 @@ import frc.robot.subsystems.shooter.hood.HoodIOSim;
 import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
+import frc.robot.subsystems.shooter.turret.TurretIOTalonFX;
 import frc.robot.util.FuelSim;
 import frc.robot.util.PoseManager;
 import frc.robot.util.ShiftHelpers;
@@ -142,10 +142,10 @@ public class RobotContainer {
                 poseManager);
         spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
-        // intakePivot = new IntakePivot(new IntakePivotIO() {});
+        intakePivot = new IntakePivot(new IntakePivotIO() {});
         intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
         flywheels = new Flywheels(new FlywheelsIO() {});
-        turret = new Turret(new TurretIO() {});
+        // turret = new Turret(new TurretIO() {});
         hood = new Hood(new HoodIO() {});
         kicker = new Kicker(new KickerIO() {});
 
@@ -160,10 +160,10 @@ public class RobotContainer {
         //         poseManager);
         // spindexer = new Spindexer(new SpindexerIOTalonFX());
         // climb = new Climb(new ClimbIOTalonFX());
-        intakePivot = new IntakePivot(new IntakePivotIOTalon());
+        // intakePivot = new IntakePivot(new IntakePivotIOTalon());
         // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         // flywheels = new Flywheels(new FlywheelsIOTalonFX());
-        // turret = new Turret(new TurretIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
         // hood = new Hood(new HoodIOTalonFX());
         // kicker = new Kicker(new KickerIOTalonFX());
 
@@ -370,7 +370,8 @@ public class RobotContainer {
     // controller.povDown().onTrue(climb.climbDown());
 
     // Intaking
-    controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
+    // controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
+    controller.leftBumper().whileTrue(shooter.incrementTurretAngle());
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
     controller
         .leftBumper()
@@ -378,8 +379,9 @@ public class RobotContainer {
         .whileTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker));
 
     // Shooting
-    controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-    controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    // controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    // controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    controller.rightBumper().whileTrue(shooter.decrementTurretAngle());
 
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));

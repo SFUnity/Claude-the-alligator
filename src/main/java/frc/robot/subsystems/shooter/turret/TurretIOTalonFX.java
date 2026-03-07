@@ -4,7 +4,7 @@ import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DynamicMotionMagicExpoVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -20,8 +20,8 @@ public class TurretIOTalonFX implements TurretIO {
 
   private final NeutralOut neutralOut = new NeutralOut();
   private final VoltageOut voltageOut = new VoltageOut(0).withEnableFOC(true);
-  private final DynamicMotionMagicExpoVoltage motionMagicExpoVoltage =
-      new DynamicMotionMagicExpoVoltage(0, 0, 0).withEnableFOC(true);
+  private final MotionMagicVoltage motionMagicExpoVoltage =
+      new MotionMagicVoltage(0).withEnableFOC(true);
 
   double talonVelocity;
   double talonRotations;
@@ -35,11 +35,15 @@ public class TurretIOTalonFX implements TurretIO {
     TalonFXConfiguration configs = new TalonFXConfiguration();
     configs.MotorOutput.Inverted =
         motorInverted ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;
-    configs.Feedback.SensorToMechanismRatio = gearRatio;
+    // configs.Feedback.SensorToMechanismRatio = gearRatio;
     configs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     configs.CurrentLimits.StatorCurrentLimit = 80.0;
     configs.CurrentLimits.StatorCurrentLimitEnable = true;
     configs.CurrentLimits.SupplyCurrentLimit = 60.0;
+    configs.Slot0.kP = 0.2;
+    configs.Slot0.kV = 0.12;
+    configs.MotionMagic.MotionMagicCruiseVelocity = 360;
+    configs.MotionMagic.MotionMagicAcceleration = 360;
 
     tryUntilOk(5, () -> talon.getConfigurator().apply(configs, 0.25));
   }
@@ -74,11 +78,7 @@ public class TurretIOTalonFX implements TurretIO {
     //             + (Units.degreesToRadians(targetVelocity) -
     // Units.rotationsToRadians(talonVelocity))
     //                 * kV));
-    talon.setControl(
-        motionMagicExpoVoltage
-            .withPosition(targetRotations)
-            .withVelocity(targetVelocity)
-            .withKA(kA)
-            .withKV(kV));
+    // TODO change if dist is further than a point
+    talon.setControl(motionMagicExpoVoltage.withPosition(targetRotations));
   }
 }

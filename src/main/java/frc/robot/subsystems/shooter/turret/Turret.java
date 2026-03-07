@@ -53,12 +53,14 @@ public class Turret extends SubsystemBase {
   private final Debouncer encoder2DisconnectedDebouncer =
       new Debouncer(0.5, Debouncer.DebounceType.kRising);
 
-  private final double talonOffsetRots;
+  private double talonOffsetRots;
+
+  private double motorOffsetDegs = -1;
 
   public Turret(TurretIO io) {
     this.io = io;
     io.updateInputs(inputs);
-    double motorOffsetDegs = getMotorOffsetDegs(); // TODO change later
+    motorOffsetDegs = getMotorOffsetDegs();
     Logger.recordOutput("Shooter/Turret/MotorOffsetDegs", motorOffsetDegs);
     if (motorOffsetDegs < trueMinAngleDegs || motorOffsetDegs > trueMaxAngleDegs) {
       eDisabled = true;
@@ -72,19 +74,8 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    truePositionDegs = getPositionDegs();
+    truePositionDegs = getPositionDegs() / gearRatio;
     positionDegs = MathUtil.inputModulus(truePositionDegs, 0, 360);
-
-    if (maxVelocity.hasChanged(hashCode())) {
-      profile =
-          new TrapezoidProfile(
-              new TrapezoidProfile.Constraints(maxVelocity.get(), maxAcceleration.get()));
-    }
-    if (maxAcceleration.hasChanged(hashCode())) {
-      profile =
-          new TrapezoidProfile(
-              new TrapezoidProfile.Constraints(maxVelocity.get(), maxAcceleration.get()));
-    }
 
     Logger.recordOutput("Shooter/Turret/TruePositionDegs", truePositionDegs);
     Logger.recordOutput("Shooter/Turret/PositionDegs", positionDegs);
@@ -92,63 +83,93 @@ public class Turret extends SubsystemBase {
     Logger.processInputs("Shooter/Turret", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Turret");
 
-    encoder1Disconnected.set(encoder1DisconnectedDebouncer.calculate(inputs.encoder1Disconnected));
-    encoder2Disconnected.set(encoder2DisconnectedDebouncer.calculate(inputs.encoder2Disconnected));
+    if (motorOffsetDegs != -1) {
 
-    if (!eDisabled) {
-      boolean outOfBounds =
-          outOfBoundsDebouncer.calculate(
-              (truePositionDegs < trueMinAngleDegs + 10 && inputs.velocityDegsPerSec < 0)
-                  || (truePositionDegs > trueMaxAngleDegs - 10 && inputs.velocityDegsPerSec > 0));
-      boolean encoderBroken =
-          encoderBrokenDebouncer.calculate(
-              Math.abs(inputs.appliedVolts) > 0.01 && inputs.talonRotations == lastTalonRotations);
-      lastTalonRotations = inputs.talonRotations;
+      if (maxVelocity.hasChanged(hashCode())) {
+        profile =
+            new TrapezoidProfile(
+                new TrapezoidProfile.Constraints(maxVelocity.get(), maxAcceleration.get()));
+      }
+      if (maxAcceleration.hasChanged(hashCode())) {
+        profile =
+            new TrapezoidProfile(
+                new TrapezoidProfile.Constraints(maxVelocity.get(), maxAcceleration.get()));
+      }
 
-      Logger.recordOutput("Shooter/Turret/outOfBounds", outOfBounds);
-      Logger.recordOutput("Shooter/Turret/encoderBroken", encoderBroken);
+      encoder1Disconnected.set(
+          encoder1DisconnectedDebouncer.calculate(inputs.encoder1Disconnected));
+      encoder2Disconnected.set(
+          encoder2DisconnectedDebouncer.calculate(inputs.encoder2Disconnected));
 
-      eDisabled = outOfBounds || encoderBroken;
+      eDisabled = false; // shh
 
-      double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
-      double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
+      if (!eDisabled) {
+        boolean outOfBounds =
+            outOfBoundsDebouncer.calculate(
+                (truePositionDegs < trueMinAngleDegs + 10 && inputs.velocityDegsPerSec < 0)
+                    || (truePositionDegs > trueMaxAngleDegs - 10 && inputs.velocityDegsPerSec > 0));
+        boolean encoderBroken =
+            encoderBrokenDebouncer.calculate(
+                Math.abs(inputs.appliedVolts) > 0.01
+                    && inputs.talonRotations == lastTalonRotations);
+        lastTalonRotations = inputs.talonRotations;
 
-      boolean hasBestAngle = false;
-      double bestAngle = 0;
+        Logger.recordOutput("Shooter/Turret/outOfBounds", outOfBounds);
+        Logger.recordOutput("Shooter/Turret/encoderBroken", encoderBroken);
 
-      // replace
-      for (int i = 0; i < 5; i++) {
-        double potentialSetpoint = targetDegs + 360 * i;
-        if (potentialSetpoint < minLegalAngle || potentialSetpoint > maxLegalAngle) {
-          continue;
-        } else {
-          if (!hasBestAngle) {
-            bestAngle = potentialSetpoint;
-            hasBestAngle = true;
-          }
-          if (Math.abs(lastTargetDegs - potentialSetpoint) < Math.abs(lastTargetDegs - bestAngle)) {
-            bestAngle = potentialSetpoint;
+        eDisabled = outOfBounds || encoderBroken;
+
+        double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
+        double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
+
+        boolean hasBestAngle = false;
+        double bestAngle = 0;
+
+        // replace
+        for (int i = 0; i < 5; i++) {
+          double potentialSetpoint = targetDegs + 360 * i;
+          if (potentialSetpoint < minLegalAngle || potentialSetpoint > maxLegalAngle) {
+            continue;
+          } else {
+            if (!hasBestAngle) {
+              bestAngle = potentialSetpoint;
+              hasBestAngle = true;
+            }
+            if (Math.abs(lastTargetDegs - potentialSetpoint)
+                < Math.abs(lastTargetDegs - bestAngle)) {
+              bestAngle = potentialSetpoint;
+            }
           }
         }
+        lastTargetDegs = bestAngle;
+
+        Logger.recordOutput("Shooter/Turret/GoalAngle", bestAngle);
+
+        State goalState =
+            new State(MathUtil.clamp(bestAngle, minLegalAngle, maxLegalAngle), targetVelocity);
+
+        setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
+
+        Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
+        targetDegs = setpoint.position;
+
+        double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
+        targetRotations -= talonOffsetRots;
+        Logger.recordOutput("Shooter/Turret/SetpointRotations", targetRotations);
+        io.turnTurret(targetRotations, setpoint.velocity, kA.get(), kV.get());
+      } else {
+        io.stop();
       }
-      lastTargetDegs = bestAngle;
-
-      Logger.recordOutput("Shooter/Turret/GoalAngle", bestAngle);
-
-      State goalState =
-          new State(MathUtil.clamp(bestAngle, minLegalAngle, maxLegalAngle), targetVelocity);
-
-      setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
-
-      Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
-      targetDegs = setpoint.position;
-
-      double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
-      targetRotations -= talonOffsetRots;
-      Logger.recordOutput("Shooter/Turret/SetpointRotations", targetRotations);
-      io.turnTurret(targetRotations, setpoint.velocity, kA.get(), kV.get());
     } else {
-      io.stop();
+      motorOffsetDegs = getMotorOffsetDegs();
+      talonOffsetRots =
+          Units.degreesToRotations(motorOffsetDegs) * gearRatio - inputs.talonRotations;
+      Logger.recordOutput("Shooter/Turret/MotorOffsetDegs", motorOffsetDegs);
+      if (motorOffsetDegs < trueMinAngleDegs || motorOffsetDegs > trueMaxAngleDegs) {
+        eDisabled = true;
+      } else {
+        eDisabled = false;
+      }
     }
   }
 
@@ -175,13 +196,13 @@ public class Turret extends SubsystemBase {
   }
 
   public double getMotorOffsetDegs() {
-    double position1 = inputs.encoder1Rotations;
-    double position2 = inputs.encoder2Rotations;
+    double position1 = MathUtil.inputModulus(inputs.encoder1Rotations, 0, 1);
+    double position2 = MathUtil.inputModulus(inputs.encoder2Rotations, 0, 1);
     return getMotorOffsetDegsTestable(position1, position2);
   }
 
   public double getPositionDegs() {
-    return Units.rotationsToDegrees(inputs.talonRotations + talonOffsetRots) / gearRatio;
+    return Units.rotationsToDegrees(inputs.talonRotations + talonOffsetRots);
   }
 
   public boolean getEDisabled() {

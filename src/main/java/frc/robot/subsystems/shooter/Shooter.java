@@ -39,8 +39,9 @@ public class Shooter extends VirtualSubsystem {
       new ShooterVisualizer("Measured", Color.kRed);
   private final ShooterVisualizer setpointVisualizer =
       new ShooterVisualizer("Setpoint", Color.kBlue);
-  private final LoggedTunableNumber fakeTurretAngle =
-      new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
+  // private final LoggedTunableNumber fakeTurretAngle =
+  //     new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
+  private double fakeTurretAngle = 0;
   private final LoggedTunableNumber fakeTurretVelocity =
       new LoggedTunableNumber("Shooter/FakeTurretVelocity", 0);
   private final LoggedTunableNumber fakeHoodAngle =
@@ -153,7 +154,7 @@ public class Shooter extends VirtualSubsystem {
     }
 
     if (currentMode != Constants.simMode) {
-      turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+      turret.setTarget(fakeTurretAngle, fakeTurretVelocity.get());
       hood.setAngle(hoodIsSafe ? fakeHoodAngle.get() : HoodConstants.minPositionDegs);
       if (isScoring) {
         if (isClose) {
@@ -165,7 +166,7 @@ public class Shooter extends VirtualSubsystem {
         flywheels.setVelocity(fakeFeedingVelocity.get());
       }
     } else {
-      turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+      turret.setTarget(fakeTurretAngle, fakeTurretVelocity.get());
       hood.setAngle(fakeHoodAngle.get());
       flywheels.setVelocity(fakeFlywheelVelocity.get());
     }
@@ -344,6 +345,14 @@ public class Shooter extends VirtualSubsystem {
       // swap for solution.hoodAngle() when working
       hood.setAngle(341.5);
     }
+  }
+
+  public Command incrementTurretAngle() {
+    return run(() -> fakeTurretAngle++);
+  }
+
+  public Command decrementTurretAngle() {
+    return run(() -> fakeTurretAngle--);
   }
 
   private void LogTrenchAvoidence() {
