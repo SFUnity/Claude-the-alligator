@@ -300,7 +300,7 @@ public class RobotContainer {
 
   /**
    * Green light when the hub is active, white light when it's inactive. Three seconds before the
-   * end of a shift, the light will blink white and green. During transition perionds yellow light.
+   * end of a shift, the light will blink white and green. During transition periods yellow light.
    */
   public void dashboardSetup() {
     Color hubOff = new Color(255, 255, 255);
@@ -371,7 +371,7 @@ public class RobotContainer {
 
     // Intaking
     // controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
-    controller.leftBumper().whileTrue(shooter.incrementTurretAngle());
+    // controller.leftBumper().whileTrue(shooter.incrementTurretAngle());
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
     controller
         .leftBumper()
@@ -379,9 +379,9 @@ public class RobotContainer {
         .whileTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker));
 
     // Shooting
-    // controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-    // controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    controller.rightBumper().whileTrue(shooter.decrementTurretAngle());
+    controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    // controller.rightBumper().whileTrue(shooter.decrementTurretAngle());
 
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));

@@ -39,9 +39,9 @@ public class Shooter extends VirtualSubsystem {
       new ShooterVisualizer("Measured", Color.kRed);
   private final ShooterVisualizer setpointVisualizer =
       new ShooterVisualizer("Setpoint", Color.kBlue);
-  // private final LoggedTunableNumber fakeTurretAngle =
-  //     new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
-  private double fakeTurretAngle = 0;
+  private final LoggedTunableNumber fakeTurretAngle =
+      new LoggedTunableNumber("Shooter/FakeTurretAngle", 0);
+  // private double fakeTurretAngle = 0;
   private final LoggedTunableNumber fakeTurretVelocity =
       new LoggedTunableNumber("Shooter/FakeTurretVelocity", 0);
   private final LoggedTunableNumber fakeHoodAngle =
@@ -154,7 +154,7 @@ public class Shooter extends VirtualSubsystem {
     }
 
     if (currentMode != Constants.simMode) {
-      turret.setTarget(fakeTurretAngle, fakeTurretVelocity.get());
+      turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
       hood.setAngle(hoodIsSafe ? fakeHoodAngle.get() : HoodConstants.minPositionDegs);
       if (isScoring) {
         if (isClose) {
@@ -166,7 +166,7 @@ public class Shooter extends VirtualSubsystem {
         flywheels.setVelocity(fakeFeedingVelocity.get());
       }
     } else {
-      turret.setTarget(fakeTurretAngle, fakeTurretVelocity.get());
+      turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
       hood.setAngle(fakeHoodAngle.get());
       flywheels.setVelocity(fakeFlywheelVelocity.get());
     }
@@ -186,19 +186,24 @@ public class Shooter extends VirtualSubsystem {
     if (Constants.currentMode == Constants.simMode
         && isShooting
         && fuelLaunchTimer.hasElapsed(0.5)) {
+      fuelSim.launchFuel(
+          MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
+          Degrees.of(90 - fakeHoodAngle.get()),
+          Degrees.of(fakeTurretAngle.get()),
+          turretCenter);
       fuelLaunchTimer.restart();
       fuelDelayTimer.restart();
       shoot = true;
-      params = shooterUtil.getLaunchingParameters(true, false);
+      // params = shooterUtil.getLaunchingParameters(true, false);
     }
-    if (fuelDelayTimer.hasElapsed(fuelDelay.get()) && shoot) {
-      shoot = false;
-      fuelSim.launchFuel(
-          MetersPerSecond.of(params.flywheelSpeed() * 2 * Math.PI * WheelRadius / 60),
-          Degrees.of(90 - params.hoodAngle()),
-          Degrees.of(params.turretAngle()),
-          turretCenter);
-    }
+    // if (fuelDelayTimer.hasElapsed(fuelDelay.get()) && shoot) {
+    //   shoot = false;
+    //   fuelSim.launchFuel(
+    //       MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
+    //       Degrees.of(90 - fakeHoodAngle.get()),
+    //       Degrees.of(fakeTurretAngle.get()),
+    //       turretCenter);
+    // }
     if (prevHubScore != BLUE_HUB.getScore() + RED_HUB.getScore()) {
       Logger.recordOutput("Shooter/FlightTime", fuelLaunchTimer.get());
       prevHubScore = BLUE_HUB.getScore() + RED_HUB.getScore();
@@ -347,13 +352,13 @@ public class Shooter extends VirtualSubsystem {
     }
   }
 
-  public Command incrementTurretAngle() {
-    return run(() -> fakeTurretAngle++);
-  }
+  // public Command incrementTurretAngle() {
+  //   return run(() -> fakeTurretAngle++);
+  // }
 
-  public Command decrementTurretAngle() {
-    return run(() -> fakeTurretAngle--);
-  }
+  // public Command decrementTurretAngle() {
+  //   return run(() -> fakeTurretAngle--);
+  // }
 
   private void LogTrenchAvoidence() {
     Logger.recordOutput("Controls/Trench Avoidence/closeBorder", closeBorder);
