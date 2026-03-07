@@ -97,7 +97,7 @@ public class Autos {
     chooser.addRoutine("Complete Upper Feed", this::CompleteUpperFeed);
     // chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
     // chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
-    // chooser.addRoutine("Double Score Center", this::DoubleScoreCenter);
+    // chooser.addRoutine("Double Score Center Banana", this::DoubleScoreCenterBanana);
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
 
     // not as necessary
@@ -381,19 +381,19 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine DoubleScoreCenter() {
+  public AutoRoutine DoubleScoreCenterBanana() {
     AutoRoutine routine = factory.newRoutine("Double Score Center Auto Routine");
-    AutoTrajectory DoubleScoreCenter = routine.trajectory("DoubleScoreCenter");
+    AutoTrajectory DoubleScoreCenterBanana = routine.trajectory("DoubleScoreCenterBanana");
     routine
         .active()
-        .onTrue(Commands.sequence(DoubleScoreCenter.resetOdometry(), DoubleScoreCenter.cmd()));
-    DoubleScoreCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    DoubleScoreCenter.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreCenter.atTime("StartShoot")
+        .onTrue(Commands.sequence(DoubleScoreCenterBanana.resetOdometry(), DoubleScoreCenterBanana.cmd()));
+    DoubleScoreCenterBanana.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+    DoubleScoreCenterBanana.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
+    DoubleScoreCenterBanana.atTime("StartShoot")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    DoubleScoreCenter.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
-    DoubleScoreCenter.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreCenter.atTime("StartShoot2")
+    DoubleScoreCenterBanana.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
+    DoubleScoreCenterBanana.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
+    DoubleScoreCenterBanana.atTime("StartShoot2")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
   }
