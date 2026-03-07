@@ -186,24 +186,24 @@ public class Shooter extends VirtualSubsystem {
     if (Constants.currentMode == Constants.simMode
         && isShooting
         && fuelLaunchTimer.hasElapsed(0.5)) {
-      fuelSim.launchFuel(
-          MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
-          Degrees.of(90 - fakeHoodAngle.get()),
-          Degrees.of(fakeTurretAngle.get()),
-          turretCenter);
+      // fuelSim.launchFuel(
+      //     MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
+      //     Degrees.of(90 - fakeHoodAngle.get()),
+      //     Degrees.of(fakeTurretAngle.get()),
+      //     turretCenter);
       fuelLaunchTimer.restart();
       fuelDelayTimer.restart();
       shoot = true;
-      // params = shooterUtil.getLaunchingParameters(true, false);
+      params = shooterUtil.getLaunchingParameters(true, false);
     }
-    // if (fuelDelayTimer.hasElapsed(fuelDelay.get()) && shoot) {
-    //   shoot = false;
-    //   fuelSim.launchFuel(
-    //       MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
-    //       Degrees.of(90 - fakeHoodAngle.get()),
-    //       Degrees.of(fakeTurretAngle.get()),
-    //       turretCenter);
-    // }
+    if (fuelDelayTimer.hasElapsed(fuelDelay.get()) && shoot) {
+      shoot = false;
+      fuelSim.launchFuel(
+          MetersPerSecond.of(params.flywheelSpeed() * 2 * Math.PI * WheelRadius / 60),
+          Degrees.of(90 - params.hoodAngle()),
+          Degrees.of(params.turretAngle()),
+          turretCenter);
+    }
     if (prevHubScore != BLUE_HUB.getScore() + RED_HUB.getScore()) {
       Logger.recordOutput("Shooter/FlightTime", fuelLaunchTimer.get());
       prevHubScore = BLUE_HUB.getScore() + RED_HUB.getScore();
