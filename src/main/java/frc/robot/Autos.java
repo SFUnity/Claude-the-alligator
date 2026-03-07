@@ -423,7 +423,8 @@ public class Autos {
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5),
                 segment1.cmd(),
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5),
-                segment2.cmd()));
+                segment2.cmd(),
+                RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
 
