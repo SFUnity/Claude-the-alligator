@@ -25,6 +25,11 @@ public class Kicker extends SubsystemBase {
   @AutoLogOutput(key = "Rollers/Kicker/LaunchCount")
   private long launchCount = 0;
 
+  private final double fuelCountDelay = 0.2;
+  private final double fuelDistance = 1;
+
+  private Debouncer fuelCountDebouncer = new Debouncer(fuelCountDelay, DebounceType.kRising);
+
   public enum KickerState {
     RUN,
     STOP,
@@ -64,6 +69,9 @@ public class Kicker extends SubsystemBase {
       case RUN:
         runVelocity(RPMSetpoint.get());
     }
+    if (fuelCountDebouncer.calculate(inputs.laserMeasurementInches < fuelDistance)) {
+      launchCount++;
+    }
   }
 
   /** Run closed loop at the specified velocity. */
@@ -73,9 +81,9 @@ public class Kicker extends SubsystemBase {
     boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
     atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
 
-    if (!torqueCurrentControl && lastTorqueCurrentControl) {
-      launchCount++;
-    }
+    // if (!torqueCurrentControl && lastTorqueCurrentControl) {
+    //   launchCount++;
+    // }
     lastTorqueCurrentControl = torqueCurrentControl;
 
     if (inputs.velocityRotsPerMin < velocityRPM) {
