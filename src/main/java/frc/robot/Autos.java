@@ -98,7 +98,7 @@ public class Autos {
     // chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
     // chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
     // chooser.addRoutine("Double Score Center Banana", this::DoubleScoreCenterBanana);
-    // chooser.addRoutine("Double Score Center Loop", this::DoubleScoreCenterLoop);
+    chooser.addRoutine("Double Score Center Loop", this::DoubleScoreCenterLoop);
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
 
     // not as necessary
@@ -404,19 +404,26 @@ public class Autos {
 
   public AutoRoutine DoubleScoreCenterLoop() {
     AutoRoutine routine = factory.newRoutine("Double Score Center Loop Auto Routine");
-    AutoTrajectory DoubleScoreCenterLoop = routine.trajectory("DoubleScoreCenterLoop");
+    AutoTrajectory segment0 = routine.trajectory("DoubleScoreCenterLoop", 0);
+    AutoTrajectory segment1 = routine.trajectory("DoubleScoreCenterLoop", 1);
+    AutoTrajectory segment2 = routine.trajectory("DoubleScoreCenterLoop", 2);
+
+    segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+    segment0.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
+
+    segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
+    segment1.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
+
     routine
         .active()
         .onTrue(
-            Commands.sequence(DoubleScoreCenterLoop.resetOdometry(), DoubleScoreCenterLoop.cmd()));
-    DoubleScoreCenterLoop.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    DoubleScoreCenterLoop.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreCenterLoop.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    DoubleScoreCenterLoop.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
-    DoubleScoreCenterLoop.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreCenterLoop.atTime("StartShoot2")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
+            Commands.sequence(
+                segment0.resetOdometry(),
+                segment0.cmd(),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5),
+                segment1.cmd(),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5),
+                segment2.cmd()));
     return routine;
   }
 
