@@ -387,12 +387,15 @@ public class Autos {
     AutoTrajectory DoubleScoreCenterBanana = routine.trajectory("DoubleScoreCenterBanana");
     routine
         .active()
-        .onTrue(Commands.sequence(DoubleScoreCenterBanana.resetOdometry(), DoubleScoreCenterBanana.cmd()));
+        .onTrue(
+            Commands.sequence(
+                DoubleScoreCenterBanana.resetOdometry(), DoubleScoreCenterBanana.cmd()));
     DoubleScoreCenterBanana.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     DoubleScoreCenterBanana.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
     DoubleScoreCenterBanana.atTime("StartShoot")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    DoubleScoreCenterBanana.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
+    DoubleScoreCenterBanana.atTime("StartIntake2")
+        .onTrue(RobotCommands.intake(intake, intakePivot));
     DoubleScoreCenterBanana.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
     DoubleScoreCenterBanana.atTime("StartShoot2")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
@@ -404,7 +407,8 @@ public class Autos {
     AutoTrajectory DoubleScoreCenterLoop = routine.trajectory("DoubleScoreCenterLoop");
     routine
         .active()
-        .onTrue(Commands.sequence(DoubleScoreCenterLoop.resetOdometry(), DoubleScoreCenterLoop.cmd()));
+        .onTrue(
+            Commands.sequence(DoubleScoreCenterLoop.resetOdometry(), DoubleScoreCenterLoop.cmd()));
     DoubleScoreCenterLoop.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     DoubleScoreCenterLoop.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
     DoubleScoreCenterLoop.atTime("StartShoot")
