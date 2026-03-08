@@ -408,21 +408,18 @@ public class Autos {
     AutoTrajectory segment1 = routine.trajectory("DoubleScoreCenterLoop", 1);
     AutoTrajectory segment2 = routine.trajectory("DoubleScoreCenterLoop", 2);
 
-    segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment0.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
-
-    segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment1.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
- 
-    routine
-        .active()
+    routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
+    segment0
+        .done()
         .onTrue(
             Commands.sequence(
-                segment0.resetOdometry(),
-                segment0.cmd(),
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
-                segment1.cmd(),
+                segment1.cmd()));
+    segment1
+        .done()
+        .onTrue(
+            Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment2.cmd(),
