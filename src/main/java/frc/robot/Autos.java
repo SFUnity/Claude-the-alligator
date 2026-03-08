@@ -100,7 +100,7 @@ public class Autos {
     // chooser.addRoutine("Double Score Center Banana", this::DoubleScoreCenterBanana);
     chooser.addRoutine("Double Score Center Loop", this::DoubleScoreCenterLoop);
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
-    // chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
+    chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
