@@ -71,7 +71,7 @@ public class Hood extends SubsystemBase {
 
   public Command runCurrentZeroing() {
     return run(() -> io.runVolts(-1.0))
-        .until(() -> inputs.supplyCurrent > 30.0)
+        .until(() -> inputs.statorCurrent > 90.0)
         .finallyDo(
             () -> {
               io.resetEncoder(0.0);
