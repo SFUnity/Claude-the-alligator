@@ -19,7 +19,7 @@ public class RobotCommands {
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.parallel(
             spindexer.stop(),
-            waitSeconds(0.3).andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP)))
+            waitSeconds(0.7).andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP)))
         .withName("StopShoot");
   }
 
