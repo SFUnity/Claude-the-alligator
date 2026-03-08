@@ -7,7 +7,8 @@ public interface KickerIO {
   public static class KickerIOInputs {
     public double appliedVolts = 0.0;
     public double currentAmps = 0.0;
-    public double velocity = 0.0;
+    public double velocityRotsPerMin = 0.0;
+    public double laserMeasurementInches = 0;
   }
 
   public default void updateInputs(KickerIOInputs inputs) {}
@@ -16,5 +17,11 @@ public interface KickerIO {
 
   public default void stop() {}
 
-  public default void runVelocity(double rps) {}
+  public default void runDutyCycle() {}
+
+  public default void runTorqueControl() {}
+
+  public default void runTorqueControl(double rps) {}
+
+  public default void runSlowDutyCycle(double rpm) {}
 }

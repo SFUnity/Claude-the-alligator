@@ -3,21 +3,18 @@ package frc.robot.subsystems.shooter.flywheels;
 import frc.robot.util.LoggedTunableNumber;
 
 public class FlywheelsConstants {
-  public static final int leaderID = 0;
-  public static final int followID = 0;
+  public static final int leaderID = 10;
+  public static final int followID = 11;
+
+  public static final double gearRatio = 3 / 5; // step up so less than one
 
   public static final LoggedTunableNumber readyRPMSetpoint =
       new LoggedTunableNumber("Flywheels/readyRPM", 100);
-  public static final LoggedTunableNumber ballShotSetpointOffset =
-      new LoggedTunableNumber("Flywheels/ballShotSetpointOffset", 100);
 
-  public static final LoggedTunableNumber torqueCurrentTolerance =
-      new LoggedTunableNumber("Flywheel/TorqueCurrentTolerance", 1200.0);
-  public static final LoggedTunableNumber torqueCurrentDebounce =
-      new LoggedTunableNumber("Flywheel/TorqueCurrentDebounce", 0.025);
+  public static final LoggedTunableNumber torqueCurrentControlTolerance =
+      new LoggedTunableNumber("Flywheels/TorqueCurrentControlTolerance", 50);
+  public static final LoggedTunableNumber torqueCurrentControlDebounce =
+      new LoggedTunableNumber("Flywheels/TorqueCurrentControlDebounce", 0.03);
   public static final LoggedTunableNumber atGoalDebounce =
-      new LoggedTunableNumber("Flywheel/AtGoalDebounce", 0.2);
-
-  public static final LoggedTunableNumber flywheelTolerance =
-      new LoggedTunableNumber("Flywheels/tolerance", 5); // TODO tune
+      new LoggedTunableNumber("Flywheels/AtGoalDebounce", 0.2);
 }

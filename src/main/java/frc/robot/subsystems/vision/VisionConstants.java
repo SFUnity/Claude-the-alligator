@@ -10,42 +10,40 @@ public class VisionConstants {
   public static AprilTagFieldLayout aprilTagLayout =
       AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
-  public static final String leftName = "limelight-left";
-  // Change the camera pose relative to robot center (x forward, y left, z up, degrees)
-  public static final double leftForwardOffset = 0.29; // meters
-  public static final double leftSideOffset = -0.194; // meters
-  public static final double leftHeightOffset = 0.208; // meters
-  public static final double leftRoll = 181; // degrees
-  public static final double leftPitch = -19; // degrees
-  public static final double leftYaw = -25; // degrees
-  public static final double[] leftPosition = {
-    leftForwardOffset, leftSideOffset, leftHeightOffset, leftRoll, leftPitch, leftYaw
-  };
-  public static final String rightName = "limelight-right";
-  // Change the camera pose relative to robot center (x forward, y left, z up, degrees)
-  public static final double rightForwardOffset = 0.29; // meters
-  public static final double rightSideOffset = 0.194; // meters
-  public static final double rightHeightOffset = 0.208; // meters
-  public static final double rightRoll = 180; // degrees
-  public static final double rightPitch = -19; // degrees
-  public static final double rightYaw = 25; // degrees
-  public static final double[] rightPosition = {
-    rightForwardOffset, rightSideOffset, rightHeightOffset, rightRoll, rightPitch, rightYaw
-  };
-
-  public static final double megatag1AmbiguityMinimum = 0.7; // TODO change
-  public static final double megatag1DistanceMaximum = 0.3; // meter //TODO change
-
-  public static enum CamName {
-    Left(leftName),
-    Right(rightName);
-
+  public static class LimelightConfigs {
     public final String name;
+    // Change the camera pose relative to robot center (x forward, y left, z up, degrees)
+    public final double forwardOffsetMeters; // meters
+    public final double sideOffsetMeters; // meters
+    public final double heightOffsetMeters; // meters
+    public final double rollDegrees; // degrees
+    public final double pitchDegrees; // degrees
+    public final double yawDegrees; // degrees
 
-    CamName(String name) {
+    public LimelightConfigs(
+        String name,
+        double forwardOffsetMeters,
+        double sideOffsetMeters,
+        double heightOffsetMeters,
+        double rollDegrees,
+        double pitchDegrees,
+        double yawDegrees) {
       this.name = name;
+      this.forwardOffsetMeters = forwardOffsetMeters;
+      this.sideOffsetMeters = sideOffsetMeters;
+      this.heightOffsetMeters = heightOffsetMeters;
+      this.rollDegrees = rollDegrees;
+      this.pitchDegrees = pitchDegrees;
+      this.yawDegrees = yawDegrees;
     }
   }
+
+  public static LimelightConfigs LimelightConfig =
+      new LimelightConfigs("leftName", 0, 0, 0, 0, 0, 0);
+
+  // what r these
+  public static final double megatag1AmbiguityMinimum = 0.7; // TODO change
+  public static final double megatag1DistanceMaximum = 0.3; // meter //TODO change
 
   // can't log rawDetection class so heres a reference so that i know what index of the double
   // corresponds ot what

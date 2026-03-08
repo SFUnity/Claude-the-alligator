@@ -28,34 +28,22 @@ public class VisionIOLimelight implements VisionIO {
   private final double DEFAUlT_CROP = 0.9;
   // private final double CROP_BUFFER = 0.1;
 
-  public VisionIOLimelight(String camName) {
-    name = camName;
+  public VisionIOLimelight(LimelightConfigs config) {
+    name = config.name;
 
     disconnectedAlert = new Alert("No data from: " + name, AlertType.kError);
 
     resetCropping();
     setLEDMode_PipelineControl(name);
 
-    double[] position;
-    switch (name) {
-      case rightName:
-        position = rightPosition;
-        break;
-      case leftName:
-        position = leftPosition;
-        break;
-      default:
-        position = new double[6];
-    }
-
     setCameraPose_RobotSpace(
         name,
-        position[0], // Forward offset (meters)
-        position[1], // Side offset (meters)
-        position[2], // Height offset (meters)
-        position[3], // Roll (degrees)
-        position[4], // Pitch (degrees)
-        position[5] // Yaw (degrees)
+        config.forwardOffsetMeters, // Forward offset (meters)
+        config.sideOffsetMeters, // Side offset (meters)
+        config.heightOffsetMeters, // Height offset (meters)
+        config.rollDegrees, // Roll (degrees)
+        config.pitchDegrees, // Pitch (degrees)
+        config.yawDegrees // Yaw (degrees)
         );
 
     // int[] goodIDs = {12, 16};

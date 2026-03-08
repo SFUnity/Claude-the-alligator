@@ -122,6 +122,10 @@ public class ShiftHelpers {
    * available.
    */
   public static Optional<Alliance> getAutoWinner() {
+    // if (Constants.currentMode == Constants.Mode.SIM) {
+    //   return Optional.of(Alliance.Blue);
+    // }
+
     String msg = DriverStation.getGameSpecificMessage();
     char msgChar = msg.length() > 0 ? msg.charAt(0) : ' ';
     switch (msgChar) {

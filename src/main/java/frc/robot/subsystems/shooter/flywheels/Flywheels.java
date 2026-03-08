@@ -5,6 +5,7 @@ import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -14,17 +15,27 @@ public class Flywheels extends SubsystemBase {
   private final FlywheelsIO io;
   private final FlywheelsIOInputsAutoLogged inputs = new FlywheelsIOInputsAutoLogged();
 
-  private Debouncer torqueCurrentDebouncer =
-      new Debouncer(torqueCurrentDebounce.get(), DebounceType.kFalling);
+  // private Debouncer torqueCurrentDebouncer =
+  //     new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
   private Debouncer atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
-  private boolean lastTorqueCurrentControl = false;
+  // private boolean lastTorqueCurrentControl = false;
 
-  @AutoLogOutput(key = "Subsystems/Shooter/Flywheels/LaunchCount")
+  private double RPMSetpoint = 0;
+
+  private boolean torqueCurrentControl = false;
+  private boolean atGoal = false;
+
+  @AutoLogOutput(key = "Shooter/Flywheels/LaunchCount")
   private long launchCount = 0;
 
-  private double setpointVelocity;
+  public enum FlywheelsState {
+    RUN,
+    STOP,
+    IDLE,
+    VOLTS
+  }
 
-  private boolean ready = false;
+  private FlywheelsState state = FlywheelsState.STOP;
 
   public Flywheels(FlywheelsIO io) {
     this.io = io;
@@ -36,43 +47,91 @@ public class Flywheels extends SubsystemBase {
     Logger.processInputs("Shooter/Flywheels", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Flywheels");
 
-    if (ready) {
-      runVelocity(setpointVelocity);
-    } else {
-      runVelocity(readyRPMSetpoint.get());
+    Logger.recordOutput("Shooter/Flywheels/atGoal", atGoal);
+    Logger.recordOutput("Shooter/Flywheels/torque", torqueCurrentControl);
+    Logger.recordOutput("Shooter/Flywheels/state", state.toString());
+
+    // if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
+    //   torqueCurrentDebouncer =
+    //       new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
+    // }
+    if (atGoalDebounce.hasChanged(hashCode())) {
+      atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
+    }
+
+    switch (state) {
+      case STOP:
+        io.runVolts(0);
+        break;
+      case IDLE:
+        io.runVolts(2);
+        break;
+      case RUN:
+        runVelocity(RPMSetpoint);
+        break;
+      case VOLTS:
+        io.runVolts(2);
+        break;
     }
   }
 
   /** Run closed loop at the specified velocity. */
   private void runVelocity(double velocityRPM) {
-    boolean inTolerance =
-        Math.abs(inputs.velocityRotsPerMin - velocityRPM) <= torqueCurrentTolerance.get();
-    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inTolerance);
-    boolean atGoal = atGoalDebouncer.calculate(inTolerance);
+    Logger.recordOutput("Shooter/Flywheels/goalRPM", velocityRPM);
+    boolean inToleranceForTorqueControl =
+        velocityRPM - inputs.velocityRotsPerMin <= torqueCurrentControlTolerance.get();
+    // boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
+    atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
 
-    if (!torqueCurrentControl && lastTorqueCurrentControl) {
-      launchCount++;
-    }
-    lastTorqueCurrentControl = torqueCurrentControl;
+    io.runVelocityVoltage(velocityRPM);
 
-    if (!atGoal) {
-      if (torqueCurrentControl) {
-        io.runTorqueControl();
-      } else {
-        io.runDutyCycle();
-      }
-    }
+    // if (!torqueCurrentControl && lastTorqueCurrentControl) {
+    //   launchCount++;
+    // }
+    // lastTorqueCurrentControl = torqueCurrentControl;
+
+    // if (inputs.velocityRotsPerMin < velocityRPM) {
+    //   if (torqueCurrentControl) {
+    //     io.runTorqueControl();
+    //   } else {
+    //     io.runDutyCycle();
+    //   }
+    // } else {
+    //   io.runSlowDutyCycle();
+    //   // io.stop();
+    // }
+
+    // sean's pid + torque control solution
+    // if (!torqueCurrentControl) {
+    //   io.runDutyCycle();
+    //   System.out.println("rundutycycle");
+    // } else {
+    //   io.runTorqueControl(velocityRPM / 60);
+    //   System.out.println("runtorque pid");
+    // }
   }
 
-  public Command setVelocity(double rpm) {
-    return run(() -> setpointVelocity = rpm);
+  public void setIsShooting(boolean isShooting) {
+    setState(isShooting ? FlywheelsState.RUN : FlywheelsState.IDLE);
   }
 
-  public Command setReady(boolean ready) {
-    return run(() -> this.ready = ready);
+  public Command stop() {
+    return Commands.runOnce(() -> setState(FlywheelsState.STOP));
+  }
+
+  public void setState(FlywheelsState state) {
+    this.state = state;
+  }
+
+  public void setVelocity(double velocityRPM) {
+    this.RPMSetpoint = velocityRPM;
   }
 
   public boolean atGoal() {
-    return Math.abs(inputs.velocityRotsPerMin - setpointVelocity) < flywheelTolerance.get();
+    return atGoal;
+  }
+
+  public double getVelocityRPM() {
+    return inputs.velocityRotsPerMin;
   }
 }

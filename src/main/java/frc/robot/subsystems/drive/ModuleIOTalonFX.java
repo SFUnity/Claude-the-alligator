@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.drive;
 
+import static frc.robot.subsystems.drive.DriveConstants.*;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -26,6 +27,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -75,6 +77,8 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final StatusSignal<Voltage> driveAppliedVolts;
   private final StatusSignal<Current> driveCurrent;
 
+  private final TalonFXConfiguration driveConfig;
+
   // Inputs from turn motor
   private final StatusSignal<Angle> turnAbsolutePosition;
   private final StatusSignal<Angle> turnPosition;
@@ -82,6 +86,8 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final StatusSignal<AngularVelocity> turnVelocity;
   private final StatusSignal<Voltage> turnAppliedVolts;
   private final StatusSignal<Current> turnCurrent;
+
+  private final TalonFXConfiguration turnConfig;
 
   // Connection debouncers
   private final Debouncer driveConnectedDebounce =
@@ -100,9 +106,11 @@ public class ModuleIOTalonFX implements ModuleIO {
     cancoder = new CANcoder(constants.EncoderId, TunerConstants.kCANBus);
 
     // Configure drive motor
-    var driveConfig = constants.DriveMotorInitialConfigs;
+    driveConfig = constants.DriveMotorInitialConfigs;
     driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    driveConfig.Slot0 = constants.DriveMotorGains;
+    driveConfig.Slot0.kP = driveKp.get();
+    driveConfig.Slot0.kS = driveKs;
+    driveConfig.Slot0.kV = driveKv;
     driveConfig.Feedback.SensorToMechanismRatio = constants.DriveMotorGearRatio;
     driveConfig.TorqueCurrent.PeakForwardTorqueCurrent = constants.SlipCurrent;
     driveConfig.TorqueCurrent.PeakReverseTorqueCurrent = -constants.SlipCurrent;
@@ -117,9 +125,12 @@ public class ModuleIOTalonFX implements ModuleIO {
     tryUntilOk(5, () -> driveTalon.setPosition(0.0, 0.25));
 
     // Configure turn motor
-    var turnConfig = new TalonFXConfiguration();
+    turnConfig = new TalonFXConfiguration();
     turnConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    turnConfig.Slot0 = constants.SteerMotorGains;
+    turnConfig.Slot0.kP = turnKp.get();
+    turnConfig.Slot0.kD = turnKd.get();
+    turnConfig.Slot0.kS = turnKs.get();
+    turnConfig.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
     turnConfig.Feedback.FeedbackRemoteSensorID = constants.EncoderId;
     turnConfig.Feedback.FeedbackSensorSource =
         switch (constants.FeedbackSource) {
@@ -152,7 +163,7 @@ public class ModuleIOTalonFX implements ModuleIO {
         constants.EncoderInverted
             ? SensorDirectionValue.Clockwise_Positive
             : SensorDirectionValue.CounterClockwise_Positive;
-    cancoder.getConfigurator().apply(cancoderConfig);
+    tryUntilOk(5, () -> cancoder.getConfigurator().apply(cancoderConfig, 0.25));
 
     // Create timestamp queue
     timestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
@@ -264,5 +275,19 @@ public class ModuleIOTalonFX implements ModuleIO {
           case TorqueCurrentFOC -> positionTorqueCurrentRequest.withPosition(
               rotation.getRotations());
         });
+  }
+
+  @Override
+  public void setTurnPDS(double turnkP, double turnkD, double turnkS) {
+    turnConfig.Slot0.kP = turnkP;
+    turnConfig.Slot0.kD = turnkD;
+    turnConfig.Slot0.kS = turnkS;
+    tryUntilOk(5, () -> turnTalon.getConfigurator().apply(turnConfig, 0.25));
+  }
+
+  @Override
+  public void setDriveP(double drivekP) {
+    driveConfig.Slot0.kP = drivekP;
+    tryUntilOk(5, () -> driveTalon.getConfigurator().apply(driveConfig, 0.25));
   }
 }

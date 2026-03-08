@@ -22,9 +22,14 @@ public class IntakePivotVisualizer {
   private final LoggedMechanismLigament2d intake;
   private final String key;
 
-  private final LoggedTunableNumber xOffset = new LoggedTunableNumber("Intake/xOffset", -10.2);
-  private final LoggedTunableNumber yOffset = new LoggedTunableNumber("Intake/yOffset", -8);
-  private final LoggedTunableNumber zOffset = new LoggedTunableNumber("Intake/zOffset", 9);
+  private final LoggedTunableNumber xOffset = new LoggedTunableNumber("Intake/xOffset", 10);
+  private final LoggedTunableNumber yOffset = new LoggedTunableNumber("Intake/yOffset", 0);
+  private final LoggedTunableNumber zOffset = new LoggedTunableNumber("Intake/zOffset", 6);
+  private final LoggedTunableNumber twodeeoffset =
+      new LoggedTunableNumber("Intake/twodeeoffset", 89);
+  private final LoggedTunableNumber threedeeoffset =
+      new LoggedTunableNumber("Intake/threedeeoffset", -86);
+  private final LoggedTunableNumber factor = new LoggedTunableNumber("Intake/factor", -1);
 
   public IntakePivotVisualizer(String key, Color color) {
     this.key = key;
@@ -43,19 +48,21 @@ public class IntakePivotVisualizer {
 
   /** Update intake visualizer with current intake angle */
   public void update(Angle angle) {
-    angle = Degrees.of(-1.0758 * angle.in(Degrees) + 89);
+    Angle twodangle = Degrees.of(factor.get() * angle.in(Degrees) + twodeeoffset.get());
 
     // Log Mechanism2d
-    intake.setAngle(angle.in(Degrees));
-    Logger.recordOutput("Subsystems/Intake/Mechanism2d/" + key, mechanism);
+    intake.setAngle(twodangle.in(Degrees));
+    Logger.recordOutput("IntakePivot/Mechanism2d/" + key, mechanism);
 
     // Log 3D poses
+    Angle threedangle = Degrees.of(factor.get() * -angle.in(Degrees) + threedeeoffset.get());
+
     Pose3d intakePose =
         new Pose3d(
             Units.inchesToMeters(xOffset.get()),
             Units.inchesToMeters(yOffset.get()),
             Units.inchesToMeters(zOffset.get()),
-            new Rotation3d(0.0, angle.in(Radians), 0.0));
-    Logger.recordOutput("Subsystems/Intake/Mechanism3d/" + key, intakePose);
+            new Rotation3d(0.0, threedangle.in(Radians), 0.0));
+    Logger.recordOutput("IntakePivot/Mechanism3d/" + key, intakePose);
   }
 }

@@ -687,5 +687,15 @@ public class DriveCommands {
             })
         .beforeStarting(() -> resetControllers(goalPose.get()))
         .withName("Partial Auto Drive");
+  public static Command tuneModuleTurn(Drive drive) {
+    return Commands.startEnd(drive::tuneModuleTurn, drive::endTuneModule, drive)
+        .withTimeout(5.0)
+        .withName("tuneModuleTurn");
+  }
+
+  public static Command tuneModuleDrive(Drive drive) {
+    return Commands.startEnd(drive::tuneModuleDrive, drive::endTuneModule, drive)
+        .withTimeout(2.0)
+        .withName("tuneModuleDrive");
   }
 }

@@ -14,7 +14,17 @@ public interface FlywheelsIO {
 
   public default void updateInputs(FlywheelsIOInputs inputs) {}
 
-  public default void runDutyCycle() {}
+  public default void stop() {}
 
-  public default void runTorqueControl() {}
+  public default void runVolts(double volts) {}
+
+  // public default void runDutyCycle() {}
+
+  // public default void runSlowDutyCycle() {}
+
+  // public default void runTorqueControl() {}
+
+  // public default void runTorqueControl(double rps) {}
+
+  public default void runVelocityVoltage(double rpm) {}
 }

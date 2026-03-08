@@ -93,6 +93,7 @@ public class Robot extends LoggedRobot {
     // Threads.setCurrentThreadPriority(false, 10);
 
     robotContainer.checkAlerts();
+    robotContainer.dashboardSetup();
   }
 
   /** This function is called once when the robot is disabled. */
@@ -139,6 +140,7 @@ public class Robot extends LoggedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    CommandScheduler.getInstance().schedule(robotContainer.testInit());
   }
 
   /** This function is called periodically during test mode. */

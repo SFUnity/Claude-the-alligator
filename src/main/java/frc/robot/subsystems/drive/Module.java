@@ -65,6 +65,9 @@ public class Module {
       odometryPositions[i] = new SwerveModulePosition(positionMeters, angle);
     }
 
+    Logger.recordOutput(
+        "Odometry/WrappedModuleAngles/Measured" + index, Math.abs(getAngle().getDegrees() % 180));
+
     // Update alerts
     driveDisconnectedAlert.set(!inputs.driveConnected);
     turnDisconnectedAlert.set(!inputs.turnConnected);
@@ -80,6 +83,10 @@ public class Module {
     // Apply setpoints
     io.setDriveVelocity(state.speedMetersPerSecond / constants.WheelRadius);
     io.setTurnPosition(state.angle);
+
+    // Log
+    Logger.recordOutput(
+        "Odometry/WrappedModuleAngles/Setpoints" + index, Math.abs(state.angle.getDegrees() % 180));
   }
 
   /** Runs the module with the specified output while controlling to zero degrees. */
@@ -137,5 +144,13 @@ public class Module {
   /** Returns the module velocity in rotations/sec (Phoenix native units). */
   public double getFFCharacterizationVelocity() {
     return Units.radiansToRotations(inputs.driveVelocityRadPerSec);
+  }
+
+  public void setTurnPDS(double turnkP, double turnkD, double turnkS) {
+    io.setTurnPDS(turnkP, turnkD, turnkS);
+  }
+
+  public void setDriveP(double drivekP) {
+    io.setDriveP(drivekP);
   }
 }

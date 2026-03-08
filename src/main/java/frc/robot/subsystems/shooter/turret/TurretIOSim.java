@@ -2,24 +2,47 @@ package frc.robot.subsystems.shooter.turret;
 
 import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import frc.robot.Constants;
+
 public class TurretIOSim implements TurretIO {
-  double rotations = 0;
-  double encoder1Rotations = 0;
-  double encoder2Rotations = 0;
+  private final DCMotor gearbox = DCMotor.getKrakenX60Foc(1);
+  private final DCMotorSim sim =
+      new DCMotorSim(LinearSystemId.createDCMotorSystem(gearbox, 0.001, 1.0), gearbox);
+
+  private double currentOutput = 0.0;
+  private double appliedVoltage = 0.0;
+  private boolean currentControl = false;
 
   public TurretIOSim() {}
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
-    inputs.encoder1Rotations = encoder1Rotations;
-    inputs.encoder2Rotations = encoder2Rotations;
-    inputs.talonRotations = rotations;
+    sim.setInputVoltage(currentOutput);
+    sim.update(Constants.loopPeriodSecs);
+
+    inputs.appliedVolts = sim.getInputVoltage();
+    inputs.talonRotations = sim.getAngularPositionRotations();
+    inputs.velocityDegsPerSec =
+        Units.radiansToDegrees(
+                Units.rotationsPerMinuteToRadiansPerSecond(sim.getAngularVelocityRPM()))
+            / gearRatio;
+    inputs.encoder1Rotations = 0;
+    inputs.encoder2Rotations = 0.1;
   }
 
   @Override
-  public void turnTurret(double targetRotations, boolean isShooting) {
-    rotations = targetRotations;
-    encoder1Rotations = targetRotations / gearRatio * (turretGear / encoder1Gear);
-    encoder2Rotations = targetRotations / gearRatio * (turretGear / encoder2Gear);
+  public void turnTurret(double targetRotations, double targetVelocity, double kP, double kD) {
+    currentOutput =
+        (Units.rotationsToRadians(targetRotations) - sim.getAngularPositionRad()) * kP
+            + (Units.degreesToRadians(targetVelocity) - sim.getAngularVelocityRadPerSec()) * kD;
+  }
+
+  @Override
+  public void stop() {
+    currentOutput = 0;
   }
 }

@@ -53,10 +53,10 @@ public class ShooterVisualizer {
 
   public void update(double turretAngle, double hoodAngle) {
     hood.setAngle(hoodAngle);
-    Logger.recordOutput("Subsystems/Shooter/Hood/Mechanism2D/" + key, hoodMechanism);
+    Logger.recordOutput("Shooter/Hood/Mechanism2D/" + key, hoodMechanism);
 
     turret.setAngle(turretAngle);
-    Logger.recordOutput("Subsystems/Shooter/Turret/Mechanism2D/" + key, turretMechanism);
+    Logger.recordOutput("Shooter/Turret/Mechanism2D/" + key, turretMechanism);
 
     Pose3d shooterPose =
         new Pose3d(
@@ -71,7 +71,7 @@ public class ShooterVisualizer {
                 hoodYOffset.get(),
                 hoodZOffset.get(),
                 new Rotation3d(0, Units.degreesToRadians(hoodAngle), 0)));
-    Logger.recordOutput("Subsystems/Shooter/Turret/Mechanism3D/" + key, shooterPose);
-    Logger.recordOutput("Subsystems/Shooter/Hood/Mechanism3D/" + key, hoodPose);
+    Logger.recordOutput("Shooter/Turret/Mechanism3D/" + key, shooterPose);
+    Logger.recordOutput("Shooter/Hood/Mechanism3D/" + key, hoodPose);
   }
 }

@@ -61,7 +61,7 @@ public class Vision extends VirtualSubsystem {
       if (io[i].getPipelineIndex() == Pipelines.getIndexFor(Pipelines.APRILTAG)) {
 
         io[i].updateInputs(aprilTagInputs[i], poseManager);
-        Logger.processInputs("Vision/" + CamName.values()[i].name, aprilTagInputs[i]);
+        Logger.processInputs("Vision/" + io[i].getName(), aprilTagInputs[i]);
 
         // Initialize logging values
         List<Pose3d> tagPoses = new LinkedList<>();
@@ -136,16 +136,16 @@ public class Vision extends VirtualSubsystem {
 
         // Log camera datadata
         Logger.recordOutput(
-            "Vision/" + CamName.values()[i].name + "/TagPoses",
+            "Vision/" + io[i].getName() + "/TagPoses",
             tagPoses.toArray(new Pose3d[tagPoses.size()]));
         Logger.recordOutput(
-            "Vision/" + CamName.values()[i].name + "/RobotPoses",
+            "Vision/" + io[i].getName() + "/RobotPoses",
             robotPoses.toArray(new Pose3d[robotPoses.size()]));
         Logger.recordOutput(
-            "Vision/" + CamName.values()[i].name + "/RobotPosesAccepted",
+            "Vision/" + io[i].getName() + "/RobotPosesAccepted",
             robotPosesAccepted.toArray(new Pose3d[robotPosesAccepted.size()]));
         Logger.recordOutput(
-            "Vision/" + CamName.values()[i].name + "/RobotPosesRejected",
+            "Vision/" + io[i].getName() + "/RobotPosesRejected",
             robotPosesRejected.toArray(new Pose3d[robotPosesRejected.size()]));
         allTagPoses.addAll(tagPoses);
         allRobotPoses.addAll(robotPoses);
