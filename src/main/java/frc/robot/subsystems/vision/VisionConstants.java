@@ -38,8 +38,10 @@ public class VisionConstants {
     }
   }
 
-  public static LimelightConfigs LimelightConfig =
-      new LimelightConfigs("leftName", 0, 0, 0, 0, 0, 0);
+  public static LimelightConfigs starboardFore =
+      new LimelightConfigs("sback", 0, 0, 0, 0, 0, 0);
+  public static LimelightConfigs starboardAft = new LimelightConfigs("sforward", -0.308, 0.256, 0.202111, 0, 65.55, 207.785);
+
 
   // what r these
   public static final double megatag1AmbiguityMinimum = 0.7; // TODO change
