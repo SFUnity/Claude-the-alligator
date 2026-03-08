@@ -3,6 +3,7 @@ package frc.robot.subsystems.intakePivot;
 import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.subsystems.intakePivot.IntakePivotConstants.*;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -64,8 +65,8 @@ public class IntakePivot extends SubsystemBase {
 
   public Command runCurrentZeroing() {
     return run(() -> io.runVolts(-3))
-        .until(() -> inputs.pivotSupplyCurrent > 15f)
-        .finallyDo(() -> io.resetEncoder(0.0))
+        .until(() -> inputs.pivotStaterCurrent > 40)
+        .finallyDo(() -> io.resetEncoder(Units.degreesToRotations(-2)))
         .withName("IntakePivotCurrentZeroing");
   }
 
