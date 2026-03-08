@@ -410,6 +410,7 @@ public class Autos {
 
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     segment0.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment0.done().onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(2));
 
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
@@ -420,9 +421,11 @@ public class Autos {
             Commands.sequence(
                 segment0.resetOdometry(),
                 segment0.cmd().asProxy(),
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                Commands.waitSeconds(2),
+                // RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
                 segment1.cmd().asProxy(),
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                Commands.waitSeconds(2),
+                // RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
                 segment2.cmd().asProxy(),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
