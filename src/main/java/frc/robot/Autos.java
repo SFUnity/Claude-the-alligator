@@ -408,6 +408,7 @@ public class Autos {
     AutoTrajectory segment0 = routine.trajectory("DoubleScoreUpperLoop", 0);
     AutoTrajectory segment1 = routine.trajectory("DoubleScoreUpperLoop", 1);
     AutoTrajectory segment2 = routine.trajectory("DoubleScoreUpperLoop", 2);
+    
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
@@ -438,6 +439,7 @@ public class Autos {
     AutoTrajectory segment1 = routine.trajectory("DoubleScoreCenterLoop", 1);
     AutoTrajectory segment2 = routine.trajectory("DoubleScoreCenterLoop", 2);
 
+    routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     segment0.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
