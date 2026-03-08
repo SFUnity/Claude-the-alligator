@@ -114,9 +114,9 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public void periodic() {
-    if (DriverStation.isAutonomous()) {
-      isAutoFeedVsScore = true;
-    }
+    // if (DriverStation.isAutonomous()) {
+    //   isAutoFeedVsScore = true;
+    // }
 
     if (isAutoFeedVsScore) {
       isScoring =
