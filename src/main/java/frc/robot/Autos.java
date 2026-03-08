@@ -410,23 +410,20 @@ public class Autos {
 
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     segment0.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
-    segment0.done().onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(1));
 
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
-    segment1.done().onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(1));
 
     routine
         .active()
         .onTrue(
             Commands.sequence(
                 segment0.resetOdometry(),
-                segment0.cmd(),
-                // segment0.done().onTrue(RobotCommands.readyThenShoot(shooter, kicker,
-                // spindexer).withTimeout(5)),
-                segment1.cmd(),
-                // RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5),
-                segment2.cmd(),
+                segment0.cmd().asProxy(),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                segment1.cmd().asProxy(),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                segment2.cmd().asProxy(),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
