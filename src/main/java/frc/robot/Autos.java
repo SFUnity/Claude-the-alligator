@@ -100,6 +100,7 @@ public class Autos {
     // chooser.addRoutine("Double Score Center Banana", this::DoubleScoreCenterBanana);
     chooser.addRoutine("Double Score Center Loop", this::DoubleScoreCenterLoop);
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
+    // chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -399,6 +400,34 @@ public class Autos {
     DoubleScoreCenterBanana.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
     DoubleScoreCenterBanana.atTime("StartShoot2")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
+    return routine;
+  }
+
+  public AutoRoutine DoubleScoreUpperLoop() {
+    AutoRoutine routine = factory.newRoutine("Double Score Upper Loop Auto Routine");
+    AutoTrajectory segment0 = routine.trajectory("DoubleScoreUpperLoop", 0);
+    AutoTrajectory segment1 = routine.trajectory("DoubleScoreUpperLoop", 1);
+    AutoTrajectory segment2 = routine.trajectory("DoubleScoreUpperLoop", 2);
+    routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
+    segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+    segment0.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment0
+        .done()
+        .onTrue(
+            Commands.sequence(
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
+                segment1.cmd()));
+    segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
+    segment1.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment1
+        .done()
+        .onTrue(
+            Commands.sequence(
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
+                segment2.cmd(),
+                RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
 
