@@ -34,20 +34,20 @@ public class Hood extends SubsystemBase {
 
     Logger.recordOutput("Shooter/Hood/Goal", goalPosition);
     Logger.recordOutput("Shooter/Hood/IsZeroing", isZeroing);
-    if (!isZeroing) {
-      if (statorCurrentDebouncer.calculate(
-          inputs.statorCurrent < statorCurrentTolerance.get()
-              || Math.abs(lastPosition - inputs.positionDeg) > 0.02)) {
-        io.setPosition(goalPosition);
-      } else {
-        io.runVolts(0.0);
-        if (inputs.positionDeg - minPositionDegs > (maxPositionDegs - minPositionDegs) / 2.0) {
-          io.resetEncoder(maxPositionDegs - minPositionDegs);
-        } else {
-          io.resetEncoder(0.0);
-        }
-      }
-    }
+    // if (!isZeroing) {
+    //   if (statorCurrentDebouncer.calculate(
+    //       inputs.statorCurrent < statorCurrentTolerance.get()
+    //           || Math.abs(lastPosition - inputs.positionDeg) > 0.02)) {
+    io.setPosition(goalPosition);
+    //   } else {
+    //     io.runVolts(0.0);
+    //     if (inputs.positionDeg - minPositionDegs > (maxPositionDegs - minPositionDegs) / 2.0) {
+    //       io.resetEncoder(maxPositionDegs - minPositionDegs);
+    //     } else {
+    //       io.resetEncoder(0.0);
+    //     }
+    //   }
+    // }
     lastPosition = inputs.positionDeg;
   }
 
