@@ -10,7 +10,6 @@ import static frc.robot.subsystems.shooter.ShooterUtil.*;
 import static frc.robot.util.FuelSim.Hub.*;
 import static frc.robot.util.GeomUtil.*;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
