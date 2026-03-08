@@ -138,7 +138,7 @@ public class Autos {
     Depot.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
     Depot.atTime("StartIntake").onTrue(RobotCommands.intake());
     Depot.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
-    Depot.atTime("StartShoot").onTrue(RobotCommands.shoot()); 
+    Depot.atTime("StartShoot").onTrue(RobotCommands.shoot());
     Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     Depot.done().onTrue(RobotCommands.climbRetract());
     return routine;
@@ -151,11 +151,9 @@ public class Autos {
         .active()
         .onTrue(Commands.sequence(ScoreCenterClimb.resetOdometry(), ScoreCenterClimb.cmd()));
     ScoreCenterClimb.atTime("ExtendClimber").onTrue(RobotCommands.climbExtend());
-    ScoreCenterClimb.atTime("StartIntake")
-        .onTrue(RobotCommands.intake());
+    ScoreCenterClimb.atTime("StartIntake").onTrue(RobotCommands.intake());
     ScoreCenterClimb.atTime("StopIntake").onTrue(RobotCommands.stopIntake());
-    ScoreCenterClimb.atTime("StartShoot")
-        .onTrue(RobotCommands.shoot());
+    ScoreCenterClimb.atTime("StartShoot").onTrue(RobotCommands.shoot());
     ScoreCenterClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot());
     ScoreCenterClimb.done().onTrue(RobotCommands.climbRetract());
     return routine;

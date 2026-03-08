@@ -80,8 +80,6 @@ public class Module {
     // Apply setpoints
     io.setDriveVelocity(state.speedMetersPerSecond / constants.WheelRadius);
     io.setTurnPosition(state.angle);
-
-    
   }
 
   /** Runs the module with the specified output while controlling to zero degrees. */
@@ -125,7 +123,6 @@ public class Module {
   public SwerveModulePosition[] getOdometryPositions() {
     return odometryPositions;
   }
-
 
   /** Returns the timestamps of the samples received this cycle. */
   public double[] getOdometryTimestamps() {
