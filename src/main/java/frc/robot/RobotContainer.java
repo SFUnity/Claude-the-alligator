@@ -8,6 +8,7 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.Seconds;
+import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -67,6 +68,8 @@ import frc.robot.subsystems.shooter.hood.HoodIOTalonFX;
 import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.util.FuelSim;
 import frc.robot.util.PoseManager;
 import frc.robot.util.ShiftHelpers;
@@ -90,7 +93,7 @@ public class RobotContainer {
   private final Shooter shooter;
   private final Hood hood;
   private final Kicker kicker;
-  // private final Vision vision;
+  private final Vision vision;
 
   // Non-subsystems
   private final Autos autos;
@@ -175,7 +178,12 @@ public class RobotContainer {
         hood = new Hood(new HoodIOTalonFX());
         kicker = new Kicker(new KickerIOTalonFX());
 
-        // vision = new Vision(poseManager, VisionIO(VisionConstants.starboardAft));
+        vision =
+            new Vision(
+                poseManager,
+                new VisionIOLimelight(starboardAft),
+                new VisionIOLimelight(portAft),
+                new VisionIOLimelight(portFore));
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
 
@@ -197,6 +205,7 @@ public class RobotContainer {
         turret = new Turret(new TurretIOSim());
         hood = new Hood(new HoodIOSim());
         kicker = new Kicker(new KickerIOSim());
+        vision = new Vision(poseManager, null);
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
 
         fuelSim.spawnStartingFuel(); // spawns fuel in the depots and neutral zone
@@ -259,6 +268,7 @@ public class RobotContainer {
         turret = new Turret(new TurretIO() {});
         hood = new Hood(new HoodIO() {});
         kicker = new Kicker(new KickerIO() {});
+        vision = new Vision(poseManager, null);
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
     }
