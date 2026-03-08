@@ -413,7 +413,7 @@ public class Autos {
 
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
-
+ 
     routine
         .active()
         .onTrue(
@@ -421,8 +421,10 @@ public class Autos {
                 segment0.resetOdometry(),
                 segment0.cmd(),
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment1.cmd(),
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment2.cmd(),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
