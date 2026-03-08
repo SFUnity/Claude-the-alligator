@@ -420,9 +420,9 @@ public class Autos {
             Commands.sequence(
                 segment0.resetOdometry(),
                 segment0.cmd(),
-                // RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
                 segment1.cmd(),
-                // RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
                 segment2.cmd(),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
