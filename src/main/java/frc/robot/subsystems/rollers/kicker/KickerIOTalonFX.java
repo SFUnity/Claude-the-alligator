@@ -4,6 +4,7 @@ import static frc.robot.Constants.loopPeriodSecs;
 import static frc.robot.subsystems.rollers.kicker.KickerConstants.*;
 import static frc.robot.util.PhoenixUtil.tryUntilOk;
 
+import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
@@ -11,6 +12,7 @@ import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 
@@ -32,16 +34,16 @@ public class KickerIOTalonFX implements KickerIO {
 
   @SuppressWarnings("resource")
   public KickerIOTalonFX() {
-    // lc = new LaserCan(laserCANID);
+    lc = new LaserCan(laserCANID);
 
-    // try {
-    //   lc.setRangingMode(LaserCan.RangingMode.SHORT);
-    //   lc.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
-    //   lc.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
-    // } catch (ConfigurationFailedException e) {
-    //   new Alert("Configuration failed" + e, AlertType.kError).set(true);
-    // }
-    // ;
+    try {
+      lc.setRangingMode(LaserCan.RangingMode.SHORT);
+      lc.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
+      lc.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+    } catch (ConfigurationFailedException e) {
+      new Alert("Configuration failed" + e, AlertType.kError).set(true);
+    }
+    ;
 
     var talonFXConfigs = new TalonFXConfiguration();
 
@@ -66,14 +68,13 @@ public class KickerIOTalonFX implements KickerIO {
     inputs.currentAmps = rollerMotor.getSupplyCurrent().getValueAsDouble();
     inputs.velocityRotsPerMin = rollerMotor.getVelocity().getValueAsDouble() * 60;
 
-    // LaserCan.Measurement measurement = lc.getMeasurement();
-    // if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT)
-    // {
-    //   inputs.laserMeasurementInches = Units.metersToInches(measurement.distance_mm * 1000);
-    //   laserCanInvalidAlert.set(false);
-    // } else {
-    //   laserCanInvalidAlert.set(true);
-    // }
+    LaserCan.Measurement measurement = lc.getMeasurement();
+    if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+      inputs.laserMeasurementInches = Units.metersToInches(measurement.distance_mm * 1000);
+      laserCanInvalidAlert.set(false);
+    } else {
+      laserCanInvalidAlert.set(true);
+    }
   }
 
   @Override
