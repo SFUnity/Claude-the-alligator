@@ -686,7 +686,9 @@ public class DriveCommands {
                       finalX, finalY, 0, poseManager.getRotation()));
             })
         .beforeStarting(() -> resetControllers(goalPose.get()))
-        .withName("Partial Auto Drive");}
+        .withName("Partial Auto Drive");
+  }
+
   public static Command tuneModuleTurn(Drive drive) {
     return Commands.startEnd(drive::tuneModuleTurn, drive::endTuneModule, drive)
         .withTimeout(5.0)

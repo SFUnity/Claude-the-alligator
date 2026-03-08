@@ -15,8 +15,12 @@ package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Autos;
 import frc.robot.Constants;
 import frc.robot.util.LoggedTunableNumber;
+import java.util.function.BooleanSupplier;
 
 public class DriveConstants {
   public static final double maxSpeedMetersPerSec = Units.feetToMeters(10.5);
@@ -78,6 +82,53 @@ public class DriveConstants {
         turnKd = new LoggedTunableNumber("Drive/SimModuleTunables/turnKd", 0.0);
         turnKs = new LoggedTunableNumber("Drive/SimModuleTunables/turnKs", 0.0);
         break;
+    }
+  }
+
+  public static final record DriveCommandsConfig(
+      CommandXboxController controller,
+      BooleanSupplier slowMode,
+      LoggedTunableNumber slowDriveMultiplier,
+      LoggedTunableNumber slowTurnMultiplier) {
+
+    private static final boolean simMode = Constants.currentMode == Constants.Mode.SIM;
+
+    public double getXInput() {
+      return simMode ? -controller.getLeftX() : -controller.getLeftY();
+      // return controller.getLeftX();
+    }
+
+    public double getYInput() {
+      return simMode ? controller.getLeftY() : -controller.getLeftX();
+      // return -controller.getLeftY();
+    }
+
+    public double getOmegaInput() {
+      return -controller.getRightX();
+    }
+
+    public boolean povUpPressed() {
+      return controller.povUp().getAsBoolean();
+    }
+
+    public boolean povDownPressed() {
+      return controller.povDown().getAsBoolean();
+    }
+
+    public boolean povLeftPressed() {
+      return DriverStation.isAutonomousEnabled()
+          ? Autos.moveLeft
+          : controller.povLeft().getAsBoolean();
+    }
+
+    public boolean povRightPressed() {
+      return DriverStation.isAutonomousEnabled()
+          ? Autos.moveRight
+          : controller.povRight().getAsBoolean();
+    }
+
+    public boolean finishScoring() {
+      return controller.leftTrigger().getAsBoolean();
     }
   }
 }
