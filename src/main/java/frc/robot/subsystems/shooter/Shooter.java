@@ -155,16 +155,18 @@ public class Shooter extends VirtualSubsystem {
 
     if (currentMode != Constants.simMode) {
       turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-      hood.setAngle(hoodIsSafe ? fakeHoodAngle.get() : HoodConstants.minPositionDegs);
-      if (isScoring) {
-        if (isClose) {
-          flywheels.setVelocity(hubFlywheelVelocity.get());
-        } else {
-          flywheels.setVelocity(farFlywheelVelocity.get());
-        }
-      } else {
-        flywheels.setVelocity(fakeFeedingVelocity.get());
-      }
+      // hood.setAngle(hoodIsSafe ? fakeHoodAngle.get() : HoodConstants.minPositionDegs);
+      hood.setAngle(fakeHoodAngle.get());
+      // if (isScoring) {
+      //   if (isClose) {
+      //     flywheels.setVelocity(hubFlywheelVelocity.get());
+      //   } else {
+      //     flywheels.setVelocity(farFlywheelVelocity.get());
+      //   }
+      // } else {
+      //   flywheels.setVelocity(fakeFeedingVelocity.get());
+      // }
+      flywheels.setVelocity(fakeFlywheelVelocity.get());
     } else {
       turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
       hood.setAngle(fakeHoodAngle.get());
