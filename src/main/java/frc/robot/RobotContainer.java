@@ -89,6 +89,7 @@ public class RobotContainer {
   private final Autos autos;
   private final PoseManager poseManager = new PoseManager();
   public final FuelSim fuelSim = new FuelSim("FuelSim");
+  private final DriveCommands driveCommands = new DriveCommands();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -386,6 +387,10 @@ public class RobotContainer {
 
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
+
+    controller
+        .y()
+        .whileTrue(driveCommands.fullAutoDrive(() -> new Pose2d(0, 0, Rotation2d.fromDegrees(0))));
 
     controller.povUp().whileTrue(shooter.setIsClose(true));
     controller.povDown().whileTrue(shooter.setIsClose(false));
