@@ -69,6 +69,7 @@ import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
 import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.util.FuelSim;
 import frc.robot.util.PoseManager;
@@ -205,7 +206,7 @@ public class RobotContainer {
         turret = new Turret(new TurretIOSim());
         hood = new Hood(new HoodIOSim());
         kicker = new Kicker(new KickerIOSim());
-        vision = new Vision(poseManager, null);
+        vision = new Vision(poseManager, new VisionIO() {});
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
 
         fuelSim.spawnStartingFuel(); // spawns fuel in the depots and neutral zone
@@ -268,7 +269,7 @@ public class RobotContainer {
         turret = new Turret(new TurretIO() {});
         hood = new Hood(new HoodIO() {});
         kicker = new Kicker(new KickerIO() {});
-        vision = new Vision(poseManager, null);
+        vision = new Vision(poseManager, new VisionIO() {});
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
     }
