@@ -20,20 +20,18 @@ import frc.robot.util.LoggedTunableNumber;
 
 public class DriveConstants {
   public static final double maxSpeedMetersPerSec = Units.feetToMeters(10.5);
-  public static final double maxAccelerationMetersPerSec =
-      Units.feetToMeters(70.0); // This is what 6328
   public static final double trackWidth = Units.inchesToMeters(20.75);
   public static final double wheelBase = trackWidth;
   public static final double driveBaseRadius = Math.hypot(trackWidth / 2.0, wheelBase / 2.0);
   public static final double maxAngularSpeedRadiansPerSec = maxSpeedMetersPerSec / driveBaseRadius;
-  public static final double maxAngularAccelerationRadiansPerSec =
-      maxAccelerationMetersPerSec / driveBaseRadius;
   public static final SwerveDriveKinematics kinematics =
       new SwerveDriveKinematics(Drive.getModuleTranslations());
   /** Frame perimeter to outer edge of bumper on 1 side. Based on CAD */
   public static final double bumperWidth = Units.inchesToMeters(3.25);
   /** Floor to top of bumper. Based on CAD */
   public static final double bumperHeight = Units.inchesToMeters(5.75);
+  public static final double lengthInches = 27.5;
+  public static final double widthInches = 26.5;
 
   // Drive PID configuration
   public static final LoggedTunableNumber driveKp;

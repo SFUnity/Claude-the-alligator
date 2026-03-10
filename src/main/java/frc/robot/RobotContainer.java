@@ -214,9 +214,9 @@ public class RobotContainer {
         fuelSim
             .start(); // enables the simulation to run (updateSim must still be called periodically)
         fuelSim.registerRobot(
-            DriveConstants.trackWidth
+            Units.inchesToMeters(DriveConstants.widthInches)
                 + 2 * DriveConstants.bumperWidth, // from left to right in meters
-            DriveConstants.wheelBase
+            Units.inchesToMeters(DriveConstants.lengthInches)
                 + 2 * DriveConstants.bumperWidth, // from front to back in meters
             DriveConstants.bumperHeight, // from floor to top of bumpers in meters
             () -> poseManager.getPose(), // Supplier<Pose2d> of robot pose
