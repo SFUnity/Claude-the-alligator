@@ -390,7 +390,8 @@ public class RobotContainer {
 
     controller
         .y()
-        .whileTrue(driveCommands.fullAutoDrive(() -> new Pose2d(9, 9, Rotation2d.fromDegrees(45))));
+        .whileTrue(
+            driveCommands.fullAutoDrive(drive, () -> new Pose2d(9, 9, Rotation2d.fromDegrees(45))));
 
     controller.povUp().whileTrue(shooter.setIsClose(true));
     controller.povDown().whileTrue(shooter.setIsClose(false));

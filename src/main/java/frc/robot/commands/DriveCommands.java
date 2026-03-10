@@ -18,8 +18,6 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -47,12 +45,13 @@ public class DriveCommands {
 
   public static final double MAX_LINEAR_VELOCITY = Units.feetToMeters(14.5); // 6328 uses 15 ft/s
   public static final double MAX_LINEAR_ACCELERATION =
-      Units.feetToMeters(75.0); // This is what 6328
+      Units.feetToMeters(75.0); // This is what 6328 use
   private static final Module[] modules = new Module[4];
   // Commands stuff
   private DriveCommandsConfig config;
   private static PoseManager poseManager = new PoseManager();
-  private Translation2d lastSetpointTranslation;
+  private Translation2d lastSetpointTranslation = new Translation2d();
+  ;
   private static final LoggedTunableNumber linearkP =
       new LoggedTunableNumber("Drive/Commands/Linear/kP", 3.5);
   private static final LoggedTunableNumber linearkD =
@@ -80,9 +79,8 @@ public class DriveCommands {
   private LoggedTunableNumber joystickInterruptDelay =
       new LoggedTunableNumber("Drive/JoystickInterruptDelay", 1);
 
-  private Pose2d getAngularVelocityFromProfiledPID(double targetPose) {
-    return null;
-    // idk bro what am I doing
+  private double getAngularVelocityFromProfiledPID(double targetAngle) {
+    return thetaController.calculate(poseManager.getRotation().getRadians(), targetAngle);
   }
 
   private final ProfiledPIDController thetaController =
@@ -126,24 +124,6 @@ public class DriveCommands {
             .getTranslation();
 
     return driveVelocity;
-  }
-
-  public static void runVelocity(ChassisSpeeds speeds) {
-    // Calculate module setpoints
-    ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
-    SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveCommands.MAX_LINEAR_VELOCITY);
-
-    // Send setpoints to modules
-    SwerveModuleState[] optimizedSetpointStates = new SwerveModuleState[4];
-    for (int i = 0; i < 4; i++) {
-      // The module returns the optimized state, useful for logging
-      // optimizedSetpointStates[i] = modules[i].runSetpoint(setpointStates[i]);
-    }
-
-    // Log setpoint states
-    Logger.recordOutput("Odometry/SwerveStates/Setpoints", setpointStates);
-    Logger.recordOutput("Odometry/SwerveStates/SetpointsOptimized", optimizedSetpointStates);
   }
 
   // Constants
@@ -194,8 +174,8 @@ public class DriveCommands {
         .getTranslation();
   }
 
-  public void stop() {
-    runVelocity(new ChassisSpeeds(0.0, 0.0, 0.0));
+  public void stop(Drive drive) {
+    drive.runVelocity(new ChassisSpeeds(0.0, 0.0, 0.0));
   }
 
   private boolean noJoystickInput() {
@@ -601,7 +581,7 @@ public class DriveCommands {
         Units.degreesToRadians(thetaToleranceDeg.get()));
   }
 
-  public Command fullAutoDrive(Supplier<Pose2d> goalPose) {
+  public Command fullAutoDrive(Drive drive, Supplier<Pose2d> goalPose) {
     return Commands.run(
             () -> {
               updateTunables();
@@ -613,15 +593,15 @@ public class DriveCommands {
               Translation2d driveVelocity = getLinearVelocityFromProfiledPID(targetPose);
 
               // Calculate theta speed
-              Pose2d thetaVelocity =
+              double thetaVelocity =
                   getAngularVelocityFromProfiledPID(targetPose.getRotation().getRadians());
 
               // Send command
-              runVelocity(
+              drive.runVelocity(
                   ChassisSpeeds.fromFieldRelativeSpeeds(
                       driveVelocity.getX(),
                       driveVelocity.getY(),
-                      thetaVelocity.getRotation().getRadians(),
+                      thetaVelocity,
                       poseManager.getRotation()));
             })
         .beforeStarting(
@@ -631,13 +611,13 @@ public class DriveCommands {
             })
         .finallyDo(
             () -> {
-              stop();
+              drive.stop();
             })
         .onlyWhile(this::noJoystickInput)
         .withName("Full Auto Drive");
   }
 
-  public Command partialAutoDrive(Supplier<Pose2d> goalPose) {
+  public Command partialAutoDrive(Drive drive, Supplier<Pose2d> goalPose) {
     return Commands.run(
             () -> {
               // Get manual linear velocity
@@ -656,10 +636,10 @@ public class DriveCommands {
               Translation2d driveVelocity = getLinearVelocityFromProfiledPID(targetPose);
 
               // Calculate theta speed
-              Pose2d thetaVelocity =
+              double thetaVelocity =
                   getAngularVelocityFromProfiledPID(targetPose.getRotation().getRadians());
 
-              if (thetaController.atGoal()) thetaVelocity = new Pose2d(0, 0, new Rotation2d(0));
+              if (thetaController.atGoal()) thetaVelocity = 0;
               // Send command
               double maxDistance = 2;
               Translation2d distance =
@@ -681,7 +661,7 @@ public class DriveCommands {
                       driveVelocity.getY(),
                       "Y");
 
-              runVelocity(
+              drive.runVelocity(
                   ChassisSpeeds.fromFieldRelativeSpeeds(
                       finalX, finalY, 0, poseManager.getRotation()));
             })
