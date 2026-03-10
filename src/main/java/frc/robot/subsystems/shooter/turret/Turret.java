@@ -109,8 +109,8 @@ public class Turret extends SubsystemBase {
       if (!eDisabled) {
         boolean outOfBounds =
             outOfBoundsDebouncer.calculate(
-                (truePositionDegs < trueMinAngleDegs + 10 && inputs.velocityDegsPerSec < 0)
-                    || (truePositionDegs > trueMaxAngleDegs - 10 && inputs.velocityDegsPerSec > 0));
+                (truePositionDegs < trueMinAngleDegs && inputs.velocityDegsPerSec < 0)
+                    || (truePositionDegs > trueMaxAngleDegs && inputs.velocityDegsPerSec > 0));
         boolean encoderBroken =
             encoderBrokenDebouncer.calculate(
                 Math.abs(inputs.appliedVolts) > 0.01
@@ -120,31 +120,32 @@ public class Turret extends SubsystemBase {
         Logger.recordOutput("Shooter/Turret/outOfBounds", outOfBounds);
         Logger.recordOutput("Shooter/Turret/encoderBroken", encoderBroken);
 
-        eDisabled = outOfBounds || encoderBroken;
+        // eDisabled = outOfBounds || encoderBroken;
 
         double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
         double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
 
-        boolean hasBestAngle = false;
-        double bestAngle = 0;
+        double bestAngle = MathUtil.inputModulus(targetDegs, 0, 360);
+        // boolean hasBestAngle = false;
+        // double bestAngle = 0;
 
-        // replace
-        for (int i = 0; i < 5; i++) {
-          double potentialSetpoint = targetDegs + 360 * i;
-          if (potentialSetpoint < minLegalAngle || potentialSetpoint > maxLegalAngle) {
-            continue;
-          } else {
-            if (!hasBestAngle) {
-              bestAngle = potentialSetpoint;
-              hasBestAngle = true;
-            }
-            if (Math.abs(lastTargetDegs - potentialSetpoint)
-                < Math.abs(lastTargetDegs - bestAngle)) {
-              bestAngle = potentialSetpoint;
-            }
-          }
-        }
-        lastTargetDegs = bestAngle;
+        // // replace
+        // for (int i = 0; i < 5; i++) {
+        //   double potentialSetpoint = targetDegs + 360 * i;
+        //   if (potentialSetpoint < minLegalAngle || potentialSetpoint > maxLegalAngle) {
+        //     continue;
+        //   } else {
+        //     if (!hasBestAngle) {
+        //       bestAngle = potentialSetpoint;
+        //       hasBestAngle = true;
+        //     }
+        //     if (Math.abs(lastTargetDegs - potentialSetpoint)
+        //         < Math.abs(lastTargetDegs - bestAngle)) {
+        //       bestAngle = potentialSetpoint;
+        //     }
+        //   }
+        // }
+        // lastTargetDegs = bestAngle;
 
         Logger.recordOutput("Shooter/Turret/GoalAngle", bestAngle);
 
