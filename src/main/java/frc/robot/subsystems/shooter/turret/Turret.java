@@ -74,6 +74,8 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    //TODO if this is enabled, refactor code to stop looking at motor position degrees offset/turretoffset, also make sure this is returning a valid number, otherwise edisable
+    // io.resetMotorEncoder(Units.degreesToRotations(motorOffsetDegs) * gearRatio);
     truePositionDegs = getPositionDegs() / gearRatio;
     positionDegs = MathUtil.inputModulus(truePositionDegs, 0, 360);
 
@@ -101,6 +103,7 @@ public class Turret extends SubsystemBase {
       encoder2Disconnected.set(
           encoder2DisconnectedDebouncer.calculate(inputs.encoder2Disconnected));
 
+          //TODO tune edisable so it acc works
       eDisabled = false; // shh
 
       if (!eDisabled) {

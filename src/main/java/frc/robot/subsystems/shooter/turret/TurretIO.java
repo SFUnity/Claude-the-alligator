@@ -23,4 +23,6 @@ public interface TurretIO {
 
   public default void turnTurret(
       double targetRotations, double targetVelocity, double kA, double kV) {}
+
+  public default void resetMotorEncoder(double rotations) {}
 }
