@@ -10,13 +10,19 @@ import static frc.robot.subsystems.shooter.ShooterUtil.*;
 import static frc.robot.util.FuelSim.Hub.*;
 import static frc.robot.util.GeomUtil.*;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.LeftTrench;
+import frc.robot.FieldConstants.LinesHorizontal;
+import frc.robot.FieldConstants.LinesVertical;
 import frc.robot.FieldConstants.RightTrench;
+import frc.robot.subsystems.shooter.ShooterUtil.LaunchingParameters;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.flywheels.Flywheels.FlywheelsState;
 import frc.robot.subsystems.shooter.hood.Hood;
@@ -156,14 +162,28 @@ public class Shooter extends VirtualSubsystem {
 
     if (currentMode != Constants.simMode) {
       // * Real Mode
-      if (isScoring) {
-        hood.setAngle(fakeHoodAngle.get());
-        flywheels.setVelocity(fakeFlywheelVelocity.get());
-      } else {
-        flywheels.setVelocity(fakeFeedingVelocity.get());
-        hood.setAngle(fakeFeedingHoodAngle.get());
-      }
-      turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+      // if (isScoring) {
+      //   hood.setAngle(fakeHoodAngle.get());
+      //   flywheels.setVelocity(fakeFlywheelVelocity.get());
+      // } else {
+      //   flywheels.setVelocity(fakeFeedingVelocity.get());
+      //   hood.setAngle(fakeFeedingHoodAngle.get());
+      // }
+      hood.setAngle(fakeHoodAngle.get());
+      flywheels.setVelocity(fakeFlywheelVelocity.get());
+      // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+      Pose2d robotPose = poseManager.getPose();
+      Translation2d targetPose = // TODO change if feeding and not scoring
+          AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
+      Pose2d turretPosition =
+          robotPose.transformBy(
+              new Transform2d(
+                  turretCenter.getTranslation().toTranslation2d(),
+                  turretCenter.getRotation().toRotation2d()));
+      double turretAngle =
+          targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees() + 180;
+      turret.setTarget(turretAngle, 0);
+
       // hood.setAngle(hoodIsSafe ? fakeHoodAngle.get() : HoodConstants.minPositionDegs);
       // if (isScoring) {
       //   if (isClose) {
