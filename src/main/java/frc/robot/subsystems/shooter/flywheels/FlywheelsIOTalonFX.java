@@ -4,6 +4,7 @@ import static frc.robot.subsystems.shooter.flywheels.FlywheelsConstants.*;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -21,7 +22,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(updateFreqHz);
   // private final VelocityDutyCycle dutyCycle =
   //     new VelocityDutyCycle(1000).withUpdateFreqHz(updateFreqHz);
-  // // private final DutyCycleOut dutyCycle = new DutyCycleOut(1.0);
+  private final DutyCycleOut dutyCycle = new DutyCycleOut(1.0).withUpdateFreqHz(updateFreqHz);
   // private final VoltageOut slowDutyCycle = new VoltageOut(4.5);
   private final VelocityVoltage velocityVoltage =
       new VelocityVoltage(0).withUpdateFreqHz(updateFreqHz);
@@ -71,10 +72,10 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
     leader.setControl(voltageOut.withOutput(0));
   }
 
-  // @Override
-  // public void runDutyCycle() {
-  //   leader.setControl(dutyCycle.withEnableFOC(true));
-  // }
+  @Override
+  public void runDutyCycle() {
+    leader.setControl(dutyCycle.withEnableFOC(true));
+  }
 
   // @Override
   // public void runSlowDutyCycle() {

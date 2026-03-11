@@ -18,7 +18,7 @@ public interface FlywheelsIO {
 
   public default void runVolts(double volts) {}
 
-  // public default void runDutyCycle() {}
+  public default void runDutyCycle() {}
 
   // public default void runSlowDutyCycle() {}
 
