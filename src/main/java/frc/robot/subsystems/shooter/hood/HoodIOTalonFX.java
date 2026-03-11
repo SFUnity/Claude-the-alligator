@@ -59,8 +59,8 @@ public class HoodIOTalonFX implements HoodIO {
         positionVoltage.withPosition(
             MathUtil.clamp(
                 Units.degreesToRotations(positionDeg - minPositionDegs),
-                Units.degreesToRotations(0.2),
-                Units.degreesToRotations(maxPositionDegs - minPositionDegs - 0.2))));
+                Units.degreesToRotations(0.1),
+                Units.degreesToRotations(maxPositionDegs - minPositionDegs))));
     // positionVoltage.withPosition(
     //     Units.degreesToRotations(positionDeg - minPositionDegs) / gearRatio));
 
