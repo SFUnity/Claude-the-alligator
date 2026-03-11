@@ -30,6 +30,7 @@ public class DriveConstants {
   public static final double bumperWidth = Units.inchesToMeters(3.25);
   /** Floor to top of bumper. Based on CAD */
   public static final double bumperHeight = Units.inchesToMeters(5.75);
+
   public static final double lengthInches = 27.5;
   public static final double widthInches = 26.5;
 
