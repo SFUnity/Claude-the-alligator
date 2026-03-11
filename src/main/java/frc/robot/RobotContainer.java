@@ -409,7 +409,7 @@ public class RobotContainer {
     controller.povUp().whileTrue(shooter.setIsClose(true));
     controller.povDown().whileTrue(shooter.setIsClose(false));
 
-    controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
+    // controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
     // controller.rightBumper().onTrue(Commands.runOnce(() -> isShooting = !isShooting));
     // controller
     //     .rightBumper()
