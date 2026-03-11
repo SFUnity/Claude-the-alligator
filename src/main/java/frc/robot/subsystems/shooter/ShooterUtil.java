@@ -25,7 +25,7 @@ public class ShooterUtil {
   private final InterpolatingDoubleTreeMap scoreRealHoodAngleMap = new InterpolatingDoubleTreeMap();
   private final InterpolatingDoubleTreeMap scoreRealFlywheelSpeedMap =
       new InterpolatingDoubleTreeMap();
-    private final InterpolatingDoubleTreeMap scoreRealKickerSpeedMap =
+  private final InterpolatingDoubleTreeMap scoreRealKickerSpeedMap =
       new InterpolatingDoubleTreeMap();
   private final InterpolatingDoubleTreeMap scoreRealTimeOfFlightMap =
       new InterpolatingDoubleTreeMap();
@@ -33,7 +33,7 @@ public class ShooterUtil {
   private final InterpolatingDoubleTreeMap feedRealHoodAngleMap = new InterpolatingDoubleTreeMap();
   private final InterpolatingDoubleTreeMap feedRealFlywheelSpeedMap =
       new InterpolatingDoubleTreeMap();
-    private final InterpolatingDoubleTreeMap feedRealKickerSpeedMap =
+  private final InterpolatingDoubleTreeMap feedRealKickerSpeedMap =
       new InterpolatingDoubleTreeMap();
   private final InterpolatingDoubleTreeMap feedRealTimeOfFlightMap =
       new InterpolatingDoubleTreeMap();
@@ -71,8 +71,7 @@ public class ShooterUtil {
     scoreRealFlywheelSpeedMap.put(1.40335, 1075.0);
     // scoreRealHoodAngleMap.put(1.40335, 17.0);
     // scoreRealTimeOfFlightMap.put(1.40335, null);
-        // scoreRealKickerSpeedMap.put(1.40335, 3000.0);
-
+    // scoreRealKickerSpeedMap.put(1.40335, 3000.0);
 
     // scoreRealFlywheelSpeedMap.put(1.80975, 1125.0);
     // scoreRealHoodAngleMap.put(1.80975, 21.0);
@@ -90,8 +89,8 @@ public class ShooterUtil {
     // scoreRealHoodAngleMap.put(4.45315, 31.0);
     // scoreRealTimeOfFlightMap.put(4.45315, null);
     // scoreRealKickerSpeedMap.put(4.45315, 3000.0);
-//TODO from here on out were using kickerspeed as well
-        //     scoreRealFlywheelSpeedMap.put(4.45315, 1340.0);
+    // TODO from here on out were using kickerspeed as well
+    //     scoreRealFlywheelSpeedMap.put(4.45315, 1340.0);
     // scoreRealHoodAngleMap.put(4.45315, 31.0);
     // scoreRealTimeOfFlightMap.put(4.45315, null);
 

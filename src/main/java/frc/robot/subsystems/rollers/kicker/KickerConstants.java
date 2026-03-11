@@ -11,7 +11,8 @@ public class KickerConstants {
 
   public static final double spinupTime = 0.25;
   public static final LoggedTunableNumber tunableRPMSetpoint =
-      new LoggedTunableNumber("Kicker/RPMSetpoint", 3000); //maybe issue when more than flywheelspeed x 2
+      new LoggedTunableNumber(
+          "Kicker/RPMSetpoint", 3000); // maybe issue when more than flywheelspeed x 2
   public static double RPMSetpoint = tunableRPMSetpoint.get();
 
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
