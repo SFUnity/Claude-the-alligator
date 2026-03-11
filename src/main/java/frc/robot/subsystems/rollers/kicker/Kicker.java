@@ -67,7 +67,8 @@ public class Kicker extends SubsystemBase {
         io.runVolts(-6);
         break;
       case RUN:
-        runVelocity(RPMSetpoint.get());
+        // runVelocity(RPMSetpoint);
+        runVelocity(tunableRPMSetpoint.get());
     }
     if (fuelCountDebouncer.calculate(inputs.laserMeasurementInches < fuelDistance)) {
       launchCount++;

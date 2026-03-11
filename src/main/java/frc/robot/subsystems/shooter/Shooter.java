@@ -22,6 +22,7 @@ import frc.robot.FieldConstants.LeftTrench;
 import frc.robot.FieldConstants.LinesHorizontal;
 import frc.robot.FieldConstants.LinesVertical;
 import frc.robot.FieldConstants.RightTrench;
+import frc.robot.subsystems.rollers.kicker.KickerConstants;
 import frc.robot.subsystems.shooter.ShooterUtil.LaunchingParameters;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.flywheels.Flywheels.FlywheelsState;
@@ -151,6 +152,7 @@ public class Shooter extends VirtualSubsystem {
     //   turret.setTarget(turretAngle, turretVelocity);
     //   hood.setAngle(solution.hoodAngle());
     //   flywheels.setVelocity(solution.flywheelSpeed());
+    //   KickerConstants.RPMSetpoint = solution.kickerSpeed();
     // }
 
     // rlly fucking cooked way to do this but dont comment pls
