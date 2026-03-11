@@ -11,6 +11,8 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 
 public class TurretIOTalonFX implements TurretIO {
@@ -79,6 +81,6 @@ public class TurretIOTalonFX implements TurretIO {
     // Units.rotationsToRadians(talonVelocity))
     //                 * kV));
     // TODO change if dist is further than a point
-    talon.setControl(motionMagicExpoVoltage.withPosition(targetRotations));
+    talon.setControl(motionMagicExpoVoltage.withPosition(MathUtil.clamp(targetRotations, Units.degreesToRotations(minAngleDegs*gearRatio),Units.degreesToRotations(maxAngleDegs*gearRatio))));
   }
 }

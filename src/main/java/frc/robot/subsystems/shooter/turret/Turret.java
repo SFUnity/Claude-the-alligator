@@ -76,7 +76,7 @@ public class Turret extends SubsystemBase {
     io.updateInputs(inputs);
     // TODO if this is enabled, refactor code to stop looking at motor position degrees
     // offset/turretoffset, also make sure this is returning a valid number, otherwise edisable
-    // io.resetMotorEncoder(Units.degreesToRotations(motorOffsetDegs) * gearRatio);
+    io.resetMotorEncoder(Units.degreesToRotations(motorOffsetDegs) * gearRatio);
     truePositionDegs = getPositionDegs() / gearRatio;
     positionDegs = MathUtil.inputModulus(truePositionDegs, 0, 360);
 
@@ -86,7 +86,7 @@ public class Turret extends SubsystemBase {
     Logger.processInputs("Shooter/Turret", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Turret");
 
-    if (motorOffsetDegs != -1) {
+    if (truePositionDegs >= -1) {
 
       if (maxVelocity.hasChanged(hashCode())) {
         profile =
@@ -126,27 +126,26 @@ public class Turret extends SubsystemBase {
         double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
         double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
 
-        double bestAngle = MathUtil.inputModulus(targetDegs, 0, 360);
-        // boolean hasBestAngle = false;
-        // double bestAngle = 0;
+        boolean hasBestAngle = false;
+        double bestAngle = 0;
 
-        // // replace
-        // for (int i = 0; i < 5; i++) {
-        //   double potentialSetpoint = targetDegs + 360 * i;
-        //   if (potentialSetpoint < minLegalAngle || potentialSetpoint > maxLegalAngle) {
-        //     continue;
-        //   } else {
-        //     if (!hasBestAngle) {
-        //       bestAngle = potentialSetpoint;
-        //       hasBestAngle = true;
-        //     }
-        //     if (Math.abs(lastTargetDegs - potentialSetpoint)
-        //         < Math.abs(lastTargetDegs - bestAngle)) {
-        //       bestAngle = potentialSetpoint;
-        //     }
-        //   }
-        // }
-        // lastTargetDegs = bestAngle;
+        // replace
+        for (int i = 0; i < 5; i++) {
+          double potentialSetpoint = targetDegs + 360 * i;
+          if (potentialSetpoint < minLegalAngle || potentialSetpoint > maxLegalAngle) {
+            continue;
+          } else {
+            if (!hasBestAngle) {
+              bestAngle = potentialSetpoint;
+              hasBestAngle = true;
+            }
+            if (Math.abs(lastTargetDegs - potentialSetpoint)
+                < Math.abs(lastTargetDegs - bestAngle)) {
+              bestAngle = potentialSetpoint;
+            }
+          }
+        }
+        lastTargetDegs = bestAngle;
 
         Logger.recordOutput("Shooter/Turret/GoalAngle", bestAngle);
 
@@ -159,7 +158,7 @@ public class Turret extends SubsystemBase {
         targetDegs = setpoint.position;
 
         double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
-        targetRotations -= talonOffsetRots;
+        // targetRotations -= talonOffsetRots;
         Logger.recordOutput("Shooter/Turret/SetpointRotations", targetRotations);
         io.turnTurret(targetRotations, setpoint.velocity, kA.get(), kV.get());
       } else {
@@ -197,7 +196,7 @@ public class Turret extends SubsystemBase {
             candidateTurretPos); // in turret rotations, multiply by 360 for degrees
       }
     }
-    return -1;
+    return -100;
   }
 
   public double getMotorOffsetDegs() {

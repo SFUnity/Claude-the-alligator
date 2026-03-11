@@ -16,7 +16,7 @@ public class TurretConstants {
   public static final double gearRatio = 48.875; // turretGear / Motor Gear
 
   public static final double trueMinAngleDegs = 0f;
-  public static final double trueMaxAngleDegs = 360f;
+  public static final double trueMaxAngleDegs = 405f;
 
   public static final double bufferDegs = (trueMaxAngleDegs - 360f) / 4f;
   public static final double centerDegs = trueMaxAngleDegs / 2f;
