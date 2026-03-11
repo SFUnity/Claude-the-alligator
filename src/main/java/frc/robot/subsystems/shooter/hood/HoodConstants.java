@@ -9,7 +9,7 @@ public class HoodConstants {
 
   // TODO add values
   public static final double minPositionDegs = 14.06 + 1;
-  public static final double maxPositionDegs = 46.333 - 5;
+  public static final double maxPositionDegs = 46.333 - 2;
 
   public static final double angleTolerance = 0.5;
   public static final double minAngleRads = Units.degreesToRadians(minPositionDegs);
