@@ -56,6 +56,7 @@ public class Turret extends SubsystemBase {
   private double talonOffsetRots;
 
   private double motorOffsetDegs = -1;
+  private boolean hasBeenZeroed = false;
 
   public Turret(TurretIO io) {
     this.io = io;
@@ -65,7 +66,8 @@ public class Turret extends SubsystemBase {
     if (motorOffsetDegs < trueMinAngleDegs || motorOffsetDegs > trueMaxAngleDegs) {
       eDisabled = true;
     }
-    talonOffsetRots = Units.degreesToRotations(motorOffsetDegs) * gearRatio - inputs.talonRotations;
+    // talonOffsetRots = Units.degreesToRotations(motorOffsetDegs) * gearRatio -
+    // inputs.talonRotations;
 
     encoder1Disconnected = new Alert("Encoder 1 Disconnected!", AlertType.kWarning);
     encoder2Disconnected = new Alert("Encoder 2 Disconnected!", AlertType.kWarning);
@@ -76,7 +78,11 @@ public class Turret extends SubsystemBase {
     io.updateInputs(inputs);
     // TODO if this is enabled, refactor code to stop looking at motor position degrees
     // offset/turretoffset, also make sure this is returning a valid number, otherwise edisable
-    io.resetMotorEncoder(Units.degreesToRotations(motorOffsetDegs) * gearRatio);
+    double possiblePosition = Units.degreesToRotations(motorOffsetDegs);
+    if (possiblePosition > -5) {
+      io.resetMotorEncoder(possiblePosition * gearRatio);
+      hasBeenZeroed = true;
+    }
     truePositionDegs = getPositionDegs() / gearRatio;
     positionDegs = MathUtil.inputModulus(truePositionDegs, 0, 360);
 
@@ -86,7 +92,9 @@ public class Turret extends SubsystemBase {
     Logger.processInputs("Shooter/Turret", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Turret");
 
-    if (truePositionDegs >= -1) {
+    if (truePositionDegs >= minAngleDegs - 3
+        && truePositionDegs <= trueMaxAngleDegs + 3
+        && hasBeenZeroed) {
 
       if (maxVelocity.hasChanged(hashCode())) {
         profile =
@@ -163,16 +171,6 @@ public class Turret extends SubsystemBase {
         io.turnTurret(targetRotations, setpoint.velocity, kA.get(), kV.get());
       } else {
         io.stop();
-      }
-    } else {
-      motorOffsetDegs = getMotorOffsetDegs();
-      talonOffsetRots =
-          Units.degreesToRotations(motorOffsetDegs) * gearRatio - inputs.talonRotations;
-      Logger.recordOutput("Shooter/Turret/MotorOffsetDegs", motorOffsetDegs);
-      if (motorOffsetDegs < trueMinAngleDegs || motorOffsetDegs > trueMaxAngleDegs) {
-        eDisabled = true;
-      } else {
-        eDisabled = false;
       }
     }
   }
