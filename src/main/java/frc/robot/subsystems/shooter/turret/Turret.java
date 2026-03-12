@@ -28,7 +28,7 @@ public class Turret extends SubsystemBase {
   private double positionDegs = 0;
 
   private boolean eDisabled = false; // TODO tune debouncers + their offsets
-  private Debouncer outOfBoundsDebouncer = new Debouncer(0.1, DebounceType.kRising);
+  private Debouncer outOfBoundsDebouncer = new Debouncer(0.1, DebounceType.kRising); //TODO add stuff for if any encoder breaks
   private Debouncer encoderBrokenDebouncer = new Debouncer(0.5, DebounceType.kRising);
   private double lastTalonRotations = 0;
 
