@@ -20,7 +20,7 @@ public class TurretIOTalonFX implements TurretIO {
 
   private final NeutralOut neutralOut = new NeutralOut();
   private final VoltageOut voltageOut = new VoltageOut(0).withEnableFOC(true);
-  private final MotionMagicVoltage motionMagicExpoVoltage =
+  private final MotionMagicVoltage motionMagicVoltage =
       new MotionMagicVoltage(0).withEnableFOC(true);
 
   double talonVelocity;
@@ -79,7 +79,7 @@ public class TurretIOTalonFX implements TurretIO {
     // Units.rotationsToRadians(talonVelocity))
     //                 * kV));
     // TODO change if dist is further than a point
-    talon.setControl(motionMagicExpoVoltage.withPosition(targetRotations));
+    talon.setControl(motionMagicVoltage.withPosition(targetRotations));
   }
 
   @Override
