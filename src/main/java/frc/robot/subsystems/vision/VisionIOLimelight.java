@@ -3,18 +3,12 @@ package frc.robot.subsystems.vision;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 import static frc.robot.util.LimelightHelpers.*;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.vision.VisionConstants.Pipelines;
-import frc.robot.subsystems.vision.VisionConstants.rawDetectionRef;
-import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
-import frc.robot.util.LimelightHelpers.RawDetection;
 import frc.robot.util.PoseManager;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 import org.littletonrobotics.junction.Logger;
 

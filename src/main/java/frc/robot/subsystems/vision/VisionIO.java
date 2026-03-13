@@ -1,7 +1,6 @@
 package frc.robot.subsystems.vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 // import frc.robot.util.LimelightHelpers.*;
 import frc.robot.util.PoseManager;
 import org.littletonrobotics.junction.AutoLog;
@@ -37,7 +36,8 @@ public interface VisionIO {
   public default void updateInputs(AprilTagVisionIOInputs inputs, PoseManager poseManager) {}
 
   /** Updates the set of loggable inputs for pieces */
-  // public default void updateInputs(ObjectDetectionVisionIOInputs inputs, PoseManager poseManager) {}
+  // public default void updateInputs(ObjectDetectionVisionIOInputs inputs, PoseManager poseManager)
+  // {}
 
   /** Sets the pipeline index. */
   // public default void setPipeline(int pipeline) {}
