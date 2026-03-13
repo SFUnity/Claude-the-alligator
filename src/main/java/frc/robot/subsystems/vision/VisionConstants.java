@@ -39,13 +39,13 @@ public class VisionConstants {
   }
 
   public static final LimelightConfigs starboardFore =
-      new LimelightConfigs("sfore", 0, 0, 0, 0, 0, 0);
+      new LimelightConfigs("limelight-sfore", 0, 0, 0, 0, 0, 0);
   public static final LimelightConfigs starboardAft =
-      new LimelightConfigs("saft", -0.308, 0.256, 0.202111, 0, 24.45, 207.785);
+      new LimelightConfigs("limelight-saft", -0.308, 0.256, 0.202111, 0, 24.45, 207.785);
   public static final LimelightConfigs portFore =
-      new LimelightConfigs("pfore", -0.247, -0.286, 0.228, 0, 24.5, 45);
+      new LimelightConfigs("limelight-pfore", -0.247, -0.286, 0.228, 0, 24.5, 45);
   public static final LimelightConfigs portAft =
-      new LimelightConfigs("paft", -0.301, -0.162, 0.23, 0, 28.1, 145);
+      new LimelightConfigs("limelight-paft", -0.301, -0.162, 0.23, 0, 28.1, 145);
 
   // what r these
   public static final double megatag1AmbiguityMinimum = 0.7; // TODO change
