@@ -1,7 +1,6 @@
 package frc.robot.subsystems.shooter.hood;
 
 import edu.wpi.first.math.util.Units;
-import frc.robot.util.LoggedTunableNumber;
 
 public class HoodConstants {
   public static final int hoodMotorID = 12;
@@ -16,9 +15,4 @@ public class HoodConstants {
   public static final double minAngleRads = Units.degreesToRadians(minPositionDegs);
   public static final double maxAngleRads = Units.degreesToRadians(maxPositionDegs);
   public static final double armLengthMeters = Units.inchesToMeters(15);
-  public static final double intakePIDMinInput = 0;
-  public static final double intakePIDMaxInput = 1 * 360;
-
-  public static LoggedTunableNumber kP = new LoggedTunableNumber("Hood/kP", 550);
-  public static LoggedTunableNumber kD = new LoggedTunableNumber("Hood/kD", 3);
 }
