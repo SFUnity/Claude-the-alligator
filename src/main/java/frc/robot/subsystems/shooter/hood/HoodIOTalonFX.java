@@ -8,6 +8,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GainSchedBehaviorValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import edu.wpi.first.math.MathUtil;
@@ -26,10 +27,14 @@ public class HoodIOTalonFX implements HoodIO {
 
     config.Feedback.SensorToMechanismRatio = gearRatio;
 
+    config.ClosedLoopGeneral.GainSchedErrorThreshold = Units.degreesToRotations(.5);
+
     config.Slot0.kS = 0.15;
     config.Slot0.kP = 550;
     config.Slot0.kD = 3;
     config.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+    config.Slot0.GainSchedBehavior = GainSchedBehaviorValue.ZeroOutput;
+
     config.MotionMagic.MotionMagicAcceleration = 8.0;
     config.MotionMagic.MotionMagicCruiseVelocity = 4.0;
 
@@ -37,7 +42,6 @@ public class HoodIOTalonFX implements HoodIO {
     config.CurrentLimits.StatorCurrentLimitEnable = true;
     config.CurrentLimits.SupplyCurrentLimit = 60.0;
 
-    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     tryUntilOk(5, () -> pivot.getConfigurator().apply(config, 0.25));
 
     this.resetEncoder(0.0);
