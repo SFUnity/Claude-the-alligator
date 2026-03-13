@@ -38,7 +38,7 @@ public class RobotCommands {
     return Commands.parallel(
             kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
-            waitSeconds(1).andThen(spindexer.run()))
+            waitSeconds(0.3).andThen(spindexer.run()))
         .withName("ReadyThenShoot");
   }
 
