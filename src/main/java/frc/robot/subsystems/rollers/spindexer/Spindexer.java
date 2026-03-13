@@ -33,7 +33,13 @@ public class Spindexer extends SubsystemBase {
   }
 
   public Command run() {
-    return run(() -> io.run(spindexerSpeedVolts.get())).withName("spindexerRun");
+    return run(() -> {
+              if (currentDebouncer.calculate(inputs.supplyCurrentAmps > 40)) {
+                io.run(0);
+              } else {
+                io.run(spindexerSpeedVolts.get());
+              }
+            }).withName("spindexerRun");
   }
 
   public Command runBack(double rots) {
