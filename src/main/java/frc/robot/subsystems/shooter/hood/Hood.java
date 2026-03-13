@@ -20,7 +20,6 @@ public class Hood extends SubsystemBase {
 
   private final Debouncer statorCurrentDebouncer =
       new Debouncer(statorCurrentDebounce.get(), DebounceType.kFalling);
-  private double lastPosition = 0;
 
   public Hood(HoodIO io) {
     this.io = io;
@@ -34,27 +33,13 @@ public class Hood extends SubsystemBase {
 
     Logger.recordOutput("Shooter/Hood/Goal", goalPosition);
     Logger.recordOutput("Shooter/Hood/IsZeroing", isZeroing);
-    // if (!isZeroing) {
-    //   if (statorCurrentDebouncer.calculate(
-    //       inputs.statorCurrent < statorCurrentTolerance.get()
-    //           || Math.abs(lastPosition - inputs.positionDeg) > 0.02)) {
+    // if (!isZeroing) {}
     io.setPosition(goalPosition);
-    //   } else {
-    //     io.runVolts(0.0);
-    //     if (inputs.positionDeg - minPositionDegs > (maxPositionDegs - minPositionDegs) / 2.0) {
-    //       io.resetEncoder(maxPositionDegs - minPositionDegs);
-    //     } else {
-    //       io.resetEncoder(0.0);
-    //     }
-    //   }
-    // }
-    lastPosition = inputs.positionDeg;
   }
 
   public void setAngle(double angle) {
     MathUtil.clamp(angle, minPositionDegs, maxPositionDegs);
     goalPosition = angle;
-    // withName("updateAngle");
   }
 
   @AutoLogOutput(key = "Shooter/Hood/AtGoal")
