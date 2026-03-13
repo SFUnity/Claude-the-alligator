@@ -17,7 +17,7 @@ public class Spindexer extends SubsystemBase {
   private double positionDifference = 0;
   private double startingPosition = 0;
 
-  private final Debouncer currentDebouncer = new Debouncer(0.1, DebounceType.kRising);
+  private final Debouncer currentDebouncer = new Debouncer(0.5, DebounceType.kBoth);
 
   public Spindexer(SpindexerIO io) {
     this.io = io;
