@@ -88,7 +88,7 @@ public class Vision extends VirtualSubsystem {
               // if no pose, then ignored
               || estimatedPose.equals(new Pose2d())
               // if turning too fast
-              || Math.abs(poseManager.getRobotVelocity().dtheta) > 720
+              || Math.abs(poseManager.getRobotVelocity().dtheta) > 270
               // if off field
               || estimatedPose.getX() < -fieldBorderMargin
               || estimatedPose.getX() > FieldConstants.fieldLength + fieldBorderMargin
