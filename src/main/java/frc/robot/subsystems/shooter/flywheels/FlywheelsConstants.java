@@ -8,9 +8,6 @@ public class FlywheelsConstants {
 
   public static final double gearRatio = 3 / 5; // step up so less than one
 
-  public static final LoggedTunableNumber readyRPMSetpoint =
-      new LoggedTunableNumber("Flywheels/readyRPM", 100);
-
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
       new LoggedTunableNumber("Flywheels/TorqueCurrentControlTolerance", 50);
   public static final LoggedTunableNumber torqueCurrentControlDebounce =
