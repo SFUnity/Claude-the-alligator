@@ -183,7 +183,7 @@ public class RobotContainer {
             new Vision(
                 poseManager,
                 new VisionIOLimelight(starboardAft),
-                new VisionIOLimelight(portAft),
+                // new VisionIOLimelight(portAft), smudged
                 new VisionIOLimelight(portFore));
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
