@@ -61,14 +61,13 @@ public class Kicker extends SubsystemBase {
 
     switch (state) {
       case STOP:
-        io.runVolts(-1);
+        io.runVolts(0);
         break;
       case BACKWARDS:
         io.runVolts(-6);
         break;
       case RUN:
-        // runVelocity(RPMSetpoint);
-        runVelocity(tunableRPMSetpoint.get());
+        runVelocity();
     }
     if (fuelCountDebouncer.calculate(inputs.laserMeasurementInches < fuelDistance)) {
       launchCount++;
@@ -76,23 +75,26 @@ public class Kicker extends SubsystemBase {
   }
 
   /** Run closed loop at the specified velocity. */
-  private void runVelocity(double velocityRPM) {
-    boolean inToleranceForTorqueControl =
-        Math.abs(inputs.velocityRotsPerMin - velocityRPM) <= torqueCurrentControlTolerance.get();
-    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
-    atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
+  private void runVelocity() {
+    double velocityRPM = tunableRPMSetpoint.get();
+
+    // boolean inToleranceForTorqueControl =
+    //     Math.abs(inputs.velocityRotsPerMin - velocityRPM) <= torqueCurrentControlTolerance.get();
+    // boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
+    // atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
 
     // if (!torqueCurrentControl && lastTorqueCurrentControl) {
     //   launchCount++;
     // }
-    lastTorqueCurrentControl = torqueCurrentControl;
+    // lastTorqueCurrentControl = torqueCurrentControl;
 
     if (inputs.velocityRotsPerMin < velocityRPM + 300) {
-      if (torqueCurrentControl) {
-        io.runTorqueControl();
-      } else {
-        io.runDutyCycle();
-      }
+      // if (torqueCurrentControl) {
+      //   io.runTorqueControl();
+      // } else {
+      //   io.runDutyCycle();
+      // }
+      io.runDutyCycle();
     } else {
       io.runSlowDutyCycle(velocityRPM);
     }

@@ -7,7 +7,6 @@ import static frc.robot.util.PhoenixUtil.tryUntilOk;
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -24,11 +23,11 @@ public class KickerIOTalonFX implements KickerIO {
 
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
-  private final VelocityDutyCycle dutyCycle = new VelocityDutyCycle(100);
-  private final VoltageOut slowDutyCycle = new VoltageOut(1);
+  // private final DutyCycleOut voltageOut = new DutyCycleOut(1);
+  private final VoltageOut slowVoltageOut = new VoltageOut(1);
   // private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
 
-  private final VelocityTorqueCurrentFOC torqueCurrent = new VelocityTorqueCurrentFOC(100);
+  private final VelocityTorqueCurrentFOC torqueCurrent = new VelocityTorqueCurrentFOC(750);
   private final VelocityTorqueCurrentFOC torqueCurrentModifiable =
       new VelocityTorqueCurrentFOC(100);
 
@@ -84,23 +83,23 @@ public class KickerIOTalonFX implements KickerIO {
 
   @Override
   public void runDutyCycle() {
-    rollerMotor.setControl(dutyCycle.withEnableFOC(true));
+    rollerMotor.setControl(voltageOut.withOutput(10).withEnableFOC(true));
   }
 
   @Override
   public void runSlowDutyCycle(double rpm) {
-    rollerMotor.setControl(slowDutyCycle.withOutput(rpm / 6000 * 10).withEnableFOC(true));
+    rollerMotor.setControl(slowVoltageOut.withOutput(8).withEnableFOC(true));
   }
 
-  @Override
-  public void runTorqueControl() {
-    rollerMotor.setControl(torqueCurrent);
-  }
+  // @Override
+  // public void runTorqueControl() {
+  //   rollerMotor.setControl(torqueCurrent);
+  // }
 
-  @Override
-  public void runTorqueControl(double rps) {
-    rollerMotor.setControl(torqueCurrentModifiable.withVelocity(rps));
-  }
+  // @Override
+  // public void runTorqueControl(double rps) {
+  //   rollerMotor.setControl(torqueCurrentModifiable.withVelocity(rps));
+  // }
 
   @Override
   public void runVolts(double volts) {
