@@ -68,7 +68,7 @@ public class ShooterUtil {
   public ShooterUtil(PoseManager poseManager) {
     this.poseManager = poseManager;
 
-    scoreRealFlywheelSpeedMap.put(1.40335, 1075.0);
+    // scoreRealFlywheelSpeedMap.put(1.40335, 1075.0);
     // scoreRealHoodAngleMap.put(1.40335, 17.0);
     // scoreRealTimeOfFlightMap.put(1.40335, null);
     // scoreRealKickerSpeedMap.put(1.40335, 3000.0);
@@ -173,6 +173,19 @@ public class ShooterUtil {
     scoreSimFlywheelSpeedMap.put(5.312, 1650.0);
     scoreSimHoodAngleMap.put(5.312, 38.0);
     scoreSimTimeOfFlightMap.put(5.312, 1.080);
+
+    // Measured at 10th Street
+    scoreRealFlywheelSpeedMap.put(0.0, 1101.0);
+    scoreRealHoodAngleMap.put(0.0, 15.0);
+    scoreRealTimeOfFlightMap.put(0.0, 1.0);
+
+    scoreRealFlywheelSpeedMap.put(0.5, 1101.0);
+    scoreRealHoodAngleMap.put(0.5, 17.0);
+    scoreRealTimeOfFlightMap.put(0.5, null);
+
+    scoreRealFlywheelSpeedMap.put(0.5, 1100.0);
+    scoreRealHoodAngleMap.put(0.5, 17.0);
+    scoreRealTimeOfFlightMap.put(0.5, null);
   }
 
   public record LaunchingParameters(
