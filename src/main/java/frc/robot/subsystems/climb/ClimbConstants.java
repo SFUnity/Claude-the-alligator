@@ -5,7 +5,7 @@ import frc.robot.Constants;
 import frc.robot.util.LoggedTunableNumber;
 
 public class ClimbConstants {
-  public static final int climbMotorID = 10;
+  public static final int climbMotorID = 4;
 
   static final double upMeters = Units.inchesToMeters(8.0);
   static final double downMeters = 0.0;
