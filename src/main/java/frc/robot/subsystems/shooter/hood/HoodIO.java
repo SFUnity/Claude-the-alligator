@@ -18,5 +18,8 @@ public interface HoodIO {
 
   public default void runVolts(double volts) {}
 
-  public default void resetEncoder(double positionDeg) {}
+  /**
+   * @param positionRot
+   */
+  public default void resetEncoder(double positionRot) {}
 }

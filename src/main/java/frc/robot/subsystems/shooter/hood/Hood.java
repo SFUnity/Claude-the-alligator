@@ -18,8 +18,7 @@ public class Hood extends SubsystemBase {
   private double goalPosition;
   private boolean isZeroing = false;
 
-  private final Debouncer statorCurrentDebouncer =
-      new Debouncer(statorCurrentDebounce.get(), DebounceType.kFalling);
+  private final Debouncer statorCurrentDebouncer = new Debouncer(0.2, DebounceType.kFalling);
 
   public Hood(HoodIO io) {
     this.io = io;
@@ -56,7 +55,7 @@ public class Hood extends SubsystemBase {
 
   public Command runCurrentZeroing() {
     return run(() -> io.runVolts(-1.0))
-        .until(() -> inputs.statorCurrent > 90.0)
+        .until(() -> statorCurrentDebouncer.calculate(inputs.statorCurrent > 30.0))
         .finallyDo(
             () -> {
               io.resetEncoder(0.0);

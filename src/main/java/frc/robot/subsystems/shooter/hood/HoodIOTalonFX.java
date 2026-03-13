@@ -41,6 +41,8 @@ public class HoodIOTalonFX implements HoodIO {
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     tryUntilOk(5, () -> pivot.getConfigurator().apply(config, 0.25));
+
+    this.resetEncoder(0.0);
   }
 
   @Override
@@ -74,7 +76,7 @@ public class HoodIOTalonFX implements HoodIO {
   }
 
   @Override
-  public void resetEncoder(double positionDeg) {
-    pivot.setPosition(Units.degreesToRotations(positionDeg));
+  public void resetEncoder(double positionRot) {
+    pivot.setPosition(positionRot);
   }
 }
