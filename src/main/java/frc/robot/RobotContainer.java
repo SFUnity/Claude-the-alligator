@@ -70,7 +70,6 @@ import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
-import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.util.FuelSim;
 import frc.robot.util.PoseManager;
 import frc.robot.util.ShiftHelpers;
@@ -179,12 +178,10 @@ public class RobotContainer {
         hood = new Hood(new HoodIOTalonFX());
         kicker = new Kicker(new KickerIOTalonFX());
 
-        vision =
-            new Vision(
-                poseManager,
-                new VisionIOLimelight(portFore),
-                // new VisionIOLimelight(portAft), smudged
-                new VisionIOLimelight(starboardAft));
+        vision = new Vision(poseManager);
+        // new VisionIOLimelight(portFore),
+        // new VisionIOLimelight(portAft), smudged
+        // new VisionIOLimelight(starboardAft));
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
 
@@ -379,9 +376,8 @@ public class RobotContainer {
         .or(controller.back())
         .onTrue(
             Commands.runOnce(
-                    () ->
-                        poseManager.setPose(
-                            new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.kZero)),
+                    () -> poseManager.setPose( // new Pose2d()),
+                    new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
 
