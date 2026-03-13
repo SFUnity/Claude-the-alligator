@@ -79,9 +79,9 @@ public class Turret extends SubsystemBase {
     io.updateInputs(inputs);
     // TODO if this is enabled, refactor code to stop looking at motor position degrees
     // offset/turretoffset, also make sure this is returning a valid number, otherwise edisable
-    double possiblePosition = Units.degreesToRotations(motorOffsetDegs);
+    double possiblePosition = getMotorOffsetDegs();
     if (possiblePosition > -5) {
-      io.resetMotorEncoder(possiblePosition * gearRatio);
+      io.resetMotorEncoder(Units.degreesToRotations(possiblePosition) * gearRatio);
       hasBeenZeroed = true;
     }
     truePositionDegs = getPositionDegs() / gearRatio;
@@ -93,7 +93,7 @@ public class Turret extends SubsystemBase {
     Logger.processInputs("Shooter/Turret", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Turret");
 
-    if (truePositionDegs >= minAngleDegs - 3
+    if (truePositionDegs >= trueMinAngleDegs - 3
         && truePositionDegs <= trueMaxAngleDegs + 3
         && hasBeenZeroed) {
 
