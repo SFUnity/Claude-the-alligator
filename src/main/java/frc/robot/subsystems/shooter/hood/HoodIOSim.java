@@ -5,7 +5,6 @@ import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import frc.robot.util.LoggedTunableNumber;
 
 public class HoodIOSim implements HoodIO {
   private double angle;
@@ -22,14 +21,13 @@ public class HoodIOSim implements HoodIO {
   private final PIDController controller;
 
   public HoodIOSim() {
-    controller = new PIDController(kP.get(), 0.0, 0.0);
+    controller = new PIDController(330, 0.0, 0.0);
     sim.setState(minAngleRads, 0.0);
   }
 
   @Override
   public void updateInputs(HoodIOInputs inputs) {
     inputs.positionDeg = angle;
-    LoggedTunableNumber.ifChanged(hashCode(), () -> controller.setP(kP.get()), kP);
   }
 
   @Override
