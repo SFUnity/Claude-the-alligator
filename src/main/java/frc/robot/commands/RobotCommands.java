@@ -36,9 +36,15 @@ public class RobotCommands {
     //                 waitUntil(kicker::atGoal), waitUntil(shooter::readyToShoot),
     // spindexer.run()))
     return Commands.parallel(
-            kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
-            waitSeconds(0.4).andThen(spindexer.run()))
+            Commands.sequence(
+                spindexer
+                    .runBackUntilJam()
+                    .withTimeout(1)
+                    .deadlineFor(kicker.setState(KickerState.BACKWARDS)),
+                kicker
+                    .setState(KickerState.RUN)
+                    .alongWith(Commands.waitUntil(kicker::atGoal).andThen(spindexer.run()))))
         .withName("ReadyThenShoot");
   }
 
