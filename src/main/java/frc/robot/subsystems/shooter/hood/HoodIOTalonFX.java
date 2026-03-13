@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GainSchedBehaviorValue;
+import com.ctre.phoenix6.signals.GainSchedKpBehaviorValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import edu.wpi.first.math.MathUtil;
@@ -28,10 +29,11 @@ public class HoodIOTalonFX implements HoodIO {
     config.Feedback.SensorToMechanismRatio = gearRatio;
 
     config.ClosedLoopGeneral.GainSchedErrorThreshold = Units.degreesToRotations(.5);
+    config.ClosedLoopGeneral.GainSchedKpBehavior = GainSchedKpBehaviorValue.Discontinuous;
 
-    config.Slot0.kS = 0.15;
-    config.Slot0.kP = 550;
-    config.Slot0.kD = 3;
+    config.Slot0.kS = 0.2;
+    config.Slot0.kP = 100;
+    config.Slot0.kD = 0.5;
     config.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
     config.Slot0.GainSchedBehavior = GainSchedBehaviorValue.ZeroOutput;
 
