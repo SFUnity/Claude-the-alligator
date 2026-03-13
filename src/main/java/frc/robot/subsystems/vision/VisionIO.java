@@ -1,5 +1,6 @@
 package frc.robot.subsystems.vision;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 // import frc.robot.util.LimelightHelpers.*;
 import frc.robot.util.PoseManager;
@@ -10,7 +11,7 @@ public interface VisionIO {
   public static class AprilTagVisionIOInputs {
     // public PoseEstimate observation;
     public int[] tagIds = new int[0];
-    public Pose3d estimatedPose = new Pose3d();
+    public Pose2d estimatedPose = new Pose2d();
     public double timestamp = 0.0;
     public int tagCount = 0;
     public double avgTagDist = 0.0;
@@ -36,19 +37,19 @@ public interface VisionIO {
   public default void updateInputs(AprilTagVisionIOInputs inputs, PoseManager poseManager) {}
 
   /** Updates the set of loggable inputs for pieces */
-  public default void updateInputs(ObjectDetectionVisionIOInputs inputs, PoseManager poseManager) {}
+  // public default void updateInputs(ObjectDetectionVisionIOInputs inputs, PoseManager poseManager) {}
 
   /** Sets the pipeline index. */
-  public default void setPipeline(int pipeline) {}
+  // public default void setPipeline(int pipeline) {}
 
   /** Sets the pipeline through enum. */
-  public default void setPipeline(VisionConstants.Pipelines pipeline) {}
+  // public default void setPipeline(VisionConstants.Pipelines pipeline) {}
 
   public default String getName() {
     return "";
   }
 
-  public default double getPipelineIndex() {
-    return 0;
-  }
+  // public default double getPipelineIndex() {
+  //   return 0;
+  // }
 }

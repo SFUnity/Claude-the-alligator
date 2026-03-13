@@ -53,25 +53,26 @@ public class VisionIOLimelight implements VisionIO {
   @Override
   public void updateInputs(AprilTagVisionIOInputs inputs, PoseManager poseManager) {
     // megatag1
-    boolean doRejectUpdate = false;
-    LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    // boolean doRejectUpdate = false;
+    // LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
-    if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
-      if (mt1.rawFiducials[0].ambiguity > megatag1AmbiguityMinimum) {
-        doRejectUpdate = true;
-      }
-      if (mt1.rawFiducials[0].distToCamera > megatag1DistanceMaximum) {
-        doRejectUpdate = true;
-      }
-    }
-    if (mt1.tagCount == 0) {
-      doRejectUpdate = true;
-    }
+    // if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
+    //   if (mt1.rawFiducials[0].ambiguity > megatag1AmbiguityMinimum) {
+    //     doRejectUpdate = true;
+    //   }
+    //   if (mt1.rawFiducials[0].distToCamera > megatag1DistanceMaximum) {
+    //     doRejectUpdate = true;
+    //   }
+    // }
+    // if (mt1.tagCount == 0) {
+    //   doRejectUpdate = true;
+    // }
 
-    if (!doRejectUpdate) {
-      poseManager.addVisionGyroMeasurement(
-          Units.radiansToDegrees(mt1.pose.getRotation().getAngle()), mt1.timestampSeconds);
-    }
+    // if (!doRejectUpdate) {
+    //   poseManager.addVisionGyroMeasurement(
+    //       Units.radiansToDegrees(mt1.pose.getRotation().getAngle()), mt1.timestampSeconds);
+    // }
+
     // megatag2
     SetRobotOrientation(name, poseManager.getRotation().getDegrees(), 0, 0, 0, 0, 0);
     PoseEstimate observation = getBotPoseEstimate_wpiBlue_MegaTag2(name);
@@ -109,58 +110,58 @@ public class VisionIOLimelight implements VisionIO {
   }
 
   // TODO update for 2026
-  @Override
-  public void updateInputs(ObjectDetectionVisionIOInputs inputs, PoseManager poseManager) {
-    RawDetection[] detections = getRawDetections(name);
-    inputs.detections = new double[detections.length][];
-    int i = 0;
-    for (RawDetection detection : detections) {
-      inputs.detections[i++] = detection.toDouble;
-    }
+  // @Override
+  // public void updateInputs(ObjectDetectionVisionIOInputs inputs, PoseManager poseManager) {
+  //   RawDetection[] detections = getRawDetections(name);
+  //   inputs.detections = new double[detections.length][];
+  //   int i = 0;
+  //   for (RawDetection detection : detections) {
+  //     inputs.detections[i++] = detection.toDouble;
+  //   }
 
-    LinkedList<double[]> coral = new LinkedList<>();
-    LinkedList<double[]> algae = new LinkedList<>();
+  //   LinkedList<double[]> coral = new LinkedList<>();
+  //   LinkedList<double[]> algae = new LinkedList<>();
 
-    for (double[] detection : inputs.detections) {
-      // TODO check what each class number corresponds to
-      switch ((int) detection[rawDetectionRef.classId]) {
-        case 0:
-          coral.add(detection);
-          inputs.coralCount++;
-          break;
-        case 1:
-          algae.add(detection);
-          inputs.algaeCount++;
-          break;
-      }
-    }
+  //   for (double[] detection : inputs.detections) {
+  //     // TODO check what each class number corresponds to
+  //     switch ((int) detection[rawDetectionRef.classId]) {
+  //       case 0:
+  //         coral.add(detection);
+  //         inputs.coralCount++;
+  //         break;
+  //       case 1:
+  //         algae.add(detection);
+  //         inputs.algaeCount++;
+  //         break;
+  //     }
+  //   }
 
-    inputs.corals = new double[coral.size()][];
-    i = 0;
-    for (double[] detection : coral) {
-      inputs.corals[i++] = detection;
-    }
+  //   inputs.corals = new double[coral.size()][];
+  //   i = 0;
+  //   for (double[] detection : coral) {
+  //     inputs.corals[i++] = detection;
+  //   }
 
-    inputs.algae = new double[algae.size()][];
-    i = 0;
-    for (double[] detection : algae) {
-      inputs.algae[i++] = detection;
-    }
+  //   inputs.algae = new double[algae.size()][];
+  //   i = 0;
+  //   for (double[] detection : algae) {
+  //     inputs.algae[i++] = detection;
+  //   }
 
-    inputs.pipeline = getCurrentPipelineIndex(name);
+  //   inputs.pipeline = getCurrentPipelineIndex(name);
 
-    inputs.timestamp = Timer.getFPGATimestamp(); // todo change?
-  }
+  //   inputs.timestamp = Timer.getFPGATimestamp(); // todo change?
+  // }
 
-  @Override
-  public void setPipeline(int pipelineIndex) {
-    setPipelineIndex(name, pipelineIndex);
-  }
+  // @Override
+  // public void setPipeline(int pipelineIndex) {
+  //   setPipelineIndex(name, pipelineIndex);
+  // }
 
-  @Override
-  public void setPipeline(Pipelines pipelineEnum) {
-    setPipelineIndex(name, Pipelines.getIndexFor(pipelineEnum));
-  }
+  // @Override
+  // public void setPipeline(Pipelines pipelineEnum) {
+  //   setPipelineIndex(name, Pipelines.getIndexFor(pipelineEnum));
+  // }
 
   // function crops the limelight window to only include the apriltags the robot can see
   // private void dynamicCropping() {
@@ -205,8 +206,8 @@ public class VisionIOLimelight implements VisionIO {
     return name;
   }
 
-  @Override
-  public double getPipelineIndex() {
-    return getCurrentPipelineIndex(name);
-  }
+  // @Override
+  // public double getPipelineIndex() {
+  //   return getCurrentPipelineIndex(name);
+  // }
 }

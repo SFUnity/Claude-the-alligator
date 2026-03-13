@@ -42,32 +42,32 @@ public class Vision extends VirtualSubsystem {
     }
 
     // Pipelines are the setting configured in the limelight software
-    for (int i = 0; i < this.io.length; i++) {
-      this.io[i].setPipeline(Pipelines.APRILTAG);
-    }
+    // for (int i = 0; i < this.io.length; i++) {
+    //   this.io[i].setPipeline(Pipelines.APRILTAG);
+    // }
   }
 
   public void periodic() {
     // Initialize logging values
     List<Pose3d> allTagPoses = new LinkedList<>();
-    List<Pose3d> allRobotPoses = new LinkedList<>();
-    List<Pose3d> allRobotPosesAccepted = new LinkedList<>();
-    List<Pose3d> allRobotPosesRejected = new LinkedList<>();
+    List<Pose2d> allRobotPoses = new LinkedList<>();
+    List<Pose2d> allRobotPosesAccepted = new LinkedList<>();
+    List<Pose2d> allRobotPosesRejected = new LinkedList<>();
 
     // Loop over cameras
     for (int i = 0; i < io.length; i++) {
 
       // apriltag
-      if (io[i].getPipelineIndex() == Pipelines.getIndexFor(Pipelines.APRILTAG)) {
+      // if (io[i].getPipelineIndex() == Pipelines.getIndexFor(Pipelines.APRILTAG)) {
 
         io[i].updateInputs(aprilTagInputs[i], poseManager);
         Logger.processInputs("Vision/" + io[i].getName(), aprilTagInputs[i]);
 
         // Initialize logging values
         List<Pose3d> tagPoses = new LinkedList<>();
-        List<Pose3d> robotPoses = new LinkedList<>();
-        List<Pose3d> robotPosesAccepted = new LinkedList<>();
-        List<Pose3d> robotPosesRejected = new LinkedList<>();
+        List<Pose2d> robotPoses = new LinkedList<>();
+        List<Pose2d> robotPosesAccepted = new LinkedList<>();
+        List<Pose2d> robotPosesRejected = new LinkedList<>();
 
         // Add tag poses
         for (int tagId : aprilTagInputs[i].tagIds) {
@@ -77,7 +77,7 @@ public class Vision extends VirtualSubsystem {
           }
         }
 
-        Pose2d estimatedPose = aprilTagInputs[i].estimatedPose.toPose2d();
+        Pose2d estimatedPose = aprilTagInputs[i].estimatedPose;
 
         // Exit if there are no tags in sight or the pose is blank or the robot is spinning too fast
         // These are the basic checks LL recommends
@@ -90,8 +90,6 @@ public class Vision extends VirtualSubsystem {
                 || estimatedPose.equals(new Pose2d())
                 // if turning too fast
                 || Math.abs(poseManager.getRobotVelocity().dtheta) > 720
-                // if off the ground
-                || aprilTagInputs[i].estimatedPose.getZ() > 0.15
                 // if off field
                 || estimatedPose.getX() < -fieldBorderMargin
                 || estimatedPose.getX() > FieldConstants.fieldLength + fieldBorderMargin
@@ -153,9 +151,9 @@ public class Vision extends VirtualSubsystem {
         allRobotPosesRejected.addAll(robotPosesRejected);
 
         // Object Detection
-      } else if (io[i].getPipelineIndex() == Pipelines.getIndexFor(Pipelines.OBJ_DETECTION)) {
-        io[i].updateInputs(objectInputs[i], poseManager);
-      }
+      // } else if (io[i].getPipelineIndex() == Pipelines.getIndexFor(Pipelines.OBJ_DETECTION)) {
+      //   io[i].updateInputs(objectInputs[i], poseManager);
+      // }
     }
 
     // Log summary data
