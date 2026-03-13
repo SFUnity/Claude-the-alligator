@@ -134,7 +134,8 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput("Shooter/isClose", isClose);
     Logger.recordOutput("Shooter/Hood/isSafe", hoodIsSafe);
 
-    turret.setIsShooting(isShooting);
+    // turret.setIsShooting(isShooting);
+    turret.setIsShooting(true);
     flywheels.setIsShooting(isShooting);
 
     myX = poseManager.getPose().getX() - LinesVertical.center;
@@ -172,7 +173,7 @@ public class Shooter extends VirtualSubsystem {
       // }
       hood.setAngle(fakeHoodAngle.get());
       flywheels.setVelocity(fakeFlywheelVelocity.get());
-      // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+      turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
       Pose2d robotPose = poseManager.getPose();
       Translation2d targetPose = // TODO change if feeding and not scoring
           AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
@@ -181,9 +182,9 @@ public class Shooter extends VirtualSubsystem {
               new Transform2d(
                   turretCenter.getTranslation().toTranslation2d(),
                   turretCenter.getRotation().toRotation2d()));
-      double turretAngle =
-          targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees() + 180;
-      turret.setTarget(turretAngle, 0);
+      // double turretAngle =
+      //     targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees() + 180;
+      // turret.setTarget(turretAngle, 0);
 
       // hood.setAngle(hoodIsSafe ? fakeHoodAngle.get() : HoodConstants.minPositionDegs);
       // if (isScoring) {
