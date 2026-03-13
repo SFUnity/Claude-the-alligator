@@ -87,7 +87,7 @@ public class Kicker extends SubsystemBase {
     // }
     lastTorqueCurrentControl = torqueCurrentControl;
 
-    if (inputs.velocityRotsPerMin < velocityRPM) {
+    if (inputs.velocityRotsPerMin < velocityRPM + 300) {
       if (torqueCurrentControl) {
         io.runTorqueControl();
       } else {
