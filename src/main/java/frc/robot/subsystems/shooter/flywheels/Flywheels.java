@@ -64,7 +64,7 @@ public class Flywheels extends SubsystemBase {
         io.runVolts(0);
         break;
       case IDLE:
-        io.runVolts(0.5);
+        io.runVolts(1);
         break;
       case RUN:
         runVelocity(RPMSetpoint);

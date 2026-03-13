@@ -61,7 +61,7 @@ public class Kicker extends SubsystemBase {
 
     switch (state) {
       case STOP:
-        io.runVolts(0.5);
+        io.runVolts(1);
         break;
       case BACKWARDS:
         io.runVolts(-6);
