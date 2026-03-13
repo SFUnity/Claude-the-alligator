@@ -24,27 +24,10 @@ public class RobotCommands {
   }
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    // return shooter
-    //     .setShooting(true)
-    //     .andThen(
-    //         spindexer
-    //             .runBack(shootingBackupRots)
-    //             .deadlineFor(kicker.setState(KickerState.BACKWARDS)),
-    //         kicker
-    //             .setState(KickerState.RUN)
-    //             .alongWith(
-    //                 waitUntil(kicker::atGoal), waitUntil(shooter::readyToShoot),
-    // spindexer.run()))
     return Commands.parallel(
+            kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
-            Commands.sequence(
-                spindexer
-                    .runBackUntilJam()
-                    .withTimeout(1)
-                    .deadlineFor(kicker.setState(KickerState.BACKWARDS)),
-                kicker
-                    .setState(KickerState.RUN)
-                    .alongWith(Commands.waitUntil(kicker::atGoal).andThen(spindexer.run()))))
+            waitSeconds(1).andThen(spindexer.run()))
         .withName("ReadyThenShoot");
   }
 
