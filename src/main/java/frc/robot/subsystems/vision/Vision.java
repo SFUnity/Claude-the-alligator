@@ -106,7 +106,7 @@ public class Vision extends VirtualSubsystem {
       }
 
       // Smaller number = more trust
-      double trust = 1;
+      double trust = 10;
 
       // Scale trust based on number of tags
       if (aprilTagInputs[i].tagCount < 2) {
