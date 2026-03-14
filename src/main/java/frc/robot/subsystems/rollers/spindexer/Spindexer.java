@@ -6,6 +6,7 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.leds.Leds;
 import frc.robot.util.GeneralUtil;
 import org.littletonrobotics.junction.Logger;
 
@@ -38,9 +39,11 @@ public class Spindexer extends SubsystemBase {
     if (currentDebouncer.calculate(inputs.supplyCurrentAmps > 40)) {
       io.run(0);
       Logger.recordOutput("Rollers/Spindexer/Jammed", true);
+      Leds.getInstance().isJammed = true;
     } else {
       io.run(spindexerSpeedVolts.get());
       Logger.recordOutput("Rollers/Spindexer/Jammed", false);
+      Leds.getInstance().isJammed = false;
     }
   }
 

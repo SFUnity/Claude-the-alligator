@@ -43,6 +43,7 @@ import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.intakePivot.IntakePivotIO;
 import frc.robot.subsystems.intakePivot.IntakePivotIOSim;
 import frc.robot.subsystems.intakePivot.IntakePivotIOTalon;
+import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIO;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIOSim;

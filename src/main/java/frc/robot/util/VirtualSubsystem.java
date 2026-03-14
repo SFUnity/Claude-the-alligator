@@ -18,7 +18,7 @@ public abstract class VirtualSubsystem {
   }
 
   public static void periodicAll() {
-    for (VirtualSubsystem subsystem : subsystems) {
+    for (VirtualSubsystem subsystem : new ArrayList<>(subsystems)) {
       subsystem.periodic();
     }
   }

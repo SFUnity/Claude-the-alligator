@@ -22,6 +22,7 @@ import frc.robot.FieldConstants.LeftTrench;
 import frc.robot.FieldConstants.LinesHorizontal;
 import frc.robot.FieldConstants.LinesVertical;
 import frc.robot.FieldConstants.RightTrench;
+import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.shooter.ShooterUtil.LaunchingParameters;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.flywheels.Flywheels.FlywheelsState;
@@ -247,6 +248,9 @@ public class Shooter extends VirtualSubsystem {
             .getTranslation()
             .getDistance(
                 AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d())));
+
+    Leds.getInstance().isShooting = getShooting();
+    Leds.getInstance().isScoring = getScoring();
   }
 
   public boolean readyToShoot() {
@@ -265,6 +269,10 @@ public class Shooter extends VirtualSubsystem {
 
   public boolean getShooting() {
     return isShooting;
+  }
+
+  public boolean getScoring() {
+    return isScoring;
   }
 
   public Command toggleHoodIsSafe() {
