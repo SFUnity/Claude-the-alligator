@@ -42,14 +42,11 @@ public class Spindexer extends SubsystemBase {
   }
 
   public Command run() {
-    return run(() -> runUnlessJammed())
-        .withName("spindexerRun");
+    return run(() -> runUnlessJammed()).withName("spindexerRun");
   }
 
   public Command runBack(double rots) {
-    return runEnd(
-            () -> runUnlessJammed(),
-            () -> io.run(0))
+    return runEnd(() -> runUnlessJammed(), () -> io.run(0))
         .beforeStarting(
             () -> {
               startingPosition = inputs.positionRots;

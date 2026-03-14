@@ -376,8 +376,9 @@ public class RobotContainer {
         .or(controller.back())
         .onTrue(
             Commands.runOnce(
-                    () -> poseManager.setPose( // new Pose2d()),
-                    new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.kZero)),
+                    () ->
+                        poseManager.setPose( // new Pose2d()),
+                            new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
 
