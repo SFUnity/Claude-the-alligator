@@ -21,6 +21,7 @@ public class Spindexer extends SubsystemBase {
 
   public Spindexer(SpindexerIO io) {
     this.io = io;
+    Logger.recordOutput("Rollers/Spindexer/Jammed", false);
   }
 
   public void periodic() {
@@ -36,8 +37,10 @@ public class Spindexer extends SubsystemBase {
   private void runUnlessJammed() {
     if (currentDebouncer.calculate(inputs.supplyCurrentAmps > 40)) {
       io.run(0);
+      Logger.recordOutput("Rollers/Spindexer/Jammed", true);
     } else {
       io.run(spindexerSpeedVolts.get());
+      Logger.recordOutput("Rollers/Spindexer/Jammed", false);
     }
   }
 
