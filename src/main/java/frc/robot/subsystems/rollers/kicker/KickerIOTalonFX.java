@@ -25,11 +25,8 @@ public class KickerIOTalonFX implements KickerIO {
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
   // private final DutyCycleOut voltageOut = new DutyCycleOut(1);
   private final VoltageOut slowVoltageOut = new VoltageOut(1);
-  // private final VelocityVoltage velocityVoltage = new VelocityVoltage(0).withEnableFOC(true);
 
   private final VelocityTorqueCurrentFOC torqueCurrent = new VelocityTorqueCurrentFOC(750);
-  private final VelocityTorqueCurrentFOC torqueCurrentModifiable =
-      new VelocityTorqueCurrentFOC(100);
 
   @SuppressWarnings("resource")
   public KickerIOTalonFX() {
@@ -91,15 +88,10 @@ public class KickerIOTalonFX implements KickerIO {
     rollerMotor.setControl(slowVoltageOut.withOutput(rpm / 6000 * 10).withEnableFOC(true));
   }
 
-  // @Override
-  // public void runTorqueControl() {
-  //   rollerMotor.setControl(torqueCurrent);
-  // }
-
-  // @Override
-  // public void runTorqueControl(double rps) {
-  //   rollerMotor.setControl(torqueCurrentModifiable.withVelocity(rps));
-  // }
+  @Override
+  public void runTorqueControl() {
+    rollerMotor.setControl(torqueCurrent);
+  }
 
   @Override
   public void runVolts(double volts) {

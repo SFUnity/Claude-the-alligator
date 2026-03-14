@@ -17,7 +17,7 @@ public class Kicker extends SubsystemBase {
   private Debouncer torqueCurrentDebouncer =
       new Debouncer(torqueCurrentControlDebounce.get(), DebounceType.kFalling);
   private Debouncer atGoalDebouncer = new Debouncer(atGoalDebounce.get(), DebounceType.kFalling);
-  private boolean lastTorqueCurrentControl = false;
+  // private boolean lastTorqueCurrentControl = false;
 
   boolean torqueCurrentControl = false;
   boolean atGoal = false;
@@ -78,10 +78,10 @@ public class Kicker extends SubsystemBase {
   private void runVelocity() {
     double velocityRPM = tunableRPMSetpoint.get();
 
-    // boolean inToleranceForTorqueControl =
-    //     Math.abs(inputs.velocityRotsPerMin - velocityRPM) <= torqueCurrentControlTolerance.get();
-    // boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
-    // atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
+    boolean inToleranceForTorqueControl =
+        Math.abs(inputs.velocityRotsPerMin - velocityRPM) <= torqueCurrentControlTolerance.get();
+    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
+    atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
 
     // if (!torqueCurrentControl && lastTorqueCurrentControl) {
     //   launchCount++;
@@ -89,12 +89,11 @@ public class Kicker extends SubsystemBase {
     // lastTorqueCurrentControl = torqueCurrentControl;
 
     if (inputs.velocityRotsPerMin < velocityRPM + 300) {
-      // if (torqueCurrentControl) {
-      //   io.runTorqueControl();
-      // } else {
-      //   io.runDutyCycle();
-      // }
-      io.runDutyCycle();
+      if (torqueCurrentControl) {
+        io.runTorqueControl();
+      } else {
+        io.runDutyCycle();
+      }
     } else {
       io.runSlowDutyCycle(velocityRPM);
     }
