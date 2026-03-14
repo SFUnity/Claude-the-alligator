@@ -203,7 +203,7 @@ public class Shooter extends VirtualSubsystem {
       flywheels.setVelocity(fakeFlywheelVelocity.get());
     }
     // Avi commented this out because real robot is not ready for it
-    // TrenchAvoidence();
+    TrenchAvoidence();
 
     measuredVisualizer.update(turret.getPositionDegs(), hood.getAngleDeg());
     setpointVisualizer.update(0, fakeTurretVelocity.get());
@@ -377,17 +377,10 @@ public class Shooter extends VirtualSubsystem {
   }
 
   private void DropHood() {
-
     if (inXRange & inYRange) {
       if (trenchUpAndMovingUp || trenchDownAndMovingDown || upwardMovmentCorospondWithDirection) {
         hood.setAngle(0);
-      } else {
-        // swap for solution.hoodAngle() when working
-        hood.setAngle(341.5);
       }
-    } else {
-      // swap for solution.hoodAngle() when working
-      hood.setAngle(341.5);
     }
   }
 
