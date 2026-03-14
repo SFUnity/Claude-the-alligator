@@ -125,6 +125,19 @@ public class DriveCommands {
         .withName("joystickDrive");
   }
 
+  public static Command povDrive(Drive drive, PoseManager poseManager, boolean toTheLeft) {
+    return Commands.run(
+        () -> {
+          ChassisSpeeds speeds = new ChassisSpeeds();
+          if (toTheLeft) {
+            speeds.vyMetersPerSecond = 0.3;
+          } else {
+            speeds.vyMetersPerSecond = -0.3;
+          }
+          drive.runVelocity(speeds);
+        });
+  }
+
   /**
    * Field relative drive command using joystick for linear control and PID for angular control.
    * Possible use cases include snapping to an angle, aiming at a vision target, or controlling
