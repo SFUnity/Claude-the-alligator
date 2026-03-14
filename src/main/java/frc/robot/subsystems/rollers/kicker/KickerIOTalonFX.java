@@ -7,6 +7,7 @@ import static frc.robot.util.PhoenixUtil.tryUntilOk;
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -23,10 +24,10 @@ public class KickerIOTalonFX implements KickerIO {
 
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
-  // private final DutyCycleOut voltageOut = new DutyCycleOut(1);
+  private final DutyCycleOut dutyCycleOut = new DutyCycleOut(1.0);
   private final VoltageOut slowVoltageOut = new VoltageOut(1);
 
-  private final VelocityTorqueCurrentFOC torqueCurrent = new VelocityTorqueCurrentFOC(750);
+  private final VelocityTorqueCurrentFOC torqueCurrent = new VelocityTorqueCurrentFOC(100);
 
   @SuppressWarnings("resource")
   public KickerIOTalonFX() {
@@ -80,12 +81,13 @@ public class KickerIOTalonFX implements KickerIO {
 
   @Override
   public void runDutyCycle() {
-    rollerMotor.setControl(voltageOut.withOutput(10).withEnableFOC(true));
+    // rollerMotor.setControl(voltageOut.withOutput(10).withEnableFOC(true));
+    rollerMotor.setControl(dutyCycleOut.withEnableFOC(true));
   }
 
   @Override
   public void runSlowDutyCycle(double rpm) {
-    rollerMotor.setControl(slowVoltageOut.withOutput(rpm / 6000 * 10).withEnableFOC(true));
+    rollerMotor.setControl(slowVoltageOut.withOutput(rpm / maxRPM * 10).withEnableFOC(true));
   }
 
   @Override

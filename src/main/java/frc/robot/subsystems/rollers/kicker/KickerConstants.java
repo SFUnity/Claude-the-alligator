@@ -25,4 +25,6 @@ public class KickerConstants {
 
   public static final LoggedTunableNumber kickerSpeedVolts =
       new LoggedTunableNumber("Kicker/rollerSpeed", 2);
+
+  public static final double maxRPM = 4380;
 }
