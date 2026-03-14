@@ -72,6 +72,8 @@ public class Kicker extends SubsystemBase {
     if (fuelCountDebouncer.calculate(inputs.laserMeasurementInches < fuelDistance)) {
       launchCount++;
     }
+
+    Logger.recordOutput("Rollers/Kicker/State", state);
   }
 
   /** Run closed loop at the specified velocity. */
@@ -88,12 +90,13 @@ public class Kicker extends SubsystemBase {
     // }
     // lastTorqueCurrentControl = torqueCurrentControl;
 
-    if (inputs.velocityRotsPerMin < velocityRPM + 300) {
-      if (torqueCurrentControl) {
-        io.runTorqueControl();
-      } else {
-        io.runDutyCycle();
-      }
+    if (inputs.velocityRotsPerMin < velocityRPM) {
+      // if (torqueCurrentControl) {
+      //   io.runTorqueControl();
+      // } else {
+      //   io.runDutyCycle();
+      // }
+      io.runDutyCycle();
     } else {
       io.runSlowDutyCycle(velocityRPM);
     }
