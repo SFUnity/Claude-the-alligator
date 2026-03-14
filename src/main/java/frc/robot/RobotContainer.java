@@ -178,10 +178,13 @@ public class RobotContainer {
         hood = new Hood(new HoodIOTalonFX());
         kicker = new Kicker(new KickerIOTalonFX());
 
-        vision = new Vision(poseManager);
-        // new VisionIOLimelight(portFore),
-        // new VisionIOLimelight(portAft), smudged
-        // new VisionIOLimelight(starboardAft));
+        // vision = new Vision(poseManager, new VisionIO() {});
+        vision =
+            new Vision(
+                poseManager,
+                new VisionIOLimelight(portFore),
+                // new VisionIOLimelight(portAft),
+                new VisionIOLimelight(starboardAft));
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
 

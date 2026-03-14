@@ -106,7 +106,7 @@ public class Vision extends VirtualSubsystem {
       }
 
       // Smaller number = more trust
-      double trust = 10;
+      double trust = .7;
 
       // Scale trust based on number of tags
       if (aprilTagInputs[i].tagCount < 2) {
@@ -114,9 +114,9 @@ public class Vision extends VirtualSubsystem {
       }
 
       // Scale trust based on distance
-      if (poseManager.getDistanceTo(estimatedPose) > 1) {
-        trust *= 2;
-      }
+      // if (poseManager.getDistanceTo(estimatedPose) > 1) {
+      //   trust *= 2;
+      // }
 
       // Scale trust based on max velocity
       ChassisSpeeds velo = GeomUtil.toChassisSpeeds(poseManager.getRobotVelocity());
