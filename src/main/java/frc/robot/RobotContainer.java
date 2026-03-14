@@ -70,6 +70,7 @@ import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.util.FuelSim;
 import frc.robot.util.PoseManager;
 import frc.robot.util.ShiftHelpers;
@@ -380,10 +381,13 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                     () ->
-                        poseManager.setPose( // new Pose2d()),
+                        poseManager.setPose(
                             new Pose2d(poseManager.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    controller.povUp().whileTrue(DriveCommands.povDrive(drive, poseManager, false));
+    controller.povDown().whileTrue(DriveCommands.povDrive(drive, poseManager, true));
 
     // Climbing
     // controller.povUp().onTrue(climb.climbUp());
