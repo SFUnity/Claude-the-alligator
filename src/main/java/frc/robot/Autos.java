@@ -145,7 +145,7 @@ public class Autos {
     return isChoreoAuto ? chooser.selectedCommandScheduler() : nonChoreoChooser.get();
   }
 
-  public AutoRoutine climbAutoRoutine() {
+  /** public AutoRoutine climbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Climb Auto Routine");
     AutoTrajectory BasicClimb = routine.trajectory("Climb");
     routine.active().onTrue(Commands.sequence(BasicClimb.resetOdometry(), BasicClimb.cmd()));
@@ -187,7 +187,7 @@ public class Autos {
     Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
     Depot.done().onTrue(climb.climbDown());
     return routine;
-  }
+  } */
 
   public AutoRoutine ScoreCenterClimbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("ScoreCenterClimb Auto Routine");
@@ -227,7 +227,7 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine ScoreCenterAutoRoutine() {
+  /** public AutoRoutine ScoreCenterAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("ScoreCenter Auto Routine");
     AutoTrajectory ScoreCenter = routine.trajectory("ScoreCenter");
     routine.active().onTrue(Commands.sequence(ScoreCenter.resetOdometry(), ScoreCenter.cmd()));
@@ -290,7 +290,7 @@ public class Autos {
         .onTrue(climb.climbUp().alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     UpperFeedClimb.done().onTrue(climb.climbDown());
     return routine;
-  }
+  } */
 
   public AutoRoutine FeedAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Feed Auto Routine");
@@ -333,7 +333,7 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine LowerFeedClimbAutoRoutine() {
+  /** public AutoRoutine LowerFeedClimbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Lower Feed Climb Auto Routine");
     AutoTrajectory LowerFeedClimb = routine.trajectory("LowerFeedClimb");
     routine
@@ -401,7 +401,7 @@ public class Autos {
     DoubleScoreCenterBanana.atTime("StartShoot2")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
-  }
+  } */
 
   public AutoRoutine DoubleScoreUpperLoop() {
     AutoRoutine routine = factory.newRoutine("Double Score Upper Loop Auto Routine");
@@ -463,7 +463,7 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine DoubleScoreUpperCenter() {
+  /** public AutoRoutine DoubleScoreUpperCenter() {
     AutoRoutine routine = factory.newRoutine("Double Score Upper Center Auto Routine");
     AutoTrajectory DoubleScoreUpperCenter = routine.trajectory("DoubleScoreUpperCenter");
     routine
@@ -480,7 +480,7 @@ public class Autos {
     DoubleScoreUpperCenter.atTime("StartShoot2")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
-  }
+  } */
 
   public AutoRoutine CompleteLowerFeed() {
     AutoRoutine routine = factory.newRoutine("Complete Lower Feed Auto Routine");
