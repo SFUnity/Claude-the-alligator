@@ -447,7 +447,7 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment1.cmd()));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
