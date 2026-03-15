@@ -209,7 +209,7 @@ public class Shooter extends VirtualSubsystem {
       flywheels.setVelocity(fakeFlywheelVelocity.get());
     }
     // Avi commented this out because real robot is not ready for it
-    TrenchAvoidence();
+    // TrenchAvoidence();
 
     measuredVisualizer.update(turret.getPositionDegs(), hood.getAngleDeg());
     setpointVisualizer.update(0, fakeTurretVelocity.get());
