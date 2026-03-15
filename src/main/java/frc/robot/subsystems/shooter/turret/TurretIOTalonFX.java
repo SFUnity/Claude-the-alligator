@@ -39,8 +39,9 @@ public class TurretIOTalonFX implements TurretIO {
     configs.CurrentLimits.StatorCurrentLimit = 80.0;
     configs.CurrentLimits.StatorCurrentLimitEnable = true;
     configs.CurrentLimits.SupplyCurrentLimit = 60.0;
-    configs.Slot0.kP = 0.2;
-    configs.Slot0.kV = 0.12;
+    configs.Slot0.kP = 0.08;
+    configs.Slot0.kV = 0.07;
+    configs.Slot0.kD = 0;
     configs.MotionMagic.MotionMagicCruiseVelocity = 360;
     configs.MotionMagic.MotionMagicAcceleration = 360;
 

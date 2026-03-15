@@ -22,7 +22,7 @@ public interface FlywheelsIO {
 
   // public default void runSlowDutyCycle() {}
 
-  // public default void runTorqueControl() {}
+  public default void runTorqueControl() {}
 
   // public default void runTorqueControl(double rps) {}
 

@@ -136,7 +136,7 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput("Shooter/Hood/isSafe", hoodIsSafe);
 
     // turret.setIsShooting(isShooting);
-    turret.setIsShooting(true);
+    turret.setIsShooting(false);
     flywheels.setIsShooting(isShooting);
 
     myX = poseManager.getPose().getX() - LinesVertical.center;
@@ -203,7 +203,7 @@ public class Shooter extends VirtualSubsystem {
       flywheels.setVelocity(fakeFlywheelVelocity.get());
     }
     // Avi commented this out because real robot is not ready for it
-    TrenchAvoidence();
+    // TrenchAvoidence();
 
     measuredVisualizer.update(turret.getPositionDegs(), hood.getAngleDeg());
     setpointVisualizer.update(0, fakeTurretVelocity.get());

@@ -90,25 +90,26 @@ public class Kicker extends SubsystemBase {
     // }
     // lastTorqueCurrentControl = torqueCurrentControl;
 
-    if (inputs.velocityRotsPerMin < velocityRPM) {
-      // if (torqueCurrentControl) {
-      //   io.runTorqueControl();
-      // } else {
-      //   io.runDutyCycle();
-      // }
-      io.runDutyCycle();
-    } else {
-      io.runSlowDutyCycle(velocityRPM);
-    }
+    // if (inputs.velocityRotsPerMin < velocityRPM) {
+    //   if (torqueCurrentControl) {
+    //     io.runTorqueControl();
+    //   } else {
+    //     io.runDutyCycle();
+    //   }
+    // } else {
+    //   io.runSlowDutyCycle(velocityRPM);
+    // }
 
     // sean's pid + torque control solution
-    // if(!torqueCurrentControl) {
-    //   io.runDutyCycle();
-    // } else if(velocityRPM - inputs.velocityRotsPerMin >= 10) {
-    //   io.runTorqueControl();
-    // } else {
-    //   io.runTorqueControl(velocityRPM);
-    // }
+    if (!torqueCurrentControl) {
+      io.runDutyCycle();
+    } else if (velocityRPM - inputs.velocityRotsPerMin >= 10) {
+      io.runTorqueControl();
+    } else {
+      io.runTorqueControl(velocityRPM);
+    }
+
+    // io.runTorqueControl(velocityRPM);
   }
 
   public Command setState(KickerState state) {

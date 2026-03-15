@@ -24,8 +24,8 @@ public class KickerIOTalonFX implements KickerIO {
 
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
-  private final DutyCycleOut dutyCycleOut = new DutyCycleOut(1.0);
-  private final VoltageOut slowVoltageOut = new VoltageOut(1);
+  private final DutyCycleOut dutyCycleOut = new DutyCycleOut(1.0).withEnableFOC(true);
+  private final VoltageOut slowVoltageOut = new VoltageOut(1).withEnableFOC(true);
 
   private final VelocityTorqueCurrentFOC torqueCurrent = new VelocityTorqueCurrentFOC(100);
 
@@ -40,7 +40,6 @@ public class KickerIOTalonFX implements KickerIO {
     } catch (ConfigurationFailedException e) {
       new Alert("Configuration failed" + e, AlertType.kError).set(true);
     }
-    ;
 
     var talonFXConfigs = new TalonFXConfiguration();
 
@@ -50,7 +49,7 @@ public class KickerIOTalonFX implements KickerIO {
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
     talonFXConfigs.Slot0.kP = 999999.0;
-    talonFXConfigs.TorqueCurrent.PeakForwardTorqueCurrent = 40.0;
+    talonFXConfigs.TorqueCurrent.PeakForwardTorqueCurrent = 80.0;
     talonFXConfigs.TorqueCurrent.PeakReverseTorqueCurrent = 0.0;
     talonFXConfigs.MotorOutput.PeakForwardDutyCycle = 1.0;
     talonFXConfigs.MotorOutput.PeakReverseDutyCycle = 0.0;
@@ -93,6 +92,11 @@ public class KickerIOTalonFX implements KickerIO {
   @Override
   public void runTorqueControl() {
     rollerMotor.setControl(torqueCurrent);
+  }
+
+  @Override
+  public void runTorqueControl(double rpm) {
+    rollerMotor.setControl(torqueCurrent.withVelocity(rpm / 60));
   }
 
   @Override

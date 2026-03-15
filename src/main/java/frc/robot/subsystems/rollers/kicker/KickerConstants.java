@@ -1,6 +1,5 @@
 package frc.robot.subsystems.rollers.kicker;
 
-import edu.wpi.first.math.util.Units;
 import frc.robot.util.LoggedTunableNumber;
 
 public class KickerConstants {
@@ -16,8 +15,7 @@ public class KickerConstants {
   public static double RPMSetpoint = tunableRPMSetpoint.get();
 
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
-      new LoggedTunableNumber(
-          "Kicker/TorqueCurrentControlTolerance", Units.radiansPerSecondToRotationsPerMinute(20.0));
+      new LoggedTunableNumber("Kicker/TorqueCurrentControlTolerance", 50);
   public static final LoggedTunableNumber torqueCurrentControlDebounce =
       new LoggedTunableNumber("Kicker/TorqueCurrentControlDebounce", 0.025);
   public static final LoggedTunableNumber atGoalDebounce =
