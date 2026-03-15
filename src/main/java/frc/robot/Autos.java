@@ -426,7 +426,7 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment2.cmd(),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)));
@@ -474,11 +474,11 @@ public class Autos {
     DoubleScoreUpperCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     DoubleScoreUpperCenter.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
     DoubleScoreUpperCenter.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(4));
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     DoubleScoreUpperCenter.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     DoubleScoreUpperCenter.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
     DoubleScoreUpperCenter.atTime("StartShoot2")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3));
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
     return routine;
   }
 
