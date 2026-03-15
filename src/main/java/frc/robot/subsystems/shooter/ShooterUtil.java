@@ -287,7 +287,9 @@ public class ShooterUtil {
 
     Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
 
-    turretAngle = targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees();
+    turretAngle =
+        targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
+            - poseManager.getRotation().getDegrees();
     hoodAngle = hoodAngleMap.get(lookaheadTurretToTargetDistance);
 
     if (turretAngles.isEmpty()) turretAngles.add(turretAngle);
