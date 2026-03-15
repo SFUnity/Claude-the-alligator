@@ -5,11 +5,16 @@ import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ClimbIOTalonFX implements ClimbIO {
   private final TalonFX talon = new TalonFX(climbMotorID);
+
+  private final VoltageOut voltageOut =
+      new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
+
 
   public ClimbIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
@@ -43,5 +48,10 @@ public class ClimbIOTalonFX implements ClimbIO {
   @Override
   public void setPosition(double meters) {
     talon.setControl(positionVoltage.withPosition(meters));
+  }
+
+  @Override
+  public void climbVolts(double volts) {
+    talon.setControl(voltageOut.withOutput(volts));
   }
 }

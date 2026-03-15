@@ -382,12 +382,12 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.povUp().whileTrue(DriveCommands.povDrive(drive, poseManager, false));
-    controller.povDown().whileTrue(DriveCommands.povDrive(drive, poseManager, true));
+    // controller.povUp().whileTrue(DriveCommands.povDrive(drive, poseManager, false));
+    // controller.povDown().whileTrue(DriveCommands.povDrive(drive, poseManager, true));
 
-    // Climbing
-    // controller.povUp().onTrue(climb.climbUp());
-    // controller.povDown().onTrue(climb.climbDown());
+    //Climbing
+    controller.povUp().onTrue(climb.upVolts());
+    controller.povDown().onTrue(climb.downVolts());
 
     // Intaking
     controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));

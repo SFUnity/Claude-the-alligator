@@ -40,4 +40,13 @@ public class Climb extends SubsystemBase {
   public Command climbDown() {
     return run(() -> isUp = false).withName("climbDown");
   }
+
+  public Command upVolts() {
+    return run(() -> io.climbVolts(8.0));
+  }
+
+  public Command downVolts() {
+    return run (() -> io.climbVolts(8.0));
+  }
+
 }
