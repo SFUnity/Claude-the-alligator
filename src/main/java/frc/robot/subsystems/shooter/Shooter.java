@@ -100,7 +100,7 @@ public class Shooter extends VirtualSubsystem {
   private boolean onLeftAndMovingLeft;
 
   private Debouncer trenchAvoidenceDebouncer =
-      new Debouncer(trenchAvoidenceDebouncerTime.get(), DebounceType.kFalling);
+      new Debouncer(trenchAvoidenceDebouncerTime.get(), DebounceType.kRising);
 
   private boolean upwardMovmentCorospondWithDirection;
   private FuelSim fuelSim;
