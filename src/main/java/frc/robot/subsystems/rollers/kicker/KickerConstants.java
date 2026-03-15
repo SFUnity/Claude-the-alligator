@@ -12,7 +12,7 @@ public class KickerConstants {
   public static final double spinupTime = 0.25;
   public static final LoggedTunableNumber tunableRPMSetpoint =
       new LoggedTunableNumber(
-          "Kicker/RPMSetpoint", 3000); // maybe issue when more than flywheelspeed x 2
+          "Kicker/RPMSetpoint", 6000); // maybe issue when more than flywheelspeed x 2
   public static double RPMSetpoint = tunableRPMSetpoint.get();
 
   public static final LoggedTunableNumber torqueCurrentControlTolerance =
@@ -26,5 +26,5 @@ public class KickerConstants {
   public static final LoggedTunableNumber kickerSpeedVolts =
       new LoggedTunableNumber("Kicker/rollerSpeed", 2);
 
-  public static final double maxRPM = 4380;
+  public static final double maxRPM = 6000;
 }
