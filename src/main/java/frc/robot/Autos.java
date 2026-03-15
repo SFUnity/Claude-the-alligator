@@ -145,50 +145,39 @@ public class Autos {
     return isChoreoAuto ? chooser.selectedCommandScheduler() : nonChoreoChooser.get();
   }
 
-  /** public AutoRoutine climbAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Climb Auto Routine");
-    AutoTrajectory BasicClimb = routine.trajectory("Climb");
-    routine.active().onTrue(Commands.sequence(BasicClimb.resetOdometry(), BasicClimb.cmd()));
-    BasicClimb.atTime("ExtendClimber").onTrue(climb.climbUp());
-    BasicClimb.done().onTrue(climb.climbDown());
-    return routine;
-  }
-
-  public AutoRoutine climbCenterAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Climb Center Auto Routine");
-    AutoTrajectory ClimbCenter = routine.trajectory("ClimbCenter");
-    routine.active().onTrue(Commands.sequence(ClimbCenter.resetOdometry(), ClimbCenter.cmd()));
-    ClimbCenter.atTime("ExtendClimber").onTrue(climb.climbUp());
-    ClimbCenter.done().onTrue(climb.climbDown());
-    return routine;
-  }
-
-  public AutoRoutine outpostClimbAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Outpost Climb Auto Routine");
-    AutoTrajectory OutpostClimb = routine.trajectory("OutpostClimb");
-    routine.active().onTrue(Commands.sequence(OutpostClimb.resetOdometry(), OutpostClimb.cmd()));
-    OutpostClimb.atTime("ExtendClimber").onTrue(climb.climbUp());
-    OutpostClimb.atTime("StartShoot")
-        .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
-    OutpostClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    OutpostClimb.done().onTrue(climb.climbDown());
-    return routine;
-  }
-
-  public AutoRoutine depotClimbAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Depot Climb Auto Routine");
-    AutoTrajectory Depot = routine.trajectory("DepotClimb");
-    routine.active().onTrue(Commands.sequence(Depot.resetOdometry(), Depot.cmd()));
-    Depot.atTime("StartShoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-    Depot.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    Depot.atTime("PostDepot")
-        .onTrue(RobotCommands.jork(intake, intakePivot).alongWith(climb.climbUp()));
-    Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    Depot.done().onTrue(climb.climbDown());
-    return routine;
-  } */
-
+  /**
+   * public AutoRoutine climbAutoRoutine() { AutoRoutine routine = factory.newRoutine("Climb Auto
+   * Routine"); AutoTrajectory BasicClimb = routine.trajectory("Climb");
+   * routine.active().onTrue(Commands.sequence(BasicClimb.resetOdometry(), BasicClimb.cmd()));
+   * BasicClimb.atTime("ExtendClimber").onTrue(climb.climbUp());
+   * BasicClimb.done().onTrue(climb.climbDown()); return routine; }
+   *
+   * <p>public AutoRoutine climbCenterAutoRoutine() { AutoRoutine routine =
+   * factory.newRoutine("Climb Center Auto Routine"); AutoTrajectory ClimbCenter =
+   * routine.trajectory("ClimbCenter");
+   * routine.active().onTrue(Commands.sequence(ClimbCenter.resetOdometry(), ClimbCenter.cmd()));
+   * ClimbCenter.atTime("ExtendClimber").onTrue(climb.climbUp());
+   * ClimbCenter.done().onTrue(climb.climbDown()); return routine; }
+   *
+   * <p>public AutoRoutine outpostClimbAutoRoutine() { AutoRoutine routine =
+   * factory.newRoutine("Outpost Climb Auto Routine"); AutoTrajectory OutpostClimb =
+   * routine.trajectory("OutpostClimb");
+   * routine.active().onTrue(Commands.sequence(OutpostClimb.resetOdometry(), OutpostClimb.cmd()));
+   * OutpostClimb.atTime("ExtendClimber").onTrue(climb.climbUp()); OutpostClimb.atTime("StartShoot")
+   * .onTrue( RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake,
+   * intakePivot)); OutpostClimb.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker,
+   * spindexer)); OutpostClimb.done().onTrue(climb.climbDown()); return routine; }
+   *
+   * <p>public AutoRoutine depotClimbAutoRoutine() { AutoRoutine routine = factory.newRoutine("Depot
+   * Climb Auto Routine"); AutoTrajectory Depot = routine.trajectory("DepotClimb");
+   * routine.active().onTrue(Commands.sequence(Depot.resetOdometry(), Depot.cmd()));
+   * Depot.atTime("StartShoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+   * Depot.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+   * Depot.atTime("PostDepot") .onTrue(RobotCommands.jork(intake,
+   * intakePivot).alongWith(climb.climbUp()));
+   * Depot.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+   * Depot.done().onTrue(climb.climbDown()); return routine; }
+   */
   public AutoRoutine ScoreCenterClimbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("ScoreCenterClimb Auto Routine");
     AutoTrajectory ScoreCenterClimb = routine.trajectory("ScoreCenterClimb");
@@ -227,71 +216,49 @@ public class Autos {
     return routine;
   }
 
-  /** public AutoRoutine ScoreCenterAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("ScoreCenter Auto Routine");
-    AutoTrajectory ScoreCenter = routine.trajectory("ScoreCenter");
-    routine.active().onTrue(Commands.sequence(ScoreCenter.resetOdometry(), ScoreCenter.cmd()));
-    ScoreCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    ScoreCenter.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
-    ScoreCenter.atTime("StartShoot")
-        .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot)
-                .withTimeout(5));
-    return routine;
-  }
-
-  public AutoRoutine ScoreUpperCenterAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("ScoreUpperCenter Auto Routine");
-    AutoTrajectory ScoreUpperCenter = routine.trajectory("ScoreUpperCenter");
-    routine
-        .active()
-        .onTrue(Commands.sequence(ScoreUpperCenter.resetOdometry(), ScoreUpperCenter.cmd()));
-    ScoreUpperCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    ScoreUpperCenter.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
-    ScoreUpperCenter.atTime("StartShoot")
-        .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot)
-                .withTimeout(5));
-    return routine;
-  }
-
-  public AutoRoutine depotFeedAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Depot Feed Auto Routine");
-    AutoTrajectory DepotFeed = routine.trajectory("FeedScoreDepot");
-    routine.active().onTrue(Commands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
-    DepotFeed.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
-    DepotFeed.atTime("StartJork").onTrue(RobotCommands.jork(intake, intakePivot));
-    DepotFeed.atTime("StartShoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-    DepotFeed.atTime("PreDepot")
-        .onTrue(
-            RobotCommands.stopShoot(shooter, kicker, spindexer)
-                .alongWith(RobotCommands.intake(intake, intakePivot)));
-    DepotFeed.atTime("PostDepot")
-        .onTrue(
-            RobotCommands.jork(intake, intakePivot)
-                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer))
-                .alongWith(climb.climbUp()));
-    DepotFeed.done().onTrue(climb.climbDown());
-    return routine;
-  }
-
-  public AutoRoutine upperFeedClimbAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Upper Feed Climb Auto Routine");
-    AutoTrajectory UpperFeedClimb = routine.trajectory("UpperFeedClimb");
-    routine
-        .active()
-        .onTrue(Commands.sequence(UpperFeedClimb.resetOdometry(), UpperFeedClimb.cmd()));
-    UpperFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    UpperFeedClimb.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-    UpperFeedClimb.atTime("StopIntakeandJork").onTrue(RobotCommands.jork(intake, intakePivot));
-    UpperFeedClimb.atTime("ExtendClimberandStopShoot")
-        .onTrue(climb.climbUp().alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
-    UpperFeedClimb.done().onTrue(climb.climbDown());
-    return routine;
-  } */
-
+  /**
+   * public AutoRoutine ScoreCenterAutoRoutine() { AutoRoutine routine =
+   * factory.newRoutine("ScoreCenter Auto Routine"); AutoTrajectory ScoreCenter =
+   * routine.trajectory("ScoreCenter");
+   * routine.active().onTrue(Commands.sequence(ScoreCenter.resetOdometry(), ScoreCenter.cmd()));
+   * ScoreCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+   * ScoreCenter.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+   * ScoreCenter.atTime("StartShoot") .onTrue( RobotCommands.readyThenShootWithJork(shooter, kicker,
+   * spindexer, intake, intakePivot) .withTimeout(5)); return routine; }
+   *
+   * <p>public AutoRoutine ScoreUpperCenterAutoRoutine() { AutoRoutine routine =
+   * factory.newRoutine("ScoreUpperCenter Auto Routine"); AutoTrajectory ScoreUpperCenter =
+   * routine.trajectory("ScoreUpperCenter"); routine .active()
+   * .onTrue(Commands.sequence(ScoreUpperCenter.resetOdometry(), ScoreUpperCenter.cmd()));
+   * ScoreUpperCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+   * ScoreUpperCenter.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+   * ScoreUpperCenter.atTime("StartShoot") .onTrue( RobotCommands.readyThenShootWithJork(shooter,
+   * kicker, spindexer, intake, intakePivot) .withTimeout(5)); return routine; }
+   *
+   * <p>public AutoRoutine depotFeedAutoRoutine() { AutoRoutine routine = factory.newRoutine("Depot
+   * Feed Auto Routine"); AutoTrajectory DepotFeed = routine.trajectory("FeedScoreDepot");
+   * routine.active().onTrue(Commands.sequence(DepotFeed.resetOdometry(), DepotFeed.cmd()));
+   * DepotFeed.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+   * DepotFeed.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+   * DepotFeed.atTime("StartJork").onTrue(RobotCommands.jork(intake, intakePivot));
+   * DepotFeed.atTime("StartShoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker,
+   * spindexer)); DepotFeed.atTime("PreDepot") .onTrue( RobotCommands.stopShoot(shooter, kicker,
+   * spindexer) .alongWith(RobotCommands.intake(intake, intakePivot)));
+   * DepotFeed.atTime("PostDepot") .onTrue( RobotCommands.jork(intake, intakePivot)
+   * .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)) .alongWith(climb.climbUp()));
+   * DepotFeed.done().onTrue(climb.climbDown()); return routine; }
+   *
+   * <p>public AutoRoutine upperFeedClimbAutoRoutine() { AutoRoutine routine =
+   * factory.newRoutine("Upper Feed Climb Auto Routine"); AutoTrajectory UpperFeedClimb =
+   * routine.trajectory("UpperFeedClimb"); routine .active()
+   * .onTrue(Commands.sequence(UpperFeedClimb.resetOdometry(), UpperFeedClimb.cmd()));
+   * UpperFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+   * UpperFeedClimb.atTime("StartShoot") .onTrue(RobotCommands.readyThenShoot(shooter, kicker,
+   * spindexer)); UpperFeedClimb.atTime("StopIntakeandJork").onTrue(RobotCommands.jork(intake,
+   * intakePivot)); UpperFeedClimb.atTime("ExtendClimberandStopShoot")
+   * .onTrue(climb.climbUp().alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+   * UpperFeedClimb.done().onTrue(climb.climbDown()); return routine; }
+   */
   public AutoRoutine FeedAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Feed Auto Routine");
     AutoTrajectory Feed = routine.trajectory("Feed");
@@ -333,76 +300,55 @@ public class Autos {
     return routine;
   }
 
-  /** public AutoRoutine LowerFeedClimbAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Lower Feed Climb Auto Routine");
-    AutoTrajectory LowerFeedClimb = routine.trajectory("LowerFeedClimb");
-    routine
-        .active()
-        .onTrue(Commands.sequence(LowerFeedClimb.resetOdometry(), LowerFeedClimb.cmd()));
-    LowerFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    LowerFeedClimb.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-    LowerFeedClimb.atTime("StopIntakeandJork").onTrue(RobotCommands.jork(intake, intakePivot));
-    LowerFeedClimb.atTime("ExtendClimberandStopShoot")
-        .onTrue(climb.climbUp().alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
-    LowerFeedClimb.done().onTrue(climb.climbDown());
-    return routine;
-  }
-
-  public AutoRoutine LowerFeedScoreAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Lower Feed Score Auto Routine");
-    AutoTrajectory LowerFeedScore = routine.trajectory("LowerFeedScore");
-    routine
-        .active()
-        .onTrue(Commands.sequence(LowerFeedScore.resetOdometry(), LowerFeedScore.cmd()));
-    LowerFeedScore.atTime("StartIntakeandShoot")
-        .onTrue(
-            RobotCommands.intake(intake, intakePivot)
-                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
-    LowerFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    LowerFeedScore.atTime("StartJork").onTrue(RobotCommands.jork(intake, intakePivot));
-    LowerFeedScore.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    return routine;
-  }
-
-  public AutoRoutine UpperFeedScoreAutoRoutine() {
-    AutoRoutine routine = factory.newRoutine("Upper Feed Score Auto Routine");
-    AutoTrajectory UpperFeedScore = routine.trajectory("UpperFeedScore");
-    routine
-        .active()
-        .onTrue(Commands.sequence(UpperFeedScore.resetOdometry(), UpperFeedScore.cmd()));
-    UpperFeedScore.atTime("StartIntakeandShoot")
-        .onTrue(
-            RobotCommands.intake(intake, intakePivot)
-                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
-    UpperFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
-    UpperFeedScore.atTime("StartJork").onTrue(RobotCommands.jork(intake, intakePivot));
-    UpperFeedScore.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    return routine;
-  }
-
-  public AutoRoutine DoubleScoreCenterBanana() {
-    AutoRoutine routine = factory.newRoutine("Double Score Center Banana Auto Routine");
-    AutoTrajectory DoubleScoreCenterBanana = routine.trajectory("DoubleScoreCenterBanana");
-    routine
-        .active()
-        .onTrue(
-            Commands.sequence(
-                DoubleScoreCenterBanana.resetOdometry(), DoubleScoreCenterBanana.cmd()));
-    DoubleScoreCenterBanana.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    DoubleScoreCenterBanana.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreCenterBanana.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    DoubleScoreCenterBanana.atTime("StartIntake2")
-        .onTrue(RobotCommands.intake(intake, intakePivot));
-    DoubleScoreCenterBanana.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreCenterBanana.atTime("StartShoot2")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    return routine;
-  } */
-
+  /**
+   * public AutoRoutine LowerFeedClimbAutoRoutine() { AutoRoutine routine =
+   * factory.newRoutine("Lower Feed Climb Auto Routine"); AutoTrajectory LowerFeedClimb =
+   * routine.trajectory("LowerFeedClimb"); routine .active()
+   * .onTrue(Commands.sequence(LowerFeedClimb.resetOdometry(), LowerFeedClimb.cmd()));
+   * LowerFeedClimb.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+   * LowerFeedClimb.atTime("StartShoot") .onTrue(RobotCommands.readyThenShoot(shooter, kicker,
+   * spindexer)); LowerFeedClimb.atTime("StopIntakeandJork").onTrue(RobotCommands.jork(intake,
+   * intakePivot)); LowerFeedClimb.atTime("ExtendClimberandStopShoot")
+   * .onTrue(climb.climbUp().alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+   * LowerFeedClimb.done().onTrue(climb.climbDown()); return routine; }
+   *
+   * <p>public AutoRoutine LowerFeedScoreAutoRoutine() { AutoRoutine routine =
+   * factory.newRoutine("Lower Feed Score Auto Routine"); AutoTrajectory LowerFeedScore =
+   * routine.trajectory("LowerFeedScore"); routine .active()
+   * .onTrue(Commands.sequence(LowerFeedScore.resetOdometry(), LowerFeedScore.cmd()));
+   * LowerFeedScore.atTime("StartIntakeandShoot") .onTrue( RobotCommands.intake(intake, intakePivot)
+   * .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+   * LowerFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+   * LowerFeedScore.atTime("StartJork").onTrue(RobotCommands.jork(intake, intakePivot));
+   * LowerFeedScore.atTime("StartShoot") .onTrue(RobotCommands.readyThenShoot(shooter, kicker,
+   * spindexer).withTimeout(5)); return routine; }
+   *
+   * <p>public AutoRoutine UpperFeedScoreAutoRoutine() { AutoRoutine routine =
+   * factory.newRoutine("Upper Feed Score Auto Routine"); AutoTrajectory UpperFeedScore =
+   * routine.trajectory("UpperFeedScore"); routine .active()
+   * .onTrue(Commands.sequence(UpperFeedScore.resetOdometry(), UpperFeedScore.cmd()));
+   * UpperFeedScore.atTime("StartIntakeandShoot") .onTrue( RobotCommands.intake(intake, intakePivot)
+   * .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+   * UpperFeedScore.atTime("StopShoot").onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+   * UpperFeedScore.atTime("StartJork").onTrue(RobotCommands.jork(intake, intakePivot));
+   * UpperFeedScore.atTime("StartShoot") .onTrue(RobotCommands.readyThenShoot(shooter, kicker,
+   * spindexer).withTimeout(5)); return routine; }
+   *
+   * <p>public AutoRoutine DoubleScoreCenterBanana() { AutoRoutine routine =
+   * factory.newRoutine("Double Score Center Banana Auto Routine"); AutoTrajectory
+   * DoubleScoreCenterBanana = routine.trajectory("DoubleScoreCenterBanana"); routine .active()
+   * .onTrue( Commands.sequence( DoubleScoreCenterBanana.resetOdometry(),
+   * DoubleScoreCenterBanana.cmd()));
+   * DoubleScoreCenterBanana.atTime("StartIntake").onTrue(RobotCommands.intake(intake,
+   * intakePivot)); DoubleScoreCenterBanana.atTime("StopIntake").onTrue(RobotCommands.jork(intake,
+   * intakePivot)); DoubleScoreCenterBanana.atTime("StartShoot")
+   * .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
+   * DoubleScoreCenterBanana.atTime("StartIntake2") .onTrue(RobotCommands.intake(intake,
+   * intakePivot)); DoubleScoreCenterBanana.atTime("StopIntake2").onTrue(RobotCommands.jork(intake,
+   * intakePivot)); DoubleScoreCenterBanana.atTime("StartShoot2")
+   * .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5)); return
+   * routine; }
+   */
   public AutoRoutine DoubleScoreUpperLoop() {
     AutoRoutine routine = factory.newRoutine("Double Score Upper Loop Auto Routine");
     AutoTrajectory segment0 = routine.trajectory("DoubleScoreUpperLoop", 0);
@@ -463,25 +409,21 @@ public class Autos {
     return routine;
   }
 
-  /** public AutoRoutine DoubleScoreUpperCenter() {
-    AutoRoutine routine = factory.newRoutine("Double Score Upper Center Auto Routine");
-    AutoTrajectory DoubleScoreUpperCenter = routine.trajectory("DoubleScoreUpperCenter");
-    routine
-        .active()
-        .onTrue(
-            Commands.sequence(
-                DoubleScoreUpperCenter.resetOdometry(), DoubleScoreUpperCenter.cmd()));
-    DoubleScoreUpperCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    DoubleScoreUpperCenter.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreUpperCenter.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    DoubleScoreUpperCenter.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
-    DoubleScoreUpperCenter.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
-    DoubleScoreUpperCenter.atTime("StartShoot2")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5));
-    return routine;
-  } */
-
+  /**
+   * public AutoRoutine DoubleScoreUpperCenter() { AutoRoutine routine = factory.newRoutine("Double
+   * Score Upper Center Auto Routine"); AutoTrajectory DoubleScoreUpperCenter =
+   * routine.trajectory("DoubleScoreUpperCenter"); routine .active() .onTrue( Commands.sequence(
+   * DoubleScoreUpperCenter.resetOdometry(), DoubleScoreUpperCenter.cmd()));
+   * DoubleScoreUpperCenter.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+   * DoubleScoreUpperCenter.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
+   * DoubleScoreUpperCenter.atTime("StartShoot") .onTrue(RobotCommands.readyThenShoot(shooter,
+   * kicker, spindexer).withTimeout(5));
+   * DoubleScoreUpperCenter.atTime("StartIntake2").onTrue(RobotCommands.intake(intake,
+   * intakePivot)); DoubleScoreUpperCenter.atTime("StopIntake2").onTrue(RobotCommands.jork(intake,
+   * intakePivot)); DoubleScoreUpperCenter.atTime("StartShoot2")
+   * .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5)); return
+   * routine; }
+   */
   public AutoRoutine CompleteLowerFeed() {
     AutoRoutine routine = factory.newRoutine("Complete Lower Feed Auto Routine");
     AutoTrajectory CompleteLowerFeed = routine.trajectory("CompleteLowerFeed");

@@ -16,6 +16,6 @@ public interface ClimbIO {
   public default void updateInputs(ClimbIOInputs inputs) {}
 
   public default void setPosition(double meters) {}
-  
+
   public default void climbVolts(double volts) {}
 }

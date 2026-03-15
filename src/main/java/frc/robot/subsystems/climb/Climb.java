@@ -46,7 +46,6 @@ public class Climb extends SubsystemBase {
   }
 
   public Command downVolts() {
-    return run (() -> io.climbVolts(8.0));
+    return run(() -> io.climbVolts(8.0));
   }
-
 }

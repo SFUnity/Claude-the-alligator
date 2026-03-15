@@ -15,7 +15,6 @@ public class ClimbIOTalonFX implements ClimbIO {
   private final VoltageOut voltageOut =
       new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
 
-
   public ClimbIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
 
