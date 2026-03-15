@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import frc.robot.util.LoggedTunableNumber;
 
 public class ShooterConstants {
   public static final double Gravity = 9.81;
@@ -17,5 +18,8 @@ public class ShooterConstants {
   public static final Translation3d hoodOffset = new Translation3d(0.038, 0, 0.197);
 
   // Trench passign stuff
-  public static final double trenchRadius = 1f;
+  public static final double trenchRadius = 3f;
+
+  public static final LoggedTunableNumber trenchAvoidenceDebouncerTime =
+      new LoggedTunableNumber("Controls/Trench Avoidence/trenchAvoidenceDebouncerTime", 0.2);
 }

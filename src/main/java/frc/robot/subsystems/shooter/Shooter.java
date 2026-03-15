@@ -10,6 +10,8 @@ import static frc.robot.subsystems.shooter.ShooterUtil.*;
 import static frc.robot.util.FuelSim.Hub.*;
 import static frc.robot.util.GeomUtil.*;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -96,6 +98,9 @@ public class Shooter extends VirtualSubsystem {
 
   private boolean onRightAndMovingRight;
   private boolean onLeftAndMovingLeft;
+
+  private Debouncer trenchAvoidenceDebouncer =
+      new Debouncer(trenchAvoidenceDebouncerTime.get(), DebounceType.kFalling);
 
   private boolean upwardMovmentCorospondWithDirection;
   private FuelSim fuelSim;
@@ -203,7 +208,7 @@ public class Shooter extends VirtualSubsystem {
       flywheels.setVelocity(fakeFlywheelVelocity.get());
     }
     // Avi commented this out because real robot is not ready for it
-    // TrenchAvoidence();
+    TrenchAvoidence();
 
     measuredVisualizer.update(turret.getPositionDegs(), hood.getAngleDeg());
     setpointVisualizer.update(0, fakeTurretVelocity.get());
@@ -377,8 +382,10 @@ public class Shooter extends VirtualSubsystem {
   }
 
   private void DropHood() {
-    if (inXRange & inYRange) {
-      if (trenchUpAndMovingUp || trenchDownAndMovingDown || upwardMovmentCorospondWithDirection) {
+
+    if (trenchAvoidenceDebouncer.calculate(inXRange & inYRange)) {
+      if (trenchAvoidenceDebouncer.calculate(
+          trenchUpAndMovingUp || trenchDownAndMovingDown || upwardMovmentCorospondWithDirection)) {
         hood.setAngle(0);
       }
     }
