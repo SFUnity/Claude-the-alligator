@@ -68,31 +68,9 @@ public class ShooterUtil {
   public ShooterUtil(PoseManager poseManager) {
     this.poseManager = poseManager;
 
-    // scoreRealFlywheelSpeedMap.put(1.40335, 1075.0);
-    // scoreRealHoodAngleMap.put(1.40335, 17.0);
-    // scoreRealTimeOfFlightMap.put(1.40335, null);
-    // scoreRealKickerSpeedMap.put(1.40335, 3000.0);
-
-    // scoreRealFlywheelSpeedMap.put(1.80975, 1125.0);
-    // scoreRealHoodAngleMap.put(1.80975, 21.0);
-    // scoreRealTimeOfFlightMap.put(1.80975, null);
-
-    // scoreRealFlywheelSpeedMap.put(2.65315, 1175.0);
-    // scoreRealHoodAngleMap.put(2.65315, 24.0);
-    // scoreRealTimeOfFlightMap.put(2.65315, null);
-
-    // scoreRealFlywheelSpeedMap.put(3.27315, 1275.0);
-    // scoreRealHoodAngleMap.put(3.27315, 27.0);
-    // scoreRealTimeOfFlightMap.put(3.27315, null);
-
-    //     scoreRealFlywheelSpeedMap.put(4.45315, 1340.0);
-    // scoreRealHoodAngleMap.put(4.45315, 31.0);
-    // scoreRealTimeOfFlightMap.put(4.45315, null);
-    // scoreRealKickerSpeedMap.put(4.45315, 3000.0);
-    // TODO from here on out were using kickerspeed as well
-    //     scoreRealFlywheelSpeedMap.put(4.45315, 1340.0);
-    // scoreRealHoodAngleMap.put(4.45315, 31.0);
-    // scoreRealTimeOfFlightMap.put(4.45315, null);
+    // scoreRealFlywheelSpeedMap.put(, );
+    // scoreRealHoodAngleMap.put(, );
+    // scoreRealTimeOfFlightMap.put(, );
 
     scoreSimFlywheelSpeedMap.put(1.256, 1200.0);
     scoreSimHoodAngleMap.put(1.256, 14.6);
