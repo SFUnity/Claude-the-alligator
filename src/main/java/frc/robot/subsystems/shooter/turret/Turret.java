@@ -159,18 +159,18 @@ public class Turret extends SubsystemBase {
 
         Logger.recordOutput("Shooter/Turret/GoalAngle", bestAngle);
 
-        State goalState =
-            new State(MathUtil.clamp(bestAngle, minLegalAngle, maxLegalAngle), targetVelocity);
+        // State goalState =
+        //     new State(MathUtil.clamp(bestAngle, minLegalAngle, maxLegalAngle), targetVelocity);
 
-        setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
+        // setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
 
-        Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
-        targetDegs = setpoint.position;
+        // Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
+        targetDegs = bestAngle;
 
         double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
         // targetRotations -= talonOffsetRots;
         Logger.recordOutput("Shooter/Turret/SetpointRotations", targetRotations);
-        io.turnTurret(targetRotations, setpoint.velocity, kA.get(), kV.get());
+        io.turnTurret(targetRotations);
       } else {
         io.stop();
       }

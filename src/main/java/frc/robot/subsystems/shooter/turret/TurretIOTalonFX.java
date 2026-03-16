@@ -69,7 +69,7 @@ public class TurretIOTalonFX implements TurretIO {
   }
 
   @Override
-  public void turnTurret(double targetRotations, double targetVelocity, double kV, double kA) {
+  public void turnTurret(double targetRotations) {
     // talon.setControl(
     //     voltageOut.withOutput(
     //         (Units.rotationsToRadians(targetRotations) -
