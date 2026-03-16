@@ -211,8 +211,8 @@ public class Shooter extends VirtualSubsystem {
     // Avi commented this out because real robot is not ready for it
     // TrenchAvoidence();
 
-    measuredVisualizer.update(turret.getPositionDegs(), hood.getAngleDeg());
-    setpointVisualizer.update(0, fakeTurretVelocity.get());
+    // measuredVisualizer.update(turret.getPositionDegs(), hood.getAngleDeg());
+    // setpointVisualizer.update(0, fakeTurretVelocity.get());
     // measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
 
     if (myY > 0f) {
@@ -234,7 +234,9 @@ public class Shooter extends VirtualSubsystem {
       shoot = true;
       params = shooterUtil.getLaunchingParameters(true, false);
     }
-    if (fuelDelayTimer.hasElapsed(fuelDelay.get()) && shoot) {
+    if (fuelDelayTimer.hasElapsed(fuelDelay.get())
+        && shoot
+        && Constants.currentMode == Constants.simMode) {
       shoot = false;
       fuelSim.launchFuel(
           MetersPerSecond.of(params.flywheelSpeed() * 2 * Math.PI * WheelRadius / 60),
@@ -242,7 +244,8 @@ public class Shooter extends VirtualSubsystem {
           Degrees.of(params.turretAngle()),
           turretCenter);
     }
-    if (prevHubScore != BLUE_HUB.getScore() + RED_HUB.getScore()) {
+    if (prevHubScore != BLUE_HUB.getScore() + RED_HUB.getScore()
+        && Constants.currentMode == Constants.simMode) {
       Logger.recordOutput("Shooter/FlightTime", fuelLaunchTimer.get());
       prevHubScore = BLUE_HUB.getScore() + RED_HUB.getScore();
     }
