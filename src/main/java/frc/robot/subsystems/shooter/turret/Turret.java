@@ -26,6 +26,7 @@ public class Turret extends SubsystemBase {
   private boolean isShooting = false;
   private double truePositionDegs = 0;
   private double positionDegs = 0;
+  private double possiblePosition = 0;
 
   private boolean eDisabled = false; // TODO tune debouncers + their offsets
   private Debouncer outOfBoundsDebouncer =
@@ -77,12 +78,12 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    // TODO if this is enabled, refactor code to stop looking at motor position degrees
-    // offset/turretoffset, also make sure this is returning a valid number, otherwise edisable
-    double possiblePosition = getMotorOffsetDegs();
-    if (possiblePosition > -5) {
-      io.resetMotorEncoder(Units.degreesToRotations(possiblePosition) * gearRatio);
-      hasBeenZeroed = true;
+    if (!hasBeenZeroed || Math.abs(possiblePosition - truePositionDegs) > 5) {
+      possiblePosition = getMotorOffsetDegs();
+      if (possiblePosition > -5) {
+        io.resetMotorEncoder(Units.degreesToRotations(possiblePosition) * gearRatio);
+        hasBeenZeroed = true;
+      }
     }
     truePositionDegs = getPositionDegs() / gearRatio;
     positionDegs = MathUtil.inputModulus(truePositionDegs, 0, 360);
@@ -158,18 +159,18 @@ public class Turret extends SubsystemBase {
 
         Logger.recordOutput("Shooter/Turret/GoalAngle", bestAngle);
 
-        State goalState =
-            new State(MathUtil.clamp(bestAngle, minLegalAngle, maxLegalAngle), targetVelocity);
+        // State goalState =
+        //     new State(MathUtil.clamp(bestAngle, minLegalAngle, maxLegalAngle), targetVelocity);
 
-        setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
+        // setpoint = profile.calculate(loopPeriodSecs, setpoint, goalState);
 
-        Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
-        targetDegs = setpoint.position;
+        // Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
+        targetDegs = bestAngle;
 
         double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
         // targetRotations -= talonOffsetRots;
         Logger.recordOutput("Shooter/Turret/SetpointRotations", targetRotations);
-        io.turnTurret(targetRotations, setpoint.velocity, kA.get(), kV.get());
+        io.turnTurret(targetRotations);
       } else {
         io.stop();
       }
