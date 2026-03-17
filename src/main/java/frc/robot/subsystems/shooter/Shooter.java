@@ -170,9 +170,9 @@ public class Shooter extends VirtualSubsystem {
       // // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
       Pose2d robotPose = poseManager.getPose();
       Translation2d targetPose = // TODO change if feeding and not scoring
-          AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
-      // AllianceFlipUtil.apply(
-      //     FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0.1, 0)));
+          // AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
+          AllianceFlipUtil.apply(
+              FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0, 0)));
       Logger.recordOutput("Shooter/Turret/turretTarget", new Pose2d(targetPose, new Rotation2d()));
 
       Pose2d turretPosition =
@@ -202,9 +202,9 @@ public class Shooter extends VirtualSubsystem {
       }
 
       // if (!isScoring) {
-        // flywheels.setVelocity(fakeFeedingVelocity.get());
-        // hood.setAngle(fakeFeedingHoodAngle.get());
-        // turret.setTarget(0 - poseManager.getRotation().getDegrees());
+      // flywheels.setVelocity(fakeFeedingVelocity.get());
+      // hood.setAngle(fakeFeedingHoodAngle.get());
+      // turret.setTarget(0 - poseManager.getRotation().getDegrees());
       // }
     } else {
       turret.setTarget(fakeTurretAngle.get());
