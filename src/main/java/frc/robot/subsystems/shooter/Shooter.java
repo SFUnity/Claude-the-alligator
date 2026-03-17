@@ -12,6 +12,10 @@ import static frc.robot.util.GeomUtil.*;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -164,25 +168,32 @@ public class Shooter extends VirtualSubsystem {
       // hood.setAngle(fakeHoodAngle.get());
       // flywheels.setVelocity(fakeFlywheelVelocity.get());
       // // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-      // Pose2d robotPose = poseManager.getPose();
-      // Translation2d targetPose = // TODO change if feeding and not scoring
-      //     AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
-      // Pose2d turretPosition =
-      //     robotPose.transformBy(
-      //         new Transform2d(
-      //             turretCenter.getTranslation().toTranslation2d(), poseManager.getRotation()));
-      // Logger.recordOutput("Shooter/Turret/turretpose", turretPosition);
-      // double turretAngle =
-      //     targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
-      //         - poseManager.getRotation().getDegrees();
-      // turret.setTarget(turretAngle, 0);
+      Pose2d robotPose = poseManager.getPose();
+      Translation2d targetPose = // TODO change if feeding and not scoring
+          AllianceFlipUtil.apply(
+              FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0.1, 0)));
+      Logger.recordOutput("Shooter/Turret/turretTarget", new Pose2d(targetPose, new Rotation2d()));
+
+      Pose2d turretPosition =
+          robotPose.transformBy(
+              new Transform2d(
+                  turretCenter.getTranslation().toTranslation2d(), poseManager.getRotation()));
+      Logger.recordOutput("Shooter/Turret/turretpose", turretPosition);
+      double turretAngle =
+          targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
+              - poseManager.getRotation().getDegrees();
+      turret.setTarget(turretAngle);
 
       LaunchingParameters solution =
           shooterUtil.getLaunchingParameters(isScoring, Constants.currentMode != Constants.simMode);
       if (solution.isValid()) {
-        double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-        turret.setTarget(turretAngle);
-        hood.setAngle(solution.hoodAngle());
+        // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+        // turret.setTarget(turretAngle);
+        if (hoodIsSafe) {
+          hood.setAngle(solution.hoodAngle());
+        } else {
+          hood.setAngle(HoodConstants.minPositionDegs);
+        }
         flywheels.setVelocity(solution.flywheelSpeed());
       }
 
@@ -279,6 +290,10 @@ public class Shooter extends VirtualSubsystem {
 
   public Command toggleHoodIsSafe() {
     return runOnce(() -> hoodIsSafe = !hoodIsSafe, hood).withName("ToggleHoodIsSafe");
+  }
+
+  public Command setHoodIsSafe(boolean bool) {
+    return runOnce(() -> hoodIsSafe = bool, hood).withName("SetHoodIsSafe");
   }
 
   public Command overrideSetScoring(boolean scoring) {

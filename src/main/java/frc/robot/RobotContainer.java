@@ -409,7 +409,8 @@ public class RobotContainer {
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
 
-    controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
+    controller.rightTrigger().onTrue(shooter.setHoodIsSafe(false));
+    controller.rightTrigger().onFalse(shooter.setHoodIsSafe(true));
 
     // * Automatic shooting
     // new Trigger(() -> shooter.readyToShoot())

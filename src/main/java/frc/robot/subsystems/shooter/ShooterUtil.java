@@ -220,7 +220,8 @@ public class ShooterUtil {
                 turretCenter.getTranslation().toTranslation2d(),
                 turretCenter.getRotation().toRotation2d()));
     Translation2d targetPose = // TODO change if feeding and not scoring
-        AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
+        AllianceFlipUtil.apply(
+            FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0.4, 0)));
     Logger.recordOutput("Shooter/Turret/Target", new Pose2d(targetPose, new Rotation2d()));
 
     Logger.recordOutput("Shooter/Turret/CurrentTurretPose", turretPosition);
