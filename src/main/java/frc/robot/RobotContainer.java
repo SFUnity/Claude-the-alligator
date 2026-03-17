@@ -127,8 +127,6 @@ public class RobotContainer {
   // Callback for fuel sim intake
   private double fuelCount = 0;
 
-  private boolean isShooting = false;
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   @SuppressWarnings("resource")
   public RobotContainer() {
@@ -411,18 +409,7 @@ public class RobotContainer {
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
 
-    // controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
-    // controller.rightBumper().onTrue(Commands.runOnce(() -> isShooting = !isShooting));
-    // controller
-    //     .rightBumper()
-    //     .and(() -> isShooting)
-    //     .debounce(loopPeriodSecs)
-    //     .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
-    // controller
-    //     .rightBumper()
-    //     .and(() -> !isShooting)
-    //     .debounce(loopPeriodSecs)
-    //     .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+    controller.rightTrigger().onTrue(shooter.toggleHoodIsSafe());
 
     // * Automatic shooting
     // new Trigger(() -> shooter.readyToShoot())
