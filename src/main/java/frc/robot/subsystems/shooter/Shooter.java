@@ -201,11 +201,11 @@ public class Shooter extends VirtualSubsystem {
         // flywheels.setVelocity(solution.flywheelSpeed());
       }
 
-      if (!isScoring) {
-        flywheels.setVelocity(fakeFeedingVelocity.get());
-        hood.setAngle(fakeFeedingHoodAngle.get());
-        turret.setTarget(0 - poseManager.getRotation().getDegrees());
-      }
+      // if (!isScoring) {
+        // flywheels.setVelocity(fakeFeedingVelocity.get());
+        // hood.setAngle(fakeFeedingHoodAngle.get());
+        // turret.setTarget(0 - poseManager.getRotation().getDegrees());
+      // }
     } else {
       turret.setTarget(fakeTurretAngle.get());
       hood.setAngle(fakeHoodAngle.get());
