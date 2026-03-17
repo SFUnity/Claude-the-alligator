@@ -286,7 +286,9 @@ public class ShooterUtil {
 
     LaunchingParameters params =
         new LaunchingParameters(
-            minDist < lookaheadTurretToTargetDistance && lookaheadTurretToTargetDistance < maxDist,
+            // minDist < lookaheadTurretToTargetDistance && lookaheadTurretToTargetDistance <
+            // maxDist,
+            true,
             turretAngle,
             turretVelocity,
             hoodAngle,
