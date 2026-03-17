@@ -62,10 +62,12 @@ public class Shooter extends VirtualSubsystem {
   private final LoggedTunableNumber hubFlywheelVelocity =
       new LoggedTunableNumber("Shooter/HubVelocity", 1100);
 
-  private final LoggedTunableNumber fakeFeedingVelocity =
-      new LoggedTunableNumber("Shooter/FeedingVelocity", 1300);
-  private final LoggedTunableNumber fakeFeedingHoodAngle =
-      new LoggedTunableNumber("Shooter/fakeFeedingHoodAngle", 45);
+  private final LoggedTunableNumber feedingVelocity =
+      new LoggedTunableNumber("Shooter/feedingVelocity", 1300);
+  private final LoggedTunableNumber farFeedingVelocity =
+      new LoggedTunableNumber("Shooter/FarFeedingVelocity", 1800);
+  private final LoggedTunableNumber feedingHoodAngle =
+      new LoggedTunableNumber("Shooter/feedingHoodAngle", 45);
 
   private final LoggedTunableNumber clearBalls = new LoggedTunableNumber("Shooter/ClearBalls", 0);
 
@@ -157,16 +159,8 @@ public class Shooter extends VirtualSubsystem {
 
     if (currentMode != Constants.simMode) {
       // * Real Mode
-      // if (isScoring) {
-      //   hood.setAngle(fakeHoodAngle.get());
-      //   flywheels.setVelocity(fakeFlywheelVelocity.get());
-      // } else {
-      //   flywheels.setVelocity(fakeFeedingVelocity.get());
-      //   hood.setAngle(fakeFeedingHoodAngle.get());
-      // }
-
-      hood.setAngle(fakeHoodAngle.get());
-      flywheels.setVelocity(fakeFlywheelVelocity.get());
+      // hood.setAngle(fakeHoodAngle.get());
+      // flywheels.setVelocity(fakeFlywheelVelocity.get());
       // // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
       Pose2d robotPose = poseManager.getPose();
       Translation2d targetPose = // TODO change if feeding and not scoring
@@ -201,11 +195,16 @@ public class Shooter extends VirtualSubsystem {
         // flywheels.setVelocity(solution.flywheelSpeed());
       }
 
-      // if (!isScoring) {
-      // flywheels.setVelocity(fakeFeedingVelocity.get());
-      // hood.setAngle(fakeFeedingHoodAngle.get());
-      // turret.setTarget(0 - poseManager.getRotation().getDegrees());
-      // }
+      if (!isScoring) {
+        turret.setTarget(0 - poseManager.getRotation().getDegrees());
+        hood.setAngle(feedingHoodAngle.get());
+        if (robotPose.getX()
+            < AllianceFlipUtil.applyX(FieldConstants.LinesVertical.oppAllianceZone)) {
+          flywheels.setVelocity(feedingVelocity.get());
+        } else {
+          flywheels.setVelocity(farFeedingVelocity.get());
+        }
+      }
     } else {
       turret.setTarget(fakeTurretAngle.get());
       hood.setAngle(fakeHoodAngle.get());
