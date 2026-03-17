@@ -223,7 +223,7 @@ public class ShooterUtil {
     if (isScoring) {
       targetPose = // TODO change if feeding and not scoring
           AllianceFlipUtil.apply(
-              FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0.4, 0)));
+              FieldConstants.Hub.topCenterPoint.toTranslation2d());
     } else {
       if (turretPosition.getY() > FieldConstants.fieldWidth / 2) {
         targetPose =
@@ -280,6 +280,8 @@ public class ShooterUtil {
         "Shooter/Turret/LookaheadTurretToTargetDist", lookaheadTurretToTargetDistance);
 
     Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
+
+    lookaheadTurretToTargetDistance += 0.25; //shoot to back of hub, not center
 
     turretAngle =
         targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
