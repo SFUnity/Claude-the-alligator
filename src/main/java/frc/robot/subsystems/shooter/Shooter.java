@@ -133,7 +133,7 @@ public class Shooter extends VirtualSubsystem {
     if (isAutoFeedVsScore) {
       isScoring =
           AllianceFlipUtil.applyX(poseManager.getPose().getX())
-              < FieldConstants.LinesVertical.allianceZone;
+              < FieldConstants.LinesVertical.allianceZone + 0.5;
     }
 
     Logger.recordOutput("Shooter/isScoring", isScoring);
