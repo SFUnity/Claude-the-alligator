@@ -63,9 +63,9 @@ public class Shooter extends VirtualSubsystem {
       new LoggedTunableNumber("Shooter/HubVelocity", 1100);
 
   private final LoggedTunableNumber fakeFeedingVelocity =
-      new LoggedTunableNumber("Shooter/FeedingVelocity", 1600);
+      new LoggedTunableNumber("Shooter/FeedingVelocity", 1300);
   private final LoggedTunableNumber fakeFeedingHoodAngle =
-      new LoggedTunableNumber("Shooter/fakeFeedingHoodAngle", 30);
+      new LoggedTunableNumber("Shooter/fakeFeedingHoodAngle", 45);
 
   private final LoggedTunableNumber clearBalls = new LoggedTunableNumber("Shooter/ClearBalls", 0);
 
@@ -197,16 +197,11 @@ public class Shooter extends VirtualSubsystem {
         flywheels.setVelocity(solution.flywheelSpeed());
       }
 
-      // hood.setAngle(hoodIsSafe ? fakeHoodAngle.get() : HoodConstants.minPositionDegs);
-      // if (isScoring) {
-      //   if (isClose) {
-      //     flywheels.setVelocity(hubFlywheelVelocity.get());
-      //   } else {
-      //     flywheels.setVelocity(farFlywheelVelocity.get());
-      //   }
-      // } else {
-      //   flywheels.setVelocity(fakeFeedingVelocity.get());
-      // }
+      if (!isScoring) {
+        flywheels.setVelocity(fakeFeedingVelocity.get());
+        hood.setAngle(fakeFeedingHoodAngle.get());
+        turret.setTarget(0 - poseManager.getRotation().getDegrees());
+      }
     } else {
       turret.setTarget(fakeTurretAngle.get());
       hood.setAngle(fakeHoodAngle.get());
