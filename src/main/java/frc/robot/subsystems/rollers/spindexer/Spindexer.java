@@ -35,24 +35,25 @@ public class Spindexer extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "Rollers/Spindexer");
   }
 
-  private void runUnlessJammed() {
+  private void runUnlessJammed(boolean forward) {
+    double extra = forward ? 1 : -1;
     if (currentDebouncer.calculate(inputs.supplyCurrentAmps > 40)) {
       io.run(0);
       Logger.recordOutput("Rollers/Spindexer/Jammed", true);
       Leds.getInstance().isJammed = true;
     } else {
-      io.run(spindexerSpeedVolts.get());
+      io.run(spindexerSpeedVolts.get() * extra);
       Logger.recordOutput("Rollers/Spindexer/Jammed", false);
       Leds.getInstance().isJammed = false;
     }
   }
 
   public Command run() {
-    return run(() -> runUnlessJammed()).withName("spindexerRun");
+    return run(() -> runUnlessJammed(true)).withName("spindexerRun");
   }
 
   public Command runBack(double rots) {
-    return runEnd(() -> runUnlessJammed(), () -> io.run(0))
+    return runEnd(() -> runUnlessJammed(false), () -> io.run(0))
         .beforeStarting(
             () -> {
               startingPosition = inputs.positionRots;
