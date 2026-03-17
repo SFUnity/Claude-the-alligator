@@ -165,13 +165,14 @@ public class Shooter extends VirtualSubsystem {
       //   hood.setAngle(fakeFeedingHoodAngle.get());
       // }
 
-      // hood.setAngle(fakeHoodAngle.get());
-      // flywheels.setVelocity(fakeFlywheelVelocity.get());
+      hood.setAngle(fakeHoodAngle.get());
+      flywheels.setVelocity(fakeFlywheelVelocity.get());
       // // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
       Pose2d robotPose = poseManager.getPose();
       Translation2d targetPose = // TODO change if feeding and not scoring
-          AllianceFlipUtil.apply(
-              FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0.1, 0)));
+          AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
+      // AllianceFlipUtil.apply(
+      //     FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0.1, 0)));
       Logger.recordOutput("Shooter/Turret/turretTarget", new Pose2d(targetPose, new Rotation2d()));
 
       Pose2d turretPosition =
@@ -184,17 +185,20 @@ public class Shooter extends VirtualSubsystem {
               - poseManager.getRotation().getDegrees();
       turret.setTarget(turretAngle);
 
+      Logger.recordOutput(
+          "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
+
       LaunchingParameters solution =
           shooterUtil.getLaunchingParameters(isScoring, Constants.currentMode != Constants.simMode);
       if (solution.isValid()) {
         // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
         // turret.setTarget(turretAngle);
-        if (hoodIsSafe) {
-          hood.setAngle(solution.hoodAngle());
-        } else {
-          hood.setAngle(HoodConstants.minPositionDegs);
-        }
-        flywheels.setVelocity(solution.flywheelSpeed());
+        // if (hoodIsSafe) {
+        //   hood.setAngle(solution.hoodAngle());
+        // } else {
+        //   hood.setAngle(HoodConstants.minPositionDegs);
+        // }
+        // flywheels.setVelocity(solution.flywheelSpeed());
       }
 
       if (!isScoring) {
@@ -248,14 +252,6 @@ public class Shooter extends VirtualSubsystem {
       Logger.recordOutput("Shooter/FlightTime", fuelLaunchTimer.get());
       prevHubScore = BLUE_HUB.getScore() + RED_HUB.getScore();
     }
-    Logger.recordOutput(
-        "Shooter/Turret/DistToHub",
-        poseManager
-            .getPose()
-            .plus(toTransform2d(turretCenter.getX(), turretCenter.getY()))
-            .getTranslation()
-            .getDistance(
-                AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d())));
 
     Leds.getInstance().isShooting = getShooting();
     Leds.getInstance().isScoring = getScoring();
