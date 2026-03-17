@@ -219,9 +219,20 @@ public class ShooterUtil {
             new Transform2d(
                 turretCenter.getTranslation().toTranslation2d(),
                 turretCenter.getRotation().toRotation2d()));
-    Translation2d targetPose = // TODO change if feeding and not scoring
-        AllianceFlipUtil.apply(
-            FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0.4, 0)));
+    Translation2d targetPose;
+    if (isScoring) {
+      targetPose = // TODO change if feeding and not scoring
+          AllianceFlipUtil.apply(
+              FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0.4, 0)));
+    } else {
+      if (turretPosition.getY() > FieldConstants.fieldWidth / 2) {
+        targetPose =
+            AllianceFlipUtil.apply(
+                new Translation2d(AllianceFlipUtil.applyX(0), FieldConstants.fieldWidth - 0.5));
+      } else {
+        targetPose = AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
+      }
+    }
     Logger.recordOutput("Shooter/Turret/Target", new Pose2d(targetPose, new Rotation2d()));
 
     Logger.recordOutput("Shooter/Turret/CurrentTurretPose", turretPosition);
