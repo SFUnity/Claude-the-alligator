@@ -68,9 +68,25 @@ public class ShooterUtil {
   public ShooterUtil(PoseManager poseManager) {
     this.poseManager = poseManager;
 
-    // scoreRealFlywheelSpeedMap.put(, );
-    // scoreRealHoodAngleMap.put(, );
-    // scoreRealTimeOfFlightMap.put(, );
+    scoreRealFlywheelSpeedMap.put(1.376, 1075.0);
+    scoreRealHoodAngleMap.put(1.376, 15.0);
+    scoreRealTimeOfFlightMap.put(1.376, 0.99);
+
+        scoreRealFlywheelSpeedMap.put(2.496, 1175.0);
+    scoreRealHoodAngleMap.put(2.496, 17.0);
+    scoreRealTimeOfFlightMap.put(2.496, 1.17);
+
+    scoreRealFlywheelSpeedMap.put(3.46, 1250.0);
+    scoreRealHoodAngleMap.put(3.46, 19.0);
+    scoreRealTimeOfFlightMap.put(3.46, 1.14);
+
+    scoreRealFlywheelSpeedMap.put(4.360, 1350.0);
+    scoreRealHoodAngleMap.put(4.360, 22.5);
+    scoreRealTimeOfFlightMap.put(4.360, 1.3);
+
+    scoreRealFlywheelSpeedMap.put(5.78, 1500.0);
+    scoreRealHoodAngleMap.put(5.78, 27.5);
+    scoreRealTimeOfFlightMap.put(5.78, 1.42);
 
     scoreSimFlywheelSpeedMap.put(1.256, 1200.0);
     scoreSimHoodAngleMap.put(1.256, 14.6);
@@ -152,18 +168,6 @@ public class ShooterUtil {
     scoreSimHoodAngleMap.put(5.312, 38.0);
     scoreSimTimeOfFlightMap.put(5.312, 1.080);
 
-    // Measured at 10th Street
-    scoreRealFlywheelSpeedMap.put(0.0, 1101.0);
-    scoreRealHoodAngleMap.put(0.0, 15.0);
-    scoreRealTimeOfFlightMap.put(0.0, 1.0);
-
-    scoreRealFlywheelSpeedMap.put(0.5, 1101.0);
-    scoreRealHoodAngleMap.put(0.5, 17.0);
-    scoreRealTimeOfFlightMap.put(0.5, null);
-
-    scoreRealFlywheelSpeedMap.put(0.5, 1100.0);
-    scoreRealHoodAngleMap.put(0.5, 17.0);
-    scoreRealTimeOfFlightMap.put(0.5, null);
   }
 
   public record LaunchingParameters(
@@ -203,9 +207,6 @@ public class ShooterUtil {
 
     Pose2d robotPose = poseManager.getPose();
     Twist2d robotVelocity = poseManager.getRobotVelocity();
-    Translation2d targetPose = // TODO change if feeding and not scoring
-        AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
-    Logger.recordOutput("Shooter/Turret/Target", targetPose);
     robotPose =
         robotPose.exp(
             new Twist2d(
@@ -218,6 +219,12 @@ public class ShooterUtil {
             new Transform2d(
                 turretCenter.getTranslation().toTranslation2d(),
                 turretCenter.getRotation().toRotation2d()));
+if(isScoring) {
+    Translation2d targetPose = // TODO change if feeding and not scoring
+        AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
+    Logger.recordOutput("Shooter/Turret/Target", targetPose); } else {
+
+    }
 
     Logger.recordOutput("Shooter/Turret/CurrentTurretPose", turretPosition);
     double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation());
