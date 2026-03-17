@@ -50,6 +50,7 @@ public class Flywheels extends SubsystemBase {
     Logger.recordOutput("Shooter/Flywheels/atGoal", atGoal);
     Logger.recordOutput("Shooter/Flywheels/torque", torqueCurrentControl);
     Logger.recordOutput("Shooter/Flywheels/state", state.toString());
+    Logger.recordOutput("Shooter/Flywheels/RPMSetpoint", RPMSetpoint);
 
     // if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
     //   torqueCurrentDebouncer =
