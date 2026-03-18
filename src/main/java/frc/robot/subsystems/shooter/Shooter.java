@@ -66,9 +66,9 @@ public class Shooter extends VirtualSubsystem {
       new LoggedTunableNumber("Shooter/HubVelocity", 1100);
 
   private final LoggedTunableNumber feedingVelocity =
-      new LoggedTunableNumber("Shooter/feedingVelocity", 1300);
+      new LoggedTunableNumber("Shooter/feedingVelocity", 1400);
   private final LoggedTunableNumber farFeedingVelocity =
-      new LoggedTunableNumber("Shooter/FarFeedingVelocity", 1800);
+      new LoggedTunableNumber("Shooter/FarFeedingVelocity", 2000);
   private final LoggedTunableNumber feedingHoodAngle =
       new LoggedTunableNumber("Shooter/feedingHoodAngle", 45);
 
