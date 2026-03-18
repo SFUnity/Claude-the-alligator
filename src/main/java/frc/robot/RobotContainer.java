@@ -399,7 +399,7 @@ public class RobotContainer {
     controller
         .leftBumper()
         .debounce(1)
-        .whileTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker));
+        .whileTrue(RobotCommands.eject(spindexer, kicker));
 
     // Shooting
     controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
