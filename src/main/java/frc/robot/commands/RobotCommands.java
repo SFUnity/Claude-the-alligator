@@ -35,8 +35,7 @@ public class RobotCommands {
     return intake.intake().alongWith(intakePivot.lower()).withName("intake");
   }
 
-  public static Command eject(
-      Spindexer spindexer, Kicker kicker) {
+  public static Command eject(Spindexer spindexer, Kicker kicker) {
     return spindexer
         .runBack(ejectBackupRots)
         .andThen(kicker.setState(KickerState.BACKWARDS))
