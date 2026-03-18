@@ -10,9 +10,11 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.util.GeomUtil;
+import frc.robot.util.LimelightHelpers;
 import frc.robot.util.PoseManager;
 import frc.robot.util.VirtualSubsystem;
 import java.util.LinkedList;
@@ -24,6 +26,8 @@ public class Vision extends VirtualSubsystem {
   private final AprilTagVisionIOInputsAutoLogged[] aprilTagInputs;
   private final ObjectDetectionVisionIOInputsAutoLogged[] objectInputs;
   private final PoseManager poseManager;
+
+  private boolean lastEnabled = false;
 
   public Vision(PoseManager poseManager, VisionIO... io) {
     this.poseManager = poseManager;
@@ -61,6 +65,9 @@ public class Vision extends VirtualSubsystem {
 
       io[i].updateInputs(aprilTagInputs[i], poseManager);
       Logger.processInputs("Vision/" + io[i].getName(), aprilTagInputs[i]);
+
+      boolean enabled = DriverStation.isEnabled();
+      if (enabled != lastEnabled) io[i].setThermalThrottle(enabled ? 0 : 200);
 
       // Initialize logging values
       List<Pose3d> tagPoses = new LinkedList<>();

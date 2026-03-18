@@ -6,6 +6,8 @@ import static frc.robot.util.LimelightHelpers.*;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.vision.VisionConstants.LimelightConfigs;
+import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.PoseManager;
 import java.util.HashSet;
@@ -39,6 +41,8 @@ public class VisionIOLimelight implements VisionIO {
         config.pitchDegrees, // Pitch (degrees)
         config.yawDegrees // Yaw (degrees)
         );
+
+    SetThrottle(name, 200);
 
     // int[] goodIDs = {12, 16};
     // SetFiducialIDFiltersOverride(name, goodIDs);
@@ -198,6 +202,11 @@ public class VisionIOLimelight implements VisionIO {
   @Override
   public String getName() {
     return name;
+  }
+
+  @Override
+  public void setThermalThrottle(int throttle) {
+    SetThrottle(name, throttle);
   }
 
   // @Override

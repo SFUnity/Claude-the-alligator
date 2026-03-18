@@ -49,6 +49,8 @@ public interface VisionIO {
     return "";
   }
 
+  public default void setThermalThrottle(int throttle) {}
+
   // public default double getPipelineIndex() {
   //   return 0;
   // }
