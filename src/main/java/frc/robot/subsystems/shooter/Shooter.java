@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,6 +37,8 @@ import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.FuelSim;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.PoseManager;
+import frc.robot.util.ShiftHelpers;
+import frc.robot.util.ShiftHelpers.Shift;
 import frc.robot.util.VirtualSubsystem;
 import org.littletonrobotics.junction.Logger;
 
@@ -80,6 +83,7 @@ public class Shooter extends VirtualSubsystem {
   private boolean hoodIsSafe = false;
   private boolean isAutoFeedVsScore = true;
   private boolean isClose = true;
+  private boolean lastInAZ = true;
 
   private double myX;
   private double myY;
@@ -132,10 +136,19 @@ public class Shooter extends VirtualSubsystem {
     //   isAutoFeedVsScore = true;
     // }
 
+    if (DriverStation.isDisabled()
+        && ShiftHelpers.getNextShift().orElse(Shift.AUTO) == Shift.TRANSITION) {
+      isAutoFeedVsScore = true;
+    }
+
+    boolean inAZ =
+        AllianceFlipUtil.applyX(poseManager.getPose().getX())
+            < FieldConstants.LinesVertical.allianceZone + 0.75;
     if (isAutoFeedVsScore) {
-      isScoring =
-          AllianceFlipUtil.applyX(poseManager.getPose().getX())
-              < FieldConstants.LinesVertical.allianceZone + 0.5;
+      isScoring = inAZ;
+      lastInAZ = inAZ;
+    } else if (lastInAZ != inAZ) {
+      isAutoFeedVsScore = true;
     }
 
     Logger.recordOutput("Shooter/isScoring", isScoring);
