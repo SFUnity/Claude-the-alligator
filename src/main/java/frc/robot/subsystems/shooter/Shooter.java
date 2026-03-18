@@ -226,6 +226,9 @@ public class Shooter extends VirtualSubsystem {
           hood.setAngle(farFeedingHoodAngle.get());
         }
       }
+      if (!hoodIsSafe) {
+        hood.setAngle(HoodConstants.minPositionDegs);
+      }
     } else {
       turret.setTarget(fakeTurretAngle.get());
       hood.setAngle(fakeHoodAngle.get());
