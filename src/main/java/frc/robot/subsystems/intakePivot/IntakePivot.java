@@ -66,7 +66,8 @@ public class IntakePivot extends SubsystemBase {
           } else {
             io.setPivotPosition(positionSetpoint);
           }
-        }).beforeStarting(() -> shouldBeLowered = false)
+        })
+        .beforeStarting(() -> shouldBeLowered = false)
         .withName("IntakePivotLower");
   }
 
@@ -78,23 +79,26 @@ public class IntakePivot extends SubsystemBase {
   }
 
   public Command runJork() {
-    return Commands.repeatingSequence(
-            run(() -> {
-                  positionSetpoint = loweredJorkAngle.get();
-                  io.runVolts(jorkDownVoltage.get());
-                })
-                .until(
-                    () ->
-                        inputs.pivotCurrentPositionDeg
-                            >= loweredJorkAngle.get() - jorkTolerance.get()),
-            run(() -> {
-                  positionSetpoint = raisedJorkAngle.get();
-                  io.runVolts(jorkUpVoltage.get());
-                })
-                .until(
-                    () ->
-                        inputs.pivotCurrentPositionDeg
-                            <= raisedJorkAngle.get() + jorkTolerance.get()))
+    return lower()
+        .until(this::intakeDown)
+        .andThen(
+            Commands.repeatingSequence(
+                run(() -> {
+                      positionSetpoint = raisedJorkAngle.get();
+                      io.runVolts(jorkUpVoltage.get());
+                    })
+                    .until(
+                        () ->
+                            inputs.pivotCurrentPositionDeg
+                                <= raisedJorkAngle.get() + jorkTolerance.get()),
+                run(() -> {
+                      positionSetpoint = loweredJorkAngle.get();
+                      io.runVolts(jorkDownVoltage.get());
+                    })
+                    .until(
+                        () ->
+                            inputs.pivotCurrentPositionDeg
+                                >= loweredJorkAngle.get() - jorkTolerance.get())))
         .withName("IntakePivotJork");
   }
 
