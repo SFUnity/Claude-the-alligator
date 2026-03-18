@@ -60,7 +60,7 @@ public class RobotCommands {
       IntakeRollers intake,
       IntakePivot intakePivot) {
     return readyThenShoot(shooter, kicker, spindexer)
-        .deadlineFor(jork(intake, intakePivot))
+        .alongWith(jork(intake, intakePivot))
         .withName("readyThenShootWithJork");
   }
 
