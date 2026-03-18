@@ -36,8 +36,10 @@ public class RobotCommands {
   }
 
   public static Command eject(
-      IntakeRollers intake, IntakePivot intakePivot, Spindexer spindexer, Kicker kicker) {
-    return spindexer.runBack(ejectBackupRots).andThen(kicker.setState(KickerState.BACKWARDS))
+      Spindexer spindexer, Kicker kicker) {
+    return spindexer
+        .runBack(ejectBackupRots)
+        .andThen(kicker.setState(KickerState.BACKWARDS))
         .withName("eject");
   }
 
@@ -56,7 +58,7 @@ public class RobotCommands {
       IntakeRollers intake,
       IntakePivot intakePivot) {
     return readyThenShoot(shooter, kicker, spindexer)
-        .alongWith(jork(intake, intakePivot))
+        .deadlineFor(jork(intake, intakePivot))
         .withName("readyThenShootWithJork");
   }
 
