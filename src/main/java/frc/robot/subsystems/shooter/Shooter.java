@@ -71,6 +71,8 @@ public class Shooter extends VirtualSubsystem {
       new LoggedTunableNumber("Shooter/FarFeedingVelocity", 2000);
   private final LoggedTunableNumber feedingHoodAngle =
       new LoggedTunableNumber("Shooter/feedingHoodAngle", 45);
+  private final LoggedTunableNumber farFeedingHoodAngle =
+      new LoggedTunableNumber("Shooter/farFeedingHoodAngle", 42);
 
   private final LoggedTunableNumber clearBalls = new LoggedTunableNumber("Shooter/ClearBalls", 0);
 
@@ -210,12 +212,13 @@ public class Shooter extends VirtualSubsystem {
 
       if (!isScoring) {
         turret.setTarget(0 - poseManager.getRotation().getDegrees());
-        hood.setAngle(feedingHoodAngle.get());
         if (AllianceFlipUtil.applyX(poseManager.getPose().getX())
             < FieldConstants.LinesVertical.oppAllianceZone) {
           flywheels.setVelocity(feedingVelocity.get());
+          hood.setAngle(feedingHoodAngle.get());
         } else {
           flywheels.setVelocity(farFeedingVelocity.get());
+          hood.setAngle(farFeedingHoodAngle.get());
         }
       }
     } else {
