@@ -84,6 +84,7 @@ public class Shooter extends VirtualSubsystem {
   private boolean isScoring = true;
   private boolean hoodIsSafe = false;
   private boolean isAutoFeedVsScore = true;
+  private boolean isAutoFeedVsScorePermaDisable = false;
   private boolean isClose = true;
   private boolean lastInAZ = true;
 
@@ -151,6 +152,10 @@ public class Shooter extends VirtualSubsystem {
       lastInAZ = inAZ;
     } else if (lastInAZ != inAZ) {
       isAutoFeedVsScore = true;
+    }
+
+    if (isAutoFeedVsScorePermaDisable) {
+      isAutoFeedVsScore = false;
     }
 
     Logger.recordOutput("Shooter/isScoring", isScoring);
@@ -309,6 +314,10 @@ public class Shooter extends VirtualSubsystem {
               isAutoFeedVsScore = false;
             })
         .withName("OverrideSetScoring" + scoring);
+  }
+
+  public Command permaDisableAutoFeedvsScore() {
+    return runOnce(() -> isAutoFeedVsScorePermaDisable = true);
   }
 
   // TODO Sean needs to make this work better. Make it go from minimum safe angle to maximum safe

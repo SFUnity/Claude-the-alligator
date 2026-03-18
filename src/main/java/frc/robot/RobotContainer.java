@@ -408,6 +408,7 @@ public class RobotContainer {
 
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
+    controller.a().or(controller.b()).debounce(1.5).onTrue(shooter.permaDisableAutoFeedvsScore());
 
     controller.rightTrigger().onTrue(shooter.setHoodIsSafe(false));
     controller.rightTrigger().onFalse(shooter.setHoodIsSafe(true));
