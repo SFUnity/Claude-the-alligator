@@ -198,8 +198,8 @@ public class Shooter extends VirtualSubsystem {
       if (!isScoring) {
         turret.setTarget(0 - poseManager.getRotation().getDegrees());
         hood.setAngle(feedingHoodAngle.get());
-        if (robotPose.getX()
-            < AllianceFlipUtil.applyX(FieldConstants.LinesVertical.oppAllianceZone)) {
+        if (AllianceFlipUtil.applyX(poseManager.getPose().getX())
+            < FieldConstants.LinesVertical.oppAllianceZone) {
           flywheels.setVelocity(feedingVelocity.get());
         } else {
           flywheels.setVelocity(farFeedingVelocity.get());
