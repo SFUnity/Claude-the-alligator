@@ -22,6 +22,8 @@ public class IntakePivot extends SubsystemBase {
   private final IntakePivotIO io;
   private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
 
+  private boolean shouldBeLowered = false;
+
   public IntakePivot(IntakePivotIO io) {
     this.io = io;
   }
@@ -58,8 +60,13 @@ public class IntakePivot extends SubsystemBase {
           //   io.runVolts(-0.75);
           // }
           positionSetpoint = loweredAngle.get();
-          io.setPivotPosition(positionSetpoint);
-        })
+          if (shouldBeLowered == false && intakeDown()) shouldBeLowered = true;
+          if (shouldBeLowered && !intakeDown()) {
+            io.runVolts(extraLoweringVoltage.get());
+          } else {
+            io.setPivotPosition(positionSetpoint);
+          }
+        }).beforeStarting(() -> shouldBeLowered = false)
         .withName("IntakePivotLower");
   }
 
