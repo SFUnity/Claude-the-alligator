@@ -74,7 +74,7 @@ public class IntakePivot extends SubsystemBase {
   public Command runCurrentZeroing() {
     return run(() -> io.runVolts(-3))
         .until(() -> inputs.pivotStaterCurrent > 40)
-        .finallyDo(() -> io.resetEncoder(Units.degreesToRotations(-2)))
+        .finallyDo(() -> io.resetEncoder(Units.degreesToRotations(-4)))
         .withName("IntakePivotCurrentZeroing");
   }
 
