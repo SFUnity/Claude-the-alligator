@@ -70,25 +70,29 @@ public class ShooterUtil {
     feedRealHoodAngleMap.put(1.376, 15.0);
     feedRealTimeOfFlightMap.put(1.376, 0.99);
 
-    scoreRealFlywheelSpeedMap.put(1.376, 1075.0);
-    scoreRealHoodAngleMap.put(1.376, 15.0);
-    scoreRealTimeOfFlightMap.put(1.376, 0.99);
+    scoreRealFlywheelSpeedMap.put(1.605, 1100.0);
+    scoreRealHoodAngleMap.put(1.605, 12.0);
+    scoreRealTimeOfFlightMap.put(1.605, 0.97);
 
-    scoreRealFlywheelSpeedMap.put(2.496, 1175.0);
-    scoreRealHoodAngleMap.put(2.496, 17.0);
-    scoreRealTimeOfFlightMap.put(2.496, 1.17);
+    // scoreRealFlywheelSpeedMap.put(1.376, 1075.0);
+    // scoreRealHoodAngleMap.put(1.376, 15.0);
+    // scoreRealTimeOfFlightMap.put(1.376, 0.99);
 
-    scoreRealFlywheelSpeedMap.put(3.46, 1250.0);
-    scoreRealHoodAngleMap.put(3.46, 19.0);
-    scoreRealTimeOfFlightMap.put(3.46, 1.14);
+    // scoreRealFlywheelSpeedMap.put(2.496, 1175.0);
+    // scoreRealHoodAngleMap.put(2.496, 17.0);
+    // scoreRealTimeOfFlightMap.put(2.496, 1.17);
 
-    scoreRealFlywheelSpeedMap.put(4.360, 1350.0);
-    scoreRealHoodAngleMap.put(4.360, 22.5);
-    scoreRealTimeOfFlightMap.put(4.360, 1.3);
+    // scoreRealFlywheelSpeedMap.put(3.46, 1250.0);
+    // scoreRealHoodAngleMap.put(3.46, 19.0);
+    // scoreRealTimeOfFlightMap.put(3.46, 1.14);
 
-    scoreRealFlywheelSpeedMap.put(5.78, 1500.0);
-    scoreRealHoodAngleMap.put(5.78, 27.5);
-    scoreRealTimeOfFlightMap.put(5.78, 1.42);
+    // scoreRealFlywheelSpeedMap.put(4.360, 1350.0);
+    // scoreRealHoodAngleMap.put(4.360, 22.5);
+    // scoreRealTimeOfFlightMap.put(4.360, 1.3);
+
+    // scoreRealFlywheelSpeedMap.put(5.78, 1500.0);
+    // scoreRealHoodAngleMap.put(5.78, 27.5);
+    // scoreRealTimeOfFlightMap.put(5.78, 1.42);
 
     // SIM
     scoreSimFlywheelSpeedMap.put(1.256, 1200.0);

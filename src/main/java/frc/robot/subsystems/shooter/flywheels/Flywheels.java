@@ -84,7 +84,7 @@ public class Flywheels extends SubsystemBase {
     atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
     if (velocityRPM - inputs.velocityRotsPerMin > 100) {
       // io.runDutyCycle();
-      io.runTorqueControl();
+      io.runTorqueControl(velocityRPM);
     } else {
       io.runVelocityVoltage(velocityRPM);
     }

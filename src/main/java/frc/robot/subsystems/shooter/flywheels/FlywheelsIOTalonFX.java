@@ -12,6 +12,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import frc.robot.util.LoggedTunableNumber;
 
 public class FlywheelsIOTalonFX implements FlywheelsIO {
   private final TalonFX leader = new TalonFX(leaderID);
@@ -32,6 +33,9 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
       new VelocityTorqueCurrentFOC(1000).withUpdateFreqHz(updateFreqHz);
   // private final VelocityTorqueCurrentFOC torqueCurrentModifiable =
   //     new VelocityTorqueCurrentFOC(100).withUpdateFreqHz(updateFreqHz);
+
+  private final LoggedTunableNumber torqueControlRPMFactor =
+      new LoggedTunableNumber("Shooter/torqueControlRPMFactor", 10);
 
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
@@ -84,8 +88,8 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   // }
 
   @Override
-  public void runTorqueControl() {
-    leader.setControl(torqueCurrent);
+  public void runTorqueControl(double velocityRPM) {
+    leader.setControl(torqueCurrent.withVelocity(torqueControlRPMFactor.get() * velocityRPM / 60));
   }
 
   // @Override
