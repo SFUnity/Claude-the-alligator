@@ -63,11 +63,11 @@ public class Turret extends SubsystemBase {
   public Turret(TurretIO io) {
     this.io = io;
     io.updateInputs(inputs);
-    motorOffsetDegs = getMotorOffsetDegs();
-    Logger.recordOutput("Shooter/Turret/MotorOffsetDegs", motorOffsetDegs);
-    if (motorOffsetDegs < trueMinAngleDegs || motorOffsetDegs > trueMaxAngleDegs) {
-      eDisabled = true;
-    }
+    // motorOffsetDegs = getMotorOffsetDegs();
+    // Logger.recordOutput("Shooter/Turret/MotorOffsetDegs", motorOffsetDegs);
+    // if (motorOffsetDegs < trueMinAngleDegs || motorOffsetDegs > trueMaxAngleDegs) {
+    //   eDisabled = true;
+    // }
     // talonOffsetRots = Units.degreesToRotations(motorOffsetDegs) * gearRatio -
     // inputs.talonRotations;
 
@@ -91,6 +91,7 @@ public class Turret extends SubsystemBase {
     Logger.recordOutput("Shooter/Turret/TruePositionDegs", truePositionDegs);
     Logger.recordOutput("Shooter/Turret/PositionDegs", positionDegs);
     Logger.recordOutput("Shooter/Turret/eDisabled", eDisabled);
+    Logger.recordOutput("Shooter/Turret/hasbeenZeroed", hasBeenZeroed);
     Logger.processInputs("Shooter/Turret", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Turret");
 
