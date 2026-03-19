@@ -363,7 +363,7 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(5),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(4.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment1.cmd()));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
@@ -372,7 +372,7 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(3),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(2.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment2.cmd(),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)));
