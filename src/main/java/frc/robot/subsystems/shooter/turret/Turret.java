@@ -16,6 +16,7 @@ import frc.robot.util.GeneralUtil;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
 public class Turret extends SubsystemBase {
   private final TurretIO io;
@@ -60,6 +61,9 @@ public class Turret extends SubsystemBase {
   private double motorOffsetDegs = -1;
   private boolean hasBeenZeroed = false;
 
+  private final LoggedNetworkBoolean eDisabledDashboard =
+      new LoggedNetworkBoolean("turn off eDisabled", false);
+
   public Turret(TurretIO io) {
     this.io = io;
     io.updateInputs(inputs);
@@ -90,7 +94,7 @@ public class Turret extends SubsystemBase {
 
     Logger.recordOutput("Shooter/Turret/TruePositionDegs", truePositionDegs);
     Logger.recordOutput("Shooter/Turret/PositionDegs", positionDegs);
-    Logger.recordOutput("Shooter/Turret/eDisabled", eDisabled);
+    Logger.recordOutput("Shooter/Turret/eDisabledCantChange", eDisabled);
     Logger.recordOutput("Shooter/Turret/hasbeenZeroed", hasBeenZeroed);
     Logger.processInputs("Shooter/Turret", inputs);
     GeneralUtil.logSubsystem(this, "Shooter/Turret");
@@ -117,6 +121,8 @@ public class Turret extends SubsystemBase {
 
       // TODO tune edisable so it acc works
       // eDisabled = false; // shh
+
+      if (eDisabledDashboard.get()) eDisabled = false;
 
       if (!eDisabled) {
         boolean outOfBounds =
