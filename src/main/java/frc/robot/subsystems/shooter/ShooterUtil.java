@@ -65,6 +65,7 @@ public class ShooterUtil {
   public ShooterUtil(PoseManager poseManager) {
     this.poseManager = poseManager;
 
+    // TODO replace when we make real map
     feedRealFlywheelSpeedMap.put(1.376, 1075.0);
     feedRealHoodAngleMap.put(1.376, 15.0);
     feedRealTimeOfFlightMap.put(1.376, 0.99);

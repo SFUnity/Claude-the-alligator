@@ -207,7 +207,7 @@ public class Shooter extends VirtualSubsystem {
       if (solution.isValid()) {
         // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
         // turret.setTarget(turretAngle);
-        
+
         // hood.setAngle(solution.hoodAngle());
         // flywheels.setVelocity(solution.flywheelSpeed());
       }
