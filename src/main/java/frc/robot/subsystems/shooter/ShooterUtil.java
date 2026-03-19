@@ -308,11 +308,11 @@ public class ShooterUtil {
             // minDist < lookaheadTurretToTargetDistance && lookaheadTurretToTargetDistance <
             // maxDist,
             true,
-            turretAngle,
-            turretVelocity,
-            hoodAngle,
-            hoodVelocity,
-            flywheelSpeedMap.get(lookaheadTurretToTargetDistance));
+            turretAngle, // doesn't matter
+            turretVelocity, // doesn't matter
+            scoreRealHoodAngleMap.get(turretToTargetDistance),
+            hoodVelocity, // doesn't matter
+            scoreRealFlywheelSpeedMap.get(turretToTargetDistance));
     return params;
   }
 }
