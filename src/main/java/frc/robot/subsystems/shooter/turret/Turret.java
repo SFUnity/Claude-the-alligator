@@ -115,7 +115,7 @@ public class Turret extends SubsystemBase {
           encoder2DisconnectedDebouncer.calculate(inputs.encoder2Disconnected));
 
       // TODO tune edisable so it acc works
-      eDisabled = false; // shh
+      // eDisabled = false; // shh
 
       if (!eDisabled) {
         boolean outOfBounds =
@@ -124,7 +124,7 @@ public class Turret extends SubsystemBase {
                     || (truePositionDegs > trueMaxAngleDegs && inputs.velocityDegsPerSec > 0));
         boolean encoderBroken =
             encoderBrokenDebouncer.calculate(
-                Math.abs(inputs.appliedVolts) > 0.1
+                Math.abs(inputs.appliedVolts) > 0.3
                     && Math.abs(inputs.talonRotations - lastTalonRotations) < 0.05);
         lastTalonRotations = inputs.talonRotations;
 
