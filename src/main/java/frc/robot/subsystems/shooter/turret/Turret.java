@@ -124,14 +124,14 @@ public class Turret extends SubsystemBase {
                     || (truePositionDegs > trueMaxAngleDegs && inputs.velocityDegsPerSec > 0));
         boolean encoderBroken =
             encoderBrokenDebouncer.calculate(
-                Math.abs(inputs.appliedVolts) > 0.01
-                    && inputs.talonRotations == lastTalonRotations);
+                Math.abs(inputs.appliedVolts) > 0.1
+                    && Math.abs(inputs.talonRotations - lastTalonRotations) < 0.05);
         lastTalonRotations = inputs.talonRotations;
 
         Logger.recordOutput("Shooter/Turret/outOfBounds", outOfBounds);
         Logger.recordOutput("Shooter/Turret/encoderBroken", encoderBroken);
 
-        // eDisabled = outOfBounds || encoderBroken;
+        eDisabled = outOfBounds || encoderBroken;
 
         double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
         double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
