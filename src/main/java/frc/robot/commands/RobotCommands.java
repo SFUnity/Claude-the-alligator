@@ -46,14 +46,8 @@ public class RobotCommands {
     return intake.intake().alongWith(intakePivot.lower()).withName("intake");
   }
 
-  public static Command eject(
-      IntakeRollers intake, IntakePivot intakePivot, Spindexer spindexer, Kicker kicker) {
-    return intake
-        .eject()
-        .alongWith(
-            intakePivot.lower(),
-            spindexer.runBack(ejectBackupRots).andThen(kicker.setState(KickerState.BACKWARDS)))
-        .withName("eject");
+  public static Command eject(Spindexer spindexer, Kicker kicker) {
+    return spindexer.runBack(ejectBackupRots).andThen(kicker.setState(KickerState.BACKWARDS)).withName("eject");
   }
 
   public static Command stowIntake(IntakeRollers intake, IntakePivot intakePivot) {

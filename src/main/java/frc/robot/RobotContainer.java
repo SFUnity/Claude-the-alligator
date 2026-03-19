@@ -378,10 +378,10 @@ public class RobotContainer {
     controller
         .leftBumper()
         .debounce(1)
-        .whileTrue(RobotCommands.eject(intakeRollers, intakePivot, spindexer, kicker));
+        .whileTrue(RobotCommands.eject(spindexer, kicker));
 
     // Shooting
-    controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).deadlineFor(RobotCommands.jork(intakeRollers, intakePivot)));
     controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer));
     // controller.rightBumper().whileTrue(shooter.decrementTurretAngle());
 
