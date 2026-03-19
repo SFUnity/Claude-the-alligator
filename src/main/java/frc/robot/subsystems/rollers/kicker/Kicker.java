@@ -82,7 +82,7 @@ public class Kicker extends SubsystemBase {
 
     boolean inToleranceForTorqueControl =
         velocityRPM - inputs.velocityRotsPerMin <= torqueCurrentControlTolerance.get();
-    boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
+    torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
     atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
 
     // if (!torqueCurrentControl && lastTorqueCurrentControl) {
