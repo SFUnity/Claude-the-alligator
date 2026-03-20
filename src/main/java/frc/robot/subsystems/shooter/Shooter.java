@@ -197,7 +197,7 @@ public class Shooter extends VirtualSubsystem {
       double turretAngle =
           targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
               - poseManager.getRotation().getDegrees();
-      turret.setTarget(fakeTurretAngle.get());
+      turret.setTarget(turretAngle);
 
       Logger.recordOutput(
           "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
