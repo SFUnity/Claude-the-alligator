@@ -37,4 +37,7 @@ public class IntakePivotConstants {
       new LoggedTunableNumber("Intake/jorkDownVoltage", 1.5);
   public static final LoggedTunableNumber extraLoweringVoltage =
       new LoggedTunableNumber("Intake/extraLoweringVoltage", 2);
+
+  public static final LoggedTunableNumber zeroedAngle =
+      new LoggedTunableNumber("Intake/zeroedAngle", -10);
 }
