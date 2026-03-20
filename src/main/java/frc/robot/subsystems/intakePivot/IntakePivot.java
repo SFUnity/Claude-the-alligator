@@ -40,6 +40,10 @@ public class IntakePivot extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "IntakePivot");
   }
 
+  public Command idle() {
+    return run(() -> io.runVolts(0)).withName("Idle");
+  }
+
   public Command raise() {
     return run(() -> {
           // if (DriverStation.isAutonomous()) {
