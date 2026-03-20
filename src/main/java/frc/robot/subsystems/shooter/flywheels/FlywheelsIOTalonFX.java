@@ -35,7 +35,7 @@ public class FlywheelsIOTalonFX implements FlywheelsIO {
   //     new VelocityTorqueCurrentFOC(100).withUpdateFreqHz(updateFreqHz);
 
   private final LoggedTunableNumber torqueControlRPMFactor =
-      new LoggedTunableNumber("Shooter/torqueControlRPMFactor", 10);
+      new LoggedTunableNumber("Shooter/torqueControlRPMFactor", 4);
 
   public FlywheelsIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
