@@ -317,5 +317,6 @@
   "splits":[0]
  },
  "events":[
-   {"name":"StartIntake", "from":{"target":1, "targetTimestamp":1.14656, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
+   {"name":"StartIntake", "from":{"target":1, "targetTimestamp":1.14656, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StopIntake", "from":{"target":5, "targetTimestamp":null, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
