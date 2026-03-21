@@ -7,8 +7,11 @@ import frc.robot.util.LoggedTunableNumber;
 public class ClimbConstants {
   public static final int climbMotorID = 4;
 
-  static final double upMeters = Units.inchesToMeters(8.0);
-  static final double downMeters = 0.0;
+  static final LoggedTunableNumber upMeters =
+      new LoggedTunableNumber("Climber/upMeters", Units.inchesToMeters(8.0));
+  static final LoggedTunableNumber downMeters = new LoggedTunableNumber("Climber/downMeters", 0);
+  static final LoggedTunableNumber upVolts = new LoggedTunableNumber("Climber/upVolts", 1);
+  static final LoggedTunableNumber downVolts = new LoggedTunableNumber("Climber/downVolts", -2);
 
   public static final double loopPeriodSecs = 0.02;
 

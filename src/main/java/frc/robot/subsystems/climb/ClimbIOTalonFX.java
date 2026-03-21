@@ -24,7 +24,8 @@ public class ClimbIOTalonFX implements ClimbIO {
     slot0Configs.kD = 0;
 
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    talonFXConfigs.Feedback.RotorToSensorRatio = gearRatio * (drumRadiusMeters * Math.PI * 2);
+    // doing everything in rotations for now for simplicity / ease of tuning
+    talonFXConfigs.Feedback.RotorToSensorRatio = gearRatio; // (drumRadiusMeters * Math.PI * 2)
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
