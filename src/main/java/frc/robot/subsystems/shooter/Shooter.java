@@ -201,11 +201,11 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput(
         "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
 
-    LaunchingParameters solution =
-        shooterUtil.getLaunchingParameters(isScoring, Constants.currentMode != Constants.simMode);
-    if (solution.isValid()) {
-      // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-      // turret.setTarget(turretAngle);
+      LaunchingParameters solution =
+          shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.simMode);
+      if (solution.isValid()) {
+        // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+        // turret.setTarget(turretAngle);
 
         // TODO uncomment only the below two lines when ready to use interp map
         hood.setAngle(solution.hoodAngle());
