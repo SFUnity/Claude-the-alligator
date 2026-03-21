@@ -164,21 +164,21 @@ public class Vision extends VirtualSubsystem {
       //   io[i].updateInputs(objectInputs[i], poseManager);
       // }
 
-      if (io[i].getName().equals(portAft.name)) {
-        LinkedList<Pose3d> tags = new LinkedList<>();
-        for (int tagId : aprilTagInputs[i].tagIds) {
-          tags.add(aprilTagLayout.getTagPose(tagId).get());
-        }
-        LinkedList<Double> angles = new LinkedList<>();
-        for (Pose3d tag : tags) {
-          Translation2d tagTranslation2d = tag.getTranslation().toTranslation2d();
-          angles.add(
-              poseManager.getHorizontalAngleTo(tagTranslation2d).getDegrees() - portAft.yawDegrees);
-        }
-        Logger.recordOutput(
-            "Vision/" + io[i].getName() + "/RelativeAngles",
-            angles.toArray(new Double[angles.size()]).toString());
-      }
+      // if (io[i].getName().equals(portAft.name)) {
+      //   LinkedList<Pose3d> tags = new LinkedList<>();
+      //   for (int tagId : aprilTagInputs[i].tagIds) {
+      //     tags.add(aprilTagLayout.getTagPose(tagId).get());
+      //   }
+      //   LinkedList<Double> angles = new LinkedList<>();
+      //   for (Pose3d tag : tags) {
+      //     Translation2d tagTranslation2d = tag.getTranslation().toTranslation2d();
+      //     angles.add(
+      //         poseManager.getHorizontalAngleTo(tagTranslation2d).getDegrees() - portAft.yawDegrees);
+      //   }
+      //   Logger.recordOutput(
+      //       "Vision/" + io[i].getName() + "/RelativeAngles",
+      //       angles.toArray(new Double[angles.size()]).toString());
+      // }
     }
 
     // Log summary data

@@ -31,7 +31,6 @@ public class RobotCommands {
             kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
             waitSeconds(1).andThen(spindexer.run()))
-        .beforeStarting(shooter.setHoodIsSafe(true))
         .withName("ReadyThenShoot");
   }
 
