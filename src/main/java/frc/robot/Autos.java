@@ -388,21 +388,18 @@ public class Autos {
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment0.atTime("StopIntakeandHoodFalse2").onTrue(RobotCommands.jork(intake, intakePivot));
     segment0
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(4.5),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
-                segment1.cmd()));
-    segment1.atTime("StartIntake2andHoodTrue2").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment1.atTime("StopIntake2andHoodFalse4").onTrue(RobotCommands.jork(intake, intakePivot));
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).alongWith(RobotCommands.jork(intake, intakePivot).asProxy()).withTimeout(4.0),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).asProxy().alongWith(segment1.cmd())));
+    segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(2.5),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).alongWith(RobotCommands.jork(intake, intakePivot)).withTimeout(2.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
     return routine;
   }
