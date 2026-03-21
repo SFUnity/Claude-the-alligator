@@ -91,14 +91,14 @@ public class Autos {
     // chooser.addRoutine("Score Center", this::ScoreCenterAutoRoutine);
     // chooser.addRoutine("Score Upper Center", this::ScoreUpperCenterAutoRoutine);
     // chooser.addRoutine("Score Upper Center Climb", this::ScoreUpperCenterClimbAutoRoutine);
-    // chooser.addRoutine("Feed", this::FeedAutoRoutine);
-    // chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
+    chooser.addRoutine("Feed", this::FeedAutoRoutine);
+    chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
     chooser.addRoutine("Complete Lower Feed", this::CompleteLowerFeed);
     chooser.addRoutine("Complete Upper Feed", this::CompleteUpperFeed);
     // chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
     // chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
     // chooser.addRoutine("Double Score Center Banana", this::DoubleScoreCenterBanana);
-    chooser.addRoutine("Double Score Lower Loop", this::DoubleScoreCenterLoop);
+    chooser.addRoutine("Double Score Center Loop", this::DoubleScoreCenterLoop);
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
     chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
 
@@ -357,21 +357,27 @@ public class Autos {
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
+    segment0.atTime("HoodFalse").onTrue(shooter.setHoodIsSafe(false));
+    segment0.atTime("HoodTrue").onTrue(shooter.setHoodIsSafe(true));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment0.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment0.atTime("StopIntakeandHoodFalse2").onTrue(RobotCommands.jork(intake, intakePivot).alongWith(shooter.setHoodIsSafe(false)));
     segment0
         .done()
         .onTrue(
             Commands.sequence(
+                shooter.setHoodIsSafe(true),
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(4.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment1.cmd()));
+    segment1.atTime("HoodFalse3").onTrue(shooter.setHoodIsSafe(false));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment1.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment1.atTime("StopIntake2andHoodFalse4").onTrue(RobotCommands.jork(intake, intakePivot).alongWith(shooter.setHoodIsSafe(false)));
+    segment1.atTime("HoodTrue3").onTrue(shooter.setHoodIsSafe(true));
     segment1
         .done()
         .onTrue(
             Commands.sequence(
+                shooter.setHoodIsSafe(true),    
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(2.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment2.cmd(),
@@ -387,21 +393,27 @@ public class Autos {
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
+    segment0.atTime("HoodFalse").onTrue(shooter.setHoodIsSafe(false));
+    segment0.atTime("HoodTrue").onTrue(shooter.setHoodIsSafe(true));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment0.atTime("StopIntake").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment0.atTime("StopIntakeandHoodFalse2").onTrue(RobotCommands.jork(intake, intakePivot).alongWith(shooter.setHoodIsSafe(false)));
     segment0
         .done()
         .onTrue(
             Commands.sequence(
+                shooter.setHoodIsSafe(true),
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(4.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment1.cmd()));
+    segment1.atTime("HoodFalse3").onTrue(shooter.setHoodIsSafe(false));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment1.atTime("StopIntake2").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment1.atTime("StopIntake2andHoodFalse4").onTrue(RobotCommands.jork(intake, intakePivot).alongWith(shooter.setHoodIsSafe(false)));
+    segment1.atTime("HoodTrue3").onTrue(shooter.setHoodIsSafe(true));
     segment1
         .done()
         .onTrue(
             Commands.sequence(
+                shooter.setHoodIsSafe(true),    
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(2.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment2.cmd(),
@@ -430,6 +442,8 @@ public class Autos {
     routine
         .active()
         .onTrue(Commands.sequence(CompleteLowerFeed.resetOdometry(), CompleteLowerFeed.cmd()));
+    CompleteLowerFeed.atTime("HoodFalse").onTrue(shooter.setHoodIsSafe(false));
+    CompleteLowerFeed.atTime("HoodTrue").onTrue(shooter.setHoodIsSafe(true));
     CompleteLowerFeed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
@@ -442,6 +456,7 @@ public class Autos {
         .onTrue(
             RobotCommands.stopShoot(shooter, kicker, spindexer)
                 .alongWith(RobotCommands.jork(intake, intakePivot)));
+    CompleteLowerFeed.atTime("HoodFalse2").onTrue(shooter.setHoodIsSafe(false));
     return routine;
   }
 
@@ -451,6 +466,9 @@ public class Autos {
     routine
         .active()
         .onTrue(Commands.sequence(CompleteUpperFeed.resetOdometry(), CompleteUpperFeed.cmd()));
+    
+    CompleteUpperFeed.atTime("HoodFalse").onTrue(shooter.setHoodIsSafe(false));
+    CompleteUpperFeed.atTime("HoodTrue").onTrue(shooter.setHoodIsSafe(true));
     CompleteUpperFeed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
@@ -463,6 +481,7 @@ public class Autos {
         .onTrue(
             RobotCommands.stopShoot(shooter, kicker, spindexer)
                 .alongWith(RobotCommands.jork(intake, intakePivot)));
+    CompleteUpperFeed.atTime("HoodFalse2").onTrue(shooter.setHoodIsSafe(false));
     return routine;
   }
 }
