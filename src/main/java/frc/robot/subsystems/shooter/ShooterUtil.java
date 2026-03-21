@@ -170,7 +170,7 @@ public class ShooterUtil {
     Pose2d lookeaheadPose = turretPosition;
     double lookaheadTurretToTargetDistance = turretToTargetDistance;
     for (int i = 0; i < 20; i++) {
-      timeOfFlight = timeOfFlightMap.get(lookaheadTurretToTargetDistance);
+      timeOfFlight = 0; // change this back later
       // timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
       double offsetX = turretVelocityX * timeOfFlight;
       double offsetY = turretVelocityY * timeOfFlight;
@@ -201,7 +201,7 @@ public class ShooterUtil {
     turretAngle =
         targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
             - poseManager.getRotation().getDegrees();
-    hoodAngle = hoodAngleMap.get(lookaheadTurretToTargetDistance);
+    // hoodAngle = hoodAngleMap.get(lookaheadTurretToTargetDistance);
 
     if (turretAngles.isEmpty()) turretAngles.add(turretAngle);
     if (hoodAngles.isEmpty()) hoodAngles.add(hoodAngle);
