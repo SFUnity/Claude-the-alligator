@@ -366,7 +366,11 @@ public class RobotContainer {
             poseManager));
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.climbDown());
-    intakePivot.setDefaultCommand(intakePivot.idle());
+    if (DriverStation.isFMSAttached()) {
+      intakePivot.setDefaultCommand(intakePivot.raise());
+    } else {
+      intakePivot.setDefaultCommand(intakePivot.idle());
+    }
     intakeRollers.setDefaultCommand(intakeRollers.stop());
     kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
 
