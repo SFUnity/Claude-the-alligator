@@ -19,7 +19,7 @@ public class RobotCommands {
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.parallel(
             spindexer.stop(),
-            waitSeconds(0.7).andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP)))
+            waitSeconds(0.7).andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP), shooter.setHoodIsSafe(false)))
         .withName("StopShoot");
   }
 
@@ -27,7 +27,7 @@ public class RobotCommands {
     return Commands.parallel(
             kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
-            waitSeconds(1).andThen(spindexer.run()))
+            waitSeconds(1).andThen(spindexer.run())).beforeStarting(shooter.setHoodIsSafe(true))
         .withName("ReadyThenShoot");
   }
 
