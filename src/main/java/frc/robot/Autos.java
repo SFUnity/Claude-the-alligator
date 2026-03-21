@@ -382,9 +382,8 @@ public class Autos {
 
   public AutoRoutine DoubleScoreCenterLoop() {
     AutoRoutine routine = factory.newRoutine("Double Score Center Loop Auto Routine");
-    AutoTrajectory segment0 = routine.trajectory("DoubleScoreCenterLoop", 0);
-    AutoTrajectory segment1 = routine.trajectory("DoubleScoreCenterLoop", 1);
-    AutoTrajectory segment2 = routine.trajectory("DoubleScoreCenterLoop", 2);
+    AutoTrajectory segment0 = routine.trajectory("aDoubleScoreLowerLoop");
+    AutoTrajectory segment1 = routine.trajectory("bDoubleScoreLowerLoop");
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
@@ -404,9 +403,7 @@ public class Autos {
         .onTrue(
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(2.5),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
-                segment2.cmd(),
-                RobotCommands.stopShoot(shooter, kicker, spindexer)));
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
     return routine;
   }
 
