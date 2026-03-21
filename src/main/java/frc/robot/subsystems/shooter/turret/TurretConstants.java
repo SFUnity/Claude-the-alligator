@@ -16,7 +16,7 @@ public class TurretConstants {
   public static final double gearRatio = 48.875; // turretGear / Motor Gear
 
   public static final double trueMinAngleDegs = 0f;
-  public static final double trueMaxAngleDegs = 400f;
+  public static final double trueMaxAngleDegs = 380f;
 
   public static final double bufferDegs = (trueMaxAngleDegs - 360f) / 4f;
   public static final double centerDegs = trueMaxAngleDegs / 2f;
@@ -41,7 +41,7 @@ public class TurretConstants {
   public static final double angleToleranceDegs = 2.0; // todo change
   public static final double velocityToleranceDegs = 0.5; // TODO change
 
-  public static final double turretOffsetDegs = 207;
+  public static final double turretOffsetDegs = 202.8;
 
   public static final LoggedTunableNumber awayFromSetpointTolerance =
       new LoggedTunableNumber("Shooter/Turret/awayFromSetpointTolerance", 5.0);
