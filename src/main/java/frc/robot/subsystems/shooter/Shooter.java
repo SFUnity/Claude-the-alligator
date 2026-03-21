@@ -311,7 +311,7 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public Command setHoodIsSafe(boolean bool) {
-    return runOnce(() -> hoodIsSafe = bool, hood).withName("SetHoodIsSafe");
+    return runOnce(() -> hoodIsSafe = bool).withName("SetHoodIsSafe");
   }
 
   public Command overrideSetScoring(boolean scoring) {
