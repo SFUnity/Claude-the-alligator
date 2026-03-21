@@ -173,7 +173,8 @@ public class Vision extends VirtualSubsystem {
       //   for (Pose3d tag : tags) {
       //     Translation2d tagTranslation2d = tag.getTranslation().toTranslation2d();
       //     angles.add(
-      //         poseManager.getHorizontalAngleTo(tagTranslation2d).getDegrees() - portAft.yawDegrees);
+      //         poseManager.getHorizontalAngleTo(tagTranslation2d).getDegrees() -
+      // portAft.yawDegrees);
       //   }
       //   Logger.recordOutput(
       //       "Vision/" + io[i].getName() + "/RelativeAngles",
