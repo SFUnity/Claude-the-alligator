@@ -375,7 +375,7 @@ public class Autos {
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(RobotCommands.jork(intake, intakePivot))
-                    .withTimeout(3.5),
+                    .withTimeout(3.75),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
     return routine;
   }
@@ -406,7 +406,7 @@ public class Autos {
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(RobotCommands.jork(intake, intakePivot))
-                    .withTimeout(4),
+                    .withTimeout(3.75),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
     return routine;
   }
