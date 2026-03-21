@@ -82,7 +82,7 @@ public class Shooter extends VirtualSubsystem {
 
   private boolean isShooting = false;
   private boolean isScoring = true;
-  private boolean hoodIsSafe = true;
+  private boolean hoodIsSafe = false;
   private boolean isAutoFeedVsScore = true;
   private boolean isAutoFeedVsScorePermaDisable = false;
   private boolean isClose = true;

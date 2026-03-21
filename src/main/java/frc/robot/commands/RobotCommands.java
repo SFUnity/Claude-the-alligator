@@ -22,8 +22,8 @@ public class RobotCommands {
             waitSeconds(0.7)
                 .andThen(
                     shooter.setShooting(false),
-                    kicker.setState(KickerState.STOP),
-                    shooter.setHoodIsSafe(false)))
+                    shooter.setHoodIsSafe(false),
+                    kicker.setState(KickerState.STOP))) // ! this is a run cmd watch out
         .withName("StopShoot");
   }
 
