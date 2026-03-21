@@ -931,13 +931,11 @@
    {"name":"StartShoot", "from":{"target":9, "targetTimestamp":6.50161, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StartIntake", "from":{"target":2, "targetTimestamp":1.02909, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StopIntakeandHoodFalse2", "from":{"target":8, "targetTimestamp":5.173, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"StartIntake2", "from":{"target":12, "targetTimestamp":7.8902, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"StartIntake2andHoodTrue2", "from":{"target":12, "targetTimestamp":7.8902, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StopIntake2andHoodFalse4", "from":{"target":16, "targetTimestamp":11.65663, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"StartShoot2", "from":{"target":17, "targetTimestamp":12.91609, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"HoodFalse", "from":{"target":0, "targetTimestamp":0.0, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"HoodTrue", "from":{"target":1, "targetTimestamp":0.68101, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"HoodTrue2", "from":{"target":9, "targetTimestamp":6.50161, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"HoodTrue3", "from":{"target":11, "targetTimestamp":7.50643, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"HoodFalse1", "from":{"target":0, "targetTimestamp":0.0, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
+   {"name":"HoodTrue1", "from":{"target":9, "targetTimestamp":6.50161, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"HoodFalse3", "from":{"target":10, "targetTimestamp":7.03739, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"HoodTrue4", "from":{"target":17, "targetTimestamp":12.91609, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
+   {"name":"HoodTrue3", "from":{"target":17, "targetTimestamp":12.91609, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
