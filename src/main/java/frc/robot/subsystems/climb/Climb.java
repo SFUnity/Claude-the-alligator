@@ -15,7 +15,7 @@ public class Climb extends SubsystemBase {
 
   public Climb(ClimbIO io) {
     this.io = io;
-    Logger.recordOutput("Climb/ClimbSetPoint", downMeters);
+    // Logger.recordOutput("Climb/ClimbSetPoint", downMeters);
   }
 
   public void periodic() {
@@ -24,13 +24,13 @@ public class Climb extends SubsystemBase {
     Logger.processInputs("Climb", inputs);
     GeneralUtil.logSubsystem(this, "Climb");
 
-    if (isUp) {
-      Logger.recordOutput("Climb/ClimbSetPoint", upMeters);
-      io.setPosition(upMeters);
-    } else {
-      Logger.recordOutput("Climb/ClimbSetPoint", downMeters);
-      io.setPosition(downMeters);
-    }
+    // if (isUp) {
+    //   Logger.recordOutput("Climb/ClimbSetPoint", upMeters);
+    //   io.setPosition(upMeters);
+    // } else {
+    //   Logger.recordOutput("Climb/ClimbSetPoint", downMeters);
+    //   io.setPosition(downMeters);
+    // }
   }
 
   public Command climbUp() {
@@ -41,11 +41,19 @@ public class Climb extends SubsystemBase {
     return run(() -> isUp = false).withName("climbDown");
   }
 
+  public Command idle() {
+    return run(() -> io.climbVolts(0)).withName("idle");
+  }
+
   public Command upVolts() {
-    return run(() -> io.climbVolts(8.0));
+    return run(() -> io.climbVolts(upVolts.get()))
+        .until(() -> inputs.positionMeters >= upMeters.get())
+        .withName("climbUp");
   }
 
   public Command downVolts() {
-    return run(() -> io.climbVolts(-8.0));
+    return run(() -> io.climbVolts(downVolts.get()))
+        .until(() -> inputs.positionMeters <= downMeters.get())
+        .withName("climbDown");
   }
 }

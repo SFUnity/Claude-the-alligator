@@ -19,7 +19,7 @@ public class ClimbIOSim implements ClimbIO {
           drumRadiusMeters,
           minHeightMeters,
           maxHeightMeters,
-          true,
+          false, // springs essentially compensate
           0);
 
   public ClimbIOSim() {
@@ -38,6 +38,12 @@ public class ClimbIOSim implements ClimbIO {
   public void setPosition(double meters) {
     controller.setP(kP.get());
     appliedVolts = controller.calculate(sim.getPositionMeters(), meters) + kG.get();
+    sim.setInputVoltage(appliedVolts);
+  }
+
+  @Override
+  public void climbVolts(double volts) {
+    appliedVolts = volts;
     sim.setInputVoltage(appliedVolts);
   }
 }

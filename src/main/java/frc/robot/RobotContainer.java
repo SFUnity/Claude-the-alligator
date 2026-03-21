@@ -365,7 +365,7 @@ public class RobotContainer {
             () -> -controller.getRightX(),
             poseManager));
     spindexer.setDefaultCommand(spindexer.stop());
-    climb.setDefaultCommand(climb.climbDown());
+    climb.setDefaultCommand(climb.idle());
     intakePivot.setDefaultCommand(intakePivot.raise());
     intakeRollers.setDefaultCommand(intakeRollers.stop());
     kicker.setDefaultCommand(kicker.setState(KickerState.STOP));
@@ -389,8 +389,8 @@ public class RobotContainer {
     // controller.povDown().whileTrue(DriveCommands.povDrive(drive, poseManager, true));
 
     // Climbing
-    controller.povUp().onTrue(climb.upVolts());
-    controller.povDown().onTrue(climb.downVolts());
+    controller.povUp().whileTrue(climb.upVolts());
+    controller.povDown().whileTrue(climb.downVolts());
 
     // Intaking
     controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
