@@ -374,7 +374,6 @@ public class Autos {
     segment1
         .atTime("StopIntake2andHoodFalse4")
         .onTrue(RobotCommands.jork(intake, intakePivot).alongWith(shooter.setHoodIsSafe(false)));
-    segment1.atTime("HoodTrue3").onTrue(shooter.setHoodIsSafe(true));
     segment1
         .done()
         .onTrue(
@@ -394,8 +393,7 @@ public class Autos {
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
-    segment0.atTime("HoodFalse").onTrue(shooter.setHoodIsSafe(false));
-    segment0.atTime("HoodTrue").onTrue(shooter.setHoodIsSafe(true));
+    segment0.atTime("HoodFalse1").onTrue(shooter.setHoodIsSafe(false));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     segment0
         .atTime("StopIntakeandHoodFalse2")
@@ -404,21 +402,18 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                shooter.setHoodIsSafe(true),
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(4.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment1.cmd()));
     segment1.atTime("HoodFalse3").onTrue(shooter.setHoodIsSafe(false));
-    segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
+    segment1.atTime("StartIntake2andHoodTrue2").onTrue(RobotCommands.intake(intake, intakePivot).alongWith(shooter.setHoodIsSafe(true)));
     segment1
         .atTime("StopIntake2andHoodFalse4")
         .onTrue(RobotCommands.jork(intake, intakePivot).alongWith(shooter.setHoodIsSafe(false)));
-    segment1.atTime("HoodTrue3").onTrue(shooter.setHoodIsSafe(true));
     segment1
         .done()
         .onTrue(
             Commands.sequence(
-                shooter.setHoodIsSafe(true),
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(2.5),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment2.cmd(),
