@@ -156,7 +156,7 @@ public class RobotContainer {
         // intakePivot = new IntakePivot(new IntakePivotIO() {});
         // intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
         // flywheels = new Flywheels(new FlywheelsIO() {});
-        // turret = new Turret(new TurretIO() {});
+        turret = new Turret(new TurretIO() {});
         // hood = new Hood(new HoodIO() {});
         // kicker = new Kicker(new KickerIO() {});
 
@@ -174,7 +174,7 @@ public class RobotContainer {
         intakePivot = new IntakePivot(new IntakePivotIOTalon());
         intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
         flywheels = new Flywheels(new FlywheelsIOTalonFX());
-        turret = new Turret(new TurretIOTalonFX());
+        // turret = new Turret(new TurretIOTalonFX());
         hood = new Hood(new HoodIOTalonFX());
         kicker = new Kicker(new KickerIOTalonFX());
 
@@ -183,7 +183,7 @@ public class RobotContainer {
             new Vision(
                 poseManager,
                 new VisionIOLimelight(portFore),
-                new VisionIOLimelight(portAft),
+                // new VisionIOLimelight(portAft),
                 new VisionIOLimelight(starboardAft));
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
@@ -396,7 +396,7 @@ public class RobotContainer {
     controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
     // controller.leftBumper().whileTrue(shooter.incrementTurretAngle());
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
-    controller.rightTrigger().whileTrue(RobotCommands.unjam(spindexer, kicker));
+    controller.rightTrigger().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
 
     // Shooting
     controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));

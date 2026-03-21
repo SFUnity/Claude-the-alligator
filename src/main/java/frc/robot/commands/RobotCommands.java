@@ -19,10 +19,9 @@ public class RobotCommands {
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.parallel(
             spindexer.stop(),
-            waitSeconds(0.7)
+            waitSeconds(0.3)
                 .andThen(
                     shooter.setShooting(false),
-                    shooter.setHoodIsSafe(false),
                     kicker.setState(KickerState.STOP))) // ! this is a run cmd watch out
         .withName("StopShoot");
   }
@@ -40,10 +39,10 @@ public class RobotCommands {
     return intake.intake().alongWith(intakePivot.lower()).withName("intake");
   }
 
-  public static Command unjam(Spindexer spindexer, Kicker kicker) {
+  public static Command unjam(Spindexer spindexer, Kicker kicker, Shooter shooter) {
     return spindexer
         .runBack(ejectBackupRots)
-        .andThen(kicker.setState(KickerState.BACKWARDS))
+        .alongWith(kicker.setState(KickerState.RUN), shooter.setShooting(true))
         .withName("unjam");
   }
 

@@ -202,18 +202,18 @@ public class Shooter extends VirtualSubsystem {
         "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
 
     LaunchingParameters solution =
-        shooterUtil.getLaunchingParameters(isScoring, Constants.currentMode != Constants.simMode);
+        shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.simMode);
     if (solution.isValid()) {
       // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
       // turret.setTarget(turretAngle);
 
       // TODO uncomment only the below two lines when ready to use interp map
-      // hood.setAngle(solution.hoodAngle());
-      // flywheels.setVelocity(solution.flywheelSpeed());
+      hood.setAngle(solution.hoodAngle());
+      flywheels.setVelocity(solution.flywheelSpeed());
     }
 
-    flywheels.setVelocity(fakeFlywheelVelocity.get());
-    hood.setAngle(fakeHoodAngle.get());
+    // flywheels.setVelocity(fakeFlywheelVelocity.get());
+    // hood.setAngle(fakeHoodAngle.get());
 
     if (!isScoring) {
       turret.setTarget(0 - poseManager.getRotation().getDegrees());
@@ -235,7 +235,7 @@ public class Shooter extends VirtualSubsystem {
       //   hood.setAngle(farFeedingHoodAngle.get());
       // }
     }
-    if (!hoodIsSafe) {
+    if (!isShooting || !hoodIsSafe) {
       hood.setAngle(HoodConstants.minPositionDegs);
     }
     // Avi commented this out because real robot is not ready for it
@@ -304,10 +304,6 @@ public class Shooter extends VirtualSubsystem {
 
   public boolean getScoring() {
     return isScoring;
-  }
-
-  public Command toggleHoodIsSafe() {
-    return runOnce(() -> hoodIsSafe = !hoodIsSafe, hood).withName("ToggleHoodIsSafe");
   }
 
   public Command setHoodIsSafe(boolean bool) {
