@@ -393,7 +393,8 @@ public class Autos {
         .onTrue(
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer).alongWith(RobotCommands.jork(intake, intakePivot).asProxy()).withTimeout(4.0),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).asProxy().alongWith(segment1.cmd())));
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
+                segment1.cmd()));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1
         .done()
