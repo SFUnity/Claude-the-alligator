@@ -351,32 +351,28 @@ public class Autos {
    */
   public AutoRoutine DoubleScoreUpperLoop() {
     AutoRoutine routine = factory.newRoutine("Double Score Upper Loop Auto Routine");
-    AutoTrajectory segment0 = routine.trajectory("DoubleScoreUpperLoop", 0);
-    AutoTrajectory segment1 = routine.trajectory("DoubleScoreUpperLoop", 1);
-    AutoTrajectory segment2 = routine.trajectory("DoubleScoreUpperLoop", 2);
+    AutoTrajectory segment0 = routine.trajectory("aDoubleScoreUpperLoop");
+    AutoTrajectory segment1 = routine.trajectory("bDoubleScoreUpperLoop");
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment0.atTime("StopIntakeandHoodFalse2").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment0
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(4.5),
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).alongWith(RobotCommands.jork(intake, intakePivot).asProxy()).withTimeout(4.0),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
                 segment1.cmd()));
-    segment1.atTime("HoodFalse3");
-    segment1.atTime("StartIntake2andHoodTrue2").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment1.atTime("StopIntake2andHoodFalse4").onTrue(RobotCommands.jork(intake, intakePivot));
+    segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
+    segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment1
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(2.5),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
-                segment2.cmd(),
-                RobotCommands.stopShoot(shooter, kicker, spindexer)));
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer).alongWith(RobotCommands.jork(intake, intakePivot)).withTimeout(2.5),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
     return routine;
   }
 
