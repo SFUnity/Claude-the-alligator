@@ -207,13 +207,13 @@ public class Shooter extends VirtualSubsystem {
       // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
       // turret.setTarget(turretAngle);
 
-      // TODO uncomment only the below two lines when ready to use interp map
-      // hood.setAngle(solution.hoodAngle());
-      // flywheels.setVelocity(solution.flywheelSpeed());
-    }
+        // TODO uncomment only the below two lines when ready to use interp map
+        hood.setAngle(solution.hoodAngle());
+        flywheels.setVelocity(solution.flywheelSpeed());
+      }
 
-    flywheels.setVelocity(fakeFlywheelVelocity.get());
-    hood.setAngle(fakeHoodAngle.get());
+      // flywheels.setVelocity(fakeFlywheelVelocity.get());
+      // hood.setAngle(fakeHoodAngle.get());
 
     if (!isScoring) {
       turret.setTarget(0 - poseManager.getRotation().getDegrees());
