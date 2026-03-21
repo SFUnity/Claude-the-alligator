@@ -92,12 +92,7 @@ public class ShooterUtil {
   }
 
   public record LaunchingParameters(
-      boolean isValid,
-      double turretAngle,
-      double turretVelocity,
-      double hoodAngle,
-      double hoodVelocity,
-      double flywheelSpeed) {}
+      boolean isValid, double turretAngle, double hoodAngle, double flywheelSpeed) {}
 
   public LaunchingParameters getLaunchingParameters(boolean isScoring, boolean isReal) {
     InterpolatingDoubleTreeMap hoodAngleMap;
@@ -214,19 +209,15 @@ public class ShooterUtil {
     turretAngles.add(turretAngle);
     hoodAngles.add(hoodAngle);
 
-    turretVelocity =
-        turretAngleFilter.calculate((turretAngle - turretAngles.remove()) / sampleCount);
-    hoodVelocity = hoodAngleFilter.calculate((hoodAngle - hoodAngles.remove()) / sampleCount);
-
     LaunchingParameters params =
         new LaunchingParameters(
             // minDist < lookaheadTurretToTargetDistance && lookaheadTurretToTargetDistance <
             // maxDist,
             true,
-            turretAngle, // doesn't matter
-            turretVelocity, // doesn't matter
-            scoreRealHoodAngleMap.get(turretToTargetDistance),
-            hoodVelocity, // doesn't matter
+            turretAngle, // doesnt matter rn
+            scoreRealHoodAngleMap.get(
+                turretToTargetDistance), // mybe add arbitrary value if accuracy bad to shoot back
+            // of hub
             scoreRealFlywheelSpeedMap.get(turretToTargetDistance));
     return params;
   }
