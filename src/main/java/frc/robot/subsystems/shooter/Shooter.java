@@ -235,7 +235,7 @@ public class Shooter extends VirtualSubsystem {
       //   hood.setAngle(farFeedingHoodAngle.get());
       // }
     }
-    if (!hoodIsSafe) {
+    if (!isShooting || !hoodIsSafe) {
       hood.setAngle(HoodConstants.minPositionDegs);
     }
     // Avi commented this out because real robot is not ready for it
@@ -304,10 +304,6 @@ public class Shooter extends VirtualSubsystem {
 
   public boolean getScoring() {
     return isScoring;
-  }
-
-  public Command toggleHoodIsSafe() {
-    return runOnce(() -> hoodIsSafe = !hoodIsSafe, hood).withName("ToggleHoodIsSafe");
   }
 
   public Command setHoodIsSafe(boolean bool) {

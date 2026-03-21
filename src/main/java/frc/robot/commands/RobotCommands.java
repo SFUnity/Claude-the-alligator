@@ -19,10 +19,9 @@ public class RobotCommands {
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.parallel(
             spindexer.stop(),
-            waitSeconds(0.7)
+            waitSeconds(0.3)
                 .andThen(
                     shooter.setShooting(false),
-                    shooter.setHoodIsSafe(false),
                     kicker.setState(KickerState.STOP))) // ! this is a run cmd watch out
         .withName("StopShoot");
   }
@@ -32,7 +31,6 @@ public class RobotCommands {
             kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
             waitSeconds(1).andThen(spindexer.run()))
-        .beforeStarting(shooter.setHoodIsSafe(true))
         .withName("ReadyThenShoot");
   }
 
