@@ -41,7 +41,7 @@ public class RobotCommands {
   public static Command unjam(Spindexer spindexer, Kicker kicker, Shooter shooter) {
     return spindexer
         .runBack(ejectBackupRots)
-        .alongWith(kicker.setState(KickerState.RUN), shooter.setShooting(true))
+        .alongWith(kicker.setState(KickerState.RUN), shooter.testFlywheelsRPM())
         .withName("unjam");
   }
 
