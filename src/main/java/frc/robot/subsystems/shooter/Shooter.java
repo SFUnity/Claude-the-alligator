@@ -338,9 +338,7 @@ public class Shooter extends VirtualSubsystem {
   }
 
   public Command testFlywheelsRPM() {
-    return run(() -> flywheels.setVelocity(5000), flywheels)
-        .withTimeout(1)
-        .withName("TestFlywheels");
+    return run(() -> flywheels.setVelocity(700), flywheels).withName("TestFlywheels");
   }
 
   public Command setIsClose(boolean isClose) {
