@@ -38,10 +38,11 @@ public class RobotCommands {
     return intake.intake().alongWith(intakePivot.lower()).withName("intake");
   }
 
-  public static Command unjam(Spindexer spindexer, Kicker kicker) {
+  public static Command unjam(Spindexer spindexer, Kicker kicker, Shooter shooter) {
     return spindexer
         .runBack(ejectBackupRots)
-        .andThen(kicker.setState(KickerState.BACKWARDS))
+        .andThen(kicker.setState(KickerState.RUN))
+        .alongWith(shooter.setShooting(true))
         .withName("unjam");
   }
 
