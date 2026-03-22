@@ -84,26 +84,23 @@ public class IntakePivot extends SubsystemBase {
   }
 
   public Command runJork() {
-    return lower()
-        .until(this::intakeDown)
-        .andThen(
-            Commands.repeatingSequence(
-                run(() -> {
-                      positionSetpoint = raisedJorkAngle.get();
-                      io.runVolts(jorkUpVoltage.get());
-                    })
-                    .until(
-                        () ->
-                            inputs.pivotCurrentPositionDeg
-                                <= raisedJorkAngle.get() + jorkTolerance.get()),
-                run(() -> {
-                      positionSetpoint = loweredJorkAngle.get();
-                      io.runVolts(jorkDownVoltage.get());
-                    })
-                    .until(
-                        () ->
-                            inputs.pivotCurrentPositionDeg
-                                >= loweredJorkAngle.get() - jorkTolerance.get())))
+    return Commands.repeatingSequence(
+            run(() -> {
+                  positionSetpoint = raisedJorkAngle.get();
+                  io.runVolts(jorkUpVoltage.get());
+                })
+                .until(
+                    () ->
+                        inputs.pivotCurrentPositionDeg
+                            <= raisedJorkAngle.get() + jorkTolerance.get()),
+            run(() -> {
+                  positionSetpoint = loweredJorkAngle.get();
+                  io.runVolts(jorkDownVoltage.get());
+                })
+                .until(
+                    () ->
+                        inputs.pivotCurrentPositionDeg
+                            >= loweredJorkAngle.get() - jorkTolerance.get()))
         .withName("IntakePivotJork");
   }
 
