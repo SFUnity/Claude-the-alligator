@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
+import static frc.robot.Constants.*;
 import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
@@ -156,6 +157,11 @@ public class Shooter extends VirtualSubsystem {
 
     if (isAutoFeedVsScorePermaDisable) {
       isAutoFeedVsScore = false;
+    }
+
+    if (DriverStation.isAutonomous()) {
+      hood.setAngle(autoHoodAngle.get());
+      flywheels.setVelocity(autoFlywheelVelocity.get());
     }
 
     Logger.recordOutput("Shooter/isScoring", isScoring);
