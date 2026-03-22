@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
+import static frc.robot.Constants.*;
 import static frc.robot.FieldConstants.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import static frc.robot.subsystems.shooter.ShooterUtil.*;
@@ -201,16 +202,20 @@ public class Shooter extends VirtualSubsystem {
 
     Logger.recordOutput(
         "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
+    if (DriverStation.isAutonomous()) {
+      hood.setAngle(autoHoodAngle.get());
+      flywheels.setVelocity(autoFlywheelVelocity.get());
+    } else {
+      LaunchingParameters solution =
+          shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.simMode);
+      if (solution.isValid()) {
+        // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+        // turret.setTarget(turretAngle);
 
-    LaunchingParameters solution =
-        shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.simMode);
-    if (solution.isValid()) {
-      // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-      // turret.setTarget(turretAngle);
-
-      // TODO uncomment only the below two lines when ready to use interp map
-      hood.setAngle(solution.hoodAngle());
-      flywheels.setVelocity(solution.flywheelSpeed());
+        // TODO uncomment only the below two lines when ready to use interp map
+        hood.setAngle(solution.hoodAngle());
+        flywheels.setVelocity(solution.flywheelSpeed());
+      }
     }
 
     // flywheels.setVelocity(fakeFlywheelVelocity.get());

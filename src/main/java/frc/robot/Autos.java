@@ -101,6 +101,7 @@ public class Autos {
     chooser.addRoutine("Double Score Lower Loop", this::DoubleScoreCenterLoop);
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
     chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
+    chooser.addRoutine("Simple Shoot", this::SimpleShoot);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -375,7 +376,7 @@ public class Autos {
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(RobotCommands.jork(intake, intakePivot))
-                    .withTimeout(3.5),
+                    .withTimeout(3.75),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
     return routine;
   }
@@ -406,11 +407,20 @@ public class Autos {
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(RobotCommands.jork(intake, intakePivot))
-                    .withTimeout(3.5),
+                    .withTimeout(3.75),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
     return routine;
   }
 
+  public AutoRoutine SimpleShoot() {
+    AutoRoutine routine = factory.newRoutine("Simple Shoot Auto Routine");
+    AutoTrajectory simpleShoot = routine.trajectory("SimpleShoot");
+    routine.active().onTrue(Commands.sequence(simpleShoot.resetOdometry(), simpleShoot.cmd()));
+    simpleShoot
+        .done()
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(10));
+    return routine;
+  }
   /**
    * public AutoRoutine DoubleScoreUpperCenter() { AutoRoutine routine = factory.newRoutine("Double
    * Score Upper Center Auto Routine"); AutoTrajectory DoubleScoreUpperCenter =

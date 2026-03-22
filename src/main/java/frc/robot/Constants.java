@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -32,4 +34,7 @@ public final class Constants {
   }
 
   public static final double loopPeriodSecs = 0.02;
+
+  public static final Transform3d turretCenter =
+      new Transform3d(-0.121, 0.133, 0.331, Rotation3d.kZero);
 }
