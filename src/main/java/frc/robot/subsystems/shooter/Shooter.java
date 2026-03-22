@@ -202,45 +202,45 @@ public class Shooter extends VirtualSubsystem {
 
     Logger.recordOutput(
         "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
-    if (DriverStation.isAutonomous()) {
-      hood.setAngle(autoHoodAngle.get());
-      flywheels.setVelocity(autoFlywheelVelocity.get());
-    } else {
-      LaunchingParameters solution =
-          shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.simMode);
-      if (solution.isValid()) {
-        // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-        // turret.setTarget(turretAngle);
+    // if (DriverStation.isAutonomous()) {
+    //   hood.setAngle(autoHoodAngle.get());
+    //   flywheels.setVelocity(autoFlywheelVelocity.get());
+    // } else {
+    LaunchingParameters solution =
+        shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.simMode);
+    if (solution.isValid()) {
+      // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+      // turret.setTarget(turretAngle);
 
-        // TODO uncomment only the below two lines when ready to use interp map
-        hood.setAngle(solution.hoodAngle());
-        flywheels.setVelocity(solution.flywheelSpeed());
-      }
-
-      // flywheels.setVelocity(fakeFlywheelVelocity.get());
-      // hood.setAngle(fakeHoodAngle.get());
-
-      if (!isScoring) {
-        turret.setTarget(0 - poseManager.getRotation().getDegrees());
-        hood.setAngle(feedingHoodAngle.get());
-
-        InterpolatingDoubleTreeMap feedRealFlywheelSpeedMap = new InterpolatingDoubleTreeMap();
-        feedRealFlywheelSpeedMap.put(6.0, feedingVelocity.get());
-        feedRealFlywheelSpeedMap.put(16.0, farFeedingVelocity.get());
-
-        flywheels.setVelocity(
-            feedRealFlywheelSpeedMap.get(AllianceFlipUtil.applyX(poseManager.getPose().getX())));
-
-        // if (AllianceFlipUtil.applyX(poseManager.getPose().getX())
-        //     < FieldConstants.LinesVertical.oppAllianceZone) {
-        //   flywheels.setVelocity(feedingVelocity.get());
-        //   hood.setAngle(feedingHoodAngle.get());
-        // } else {
-        //   flywheels.setVelocity(farFeedingVelocity.get());
-        //   hood.setAngle(farFeedingHoodAngle.get());
-        // }
-      }
+      // TODO uncomment only the below two lines when ready to use interp map
+      hood.setAngle(solution.hoodAngle());
+      flywheels.setVelocity(solution.flywheelSpeed());
     }
+
+    // flywheels.setVelocity(fakeFlywheelVelocity.get());
+    // hood.setAngle(fakeHoodAngle.get());
+
+    if (!isScoring) {
+      turret.setTarget(0 - poseManager.getRotation().getDegrees());
+      hood.setAngle(feedingHoodAngle.get());
+
+      InterpolatingDoubleTreeMap feedRealFlywheelSpeedMap = new InterpolatingDoubleTreeMap();
+      feedRealFlywheelSpeedMap.put(6.0, feedingVelocity.get());
+      feedRealFlywheelSpeedMap.put(16.0, farFeedingVelocity.get());
+
+      flywheels.setVelocity(
+          feedRealFlywheelSpeedMap.get(AllianceFlipUtil.applyX(poseManager.getPose().getX())));
+
+      // if (AllianceFlipUtil.applyX(poseManager.getPose().getX())
+      //     < FieldConstants.LinesVertical.oppAllianceZone) {
+      //   flywheels.setVelocity(feedingVelocity.get());
+      //   hood.setAngle(feedingHoodAngle.get());
+      // } else {
+      //   flywheels.setVelocity(farFeedingVelocity.get());
+      //   hood.setAngle(farFeedingHoodAngle.get());
+      // }
+    }
+    // }
     if (!isShooting || !hoodIsSafe) {
       hood.setAngle(HoodConstants.minPositionDegs);
     }
