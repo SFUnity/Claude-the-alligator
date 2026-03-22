@@ -414,8 +414,8 @@ public class RobotContainer {
 
     controller.y().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
 
-    controller.rightTrigger().onTrue(shooter.setHoodIsSafe(false));
-    controller.rightTrigger().onFalse(shooter.setHoodIsSafe(true));
+    controller.y().onTrue(shooter.setHoodIsSafe(false));
+    controller.y().onFalse(shooter.setHoodIsSafe(true));
 
     // * Automatic shooting
     // new Trigger(() -> shooter.readyToShoot())
