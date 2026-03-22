@@ -200,8 +200,7 @@ public class DriveCommands {
 
     Pose2d robotPose = poseManager.getPose();
     Translation2d targetPose =
-        AllianceFlipUtil.apply(
-            FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0, 0)));
+        AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
 
     Pose2d turretPosition =
         robotPose.transformBy(
@@ -218,7 +217,22 @@ public class DriveCommands {
         drive,
         xSupplier,
         ySupplier,
-        () -> new Rotation2d(Units.degreesToRadians(turretAngle)),
+        () ->
+            new Rotation2d(
+                Units.degreesToRadians(
+                    AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d())
+                            .minus(
+                                poseManager
+                                    .getPose()
+                                    .transformBy(
+                                        new Transform2d(
+                                            turretCenter.getTranslation().toTranslation2d(),
+                                            poseManager.getRotation()))
+                                    .getTranslation())
+                            .getAngle()
+                            .getDegrees()
+                        - poseManager.getRotation().getDegrees()
+                        - turretOffsetDegs)),
         poseManager);
   }
 
