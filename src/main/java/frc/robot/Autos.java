@@ -98,7 +98,7 @@ public class Autos {
     // chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
     // chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
     // chooser.addRoutine("Double Score Center Banana", this::DoubleScoreCenterBanana);
-    chooser.addRoutine("Double Score Lower Loop", this::DoubleScoreCenterLoop);
+    chooser.addRoutine("Double Score Lower Loop", this::DoubleScoreLowerLoop);
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
     chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
     chooser.addRoutine("Simple Shoot", this::SimpleShoot);
@@ -386,8 +386,8 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine DoubleScoreCenterLoop() {
-    AutoRoutine routine = factory.newRoutine("Double Score Center Loop Auto Routine");
+  public AutoRoutine DoubleScoreLowerLoop() {
+    AutoRoutine routine = factory.newRoutine("Double Score Lower Loop Auto Routine");
     AutoTrajectory segment0 = routine.trajectory("aDoubleScoreLowerLoop");
     AutoTrajectory segment1 = routine.trajectory("bDoubleScoreLowerLoop");
 
