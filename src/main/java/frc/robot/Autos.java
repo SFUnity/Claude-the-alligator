@@ -364,7 +364,7 @@ public class Autos {
     routine
         .active()
         .onTrue(
-            Commands.sequence(segment0.resetOdometry(), Commands.waitSeconds(0.5), segment0.cmd()));
+            Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment0
@@ -399,7 +399,7 @@ public class Autos {
     routine
         .active()
         .onTrue(
-            Commands.sequence(segment0.resetOdometry(), Commands.waitSeconds(0.5), segment0.cmd()));
+            Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment0
