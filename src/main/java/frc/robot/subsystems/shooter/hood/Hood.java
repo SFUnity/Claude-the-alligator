@@ -32,8 +32,9 @@ public class Hood extends SubsystemBase {
 
     Logger.recordOutput("Shooter/Hood/Goal", goalPosition);
     Logger.recordOutput("Shooter/Hood/IsZeroing", isZeroing);
-    // if (!isZeroing) {}
-    io.setPosition(goalPosition);
+    if (!isZeroing) {
+      io.setPosition(goalPosition);
+    }
   }
 
   public void setAngle(double angle) {

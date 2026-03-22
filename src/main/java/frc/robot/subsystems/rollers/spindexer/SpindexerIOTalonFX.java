@@ -21,7 +21,7 @@ public class SpindexerIOTalonFX implements SpindexerIO {
     var talonFXConfigs = new TalonFXConfiguration();
     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 60.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
     talonFXConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;

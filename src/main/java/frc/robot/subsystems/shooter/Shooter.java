@@ -83,7 +83,7 @@ public class Shooter extends VirtualSubsystem {
 
   private boolean isShooting = false;
   private boolean isScoring = true;
-  private boolean hoodIsSafe = false;
+  private boolean hoodIsSafe = true;
   private boolean isAutoFeedVsScore = true;
   private boolean isAutoFeedVsScorePermaDisable = false;
   private boolean isClose = true;
@@ -145,6 +145,8 @@ public class Shooter extends VirtualSubsystem {
       isAutoFeedVsScore = true;
     }
 
+    if (DriverStation.isDisabled()) isShooting = false;
+
     boolean inAZ =
         AllianceFlipUtil.applyX(poseManager.getPose().getX())
             < FieldConstants.LinesVertical.allianceZone + 0.75;
@@ -202,20 +204,19 @@ public class Shooter extends VirtualSubsystem {
 
     Logger.recordOutput(
         "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
-    if (DriverStation.isAutonomous()) {
-      hood.setAngle(autoHoodAngle.get());
-      flywheels.setVelocity(autoFlywheelVelocity.get());
-    } else {
-      LaunchingParameters solution =
-          shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.simMode);
-      if (solution.isValid()) {
-        // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-        // turret.setTarget(turretAngle);
+    // if (DriverStation.isAutonomous()) {
+    //   hood.setAngle(autoHoodAngle.get());
+    //   flywheels.setVelocity(autoFlywheelVelocity.get());
+    // } else {
+    LaunchingParameters solution =
+        shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.simMode);
+    if (solution.isValid()) {
+      // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+      // turret.setTarget(turretAngle);
 
-        // TODO uncomment only the below two lines when ready to use interp map
-        hood.setAngle(solution.hoodAngle());
-        flywheels.setVelocity(solution.flywheelSpeed());
-      }
+      // TODO uncomment only the below two lines when ready to use interp map
+      hood.setAngle(solution.hoodAngle());
+      flywheels.setVelocity(solution.flywheelSpeed());
     }
 
     // flywheels.setVelocity(fakeFlywheelVelocity.get());
@@ -241,6 +242,7 @@ public class Shooter extends VirtualSubsystem {
       //   hood.setAngle(farFeedingHoodAngle.get());
       // }
     }
+    // }
     if (!isShooting || !hoodIsSafe) {
       hood.setAngle(HoodConstants.minPositionDegs);
     }

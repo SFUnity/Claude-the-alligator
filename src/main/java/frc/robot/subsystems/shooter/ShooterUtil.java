@@ -14,8 +14,6 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import frc.robot.FieldConstants;
 import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.PoseManager;
-import java.util.LinkedList;
-import java.util.Queue;
 import org.littletonrobotics.junction.Logger;
 
 public class ShooterUtil {
@@ -48,11 +46,7 @@ public class ShooterUtil {
       new InterpolatingDoubleTreeMap();
 
   private double turretAngle;
-  private Queue<Double> turretAngles = new LinkedList<>();
   private double hoodAngle;
-  private Queue<Double> hoodAngles = new LinkedList<>();
-  private double turretVelocity;
-  private double hoodVelocity;
 
   private double minDist = 0; // todo change
   private double maxDist = 1000;
@@ -202,12 +196,6 @@ public class ShooterUtil {
         targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
             - poseManager.getRotation().getDegrees();
     // hoodAngle = hoodAngleMap.get(lookaheadTurretToTargetDistance);
-
-    if (turretAngles.isEmpty()) turretAngles.add(turretAngle);
-    if (hoodAngles.isEmpty()) hoodAngles.add(hoodAngle);
-
-    turretAngles.add(turretAngle);
-    hoodAngles.add(hoodAngle);
 
     LaunchingParameters params =
         new LaunchingParameters(

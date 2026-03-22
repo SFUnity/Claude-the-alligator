@@ -37,8 +37,8 @@ public class HoodIOTalonFX implements HoodIO {
     config.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
     config.Slot0.GainSchedBehavior = GainSchedBehaviorValue.ZeroOutput;
 
-    config.MotionMagic.MotionMagicAcceleration = 8.0;
-    config.MotionMagic.MotionMagicCruiseVelocity = 4.0;
+    config.MotionMagic.MotionMagicAcceleration = 4.0; // 8
+    config.MotionMagic.MotionMagicCruiseVelocity = 2.0; // 4
 
     config.CurrentLimits.StatorCurrentLimit = 80.0;
     config.CurrentLimits.StatorCurrentLimitEnable = true;

@@ -13,12 +13,12 @@ public class IntakeRollersIOTalonFX implements IntakeRollersIO {
   private final TalonFX rollerMotor = new TalonFX(intakeRollersMotorID);
 
   private final VoltageOut voltageOut =
-      new VoltageOut(0).withEnableFOC(true).withUpdateFreqHz(loopPeriodSecs);
+      new VoltageOut(0).withEnableFOC(false).withUpdateFreqHz(loopPeriodSecs);
 
   public IntakeRollersIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
 
-    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 60.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
 
