@@ -406,6 +406,12 @@ public class RobotContainer {
     controller.b().onTrue(shooter.overrideSetScoring(false));
     controller.a().or(controller.b()).debounce(1.5).onTrue(shooter.permaDisableAutoFeedvsScore());
 
+    controller
+        .y()
+        .toggleOnTrue(
+            DriveCommands.autoAim(
+                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX(), poseManager));
+
     controller.rightTrigger().onTrue(shooter.setHoodIsSafe(false));
     controller.rightTrigger().onFalse(shooter.setHoodIsSafe(true));
 

@@ -193,6 +193,8 @@ public class DriveCommands {
         .withName("joystickDriveAtAngle");
   }
 
+  // jank af autoaim bc we fucked turret (mech fault seans great at making turret) so sean cooked
+  // this up on 6 hrs of sleep at midnight
   public static Command autoAim(
       Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier, PoseManager poseManager) {
 
@@ -205,11 +207,12 @@ public class DriveCommands {
         robotPose.transformBy(
             new Transform2d(
                 turretCenter.getTranslation().toTranslation2d(), poseManager.getRotation()));
-    Logger.recordOutput("Shooter/Turret/turretpose", turretPosition);
     double turretAngle =
         targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
             - poseManager.getRotation().getDegrees()
             - turretOffsetDegs;
+
+    Logger.recordOutput("Drive/goalAngle", turretAngle);
 
     return joystickDriveAtAngle(
         drive,
