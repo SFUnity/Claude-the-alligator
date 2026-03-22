@@ -19,8 +19,6 @@ public class ShooterConstants {
   public static final LoggedTunableNumber trenchAvoidenceDebouncerTime =
       new LoggedTunableNumber("Controls/Trench Avoidence/trenchAvoidenceDebouncerTime", 0.2);
 
-  public static final LoggedTunableNumber autoTrenchDistance =
-      new LoggedTunableNumber("SmartDashboard/TunableNumbers/Shooter/AutoTrenchDistance", 3);
   public static final LoggedTunableNumber autoHoodAngle =
       new LoggedTunableNumber("SmartDashboard/TunableNumbers/Shooter/AutoHoodAngle", 28);
   public static final LoggedTunableNumber autoFlywheelVelocity =
