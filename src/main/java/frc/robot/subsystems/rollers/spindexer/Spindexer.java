@@ -37,7 +37,7 @@ public class Spindexer extends SubsystemBase {
 
   private void runUnlessJammed(boolean forward) {
     double extra = forward ? 1 : -1;
-    if (currentDebouncer.calculate(inputs.supplyCurrentAmps > 40)) {
+    if (currentDebouncer.calculate(inputs.statorCurrentAmps > 40)) {
       io.run(0);
       Logger.recordOutput("Rollers/Spindexer/Jammed", true);
       Leds.getInstance().isJammed = true;
