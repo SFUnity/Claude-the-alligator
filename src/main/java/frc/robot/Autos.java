@@ -101,6 +101,7 @@ public class Autos {
     chooser.addRoutine("Double Score Lower Loop", this::DoubleScoreCenterLoop);
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
     chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
+    chooser.addRoutine("Simple Shoot", this::SimpleShoot);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -411,6 +412,16 @@ public class Autos {
     return routine;
   }
 
+  public AutoRoutine SimpleShoot() {
+    AutoRoutine routine = factory.newRoutine("Simple Shoot Auto Routine");
+    AutoTrajectory simpleShoot = routine.trajectory("SimpleShoot");
+    routine
+        .active()
+        .onTrue(Commands.sequence(simpleShoot.resetOdometry(), simpleShoot.cmd()));
+    simpleShoot.atTime("StartShoot")
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(10));
+    return routine;
+  }
   /**
    * public AutoRoutine DoubleScoreUpperCenter() { AutoRoutine routine = factory.newRoutine("Double
    * Score Upper Center Auto Routine"); AutoTrajectory DoubleScoreUpperCenter =
