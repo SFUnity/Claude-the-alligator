@@ -145,6 +145,8 @@ public class Shooter extends VirtualSubsystem {
       isAutoFeedVsScore = true;
     }
 
+    if (DriverStation.isDisabled()) isShooting = false;
+
     boolean inAZ =
         AllianceFlipUtil.applyX(poseManager.getPose().getX())
             < FieldConstants.LinesVertical.allianceZone + 0.75;
