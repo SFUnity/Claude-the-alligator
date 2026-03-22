@@ -193,29 +193,34 @@ public class DriveCommands {
         .withName("joystickDriveAtAngle");
   }
 
+  // jank af autoaim bc we fucked turret (mech fault seans great at making turret) so sean cooked
+  // this up on 6 hrs of sleep at midnight
   public static Command autoAim(
       Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier, PoseManager poseManager) {
-
-    Pose2d robotPose = poseManager.getPose();
-    Translation2d targetPose =
-        AllianceFlipUtil.apply(
-            FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0, 0)));
-
-    Pose2d turretPosition =
-        robotPose.transformBy(
-            new Transform2d(
-                turretCenter.getTranslation().toTranslation2d(), poseManager.getRotation()));
-    Logger.recordOutput("Shooter/Turret/turretpose", turretPosition);
-    double turretAngle =
-        targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
-            - poseManager.getRotation().getDegrees()
-            - turretOffsetDegs;
-
     return joystickDriveAtAngle(
         drive,
         xSupplier,
         ySupplier,
-        () -> new Rotation2d(Units.degreesToRadians(turretAngle)),
+        () ->
+            new Rotation2d(
+                Units.degreesToRadians(
+                    AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d())
+                            .minus(
+                                poseManager
+                                    .getPose()
+                                    .transformBy(
+                                        new Transform2d(
+                                            turretCenter.getTranslation().toTranslation2d(),
+                                            poseManager
+                                                .getRotation())) // bc using posemanager but also
+                                    // rotating the bot, its a bit
+                                    // slow. need to work on in the
+                                    // morning
+                                    .getTranslation())
+                            .getAngle()
+                            .getDegrees()
+                        // - poseManager.getRotation().getDegrees()
+                        - turretOffsetDegs)),
         poseManager);
   }
 

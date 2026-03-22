@@ -395,7 +395,7 @@ public class RobotContainer {
     controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
     // controller.leftBumper().whileTrue(shooter.incrementTurretAngle());
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
-    controller.rightTrigger().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
+    // controller.rightTrigger().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
 
     // Shooting
     controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
@@ -405,6 +405,14 @@ public class RobotContainer {
     controller.a().onTrue(shooter.overrideSetScoring(true));
     controller.b().onTrue(shooter.overrideSetScoring(false));
     controller.a().or(controller.b()).debounce(1.5).onTrue(shooter.permaDisableAutoFeedvsScore());
+
+    controller
+        .rightTrigger()
+        .whileTrue(
+            DriveCommands.autoAim(
+                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX(), poseManager));
+
+    controller.y().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
 
     controller.rightTrigger().onTrue(shooter.setHoodIsSafe(false));
     controller.rightTrigger().onFalse(shooter.setHoodIsSafe(true));
