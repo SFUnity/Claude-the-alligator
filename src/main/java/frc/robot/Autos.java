@@ -371,7 +371,7 @@ public class Autos {
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(RobotCommands.jork(intake, intakePivot).asProxy())
                     .withTimeout(4.0),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1),
                 segment1.cmd()));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
@@ -382,7 +382,7 @@ public class Autos {
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(RobotCommands.jork(intake, intakePivot))
                     .withTimeout(3.75),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
     return routine;
   }
 
@@ -403,7 +403,7 @@ public class Autos {
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(RobotCommands.jork(intake, intakePivot).asProxy())
                     .withTimeout(4.0),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1),
                 segment1.cmd()));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
@@ -414,7 +414,7 @@ public class Autos {
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(RobotCommands.jork(intake, intakePivot))
                     .withTimeout(3.75),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(0.5)));
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
     return routine;
   }
 
