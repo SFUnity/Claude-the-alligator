@@ -197,22 +197,6 @@ public class DriveCommands {
   // this up on 6 hrs of sleep at midnight
   public static Command autoAim(
       Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier, PoseManager poseManager) {
-
-    Pose2d robotPose = poseManager.getPose();
-    Translation2d targetPose =
-        AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
-
-    Pose2d turretPosition =
-        robotPose.transformBy(
-            new Transform2d(
-                turretCenter.getTranslation().toTranslation2d(), poseManager.getRotation()));
-    double turretAngle =
-        targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
-            - poseManager.getRotation().getDegrees()
-            - turretOffsetDegs;
-
-    Logger.recordOutput("Drive/goalAngle", turretAngle);
-
     return joystickDriveAtAngle(
         drive,
         xSupplier,
@@ -227,11 +211,15 @@ public class DriveCommands {
                                     .transformBy(
                                         new Transform2d(
                                             turretCenter.getTranslation().toTranslation2d(),
-                                            poseManager.getRotation()))
+                                            poseManager
+                                                .getRotation())) // bc using posemanager but also
+                                    // rotating the bot, its a bit
+                                    // slow. need to work on in the
+                                    // morning
                                     .getTranslation())
                             .getAngle()
                             .getDegrees()
-                        - poseManager.getRotation().getDegrees()
+                        // - poseManager.getRotation().getDegrees()
                         - turretOffsetDegs)),
         poseManager);
   }
