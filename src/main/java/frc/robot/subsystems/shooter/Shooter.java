@@ -159,11 +159,6 @@ public class Shooter extends VirtualSubsystem {
       isAutoFeedVsScore = false;
     }
 
-    if (DriverStation.isAutonomous()) {
-      hood.setAngle(autoHoodAngle.get());
-      flywheels.setVelocity(autoFlywheelVelocity.get());
-    }
-
     Logger.recordOutput("Shooter/isScoring", isScoring);
     Logger.recordOutput("Shooter/isShooting", isShooting);
     Logger.recordOutput("Shooter/isClose", isClose);
