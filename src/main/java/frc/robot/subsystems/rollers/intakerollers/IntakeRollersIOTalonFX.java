@@ -18,7 +18,7 @@ public class IntakeRollersIOTalonFX implements IntakeRollersIO {
   public IntakeRollersIOTalonFX() {
     var talonFXConfigs = new TalonFXConfiguration();
 
-    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 80.0;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimit = 60.0;
     talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60.0;
 
