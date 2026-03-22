@@ -20,7 +20,7 @@ public class ShooterConstants {
       new LoggedTunableNumber("Controls/Trench Avoidence/trenchAvoidenceDebouncerTime", 0.2);
 
   public static final LoggedTunableNumber autoHoodAngle =
-      new LoggedTunableNumber("SmartDashboard/TunableNumbers/Shooter/AutoHoodAngle", 28);
+      new LoggedTunableNumber("SmartDashboard/TunableNumbers/Shooter/AutoHoodAngle", 26);
   public static final LoggedTunableNumber autoFlywheelVelocity =
       new LoggedTunableNumber("SmartDashboard/TunableNumbers/Shooter/AutoFlywheelVelocity", 1200);
 }
