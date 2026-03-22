@@ -415,10 +415,10 @@ public class Autos {
   public AutoRoutine SimpleShoot() {
     AutoRoutine routine = factory.newRoutine("Simple Shoot Auto Routine");
     AutoTrajectory simpleShoot = routine.trajectory("SimpleShoot");
-    routine
-        .active()
-        .onTrue(Commands.sequence(simpleShoot.resetOdometry(), simpleShoot.cmd()));
-    simpleShoot.done().onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(10));
+    routine.active().onTrue(Commands.sequence(simpleShoot.resetOdometry(), simpleShoot.cmd()));
+    simpleShoot
+        .done()
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(10));
     return routine;
   }
   /**
