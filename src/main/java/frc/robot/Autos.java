@@ -182,6 +182,7 @@ public class Autos {
   public AutoRoutine ScoreCenterClimbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("ScoreCenterClimb Auto Routine");
     AutoTrajectory ScoreCenterClimb = routine.trajectory("ScoreCenterClimb");
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine
         .active()
         .onTrue(Commands.sequence(ScoreCenterClimb.resetOdometry(), ScoreCenterClimb.cmd()));
@@ -200,6 +201,7 @@ public class Autos {
   public AutoRoutine ScoreUpperCenterClimbAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("ScoreUpperCenterClimb Auto Routine");
     AutoTrajectory ScoreUpperCenterClimb = routine.trajectory("ScoreUpperCenterClimb");
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine
         .active()
         .onTrue(
@@ -263,6 +265,7 @@ public class Autos {
   public AutoRoutine FeedAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Feed Auto Routine");
     AutoTrajectory Feed = routine.trajectory("Feed");
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine.active().onTrue(Commands.sequence(Feed.resetOdometry(), Feed.cmd()));
     Feed.atTime("StartIntakeandShoot")
         .onTrue(
@@ -278,6 +281,7 @@ public class Autos {
   public AutoRoutine LowerFeedAutoRoutine() {
     AutoRoutine routine = factory.newRoutine("Lower Feed Auto Routine");
     AutoTrajectory LowerFeed = routine.trajectory("LowerFeed");
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine.active().onTrue(Commands.sequence(LowerFeed.resetOdometry(), LowerFeed.cmd()));
     LowerFeed.atTime("StartIntakeandShoot")
         .onTrue(
@@ -356,6 +360,7 @@ public class Autos {
     AutoTrajectory segment1 = routine.trajectory("bDoubleScoreUpperLoop");
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
@@ -387,6 +392,7 @@ public class Autos {
     AutoTrajectory segment1 = routine.trajectory("bDoubleScoreLowerLoop");
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
@@ -439,6 +445,7 @@ public class Autos {
   public AutoRoutine CompleteLowerFeed() {
     AutoRoutine routine = factory.newRoutine("Complete Lower Feed Auto Routine");
     AutoTrajectory CompleteLowerFeed = routine.trajectory("CompleteLowerFeed");
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine
         .active()
         .onTrue(Commands.sequence(CompleteLowerFeed.resetOdometry(), CompleteLowerFeed.cmd()));
@@ -460,6 +467,7 @@ public class Autos {
   public AutoRoutine CompleteUpperFeed() {
     AutoRoutine routine = factory.newRoutine("Complete Upper Feed Auto Routine");
     AutoTrajectory CompleteUpperFeed = routine.trajectory("CompleteUpperFeed");
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine
         .active()
         .onTrue(Commands.sequence(CompleteUpperFeed.resetOdometry(), CompleteUpperFeed.cmd()));
