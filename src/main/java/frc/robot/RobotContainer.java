@@ -432,7 +432,8 @@ public class RobotContainer {
     new Trigger(
             () ->
                 ShiftHelpers.timeRemainingInCurrentShift().orElse(Seconds.of(10.0)).in(Seconds)
-                    < 5.0).and(() -> DriverStation.isTeleopEnabled())
+                    < 5.0)
+        .and(() -> DriverStation.isTeleopEnabled())
         .onTrue(
             Commands.runEnd(
                     () -> controller.setRumble(GenericHID.RumbleType.kBothRumble, 0.5),
