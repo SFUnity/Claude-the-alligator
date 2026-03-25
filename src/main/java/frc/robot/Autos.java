@@ -373,7 +373,7 @@ public class Autos {
                     .withTimeout(4.0),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)
                     .withTimeout(0.75)
-                    .deadlineFor(intakePivot.runCurrentZeroing()),
+                    .deadlineFor(intakePivot.runCurrentZeroing().asProxy()),
                 segment1.cmd()));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
@@ -407,7 +407,7 @@ public class Autos {
                     .withTimeout(4.0),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)
                     .withTimeout(0.75)
-                    .deadlineFor(intakePivot.runCurrentZeroing()),
+                    .deadlineFor(intakePivot.runCurrentZeroing().asProxy()),
                 segment1.cmd()));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
