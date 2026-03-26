@@ -424,8 +424,7 @@ public class Autos {
     return routine;
   }
 
-public AutoRoutine DoubleLowerBump()
-{
+  public AutoRoutine DoubleLowerBump() {
     AutoRoutine routine = factory.newRoutine("Double Score Lower Bump Auto Routine");
     AutoTrajectory segment0 = routine.trajectory("aDoubleLowerBump");
     AutoTrajectory segment1 = routine.trajectory("bDoubleLowerBump");
@@ -457,12 +456,9 @@ public AutoRoutine DoubleLowerBump()
                     .withTimeout(3.75),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
     return routine;
+  }
 
-
-}
-
-public AutoRoutine DoubleUpperBump()
-{
+  public AutoRoutine DoubleUpperBump() {
     AutoRoutine routine = factory.newRoutine("Double Score Upper Bump Auto Routine");
     AutoTrajectory segment0 = routine.trajectory("aDoubleUpperBump");
     AutoTrajectory segment1 = routine.trajectory("bDoubleUpperBump");
@@ -493,7 +489,7 @@ public AutoRoutine DoubleUpperBump()
                     .withTimeout(3.75),
                 RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
     return routine;
-    }
+  }
 
   public AutoRoutine SimpleShoot() {
     AutoRoutine routine = factory.newRoutine("Simple Shoot Auto Routine");
