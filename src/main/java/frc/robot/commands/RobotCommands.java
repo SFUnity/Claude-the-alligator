@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import static edu.wpi.first.wpilibj2.command.Commands.waitSeconds;
+import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -19,10 +20,7 @@ public class RobotCommands {
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.parallel(
             spindexer.stop(),
-            waitSeconds(0.3)
-                .andThen(
-                    shooter.setShooting(false),
-                    kicker.setState(KickerState.STOP))) // ! this is a run cmd watch out
+            waitSeconds(0.3).andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP)))
         .withName("StopShoot");
   }
 
@@ -30,7 +28,7 @@ public class RobotCommands {
     return Commands.parallel(
             kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
-            waitSeconds(1).andThen(spindexer.run()))
+            waitUntil(shooter::readyToShoot).withTimeout(0.7).andThen(spindexer.run()))
         .withName("ReadyThenShoot");
   }
 
