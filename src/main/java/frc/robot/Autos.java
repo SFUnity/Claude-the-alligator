@@ -461,6 +461,40 @@ public AutoRoutine DoubleLowerBump()
 
 }
 
+public AutoRoutine DoubleUpperBump()
+{
+    AutoRoutine routine = factory.newRoutine("Double Score Upper Bump Auto Routine");
+    AutoTrajectory segment0 = routine.trajectory("aDoubleUpperBump");
+    AutoTrajectory segment1 = routine.trajectory("bDoubleUpperBump");
+    routine.active().onTrue(shooter.overrideSetScoring(true));
+    routine.active().onTrue(intakePivot.runCurrentZeroing());
+    routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
+    segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
+    segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    segment0
+        .done()
+        .onTrue(
+            Commands.sequence(
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
+                    .alongWith(RobotCommands.jork(intake, intakePivot).asProxy())
+                    .withTimeout(4.0),
+                RobotCommands.stopShoot(shooter, kicker, spindexer)
+                    .withTimeout(0.75)
+                    .deadlineFor(intakePivot.runCurrentZeroing().asProxy()),
+                segment1.cmd()));
+    segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
+    segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    segment1
+        .done()
+        .onTrue(
+            Commands.sequence(
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
+                    .alongWith(RobotCommands.jork(intake, intakePivot))
+                    .withTimeout(3.75),
+                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
+    return routine;
+    }
+
   public AutoRoutine SimpleShoot() {
     AutoRoutine routine = factory.newRoutine("Simple Shoot Auto Routine");
     AutoTrajectory simpleShoot = routine.trajectory("SimpleShoot");
