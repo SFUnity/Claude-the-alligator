@@ -69,8 +69,7 @@ public class Spindexer extends SubsystemBase {
               io.run(-(slowSpindexerSpeedVolts.get()));
             },
             () -> io.run(0))
-        // Consider switching to stator current
-        .until(() -> currentDebouncer.calculate(inputs.supplyCurrentAmps > 40))
+        .until(() -> currentDebouncer.calculate(inputs.statorCurrentAmps > 40))
         .withName("spindexerRunBack");
   }
 
