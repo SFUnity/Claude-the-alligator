@@ -19,7 +19,6 @@ public class Spindexer extends SubsystemBase {
   private double positionDifference = 0;
   private double startingPosition = 0;
 
-  private boolean isJammed;
   private final Debouncer currentDebouncer = new Debouncer(0.5, DebounceType.kBoth);
 
   public Spindexer(SpindexerIO io) {
@@ -40,10 +39,11 @@ public class Spindexer extends SubsystemBase {
   private void runUnlessJammed(boolean forward) {
     double extra = forward ? 1 : -1;
     if (currentDebouncer.calculate(inputs.statorCurrentAmps > 40)) {
-      io.run(0);
+      runBackUntilJam();
+      
+      //io.run(0);
       Logger.recordOutput("Rollers/Spindexer/Jammed", true);
       Leds.getInstance().isJammed = true;
-      isJammed = true;
     } else {
       io.run(spindexerSpeedVolts.get() * extra);
       Logger.recordOutput("Rollers/Spindexer/Jammed", false);
@@ -53,10 +53,10 @@ public class Spindexer extends SubsystemBase {
   }
 
   public Command run() {
-    return either(run(() -> runUnlessJammed(true)), runBackUntilJam(), () -> isJammed).withName("spindexerRun");
+    return run(() -> runUnlessJammed(true)).withName("spindexerRun");
   }
 
-  public Command runBack(double rots) {
+  public Command runBack(double rots) { 
     return runEnd(() -> runUnlessJammed(false), () -> io.run(0))
         .beforeStarting(
             () -> {
@@ -68,7 +68,6 @@ public class Spindexer extends SubsystemBase {
   }
 
   public Command runBackUntilJam() {
-    isJammed = false;
     return runEnd(
             () -> {
               io.run(-(slowSpindexerSpeedVolts.get()));
