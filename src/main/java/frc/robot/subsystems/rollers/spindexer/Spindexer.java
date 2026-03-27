@@ -1,5 +1,6 @@
 package frc.robot.subsystems.rollers.spindexer;
 
+import static edu.wpi.first.wpilibj2.command.Commands.either;
 import static frc.robot.subsystems.rollers.spindexer.SpindexerConstants.*;
 
 import edu.wpi.first.math.filter.Debouncer;
@@ -18,6 +19,7 @@ public class Spindexer extends SubsystemBase {
   private double positionDifference = 0;
   private double startingPosition = 0;
 
+  private boolean isJammed;
   private final Debouncer currentDebouncer = new Debouncer(0.5, DebounceType.kBoth);
 
   public Spindexer(SpindexerIO io) {
@@ -41,15 +43,17 @@ public class Spindexer extends SubsystemBase {
       io.run(0);
       Logger.recordOutput("Rollers/Spindexer/Jammed", true);
       Leds.getInstance().isJammed = true;
+      isJammed = true;
     } else {
       io.run(spindexerSpeedVolts.get() * extra);
       Logger.recordOutput("Rollers/Spindexer/Jammed", false);
       Leds.getInstance().isJammed = false;
+
     }
   }
 
   public Command run() {
-    return run(() -> runUnlessJammed(true)).withName("spindexerRun");
+    return either(run(() -> runUnlessJammed(true)), runBackUntilJam(), () -> isJammed).withName("spindexerRun");
   }
 
   public Command runBack(double rots) {
@@ -64,6 +68,7 @@ public class Spindexer extends SubsystemBase {
   }
 
   public Command runBackUntilJam() {
+    isJammed = false;
     return runEnd(
             () -> {
               io.run(-(slowSpindexerSpeedVolts.get()));
