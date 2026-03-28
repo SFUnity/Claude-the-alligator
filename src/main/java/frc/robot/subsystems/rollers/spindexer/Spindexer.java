@@ -48,9 +48,13 @@ public class Spindexer extends SubsystemBase {
     }
   }
 
+  public Command runBasic() {
+    return run(() -> runUnlessJammed(true)).withName("spindexerRun");
+  }
+
   public Command runUntilJammed() {
     return run(() -> runUnlessJammed(true))
-        .withName("spindexerRun")
+        .withName("spindexerRunUntilJammed")
         .until(() -> inputs.statorCurrentAmps > 40);
   }
 
