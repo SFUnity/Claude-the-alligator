@@ -98,6 +98,14 @@ public class ShooterUtil {
   public record LaunchingParameters(
       boolean isValid, double turretAngle, double hoodAngle, double flywheelSpeed) {}
 
+  public double feedingHoodAngle(double distToWall) {
+    return feedRealHoodAngleMap.get(distToWall);
+  }
+
+  public double feedingFlywheelSpeed(double distToWall) {
+    return feedRealFlywheelSpeedMap.get(distToWall);
+  }
+
   public LaunchingParameters getLaunchingParameters(boolean isScoring, boolean isReal) {
     InterpolatingDoubleTreeMap hoodAngleMap;
     InterpolatingDoubleTreeMap flywheelSpeedMap;
