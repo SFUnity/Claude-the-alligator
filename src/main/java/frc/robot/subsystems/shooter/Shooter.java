@@ -222,6 +222,9 @@ public class Shooter extends VirtualSubsystem {
     // flywheels.setVelocity(fakeFlywheelVelocity.get());
     // hood.setAngle(fakeHoodAngle.get());
 
+    Logger.recordOutput(
+        "Shooter/Turret/DistToWall", AllianceFlipUtil.applyX(turretPosition.getX()));
+
     if (!isScoring) {
       turret.setTarget(0 - poseManager.getRotation().getDegrees());
       // turret.setTarget(fakeTurretAngle.get());
