@@ -5,6 +5,7 @@ import static frc.robot.subsystems.shooter.hood.HoodConstants.*;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -59,7 +60,7 @@ public class Hood extends SubsystemBase {
         .until(() -> statorCurrentDebouncer.calculate(inputs.statorCurrent > 30.0))
         .finallyDo(
             () -> {
-              io.resetEncoder(-0.005);
+              io.resetEncoder(Units.degreesToRotations(-0.5));
               isZeroing = false;
             })
         .beforeStarting(() -> isZeroing = true)
