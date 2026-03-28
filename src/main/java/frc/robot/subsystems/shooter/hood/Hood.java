@@ -59,7 +59,7 @@ public class Hood extends SubsystemBase {
         .until(() -> statorCurrentDebouncer.calculate(inputs.statorCurrent > 30.0))
         .finallyDo(
             () -> {
-              io.resetEncoder(0.0);
+              io.resetEncoder(-0.005);
               isZeroing = false;
             })
         .beforeStarting(() -> isZeroing = true)

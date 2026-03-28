@@ -8,7 +8,7 @@ public class HoodConstants {
 
   public static final double minPositionDegs = 14.06;
   public static final double maxPositionDegs = 46.333;
-  public static final double positionBufferDegs = 1;
+  public static final double positionBufferDegs = 1.5;
   public static final double positionOffsetRots = .1;
 
   public static final double angleTolerance = 0.5;
