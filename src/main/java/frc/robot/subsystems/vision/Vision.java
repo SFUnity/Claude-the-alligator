@@ -100,9 +100,9 @@ public class Vision extends VirtualSubsystem {
               || estimatedPose.getX() > FieldConstants.fieldLength + fieldBorderMargin
               || estimatedPose.getY() < -fieldBorderMargin
               || estimatedPose.getY() > FieldConstants.fieldWidth + fieldBorderMargin
-              || io[i]
-                  .getName()
-                  .equals(portAft.name) // TODO make sure we remove later when camera works
+          // || io[i]
+          //     .getName()
+          //     .equals(portAft.name)
           // if too far away from current pose, depends on amount of apriltags
           // || poseManager.getDistanceTo(estimatedPose) > allowableDistance
           ;
