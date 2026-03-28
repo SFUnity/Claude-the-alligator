@@ -24,12 +24,13 @@ public class RobotCommands {
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.repeatingSequence(
-            Commands.parallel(
+            Commands.sequence(
                 kicker.setState(KickerState.RUN),
                 shooter.setShooting(true),
-                Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7)),
-            spindexer.runUntilJammed(),
-            unjam(spindexer, kicker, shooter))
+                Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
+                spindexer.runBasic()))
+        // Commands.waitSeconds(0.1),
+        // unjam(spindexer, kicker, shooter))
         .withName("ReadyThenShoot");
   }
 
@@ -39,8 +40,8 @@ public class RobotCommands {
 
   public static Command unjam(Spindexer spindexer, Kicker kicker, Shooter shooter) {
     return spindexer
-        .runBack(ejectBackupRots)
-        .alongWith(kicker.setState(KickerState.RUN), shooter.testFlywheelsRPM())
+        .runBackUntilJam()
+        .deadlineFor(kicker.setState(KickerState.RUN), shooter.testFlywheelsRPM())
         .withName("unjam");
   }
 
