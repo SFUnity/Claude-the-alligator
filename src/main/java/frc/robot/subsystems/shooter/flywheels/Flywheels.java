@@ -48,7 +48,6 @@ public class Flywheels extends SubsystemBase {
     GeneralUtil.logSubsystem(this, "Shooter/Flywheels");
 
     Logger.recordOutput("Shooter/Flywheels/atGoal", atGoal);
-    Logger.recordOutput("Shooter/Flywheels/torque", torqueCurrentControl);
     Logger.recordOutput("Shooter/Flywheels/state", state.toString());
 
     // if (torqueCurrentControlDebounce.hasChanged(hashCode())) {
@@ -83,9 +82,11 @@ public class Flywheels extends SubsystemBase {
     // boolean torqueCurrentControl = torqueCurrentDebouncer.calculate(inToleranceForTorqueControl);
     atGoal = atGoalDebouncer.calculate(inToleranceForTorqueControl);
     if (velocityRPM - inputs.velocityRotsPerMin > 150) {
-      // io.runDutyCycle();
-      io.runTorqueControl(velocityRPM);
+      io.runDutyCycle();
+      Logger.recordOutput("Shooter/Flywheels/torque", true);
+      // io.runTorqueControl(velocityRPM);
     } else {
+      Logger.recordOutput("Shooter/Flywheels/torque", true);
       io.runVelocityVoltage(velocityRPM);
     }
 
