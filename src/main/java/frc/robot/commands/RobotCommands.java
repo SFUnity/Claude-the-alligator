@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import static edu.wpi.first.wpilibj2.command.Commands.repeatingSequence;
 import static edu.wpi.first.wpilibj2.command.Commands.waitSeconds;
 import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
 
@@ -25,10 +26,13 @@ public class RobotCommands {
   }
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return Commands.parallel(
-            kicker.setState(KickerState.RUN),
-            shooter.setShooting(true),
-            waitUntil(shooter::readyToShoot).withTimeout(0.7).andThen(spindexer.run()))
+    return repeatingSequence(
+            Commands.parallel(
+                kicker.setState(KickerState.RUN),
+                shooter.setShooting(true),
+                waitUntil(shooter::readyToShoot).withTimeout(0.7)),
+            spindexer.runUntilJammed(),
+            unjam(spindexer, kicker, shooter))
         .withName("ReadyThenShoot");
   }
 
@@ -76,7 +80,7 @@ public class RobotCommands {
             intakePivot.raise().withTimeout(1))
         .andThen(
             Commands.parallel(
-                spindexer.run().withTimeout(1),
+                spindexer.runUntilJammed().withTimeout(1),
                 kicker.setState(KickerState.RUN).withTimeout(1),
                 intake.intake().withTimeout(1),
                 shooter.testFlywheelsRPM()))
