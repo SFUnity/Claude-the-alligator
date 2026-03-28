@@ -1,9 +1,5 @@
 package frc.robot.commands;
 
-import static edu.wpi.first.wpilibj2.command.Commands.repeatingSequence;
-import static edu.wpi.first.wpilibj2.command.Commands.waitSeconds;
-import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.intakePivot.IntakePivot;
@@ -21,16 +17,17 @@ public class RobotCommands {
   public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
     return Commands.parallel(
             spindexer.stop(),
-            waitSeconds(0.3).andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP)))
+            Commands.waitSeconds(0.3)
+                .andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP)))
         .withName("StopShoot");
   }
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return repeatingSequence(
+    return Commands.repeatingSequence(
             Commands.parallel(
                 kicker.setState(KickerState.RUN),
                 shooter.setShooting(true),
-                waitUntil(shooter::readyToShoot).withTimeout(0.7)),
+                Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7)),
             spindexer.runUntilJammed(),
             unjam(spindexer, kicker, shooter))
         .withName("ReadyThenShoot");
