@@ -224,6 +224,7 @@ public class Shooter extends VirtualSubsystem {
 
     if (!isScoring) {
       turret.setTarget(0 - poseManager.getRotation().getDegrees());
+      // turret.setTarget(fakeTurretAngle.get());
       hood.setAngle(feedingHoodAngle.get());
 
       InterpolatingDoubleTreeMap feedRealFlywheelSpeedMap = new InterpolatingDoubleTreeMap();
