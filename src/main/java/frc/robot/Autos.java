@@ -411,7 +411,7 @@ public class Autos {
         .onTrue(
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                    .alongWith(RobotCommands.jork(intake, intakePivot).asProxy())
+                    .alongWith(Commands.waitSeconds(2).andThen(RobotCommands.jork(intake, intakePivot).asProxy()))
                     .withTimeout(4.0),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)
                     .withTimeout(0.75)
