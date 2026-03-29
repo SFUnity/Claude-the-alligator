@@ -211,7 +211,7 @@ public class ShooterUtil {
 
     Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
 
-    lookaheadTurretToTargetDistance += 0.13; // shoot to back of hub, not center
+    lookaheadTurretToTargetDistance += 0.08; // shoot to back of hub, not center
 
     turretAngle =
         targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
