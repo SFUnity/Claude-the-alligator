@@ -60,11 +60,14 @@ public class ShooterUtil {
     this.poseManager = poseManager;
 
     // FEEDING REAL
-    feedRealFlywheelSpeedMap.put(15.25, 3200.0);
+    feedRealFlywheelSpeedMap.put(15.25, 3000.0);
     feedRealHoodAngleMap.put(15.25, 49.0);
     feedRealTimeOfFlightMap.put(1.376, 0.99);
 
-    feedRealFlywheelSpeedMap.put(9.8, 1800.0);
+    feedRealFlywheelSpeedMap.put(12.0, 2000.0);
+    feedRealHoodAngleMap.put(12.0, 45.0);
+
+    feedRealFlywheelSpeedMap.put(9.8, 1500.0);
     feedRealHoodAngleMap.put(9.8, 42.0);
 
     feedRealFlywheelSpeedMap.put(8.1, 1300.0);
