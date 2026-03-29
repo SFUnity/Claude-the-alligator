@@ -60,7 +60,7 @@ public class ShooterUtil {
     this.poseManager = poseManager;
 
     // FEEDING REAL
-    feedRealFlywheelSpeedMap.put(15.25, 3000.0);
+    feedRealFlywheelSpeedMap.put(15.25, 3200.0);
     feedRealHoodAngleMap.put(15.25, 49.0);
     feedRealTimeOfFlightMap.put(1.376, 0.99);
 
@@ -82,8 +82,8 @@ public class ShooterUtil {
     scoreRealHoodAngleMap.put(2.462, 19.0);
     // scoreRealTimeOfFlightMap.put(, );
 
-    scoreRealFlywheelSpeedMap.put(3.445, 1200.0);
-    scoreRealHoodAngleMap.put(3.445, 24.0);
+    scoreRealFlywheelSpeedMap.put(3.62, 1260.0);
+    scoreRealHoodAngleMap.put(3.62, 24.0);
 
     scoreRealFlywheelSpeedMap.put(4.513, 1250.0);
     scoreRealHoodAngleMap.put(4.513, 28.0);
@@ -208,7 +208,7 @@ public class ShooterUtil {
 
     Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
 
-    lookaheadTurretToTargetDistance += 0.25; // shoot to back of hub, not center
+    lookaheadTurretToTargetDistance += 0.2; // shoot to back of hub, not center
 
     turretAngle =
         targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
