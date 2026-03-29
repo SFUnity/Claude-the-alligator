@@ -214,12 +214,12 @@ public class Shooter extends VirtualSubsystem {
       // turret.setTarget(turretAngle);
 
       // TODO uncomment only the below two lines when ready to use interp map
-      // hood.setAngle(solution.hoodAngle());
-      // flywheels.setVelocity(solution.flywheelSpeed());
+      hood.setAngle(solution.hoodAngle());
+      flywheels.setVelocity(solution.flywheelSpeed());
     }
 
-    flywheels.setVelocity(fakeFlywheelVelocity.get());
-    hood.setAngle(fakeHoodAngle.get());
+    // flywheels.setVelocity(fakeFlywheelVelocity.get());
+    // hood.setAngle(fakeHoodAngle.get());
 
     double distToWall = AllianceFlipUtil.applyX(turretPosition.getX());
 
