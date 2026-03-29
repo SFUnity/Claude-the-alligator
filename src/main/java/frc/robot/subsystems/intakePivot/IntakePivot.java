@@ -84,13 +84,12 @@ public class IntakePivot extends SubsystemBase {
   public Command runCurrentZeroing() {
     return run(() -> io.runVolts(-3))
         .until(() -> inputs.pivotStaterCurrent > 40)
-        .andThen(
-            waitSeconds(0.2)
-                .finallyDo(
-                    () -> {
-                      prezeroedAngle = inputs.pivotCurrentPositionDeg;
-                      io.resetEncoder(Units.degreesToRotations(-10));
-                    }))
+        .andThen(waitSeconds(0.2))
+        .finallyDo(
+            () -> {
+              prezeroedAngle = inputs.pivotCurrentPositionDeg;
+              io.resetEncoder(Units.degreesToRotations(-10));
+            })
         .withName("IntakePivotCurrentZeroing");
   }
 
