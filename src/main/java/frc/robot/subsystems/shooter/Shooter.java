@@ -16,7 +16,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
@@ -215,27 +214,24 @@ public class Shooter extends VirtualSubsystem {
       // turret.setTarget(turretAngle);
 
       // TODO uncomment only the below two lines when ready to use interp map
-      hood.setAngle(solution.hoodAngle());
-      flywheels.setVelocity(solution.flywheelSpeed());
+      // hood.setAngle(solution.hoodAngle());
+      // flywheels.setVelocity(solution.flywheelSpeed());
     }
 
-    // flywheels.setVelocity(fakeFlywheelVelocity.get());
-    // hood.setAngle(fakeHoodAngle.get());
+    flywheels.setVelocity(fakeFlywheelVelocity.get());
+    hood.setAngle(fakeHoodAngle.get());
 
-    Logger.recordOutput(
-        "Shooter/Turret/DistToWall", AllianceFlipUtil.applyX(turretPosition.getX()));
+    double distToWall = AllianceFlipUtil.applyX(turretPosition.getX());
+
+    Logger.recordOutput("Shooter/Turret/distToWall", distToWall);
 
     if (!isScoring) {
-      turret.setTarget(0 - poseManager.getRotation().getDegrees());
+      turret.setTarget(0 - AllianceFlipUtil.apply(poseManager.getRotation()).getDegrees());
       // turret.setTarget(fakeTurretAngle.get());
-      hood.setAngle(feedingHoodAngle.get());
+      hood.setAngle(shooterUtil.feedingHoodAngle(distToWall));
+      // hood.setAngle(fakeHoodAngle.get());
 
-      InterpolatingDoubleTreeMap feedRealFlywheelSpeedMap = new InterpolatingDoubleTreeMap();
-      feedRealFlywheelSpeedMap.put(6.0, feedingVelocity.get());
-      feedRealFlywheelSpeedMap.put(16.0, farFeedingVelocity.get());
-
-      flywheels.setVelocity(
-          feedRealFlywheelSpeedMap.get(AllianceFlipUtil.applyX(poseManager.getPose().getX())));
+      flywheels.setVelocity(shooterUtil.feedingFlywheelSpeed(distToWall));
 
       // if (AllianceFlipUtil.applyX(poseManager.getPose().getX())
       //     < FieldConstants.LinesVertical.oppAllianceZone) {
