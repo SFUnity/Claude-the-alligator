@@ -66,9 +66,11 @@ public class IntakePivot extends SubsystemBase {
           // } else {
           //   io.runVolts(-0.75);
           // }
+          boolean useLowerExtraVoltage = Math.abs(loweredAngle.get() - inputs.pivotCurrentPositionDeg) > 3;
+          Logger.recordOutput("IntakePivot/lowerExtraVoltage", useLowerExtraVoltage);
           positionSetpoint = loweredAngle.get();
           if (shouldBeLowered == false && intakeDown()) shouldBeLowered = true;
-          if (shouldBeLowered && !intakeDown()) {
+          if (shouldBeLowered && useLowerExtraVoltage) {
             io.runVolts(extraLoweringVoltage.get());
           } else {
             io.setPivotPosition(positionSetpoint);
@@ -106,7 +108,7 @@ public class IntakePivot extends SubsystemBase {
         .withName("IntakePivotJork");
   }
 
-  @AutoLogOutput(key = "Controls/IntakeDown")
+  @AutoLogOutput(key = "IntakePivot/IntakeDown")
   public boolean intakeDown() {
     // return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
     return Math.abs(loweredAngle.get() - inputs.pivotCurrentPositionDeg) < isDownTolerance.get();
