@@ -88,7 +88,7 @@ public class ShooterUtil {
     scoreRealFlywheelSpeedMap.put(3.62, 1260.0);
     scoreRealHoodAngleMap.put(3.62, 24.0);
 
-    scoreRealFlywheelSpeedMap.put(4.513, 1250.0);
+    scoreRealFlywheelSpeedMap.put(4.513, 1300.0);
     scoreRealHoodAngleMap.put(4.513, 28.0);
 
     scoreRealFlywheelSpeedMap.put(5.419, 1410.0);
