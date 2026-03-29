@@ -33,6 +33,8 @@ public class IntakePivot extends SubsystemBase {
     io.updateInputs(inputs);
     Logger.processInputs("IntakePivot", inputs);
 
+    Logger.recordOutput("IntakePivot/shouldBeLowered", shouldBeLowered);
+
     // Logs
     measuredVisualizer.update(Degrees.of(inputs.pivotCurrentPositionDeg));
     setpointVisualizer.update(Degrees.of(positionSetpoint));
