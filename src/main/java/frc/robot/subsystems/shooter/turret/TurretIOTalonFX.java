@@ -79,7 +79,7 @@ public class TurretIOTalonFX implements TurretIO {
     // Units.rotationsToRadians(talonVelocity))
     //                 * kV));
     // TODO change if dist is further than a point
-    talon.setControl(motionMagicVoltage.withPosition(targetRotations));
+    talon.setControl(motionMagicVoltage.withPosition(targetRotations).withFeedForward(targetRotations));
   }
 
   @Override
