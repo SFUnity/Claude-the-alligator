@@ -24,6 +24,7 @@ public class IntakePivot extends SubsystemBase {
   private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
 
   private boolean shouldBeLowered = false;
+  public double prezeroedAngle = 0;
 
   public IntakePivot(IntakePivotIO io) {
     this.io = io;
@@ -83,7 +84,13 @@ public class IntakePivot extends SubsystemBase {
   public Command runCurrentZeroing() {
     return run(() -> io.runVolts(-3))
         .until(() -> inputs.pivotStaterCurrent > 40)
-        .andThen(waitSeconds(0.2).finallyDo(() -> io.resetEncoder(Units.degreesToRotations(-10))))
+        .andThen(
+            waitSeconds(0.2)
+                .finallyDo(
+                    () -> {
+                      prezeroedAngle = inputs.pivotCurrentPositionDeg;
+                      io.resetEncoder(Units.degreesToRotations(-10));
+                    }))
         .withName("IntakePivotCurrentZeroing");
   }
 
