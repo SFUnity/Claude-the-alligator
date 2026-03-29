@@ -401,7 +401,7 @@ public class Autos {
     routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    // segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment0
         .done()
         .onTrue(
