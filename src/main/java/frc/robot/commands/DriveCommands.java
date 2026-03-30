@@ -130,6 +130,45 @@ public class DriveCommands {
         .withName("joystickDrive");
   }
 
+  public static Command joystickDriveLimitSpeed(
+      Drive drive,
+      DoubleSupplier xSupplier,
+      DoubleSupplier ySupplier,
+      DoubleSupplier omegaSupplier,
+      PoseManager poseManager,
+      DoubleSupplier speedLimitSupplier) {
+    return Commands.run(
+            () -> {
+              // Get linear velocity
+              Translation2d linearVelocity =
+                  getLinearVelocityFromJoysticks(xSupplier.getAsDouble(), ySupplier.getAsDouble());
+
+              // Apply rotation deadband
+              double omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
+
+              // Square rotation value for more precise control
+              omega = Math.copySign(omega * omega, omega);
+
+              // Convert to field relative speeds & send command
+              ChassisSpeeds speeds =
+                  new ChassisSpeeds(
+                      linearVelocity.getX() * speedLimitSupplier.getAsDouble(),
+                      linearVelocity.getY() * speedLimitSupplier.getAsDouble(),
+                      omega * drive.getMaxAngularSpeedRadPerSec());
+              boolean isFlipped =
+                  DriverStation.getAlliance().isPresent()
+                      && DriverStation.getAlliance().get() == Alliance.Red;
+              drive.runVelocity(
+                  ChassisSpeeds.fromFieldRelativeSpeeds(
+                      speeds,
+                      isFlipped
+                          ? poseManager.getRotation().plus(new Rotation2d(Math.PI))
+                          : poseManager.getRotation()));
+            },
+            drive)
+        .withName("joystickDrive");
+  }
+
   public static Command povDrive(Drive drive, PoseManager poseManager, boolean toTheLeft) {
     return Commands.run(
         () -> {
