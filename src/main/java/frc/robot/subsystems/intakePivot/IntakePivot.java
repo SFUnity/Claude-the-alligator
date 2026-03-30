@@ -101,37 +101,35 @@ public class IntakePivot extends SubsystemBase {
                 })
                 .until(
                     () ->
-                        inputs.currentPositionDeg
-                            <= raisedJorkAngle.get() + jorkTolerance.get() || inputs.statorCurrent > 40).unless(() -> inputs.statorCurrent > 40),
+                        inputs.currentPositionDeg <= raisedJorkAngle.get() + jorkTolerance.get()
+                            || inputs.statorCurrent > 40)
+                .unless(() -> inputs.statorCurrent > 40),
             run(() -> {
                   positionSetpoint = loweredJorkAngle.get();
                   io.runVolts(jorkDownVoltage.get());
                 })
                 .until(
                     () ->
-                        inputs.currentPositionDeg
-                            >= loweredJorkAngle.get() - jorkTolerance.get())).unless(() -> inputs.statorCurrent > 40)
+                        inputs.currentPositionDeg >= loweredJorkAngle.get() - jorkTolerance.get()))
+        .unless(() -> inputs.statorCurrent > 40)
         .withName("IntakePivotJork");
   }
 
-    public Command runJork() {
+  public Command runJork() {
     return Commands.repeatingSequence(
             run(() -> {
                   positionSetpoint = raisedJorkAngle.get();
                   io.runVolts(jorkUpVoltage.get());
                 })
                 .until(
-                    () ->
-                        inputs.currentPositionDeg
-                            <= raisedJorkAngle.get() + jorkTolerance.get()),
+                    () -> inputs.currentPositionDeg <= raisedJorkAngle.get() + jorkTolerance.get()),
             run(() -> {
                   positionSetpoint = loweredJorkAngle.get();
                   io.runVolts(jorkDownVoltage.get());
                 })
                 .until(
                     () ->
-                        inputs.currentPositionDeg
-                            >= loweredJorkAngle.get() - jorkTolerance.get()))
+                        inputs.currentPositionDeg >= loweredJorkAngle.get() - jorkTolerance.get()))
         .withName("IntakePivotJork");
   }
 
