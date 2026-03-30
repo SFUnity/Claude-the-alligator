@@ -49,7 +49,7 @@ public class Hood extends SubsystemBase {
   }
 
   public double getAngleDeg() {
-    if (Constants.currentMode == Constants.simMode) {
+    if (Constants.currentMode == Constants.Mode.SIM) {
       return goalPosition;
     }
     return inputs.positionDeg;
