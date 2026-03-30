@@ -34,9 +34,9 @@ public class IntakePivotIOSim implements IntakePivotIO {
   public void updateInputs(IntakePivotIOInputs inputs) {
     sim.update(0.02);
 
-    inputs.pivotCurrentPositionDeg = getAngleDeg();
-    inputs.pivotAppliedVolts = pivotAppliedVolts;
-    inputs.pivotSupplyCurrent = sim.getCurrentDrawAmps();
+    inputs.currentPositionDeg = getAngleDeg();
+    inputs.appliedVolts = pivotAppliedVolts;
+    inputs.supplyCurrent = sim.getCurrentDrawAmps();
 
     LoggedTunableNumber.ifChanged(hashCode(), () -> controller.setP(simkP.get()), simkP);
 

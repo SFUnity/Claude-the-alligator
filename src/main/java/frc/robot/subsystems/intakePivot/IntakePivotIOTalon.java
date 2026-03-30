@@ -42,11 +42,11 @@ public class IntakePivotIOTalon implements IntakePivotIO {
 
   @Override
   public void updateInputs(IntakePivotIOInputs inputs) {
-    inputs.pivotCurrentPositionDeg =
+    inputs.currentPositionDeg =
         Units.rotationsToDegrees(pivot.getPosition().getValueAsDouble());
-    inputs.pivotAppliedVolts = pivot.getMotorVoltage().getValueAsDouble();
-    inputs.pivotStaterCurrent = pivot.getStatorCurrent().getValueAsDouble();
-    inputs.pivotSupplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
+    inputs.appliedVolts = pivot.getMotorVoltage().getValueAsDouble();
+    inputs.statorCurrent = pivot.getStatorCurrent().getValueAsDouble();
+    inputs.supplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
   }
 
   @Override

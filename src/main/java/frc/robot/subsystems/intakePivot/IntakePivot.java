@@ -37,7 +37,7 @@ public class IntakePivot extends SubsystemBase {
     Logger.recordOutput("IntakePivot/shouldBeLowered", shouldBeLowered);
 
     // Logs
-    measuredVisualizer.update(Degrees.of(inputs.pivotCurrentPositionDeg));
+    measuredVisualizer.update(Degrees.of(inputs.currentPositionDeg));
     setpointVisualizer.update(Degrees.of(positionSetpoint));
     Logger.recordOutput("IntakePivot/positionSetpointDeg", positionSetpoint);
     GeneralUtil.logSubsystem(this, "IntakePivot");
@@ -67,7 +67,7 @@ public class IntakePivot extends SubsystemBase {
           // } else {
           //   io.runVolts(-0.75);
           // }
-          boolean useLowerExtraVoltage = loweredAngle.get() - inputs.pivotCurrentPositionDeg > 3;
+          boolean useLowerExtraVoltage = loweredAngle.get() - inputs.currentPositionDeg > 3;
           Logger.recordOutput("IntakePivot/lowerExtraVoltage", useLowerExtraVoltage);
           positionSetpoint = loweredAngle.get();
           if (shouldBeLowered == false && intakeDown()) shouldBeLowered = true;
@@ -83,11 +83,11 @@ public class IntakePivot extends SubsystemBase {
 
   public Command runCurrentZeroing() {
     return run(() -> io.runVolts(-3))
-        .until(() -> inputs.pivotStaterCurrent > 40)
+        .until(() -> inputs.statorCurrent > 40)
         .andThen(waitSeconds(0.2))
         .finallyDo(
             () -> {
-              prezeroedAngle = inputs.pivotCurrentPositionDeg;
+              prezeroedAngle = inputs.currentPositionDeg;
               io.resetEncoder(Units.degreesToRotations(-10));
             })
         .withName("IntakePivotCurrentZeroing");
@@ -101,7 +101,7 @@ public class IntakePivot extends SubsystemBase {
                 })
                 .until(
                     () ->
-                        inputs.pivotCurrentPositionDeg
+                        inputs.currentPositionDeg
                             <= raisedJorkAngle.get() + jorkTolerance.get()),
             run(() -> {
                   positionSetpoint = loweredJorkAngle.get();
@@ -109,15 +109,15 @@ public class IntakePivot extends SubsystemBase {
                 })
                 .until(
                     () ->
-                        inputs.pivotCurrentPositionDeg
+                        inputs.currentPositionDeg
                             >= loweredJorkAngle.get() - jorkTolerance.get()))
         .withName("IntakePivotJork");
   }
 
   @AutoLogOutput(key = "IntakePivot/IntakeDown")
   public boolean intakeDown() {
-    // return Math.abs(inputs.pivotCurrentPositionDeg - loweredAngle.get()) <= 5;
-    return loweredAngle.get() - inputs.pivotCurrentPositionDeg < isDownTolerance.get();
+    // return Math.abs(inputs.currentPositionDeg - loweredAngle.get()) <= 5;
+    return loweredAngle.get() - inputs.currentPositionDeg < isDownTolerance.get();
   }
 
   // public Command zeroOutput() {
