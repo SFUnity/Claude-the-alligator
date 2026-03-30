@@ -119,9 +119,6 @@ public class Turret extends SubsystemBase {
       encoder2Disconnected.set(
           encoder2DisconnectedDebouncer.calculate(inputs.encoder2Disconnected));
 
-      // TODO tune edisable so it acc works
-      // eDisabled = false; // shh
-
       if (eDisabledDashboard.get()) eDisabled = false;
 
       if (!eDisabled) {
@@ -139,7 +136,10 @@ public class Turret extends SubsystemBase {
         Logger.recordOutput("Shooter/Turret/encoderBroken", encoderBroken);
 
         eDisabled = outOfBounds || encoderBroken;
+      }
 
+      // splitting these up makes it kick in one cycle faster
+      if (!eDisabled) {
         double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
         double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
 
