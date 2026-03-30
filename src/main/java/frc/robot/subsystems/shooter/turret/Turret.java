@@ -136,10 +136,9 @@ public class Turret extends SubsystemBase {
         Logger.recordOutput("Shooter/Turret/encoderBroken", encoderBroken);
 
         eDisabled = outOfBounds || encoderBroken;
-      }
+        
+        if(eDisabled) {io.stop(); return;}
 
-      // splitting these up makes it kick in one cycle faster
-      if (!eDisabled) {
         double minLegalAngle = isShooting ? minAngleDegs : minBufferAngleDegs;
         double maxLegalAngle = isShooting ? maxAngleDegs : maxBufferAngleDegs;
 
