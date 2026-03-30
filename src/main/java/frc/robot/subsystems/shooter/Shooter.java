@@ -232,15 +232,6 @@ public class Shooter extends VirtualSubsystem {
       // hood.setAngle(fakeHoodAngle.get());
 
       flywheels.setVelocity(shooterUtil.feedingFlywheelSpeed(distToWall));
-
-      // if (AllianceFlipUtil.applyX(poseManager.getPose().getX())
-      //     < FieldConstants.LinesVertical.oppAllianceZone) {
-      //   flywheels.setVelocity(feedingVelocity.get());
-      //   hood.setAngle(feedingHoodAngle.get());
-      // } else {
-      //   flywheels.setVelocity(farFeedingVelocity.get());
-      //   hood.setAngle(farFeedingHoodAngle.get());
-      // }
     }
     // }
     if (!isShooting || !hoodIsSafe) {
