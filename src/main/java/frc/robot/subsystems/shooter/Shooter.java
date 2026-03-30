@@ -190,6 +190,7 @@ public class Shooter extends VirtualSubsystem {
             FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0, 0)));
     Logger.recordOutput("Shooter/Turret/turretTarget", new Pose2d(targetPose, new Rotation2d()));
 
+    // Set turret angle
     Pose2d turretPosition =
         robotPose.transformBy(
             new Transform2d(
@@ -199,10 +200,11 @@ public class Shooter extends VirtualSubsystem {
         targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
             - poseManager.getRotation().getDegrees();
     turret.setTarget(turretAngle);
-    // turret.setTarget(fakeTurretAngle.get());
 
     Logger.recordOutput(
         "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
+
+    // Set hood and flywheel
     // if (DriverStation.isAutonomous()) {
     //   hood.setAngle(autoHoodAngle.get());
     //   flywheels.setVelocity(autoFlywheelVelocity.get());
@@ -218,11 +220,8 @@ public class Shooter extends VirtualSubsystem {
       flywheels.setVelocity(solution.flywheelSpeed());
     }
 
-    // flywheels.setVelocity(fakeFlywheelVelocity.get());
-    // hood.setAngle(fakeHoodAngle.get());
-
+    // For feeding
     double distToWall = AllianceFlipUtil.applyX(turretPosition.getX());
-
     Logger.recordOutput("Shooter/Turret/distToWall", distToWall);
 
     if (!isScoring) {
@@ -232,24 +231,27 @@ public class Shooter extends VirtualSubsystem {
       // hood.setAngle(fakeHoodAngle.get());
 
       flywheels.setVelocity(shooterUtil.feedingFlywheelSpeed(distToWall));
+
+      // To shoot towards a certain location if turret starts working
+      if (myY > 0f) {
+        // To do add shoot to near the middle top
+      } else {
+        // To do add shoot to near the middle bottom
+      }
     }
-    // }
+    // } // see above part about autos if you're using this curly brace
+
+    // For testing / tuning
+    // flywheels.setVelocity(fakeFlywheelVelocity.get());
+    // hood.setAngle(fakeHoodAngle.get());
+    // turret.setTarget(fakeTurretAngle.get());
+
+    // Hood safety
     if (!isShooting || !hoodIsSafe) {
       hood.setAngle(HoodConstants.minPositionDegs);
     }
-    // Avi commented this out because real robot is not ready for it
-    // TrenchAvoidence();
 
-    // measuredVisualizer.update(turret.getPositionDegs(), hood.getAngleDeg());
-    // setpointVisualizer.update(0, fakeTurretVelocity.get());
-    // measuredVisualizer.update(fakeTurretAngle.get(), fakeHoodAngle.get());
-
-    if (myY > 0f) {
-      // To do add shoot to near the middle top
-    } else {
-      // To do add shoot to near the middle bottom
-    }
-
+    // For fuel sim
     if (Constants.currentMode == Constants.simMode
         && isShooting
         && fuelLaunchTimer.hasElapsed(0.5)) {
