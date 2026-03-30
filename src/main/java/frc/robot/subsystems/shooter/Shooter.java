@@ -252,7 +252,7 @@ public class Shooter extends VirtualSubsystem {
     }
 
     // For fuel sim
-    if (Constants.currentMode == Constants.simMode
+    if (Constants.currentMode == Constants.Mode.SIM
         && isShooting
         && fuelLaunchTimer.hasElapsed(0.5)) {
       // fuelSim.launchFuel(
@@ -267,7 +267,7 @@ public class Shooter extends VirtualSubsystem {
     }
     if (fuelDelayTimer.hasElapsed(fuelDelay.get())
         && shoot
-        && Constants.currentMode == Constants.simMode) {
+        && Constants.currentMode == Constants.Mode.SIM) {
       shoot = false;
       fuelSim.launchFuel(
           MetersPerSecond.of(params.flywheelSpeed() * 2 * Math.PI * WheelRadius / 60),
@@ -276,7 +276,7 @@ public class Shooter extends VirtualSubsystem {
           turretCenter);
     }
     if (prevHubScore != BLUE_HUB.getScore() + RED_HUB.getScore()
-        && Constants.currentMode == Constants.simMode) {
+        && Constants.currentMode == Constants.Mode.SIM) {
       Logger.recordOutput("Shooter/FlightTime", fuelLaunchTimer.get());
       prevHubScore = BLUE_HUB.getScore() + RED_HUB.getScore();
     }
