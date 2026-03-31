@@ -392,12 +392,10 @@ public class RobotContainer {
     controller.povDown().whileTrue(climb.downVolts());
 
     // Intaking
-    Command driverIntakeCmd = RobotCommands.intake(intakeRollers, intakePivot);
-    controller.leftBumper().toggleOnTrue(driverIntakeCmd);
-    // controller.leftBumper().whileTrue(shooter.incrementTurretAngle());
+    controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
-    controller.leftTrigger().onFalse(driverIntakeCmd);
-    // controller.rightTrigger().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
+    // controller.leftTrigger().onFalse(driverIntakeCmd);
+    controller.rightTrigger().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
 
     // Shooting
     controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
@@ -408,11 +406,11 @@ public class RobotContainer {
     controller.b().onTrue(shooter.overrideSetScoring(false));
     controller.a().or(controller.b()).debounce(1.5).onTrue(shooter.permaDisableAutoFeedvsScore());
 
-    controller
-        .rightTrigger()
-        .whileTrue(
-            DriveCommands.autoAim(
-                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX(), poseManager));
+    // controller
+    //     .rightTrigger()
+    //     .whileTrue(
+    //         DriveCommands.autoAim(
+    //             drive, () -> -controller.getLeftY(), () -> -controller.getLeftX(), poseManager));
 
     controller.y().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
 
@@ -441,10 +439,11 @@ public class RobotContainer {
                     () -> controller.setRumble(GenericHID.RumbleType.kBothRumble, 0.5),
                     () -> controller.setRumble(GenericHID.RumbleType.kBothRumble, 0.0))
                 .withTimeout(0.50));
-    
+
     // stop intake from raising automatically
     if (!DriverStation.isFMSAttached()) {
-      new Trigger(() -> DriverStation.isTeleopEnabled()).onTrue(RobotCommands.intake(intakeRollers, intakePivot));
+      new Trigger(() -> DriverStation.isTeleopEnabled())
+          .onTrue(RobotCommands.intake(intakeRollers, intakePivot));
     }
   }
 
