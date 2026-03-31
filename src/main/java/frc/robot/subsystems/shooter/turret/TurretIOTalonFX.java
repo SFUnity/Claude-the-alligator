@@ -39,8 +39,9 @@ public class TurretIOTalonFX implements TurretIO {
     configs.CurrentLimits.StatorCurrentLimit = 80.0;
     configs.CurrentLimits.StatorCurrentLimitEnable = true;
     configs.CurrentLimits.SupplyCurrentLimit = 60.0;
-    configs.Slot0.kP = 0.39;
-    configs.Slot0.kV = 0.07;
+    configs.Slot0.kP = 0.13;
+    configs.Slot0.kV = 0.133;
+    configs.Slot0.kS = 0.008;
     configs.Slot0.kD = 0;
     configs.MotionMagic.MotionMagicCruiseVelocity = 100;
     configs.MotionMagic.MotionMagicAcceleration = 100;
@@ -79,8 +80,7 @@ public class TurretIOTalonFX implements TurretIO {
     // Units.rotationsToRadians(talonVelocity))
     //                 * kV));
     // TODO change if dist is further than a point
-    talon.setControl(
-        motionMagicVoltage.withPosition(targetRotations).withFeedForward(targetRotations));
+    talon.setControl(motionMagicVoltage.withPosition(targetRotations));
   }
 
   @Override
