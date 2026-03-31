@@ -165,8 +165,7 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput("Shooter/isClose", isClose);
     Logger.recordOutput("Shooter/Hood/isSafe", hoodIsSafe);
 
-    // turret.setIsShooting(isShooting);
-    turret.setIsShooting(false);
+    turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
 
     myX = poseManager.getPose().getX() - LinesVertical.center;
