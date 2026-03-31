@@ -4,6 +4,8 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.wpilibj2.command.Commands.waitSeconds;
 import static frc.robot.subsystems.intakePivot.IntakePivotConstants.*;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +21,9 @@ public class IntakePivot extends SubsystemBase {
   private final IntakePivotVisualizer setpointVisualizer =
       new IntakePivotVisualizer("Setpoint", Color.kBlue);
   private double positionSetpoint = raisedAngle.get();
+  private double statorJorkAngle = 0;
+
+  private Debouncer statorDebounce = new Debouncer(0.1, DebounceType.kRising);
 
   private final IntakePivotIO io;
   private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
@@ -131,6 +136,18 @@ public class IntakePivot extends SubsystemBase {
                     () ->
                         inputs.currentPositionDeg >= loweredJorkAngle.get() - jorkTolerance.get()))
         .withName("IntakePivotJork");
+  }
+
+  public Command runStatorJork() {
+    return Commands.repeatingSequence(
+        run(() -> io.runVolts(jorkUpVoltage.get()))
+            .until(() -> statorDebounce.calculate(inputs.statorCurrent >= 25.0))
+            .finallyDo(() -> statorJorkAngle = inputs.currentPositionDeg),
+        run(() -> {
+              positionSetpoint = statorJorkAngle + 15;
+              io.runVolts(jorkDownVoltage.get());
+            })
+            .until(() -> inputs.currentPositionDeg >= positionSetpoint - jorkTolerance.get()));
   }
 
   @AutoLogOutput(key = "IntakePivot/IntakeDown")
