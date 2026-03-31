@@ -175,6 +175,7 @@ public class Turret extends SubsystemBase {
 
         // Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
         targetDegs = bestAngle;
+        targetDegs = MathUtil.clamp(targetDegs, 0, 270);
 
         double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
         // targetRotations -= talonOffsetRots;
