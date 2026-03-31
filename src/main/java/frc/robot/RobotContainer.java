@@ -441,6 +441,11 @@ public class RobotContainer {
                     () -> controller.setRumble(GenericHID.RumbleType.kBothRumble, 0.5),
                     () -> controller.setRumble(GenericHID.RumbleType.kBothRumble, 0.0))
                 .withTimeout(0.50));
+    
+    // stop intake from raising automatically
+    if (!DriverStation.isFMSAttached()) {
+      new Trigger(() -> DriverStation.isTeleopEnabled()).onTrue(RobotCommands.intake(intakeRollers, intakePivot));
+    }
   }
 
   /**
