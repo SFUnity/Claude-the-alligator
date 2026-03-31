@@ -392,10 +392,11 @@ public class RobotContainer {
     controller.povDown().whileTrue(climb.downVolts());
 
     // Intaking
-    controller.leftBumper().toggleOnTrue(RobotCommands.intake(intakeRollers, intakePivot));
+    Command driverIntakeCmd = RobotCommands.intake(intakeRollers, intakePivot);
+    controller.leftBumper().toggleOnTrue(driverIntakeCmd);
     // controller.leftBumper().whileTrue(shooter.incrementTurretAngle());
     controller.leftTrigger().whileTrue(RobotCommands.jork(intakeRollers, intakePivot));
-    controller.leftTrigger().onFalse(RobotCommands.intake(intakeRollers, intakePivot));
+    controller.leftTrigger().onFalse(driverIntakeCmd);
     // controller.rightTrigger().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
 
     // Shooting
