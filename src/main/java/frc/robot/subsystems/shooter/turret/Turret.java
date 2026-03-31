@@ -182,7 +182,7 @@ public class Turret extends SubsystemBase {
         io.turnTurret(targetRotations);
       } else {
         io.stop();
-      }
+      } //fuck u brody I need my full turret back T_T
     }
   }
 
