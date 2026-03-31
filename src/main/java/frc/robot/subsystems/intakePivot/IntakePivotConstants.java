@@ -18,9 +18,9 @@ public class IntakePivotConstants {
 
   // In degrees
   public static final LoggedTunableNumber loweredJorkAngle =
-      new LoggedTunableNumber("Intake/lowJorkAngle", 42);
+      new LoggedTunableNumber("Intake/lowJorkAngle", 55);
   public static final LoggedTunableNumber raisedJorkAngle =
-      new LoggedTunableNumber("Intake/raisedJorkAngle", 30);
+      new LoggedTunableNumber("Intake/raisedJorkAngle", 40);
   public static final LoggedTunableNumber loweredAngle =
       new LoggedTunableNumber("Intake/loweredAngle", 100);
   public static final LoggedTunableNumber raisedAngle =
