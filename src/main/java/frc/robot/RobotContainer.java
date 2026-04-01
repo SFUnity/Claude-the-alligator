@@ -398,7 +398,7 @@ public class RobotContainer {
     controller.rightTrigger().whileTrue(RobotCommands.unjam(spindexer, kicker, shooter));
 
     // Shooting
-    controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+    controller.rightBumper().whileTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, poseManager.getPose()));
     controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer));
     // controller.rightBumper().whileTrue(shooter.decrementTurretAngle());
 

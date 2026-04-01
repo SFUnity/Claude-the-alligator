@@ -1,5 +1,8 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.intakePivot.IntakePivot;
@@ -8,9 +11,13 @@ import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
+import static frc.robot.FieldConstants.LinesHorizontal;
+import static frc.robot.FieldConstants.LinesVertical;
 
 public class RobotCommands {
   private static final double ejectBackupRots = 0.5;
+
+  ;
   // private static final double shootingBackupRots = 0.1;
 
   // can be fully shot out of the robot
@@ -22,13 +29,28 @@ public class RobotCommands {
         .withName("StopShoot");
   }
 
-  public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return Commands.repeatingSequence(
+  public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer, Pose2d pose2d) {
+    BooleanSupplier behindHub = () -> ((pose2d.getX() > LinesVertical.neutralZoneNear) &&
+                  (pose2d.getY() > LinesHorizontal.rightBumpStart) && 
+                  (pose2d.getY() < LinesHorizontal.leftBumpEnd));
+    return Commands.repeatingSequence(  
             Commands.sequence(
                 kicker.setState(KickerState.RUN),
                 shooter.setShooting(true),
                 Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
-                spindexer.runBasic()))
+                spindexer.runBasic().onlyWhile(() -> !behindHub.getAsBoolean()).andThen(spindexer.stop().onlyWhile(behindHub)))) 
+        // Commands.waitSeconds(0.1),
+        // unjam(spindexer, kicker, shooter))
+        .withName("ReadyThenShoot");
+  }
+
+  public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
+    return Commands.repeatingSequence(  
+            Commands.sequence(
+                kicker.setState(KickerState.RUN),
+                shooter.setShooting(true),
+                Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
+                spindexer.runBasic())) 
         // Commands.waitSeconds(0.1),
         // unjam(spindexer, kicker, shooter))
         .withName("ReadyThenShoot");
