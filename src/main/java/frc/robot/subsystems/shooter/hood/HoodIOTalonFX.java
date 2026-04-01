@@ -32,7 +32,7 @@ public class HoodIOTalonFX implements HoodIO {
     config.ClosedLoopGeneral.GainSchedKpBehavior = GainSchedKpBehaviorValue.Discontinuous;
 
     config.Slot0.kS = 0;
-    config.Slot0.kG = 0.35;
+    config.Slot0.kG = 0.3;
     config.Slot0.kP = 220;
     config.Slot0.kD = 0;
     config.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
