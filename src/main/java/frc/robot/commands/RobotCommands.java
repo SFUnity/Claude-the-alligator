@@ -84,4 +84,11 @@ public class RobotCommands {
                 shooter.testFlywheelsRPM()))
         .withName("test");
   }
+
+    public static Command outTake(Shooter shooter, Kicker kicker, Spindexer spindexer) {
+    return spindexer
+        .runBasic()
+        .alongWith(kicker.setState(KickerState.RUN), shooter.testFlywheelsRPM())
+        .withName("outTake");
+  }
 }

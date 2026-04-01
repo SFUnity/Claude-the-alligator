@@ -381,7 +381,7 @@ public class Autos {
         .done()
         .onTrue(
             Commands.waitSeconds(4.75) // ! need to make sure time lines up with above
-                .andThen(Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5), segment1.cmd()));
+                .andThen(Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5).alongWith(RobotCommands.outTake(shooter, kicker, spindexer)), segment1.cmd()));
     segment1.active().onTrue(RobotCommands.unjam(spindexer, kicker, shooter).withTimeout(1));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
@@ -421,7 +421,7 @@ public class Autos {
     segment0
         .done()
         .onTrue(
-            Commands.waitSeconds(5.75) // ! need to make sure time lines up with above
+            Commands.waitSeconds(4.75)
                 .andThen(Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5), segment1.cmd()));
     segment1.active().onTrue(RobotCommands.unjam(spindexer, kicker, shooter).withTimeout(1));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
