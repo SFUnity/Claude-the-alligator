@@ -173,7 +173,7 @@ public class Turret extends SubsystemBase {
 
         // Logger.recordOutput("Shooter/Turret/SetpointAngle", setpoint.position);
         targetDegs = bestAngle;
-        targetDegs = MathUtil.clamp(targetDegs, 0, 326);
+        targetDegs = MathUtil.clamp(targetDegs, 0, 370);
         Logger.recordOutput("Shooter/Turret/GoalAngle", targetDegs);
 
         double targetRotations = Units.degreesToRotations(targetDegs) * gearRatio;
