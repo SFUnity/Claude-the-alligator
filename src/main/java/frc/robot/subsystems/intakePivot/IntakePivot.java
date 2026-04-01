@@ -23,7 +23,7 @@ public class IntakePivot extends SubsystemBase {
   private double positionSetpoint = raisedAngle.get();
   private double statorJorkAngle = 0;
 
-  private Debouncer statorDebounce = new Debouncer(0.1, DebounceType.kRising);
+  private Debouncer statorDebounce = new Debouncer(0.3, DebounceType.kRising);
 
   private final IntakePivotIO io;
   private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
@@ -141,7 +141,7 @@ public class IntakePivot extends SubsystemBase {
   public Command runStatorJork() {
     return Commands.repeatingSequence(
         run(() -> io.runVolts(jorkUpVoltage.get()))
-            .until(() -> statorDebounce.calculate(inputs.statorCurrent >= 25.0))
+            .until(() -> statorDebounce.calculate(inputs.statorCurrent >= 20.0))
             .finallyDo(() -> statorJorkAngle = inputs.currentPositionDeg),
         run(() -> {
               positionSetpoint = statorJorkAngle + 15;

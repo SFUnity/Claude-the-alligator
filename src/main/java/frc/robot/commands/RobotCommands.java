@@ -51,6 +51,7 @@ public class RobotCommands {
 
   public static Command jork(IntakeRollers intake, IntakePivot intakePivot) {
     return intake.stop().alongWith(intakePivot.runJork()).withName("jork");
+    // return intake.stop().alongWith(intakePivot.runStatorJork()).withName("statorjork");
   }
 
   public static Command readyThenShootWithJork(
