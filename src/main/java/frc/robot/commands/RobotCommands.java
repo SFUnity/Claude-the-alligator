@@ -33,12 +33,11 @@ public class RobotCommands {
     BooleanSupplier behindHub = () -> ((pose2d.getX() > LinesVertical.neutralZoneNear) &&
                   (pose2d.getY() > LinesHorizontal.rightBumpStart) && 
                   (pose2d.getY() < LinesHorizontal.leftBumpEnd));
-    return Commands.repeatingSequence(  
-            Commands.sequence(
+    return Commands.sequence(
                 kicker.setState(KickerState.RUN),
                 shooter.setShooting(true),
                 Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
-                spindexer.runBasic().onlyWhile(() -> !behindHub.getAsBoolean()).andThen(spindexer.stop().onlyWhile(behindHub)))) 
+                spindexer.runBasic().onlyWhile(() -> !behindHub.getAsBoolean()).andThen(spindexer.stop().onlyWhile(behindHub)).repeatedly())
         // Commands.waitSeconds(0.1),
         // unjam(spindexer, kicker, shooter))
         .withName("ReadyThenShoot");
