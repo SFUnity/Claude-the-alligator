@@ -41,7 +41,7 @@ public class TurretConstants {
   public static final double angleToleranceDegs = 2.0; // todo change
   public static final double velocityToleranceDegs = 0.5; // TODO change
 
-  public static final double turretOffsetDegs = 190.1;
+  public static final double turretOffsetDegs = 153.4;
 
   public static final LoggedTunableNumber awayFromSetpointTolerance =
       new LoggedTunableNumber("Shooter/Turret/awayFromSetpointTolerance", 5.0);

@@ -43,8 +43,8 @@ public class TurretIOTalonFX implements TurretIO {
     configs.Slot0.kV = 0.133;
     configs.Slot0.kS = 0.008;
     configs.Slot0.kD = 0;
-    configs.MotionMagic.MotionMagicCruiseVelocity = 100;
-    configs.MotionMagic.MotionMagicAcceleration = 100;
+    configs.MotionMagic.MotionMagicCruiseVelocity = 90;
+    configs.MotionMagic.MotionMagicAcceleration = 180;
 
     tryUntilOk(5, () -> talon.getConfigurator().apply(configs, 0.25));
   }
