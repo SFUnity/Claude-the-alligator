@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
+import static frc.robot.FieldConstants.LinesHorizontal;
+import static frc.robot.FieldConstants.LinesVertical;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,8 +12,7 @@ import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
-import static frc.robot.FieldConstants.LinesHorizontal;
-import static frc.robot.FieldConstants.LinesVertical;
+import java.util.function.BooleanSupplier;
 
 public class RobotCommands {
   private static final double ejectBackupRots = 0.5;
@@ -29,27 +29,34 @@ public class RobotCommands {
         .withName("StopShoot");
   }
 
-  public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer, Pose2d pose2d) {
-    BooleanSupplier behindHub = () -> ((pose2d.getX() > LinesVertical.neutralZoneNear) &&
-                  (pose2d.getY() > LinesHorizontal.rightBumpStart) && 
-                  (pose2d.getY() < LinesHorizontal.leftBumpEnd));
+  public static Command readyThenShoot(
+      Shooter shooter, Kicker kicker, Spindexer spindexer, Pose2d pose2d) {
+    BooleanSupplier behindHub =
+        () ->
+            ((pose2d.getX() > LinesVertical.neutralZoneNear)
+                && (pose2d.getY() > LinesHorizontal.rightBumpStart)
+                && (pose2d.getY() < LinesHorizontal.leftBumpEnd));
     return Commands.sequence(
-                kicker.setState(KickerState.RUN),
-                shooter.setShooting(true),
-                Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
-                spindexer.runBasic().onlyWhile(() -> !behindHub.getAsBoolean()).andThen(spindexer.stop().onlyWhile(behindHub)).repeatedly())
+            kicker.setState(KickerState.RUN),
+            shooter.setShooting(true),
+            Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
+            spindexer
+                .runBasic()
+                .onlyWhile(() -> !behindHub.getAsBoolean())
+                .andThen(spindexer.stop().onlyWhile(behindHub))
+                .repeatedly())
         // Commands.waitSeconds(0.1),
         // unjam(spindexer, kicker, shooter))
         .withName("ReadyThenShoot");
   }
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return Commands.repeatingSequence(  
+    return Commands.repeatingSequence(
             Commands.sequence(
                 kicker.setState(KickerState.RUN),
                 shooter.setShooting(true),
                 Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
-                spindexer.runBasic())) 
+                spindexer.runBasic()))
         // Commands.waitSeconds(0.1),
         // unjam(spindexer, kicker, shooter))
         .withName("ReadyThenShoot");
