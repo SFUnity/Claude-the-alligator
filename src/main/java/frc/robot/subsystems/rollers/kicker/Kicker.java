@@ -25,10 +25,10 @@ public class Kicker extends SubsystemBase {
   @AutoLogOutput(key = "Rollers/Kicker/LaunchCount")
   private long launchCount = 0;
 
-  private final double fuelCountDelay = 0.01;
-  private final double fuelDistance = 4;
-
-  private Debouncer fuelCountDebouncer = new Debouncer(fuelCountDelay, DebounceType.kRising);
+  private final double fuelCountDelay = 0.05;
+  private final double fuelDistance = 3000000;
+  private final Debouncer fuelCountDebouncer = new Debouncer(fuelCountDelay, DebounceType.kRising);
+  private boolean fuelCounted = false;
 
   public enum KickerState {
     RUN,
@@ -69,8 +69,14 @@ public class Kicker extends SubsystemBase {
       case RUN:
         runVelocity();
     }
+
     if (fuelCountDebouncer.calculate(inputs.laserMeasurementInches < fuelDistance)) {
-      launchCount++;
+      if (!fuelCounted) {
+        launchCount++;
+        fuelCounted = true;
+      }
+    } else {
+      fuelCounted = false;
     }
 
     Logger.recordOutput("Rollers/Kicker/State", state);
