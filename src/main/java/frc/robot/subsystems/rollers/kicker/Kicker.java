@@ -25,8 +25,8 @@ public class Kicker extends SubsystemBase {
   @AutoLogOutput(key = "Rollers/Kicker/LaunchCount")
   private long launchCount = 0;
 
-  private final double fuelCountDelay = 0.2;
-  private final double fuelDistance = 0.5;
+  private final double fuelCountDelay = 0.01;
+  private final double fuelDistance = 4;
 
   private Debouncer fuelCountDebouncer = new Debouncer(fuelCountDelay, DebounceType.kRising);
 
