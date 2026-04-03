@@ -43,7 +43,7 @@ public class VisionConstants {
   public static final LimelightConfigs starboardAft =
       new LimelightConfigs("limelight-saft", -0.308, 0.256, 0.202111, 180, -24.45, 207.785);
   public static final LimelightConfigs portFore =
-      new LimelightConfigs("limelight-pfore", -0.247, -0.286, 0.228, 180, -24.5, 45);
+      new LimelightConfigs("limelight-pfore", -0.247, -0.286, 0.228, 180, -24.45, 45);
   public static final LimelightConfigs portAft =
       new LimelightConfigs("limelight-paft", -0.301, -0.162, 0.23, 0, 28.1, 145);
 
