@@ -100,9 +100,7 @@ public class Vision extends VirtualSubsystem {
               || estimatedPose.getX() > FieldConstants.fieldLength + fieldBorderMargin
               || estimatedPose.getY() < -fieldBorderMargin
               || estimatedPose.getY() > FieldConstants.fieldWidth + fieldBorderMargin
-          // || io[i]
-          //     .getName()
-          //     .equals(portAft.name)
+              || io[i].getName().equals(portAft.name)
           // if too far away from current pose, depends on amount of apriltags
           // || poseManager.getDistanceTo(estimatedPose) > allowableDistance
           ;
@@ -122,9 +120,9 @@ public class Vision extends VirtualSubsystem {
         trust *= 2;
       }
 
-      if (io[i].getName().equals(portAft.name)) {
-        trust *= 1.8;
-      }
+      //   if(io[i].getName().equals(portAft.name)) {
+      //     trust *= 1.8;
+      //   }
 
       // Scale trust based on distance
       // if (poseManager.getDistanceTo(estimatedPose) > 1) {
