@@ -53,7 +53,7 @@ public class VisionIOLimelight implements VisionIO {
     // boolean doRejectUpdate = false;
     PoseEstimate observation;
     if (name.equals(portAft.name)) {
-      observation = getBotPoseEstimate_wpiBlue("limelight");
+      observation = getBotPoseEstimate_wpiBlue(name);
     }
 
     // if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
