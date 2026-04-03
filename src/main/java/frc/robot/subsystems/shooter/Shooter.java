@@ -75,8 +75,7 @@ public class Shooter extends VirtualSubsystem {
   private final LoggedTunableNumber farFeedingHoodAngle =
       new LoggedTunableNumber("Shooter/farFeedingHoodAngle", 42);
 
-  private final LoggedNetworkBoolean eFixedAngle =
-      new LoggedNetworkBoolean("fixed angle", false);
+  private final LoggedNetworkBoolean eFixedAngle = new LoggedNetworkBoolean("fixed angle", false);
 
   private final LoggedTunableNumber clearBalls = new LoggedTunableNumber("Shooter/ClearBalls", 0);
 

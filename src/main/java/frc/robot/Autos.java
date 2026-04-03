@@ -415,12 +415,13 @@ public class Autos {
                         Commands.waitSeconds(2)
                             .andThen(RobotCommands.jork(intake, intakePivot).asProxy()))
                     .withTimeout(6.0),
-                intakePivot.runCurrentZeroing().asProxy()
+                intakePivot
+                    .runCurrentZeroing()
+                    .asProxy()
                     .deadlineFor(RobotCommands.stopShoot(shooter, kicker, spindexer))));
     segment0
         .done()
-        .onTrue(
-            Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5).andThen(segment1.cmd()));
+        .onTrue(Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5).andThen(segment1.cmd()));
     segment1.active().onTrue(RobotCommands.unjam(spindexer, kicker, shooter).withTimeout(1));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
