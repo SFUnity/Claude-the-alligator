@@ -224,7 +224,7 @@ public class Shooter extends VirtualSubsystem {
     Logger.recordOutput("Shooter/Turret/distToWall", distToWall);
 
     if (!isScoring) {
-      turret.setTarget(0 - AllianceFlipUtil.apply(poseManager.getRotation()).getDegrees());
+      turret.setTarget(180 - AllianceFlipUtil.apply(poseManager.getRotation()).getDegrees());
       // turret.setTarget(fakeTurretAngle.get());
       hood.setAngle(shooterUtil.feedingHoodAngle(distToWall));
       // hood.setAngle(fakeHoodAngle.get());
