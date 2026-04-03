@@ -109,7 +109,7 @@ public class ShooterUtil {
     return feedRealFlywheelSpeedMap.get(distToWall);
   }
 
-  public LaunchingParameters getLaunchingParameters(boolean isScoring, boolean isReal) {
+  public LaunchingParameters getLaunchingParameters(boolean isScoring, boolean isReal, boolean lookahead) {
     InterpolatingDoubleTreeMap hoodAngleMap;
     InterpolatingDoubleTreeMap flywheelSpeedMap;
     InterpolatingDoubleTreeMap timeOfFlightMap;
@@ -185,8 +185,9 @@ public class ShooterUtil {
     Pose2d lookeaheadPose = turretPosition;
     double lookaheadTurretToTargetDistance = turretToTargetDistance;
     for (int i = 0; i < 20; i++) {
-      timeOfFlight = 0; // change this back later
+    //   timeOfFlight = 0; // change this back later
       // timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
+      timeOfFlight = lookahead ? timeOfFlightMap.get(lookaheadTurretToTargetDistance) : 0;
       double offsetX = turretVelocityX * timeOfFlight;
       double offsetY = turretVelocityY * timeOfFlight;
       lookeaheadPose =
@@ -195,16 +196,6 @@ public class ShooterUtil {
               turretPosition.getRotation());
       lookaheadTurretToTargetDistance = targetPose.getDistance(lookeaheadPose.getTranslation());
     }
-    // if (lookeaheadPose.getX() < 0)
-    //   lookeaheadPose = new Pose2d(0, lookeaheadPose.getY(), lookeaheadPose.getRotation());
-    // if (lookeaheadPose.getX() > fieldLength)
-    //   lookeaheadPose = new Pose2d(fieldLength, lookeaheadPose.getY(),
-    // lookeaheadPose.getRotation());
-    // if (lookeaheadPose.getY() < 0)
-    //   lookeaheadPose = new Pose2d(lookeaheadPose.getX(), 0, lookeaheadPose.getRotation());
-    // if (lookeaheadPose.getY() > fieldWidth)
-    //   lookeaheadPose = new Pose2d(lookeaheadPose.getX(), fieldWidth,
-    // lookeaheadPose.getRotation());
 
     Logger.recordOutput(
         "Shooter/Turret/LookaheadTurretToTargetDist", lookaheadTurretToTargetDistance);
@@ -216,7 +207,6 @@ public class ShooterUtil {
     turretAngle =
         targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
             - poseManager.getRotation().getDegrees();
-    // hoodAngle = hoodAngleMap.get(lookaheadTurretToTargetDistance);
 
     LaunchingParameters params =
         new LaunchingParameters(
@@ -224,10 +214,10 @@ public class ShooterUtil {
             // maxDist,
             true,
             turretAngle, // doesnt matter rn
-            scoreRealHoodAngleMap.get(
+            hoodAngleMap.get(
                 turretToTargetDistance), // mybe add arbitrary value if accuracy bad to shoot back
             // of hub
-            scoreRealFlywheelSpeedMap.get(turretToTargetDistance));
+            flywheelSpeedMap.get(turretToTargetDistance));
     return params;
   }
 }

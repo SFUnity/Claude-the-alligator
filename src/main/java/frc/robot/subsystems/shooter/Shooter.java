@@ -212,7 +212,7 @@ public class Shooter extends VirtualSubsystem {
     //   flywheels.setVelocity(autoFlywheelVelocity.get());
     // } else {
     LaunchingParameters solution =
-        shooterUtil.getLaunchingParameters(true, Constants.currentMode != Constants.Mode.SIM);
+        shooterUtil.getLaunchingParameters(true, true, false);
     if (solution.isValid()) {
       // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
       // turret.setTarget(turretAngle);
@@ -261,15 +261,15 @@ public class Shooter extends VirtualSubsystem {
     if (Constants.currentMode == Constants.Mode.SIM
         && isShooting
         && fuelLaunchTimer.hasElapsed(0.5)) {
-      // fuelSim.launchFuel(
-      //     MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
-      //     Degrees.of(90 - fakeHoodAngle.get()),
-      //     Degrees.of(fakeTurretAngle.get()),
-      //     turretCenter);
+      //   fuelSim.launchFuel(
+      //       MetersPerSecond.of(fakeFlywheelVelocity.get() * 2 * Math.PI * WheelRadius / 60),
+      //       Degrees.of(90 - fakeHoodAngle.get()),
+      //       Degrees.of(fakeTurretAngle.get()),
+      //       turretCenter);
       fuelLaunchTimer.restart();
       fuelDelayTimer.restart();
       shoot = true;
-      params = shooterUtil.getLaunchingParameters(true, false);
+      params = shooterUtil.getLaunchingParameters(true, false, true);
     }
     if (fuelDelayTimer.hasElapsed(fuelDelay.get())
         && shoot
