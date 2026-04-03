@@ -51,7 +51,10 @@ public class VisionIOLimelight implements VisionIO {
   public void updateInputs(AprilTagVisionIOInputs inputs, PoseManager poseManager) {
     // megatag1
     // boolean doRejectUpdate = false;
-    // LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    PoseEstimate observation;
+    if (name.equals(portAft.name)) {
+      observation = getBotPoseEstimate_wpiBlue("limelight");
+    }
 
     // if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
     //   if (mt1.rawFiducials[0].ambiguity > megatag1AmbiguityMinimum) {
@@ -71,8 +74,10 @@ public class VisionIOLimelight implements VisionIO {
     // }
 
     // megatag2
-    SetRobotOrientation(name, poseManager.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-    PoseEstimate observation = getBotPoseEstimate_wpiBlue_MegaTag2(name);
+    else {
+      SetRobotOrientation(name, poseManager.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      observation = getBotPoseEstimate_wpiBlue_MegaTag2(name);
+    }
     // inputs.observation = observation;
 
     // Get tag IDs
