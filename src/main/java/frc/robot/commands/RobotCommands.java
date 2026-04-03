@@ -16,8 +16,6 @@ import java.util.function.BooleanSupplier;
 
 public class RobotCommands {
   private static final double ejectBackupRots = 0.5;
-
-  ;
   // private static final double shootingBackupRots = 0.1;
 
   // can be fully shot out of the robot
