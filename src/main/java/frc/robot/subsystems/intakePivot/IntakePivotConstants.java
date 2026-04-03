@@ -18,9 +18,9 @@ public class IntakePivotConstants {
 
   // In degrees
   public static final LoggedTunableNumber loweredJorkAngle =
-      new LoggedTunableNumber("Intake/lowJorkAngle", 100); // 65
+      new LoggedTunableNumber("Intake/lowJorkAngle", 65); // 100
   public static final LoggedTunableNumber raisedJorkAngle =
-      new LoggedTunableNumber("Intake/raisedJorkAngle", 0); // 50
+      new LoggedTunableNumber("Intake/raisedJorkAngle", 50); // 0
   public static final LoggedTunableNumber loweredAngle =
       new LoggedTunableNumber("Intake/loweredAngle", 100);
   public static final LoggedTunableNumber raisedAngle =
@@ -32,9 +32,9 @@ public class IntakePivotConstants {
       new LoggedTunableNumber("Intake/isDownTolerance", 5);
 
   public static final LoggedTunableNumber jorkUpVoltage =
-      new LoggedTunableNumber("Intake/jorkUpVoltage", -1.25); // -2
+      new LoggedTunableNumber("Intake/jorkUpVoltage", -2); // -1.25
   public static final LoggedTunableNumber jorkDownVoltage =
-      new LoggedTunableNumber("Intake/jorkDownVoltage", 3); // 1.5
+      new LoggedTunableNumber("Intake/jorkDownVoltage", 1.5); // 3
   public static final LoggedTunableNumber extraLoweringVoltage =
       new LoggedTunableNumber("Intake/extraLoweringVoltage", 2);
 
