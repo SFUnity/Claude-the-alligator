@@ -416,11 +416,11 @@ public class Autos {
                     intakePivot.runCurrentZeroing().alongWith(intake.stop()))
                 .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
                 .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
-    segment0
-        .done()
-        .onTrue(
-            Commands.waitSeconds(0.5)
-                .andThen(Commands.waitUntil(() -> !shooter.getShooting()), segment1.cmd()));
+    // segment0
+    //     .done()
+    //     .onTrue(
+    //         Commands.waitSeconds(0.5)
+    //             .andThen(Commands.waitUntil(() -> !shooter.getShooting()), segment1.cmd()));
     segment1.active().onTrue(RobotCommands.unjam(spindexer, kicker, shooter).withTimeout(1));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
