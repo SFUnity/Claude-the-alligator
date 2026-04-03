@@ -411,15 +411,11 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                    .alongWith(
-                        Commands.waitSeconds(2)
-                            .andThen(RobotCommands.jork(intake, intakePivot).asProxy()))
-                    .withTimeout(6.0),
-                intakePivot
-                    .runCurrentZeroing()
-                    .asProxy()
-                    .deadlineFor(RobotCommands.stopShoot(shooter, kicker, spindexer))));
+                    Commands.waitSeconds(3),
+                    RobotCommands.jork(intake, intakePivot).withTimeout(3),
+                    intakePivot.runCurrentZeroing())
+                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
+                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     segment0
         .done()
         .onTrue(Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5).andThen(segment1.cmd()));
@@ -430,10 +426,11 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                    .alongWith(RobotCommands.jork(intake, intakePivot))
-                    .withTimeout(3.75),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
+                    Commands.waitSeconds(3),
+                    RobotCommands.jork(intake, intakePivot).withTimeout(3),
+                    intakePivot.runCurrentZeroing())
+                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
+                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
 
