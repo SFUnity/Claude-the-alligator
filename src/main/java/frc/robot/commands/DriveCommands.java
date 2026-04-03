@@ -34,6 +34,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
@@ -97,7 +98,8 @@ public class DriveCommands {
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
       DoubleSupplier omegaSupplier,
-      PoseManager poseManager) {
+      PoseManager poseManager,
+      BooleanSupplier intaking) {
     return Commands.run(
             () -> {
               // Get linear velocity
@@ -110,11 +112,17 @@ public class DriveCommands {
               // Square rotation value for more precise control
               omega = Math.copySign(omega * omega, omega);
 
+              // Decide max linear speed
+              double maxLinearSpeed = drive.getMaxLinearSpeedMetersPerSec();
+              if (intaking.getAsBoolean()) {
+                maxLinearSpeed *= 0.8;
+              }
+
               // Convert to field relative speeds & send command
               ChassisSpeeds speeds =
                   new ChassisSpeeds(
-                      linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                      linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
+                      linearVelocity.getX() * maxLinearSpeed,
+                      linearVelocity.getY() * maxLinearSpeed,
                       omega * drive.getMaxAngularSpeedRadPerSec());
               boolean isFlipped =
                   DriverStation.getAlliance().isPresent()

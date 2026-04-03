@@ -363,7 +363,8 @@ public class RobotContainer {
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX(),
-            poseManager));
+            poseManager,
+            () -> intakePivot.intakeDown()));
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.idle());
     intakePivot.setDefaultCommand(intakePivot.raise());
