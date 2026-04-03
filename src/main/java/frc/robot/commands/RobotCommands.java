@@ -12,7 +12,9 @@ import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.util.AllianceFlipUtil;
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 public class RobotCommands {
   private static final double ejectBackupRots = 0.5;
@@ -28,12 +30,14 @@ public class RobotCommands {
   }
 
   public static Command readyThenShoot(
-      Shooter shooter, Kicker kicker, Spindexer spindexer, Pose2d pose2d) {
+      Shooter shooter, Kicker kicker, Spindexer spindexer, Supplier<Pose2d> pose2d) {
     BooleanSupplier behindHub =
-        () ->
-            ((pose2d.getX() > LinesVertical.neutralZoneNear)
-                && (pose2d.getY() > LinesHorizontal.rightBumpStart)
-                && (pose2d.getY() < LinesHorizontal.leftBumpEnd));
+        () -> {
+          Pose2d pose = AllianceFlipUtil.apply(pose2d.get());
+          return ((pose.getX() > LinesVertical.neutralZoneNear)
+              && (pose.getY() > LinesHorizontal.rightBumpStart)
+              && (pose.getY() < LinesHorizontal.leftBumpEnd));
+        };
     return Commands.sequence(
             kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
@@ -49,15 +53,7 @@ public class RobotCommands {
   }
 
   public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return Commands.repeatingSequence(
-            Commands.sequence(
-                kicker.setState(KickerState.RUN),
-                shooter.setShooting(true),
-                Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
-                spindexer.runBasic()))
-        // Commands.waitSeconds(0.1),
-        // unjam(spindexer, kicker, shooter))
-        .withName("ReadyThenShoot");
+    return readyThenShoot(shooter, kicker, spindexer, () -> new Pose2d());
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
