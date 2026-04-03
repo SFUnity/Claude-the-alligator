@@ -446,10 +446,8 @@ public class RobotContainer {
                 .withTimeout(0.50));
 
     // stop intake from raising automatically
-    if (!DriverStation.isFMSAttached()) {
-      new Trigger(() -> DriverStation.isTeleopEnabled())
-          .onTrue(intakeRollers.stop().alongWith(intakePivot.idle()));
-    }
+    new Trigger(() -> DriverStation.isTeleopEnabled() && !DriverStation.isFMSAttached())
+        .onTrue(intakeRollers.stop().alongWith(intakePivot.idle()));
   }
 
   /**
