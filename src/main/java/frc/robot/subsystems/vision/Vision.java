@@ -120,6 +120,14 @@ public class Vision extends VirtualSubsystem {
         trust *= 2;
       }
 
+      // Increase trust if robot thinks its out of bounds
+      if (poseManager.getPose().getX() < -fieldBorderMargin
+          || poseManager.getPose().getX() > FieldConstants.fieldLength + fieldBorderMargin
+          || poseManager.getPose().getY() < -fieldBorderMargin
+          || poseManager.getPose().getY() > FieldConstants.fieldWidth + fieldBorderMargin) {
+        trust *= 0.5;
+      }
+
       //   if(io[i].getName().equals(portAft.name)) {
       //     trust *= 1.8;
       //   }
