@@ -45,6 +45,7 @@ public class IntakePivot extends SubsystemBase {
     measuredVisualizer.update(Degrees.of(inputs.currentPositionDeg));
     setpointVisualizer.update(Degrees.of(positionSetpoint));
     Logger.recordOutput("IntakePivot/positionSetpointDeg", positionSetpoint);
+    Logger.recordOutput("IntakePivot/prezeroedAngle", prezeroedAngle);
     GeneralUtil.logSubsystem(this, "IntakePivot");
   }
 
