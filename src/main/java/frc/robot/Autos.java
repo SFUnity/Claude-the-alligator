@@ -371,18 +371,16 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                    .alongWith(
-                        Commands.waitSeconds(2)
-                            .andThen(RobotCommands.jork(intake, intakePivot).asProxy()))
-                    .withTimeout(6.0),
-                intakePivot
-                    .runCurrentZeroing()
-                    .asProxy()
-                    .deadlineFor(RobotCommands.stopShoot(shooter, kicker, spindexer))));
+                    Commands.waitSeconds(3),
+                    RobotCommands.jork(intake, intakePivot).withTimeout(3),
+                    intakePivot.runCurrentZeroing().alongWith(intake.stop()))
+                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
+                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     segment0
         .done()
-        .onTrue(Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5).andThen(segment1.cmd()));
+        .onTrue(
+            Commands.waitSeconds(0.5)
+                .andThen(Commands.waitUntil(() -> !shooter.getShooting()), segment1.cmd()));
     segment1.active().onTrue(RobotCommands.unjam(spindexer, kicker, shooter).withTimeout(1));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
@@ -390,10 +388,11 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                    .alongWith(RobotCommands.jork(intake, intakePivot))
-                    .withTimeout(3.75),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
+                    Commands.waitSeconds(3),
+                    RobotCommands.jork(intake, intakePivot).withTimeout(3),
+                    intakePivot.runCurrentZeroing())
+                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
+                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     return routine;
   }
 
