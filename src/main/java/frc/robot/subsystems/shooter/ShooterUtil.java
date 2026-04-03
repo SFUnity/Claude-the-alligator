@@ -166,7 +166,7 @@ public class ShooterUtil {
     Logger.recordOutput("Shooter/Turret/Target", new Pose2d(targetPose, new Rotation2d()));
 
     Logger.recordOutput("Shooter/Turret/CurrentTurretPose", turretPosition);
-    double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation()) + 0.25;
+    double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation());
 
     Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
     double robotAngle = robotPose.getRotation().getRadians();
@@ -202,7 +202,7 @@ public class ShooterUtil {
 
     Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
 
-    lookaheadTurretToTargetDistance += 0.08; // shoot to back of hub, not center
+    lookaheadTurretToTargetDistance += 0.33; // shoot to back of hub, not center
 
     turretAngle =
         targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
