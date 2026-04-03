@@ -98,7 +98,7 @@ public class ShooterUtil {
     // scoreRealFlywheelSpeedMap.put(, );
     // scoreRealHoodAngleMap.put(, );
 
-    if(Constants.currentMode == Constants.Mode.SIM) {
+    if (Constants.currentMode == Constants.Mode.SIM) {
       addScoreSimMeasurements();
     }
   }
@@ -114,7 +114,8 @@ public class ShooterUtil {
     return feedRealFlywheelSpeedMap.get(distToWall);
   }
 
-  public LaunchingParameters getLaunchingParameters(boolean isScoring, boolean isReal, boolean lookahead) {
+  public LaunchingParameters getLaunchingParameters(
+      boolean isScoring, boolean isReal, boolean lookahead) {
     InterpolatingDoubleTreeMap hoodAngleMap;
     InterpolatingDoubleTreeMap flywheelSpeedMap;
     InterpolatingDoubleTreeMap timeOfFlightMap;
@@ -190,7 +191,7 @@ public class ShooterUtil {
     Pose2d lookeaheadPose = turretPosition;
     double lookaheadTurretToTargetDistance = turretToTargetDistance;
     for (int i = 0; i < 20; i++) {
-    //   timeOfFlight = 0; // change this back later
+      //   timeOfFlight = 0; // change this back later
       // timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
       timeOfFlight = lookahead ? timeOfFlightMap.get(lookaheadTurretToTargetDistance) : 0;
       double offsetX = turretVelocityX * timeOfFlight;
@@ -227,7 +228,7 @@ public class ShooterUtil {
   }
 
   void addScoreSimMeasurements() {
-        scoreSimFlywheelSpeedMap.put(1.256, 1200.0);
+    scoreSimFlywheelSpeedMap.put(1.256, 1200.0);
     scoreSimHoodAngleMap.put(1.256, 14.6);
     scoreSimTimeOfFlightMap.put(1.256, 0.900);
 
