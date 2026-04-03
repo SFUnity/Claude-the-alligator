@@ -413,7 +413,7 @@ public class Autos {
             Commands.sequence(
                     Commands.waitSeconds(3),
                     RobotCommands.jork(intake, intakePivot).withTimeout(3),
-                    intakePivot.runCurrentZeroing())
+                    intakePivot.runCurrentZeroing().alongWith(intake.stop()))
                 .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
                 .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
     segment0
