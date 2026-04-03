@@ -412,16 +412,16 @@ public class Autos {
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
                     .alongWith(
-                        Commands.waitSeconds(3)
+                        Commands.waitSeconds(2)
                             .andThen(RobotCommands.jork(intake, intakePivot).asProxy()))
-                    .withTimeout(5.0),
+                    .withTimeout(6.0),
                 RobotCommands.stopShoot(shooter, kicker, spindexer)
                     .withTimeout(0.75)
                     .deadlineFor(intakePivot.runCurrentZeroing().asProxy())));
     segment0
         .done()
         .onTrue(
-            Commands.waitSeconds(5.75) // ! need to make sure time lines up with above
+            Commands.waitSeconds(6.75) // ! need to make sure time lines up with above
                 .andThen(Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5), segment1.cmd()));
     segment1.active().onTrue(RobotCommands.unjam(spindexer, kicker, shooter).withTimeout(1));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
