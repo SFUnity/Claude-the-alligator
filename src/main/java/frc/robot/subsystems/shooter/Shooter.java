@@ -41,6 +41,7 @@ import frc.robot.util.ShiftHelpers;
 import frc.robot.util.ShiftHelpers.Shift;
 import frc.robot.util.VirtualSubsystem;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
 public class Shooter extends VirtualSubsystem {
   private final Flywheels flywheels;
@@ -73,6 +74,9 @@ public class Shooter extends VirtualSubsystem {
       new LoggedTunableNumber("Shooter/feedingHoodAngle", 45);
   private final LoggedTunableNumber farFeedingHoodAngle =
       new LoggedTunableNumber("Shooter/farFeedingHoodAngle", 42);
+
+  private final LoggedNetworkBoolean eFixedAngle =
+      new LoggedNetworkBoolean("fixed angle", false);
 
   private final LoggedTunableNumber clearBalls = new LoggedTunableNumber("Shooter/ClearBalls", 0);
 
@@ -248,6 +252,10 @@ public class Shooter extends VirtualSubsystem {
     // Hood safety
     if (!isShooting || !hoodIsSafe) {
       hood.setAngle(HoodConstants.minPositionDegs);
+    }
+
+    if (eFixedAngle.getAsBoolean()) {
+      turret.setTarget(turretFixedAngle);
     }
 
     // For fuel sim

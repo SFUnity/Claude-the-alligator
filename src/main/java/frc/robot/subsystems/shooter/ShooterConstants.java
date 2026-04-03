@@ -11,6 +11,8 @@ public class ShooterConstants {
   public static final double WheelRadius = 0.0508;
   public static final double TopBottomFlywheelRatio = 1.3;
 
+  public static final double turretFixedAngle = 90;
+
   public static final Translation3d hoodOffset = new Translation3d(0.038, 0, 0.197);
 
   // Trench passign stuff
