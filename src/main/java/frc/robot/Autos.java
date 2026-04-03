@@ -376,7 +376,7 @@ public class Autos {
                     intakePivot.runCurrentZeroing().alongWith(intake.stop()))
                 .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
                 .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
-    //segment0
+    // segment0
     //    .done()
     //    .onTrue(
     //        Commands.waitSeconds(0.5)
