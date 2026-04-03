@@ -29,7 +29,7 @@ public class IntakePivot extends SubsystemBase {
   private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
 
   private boolean shouldBeLowered = false;
-  public double prezeroedAngle = 0;
+  public double prezeroedAngle = 100;
 
   public IntakePivot(IntakePivotIO io) {
     this.io = io;
