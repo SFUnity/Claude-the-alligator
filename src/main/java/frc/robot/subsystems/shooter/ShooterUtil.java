@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import frc.robot.Constants;
 import frc.robot.FieldConstants;
 import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.PoseManager;
@@ -96,6 +97,10 @@ public class ShooterUtil {
 
     // scoreRealFlywheelSpeedMap.put(, );
     // scoreRealHoodAngleMap.put(, );
+
+    if(Constants.currentMode == Constants.Mode.SIM) {
+      addScoreSimMeasurements();
+    }
   }
 
   public record LaunchingParameters(
@@ -219,5 +224,87 @@ public class ShooterUtil {
             // of hub
             flywheelSpeedMap.get(turretToTargetDistance));
     return params;
+  }
+
+  void addScoreSimMeasurements() {
+        scoreSimFlywheelSpeedMap.put(1.256, 1200.0);
+    scoreSimHoodAngleMap.put(1.256, 14.6);
+    scoreSimTimeOfFlightMap.put(1.256, 0.900);
+
+    scoreSimFlywheelSpeedMap.put(1.454, 1200.0);
+    scoreSimHoodAngleMap.put(1.454, 18.0);
+    scoreSimTimeOfFlightMap.put(1.454, 0.860);
+
+    scoreSimFlywheelSpeedMap.put(1.784, 1200.0);
+    scoreSimHoodAngleMap.put(1.784, 25.0);
+    scoreSimTimeOfFlightMap.put(1.784, 0.760);
+
+    scoreSimFlywheelSpeedMap.put(1.908, 1200.0);
+    scoreSimHoodAngleMap.put(1.908, 28.0);
+    scoreSimTimeOfFlightMap.put(1.908, 0.680);
+
+    scoreSimFlywheelSpeedMap.put(2.117, 1300.0);
+    scoreSimHoodAngleMap.put(2.117, 17.5);
+    scoreSimTimeOfFlightMap.put(2.117, 1.020);
+
+    scoreSimFlywheelSpeedMap.put(2.302, 1300.0);
+    scoreSimHoodAngleMap.put(2.302, 24.0);
+    scoreSimTimeOfFlightMap.put(2.302, 0.940);
+
+    scoreSimFlywheelSpeedMap.put(2.569, 1400.0);
+    scoreSimHoodAngleMap.put(2.569, 26.0);
+    scoreSimTimeOfFlightMap.put(2.569, 1.043);
+
+    scoreSimFlywheelSpeedMap.put(2.700, 1350.0);
+    scoreSimHoodAngleMap.put(2.700, 26.0);
+    scoreSimTimeOfFlightMap.put(2.700, 0.960);
+
+    scoreSimFlywheelSpeedMap.put(3.074, 1500.0);
+    scoreSimHoodAngleMap.put(3.074, 20.5);
+    scoreSimTimeOfFlightMap.put(3.074, 1.220);
+
+    scoreSimFlywheelSpeedMap.put(3.203, 1350.0);
+    scoreSimHoodAngleMap.put(3.203, 33.0);
+    scoreSimTimeOfFlightMap.put(3.203, 0.840);
+
+    scoreSimFlywheelSpeedMap.put(3.399, 1400.0);
+    scoreSimHoodAngleMap.put(3.399, 35.0);
+    scoreSimTimeOfFlightMap.put(3.399, 0.860);
+
+    scoreSimFlywheelSpeedMap.put(3.589, 1450.0);
+    scoreSimHoodAngleMap.put(3.589, 35.0);
+    scoreSimTimeOfFlightMap.put(3.589, 0.920);
+
+    scoreSimFlywheelSpeedMap.put(3.797, 1450.0);
+    scoreSimHoodAngleMap.put(3.797, 35.0);
+    scoreSimTimeOfFlightMap.put(3.797, 0.920);
+
+    scoreSimFlywheelSpeedMap.put(4.025, 1500.0);
+    scoreSimHoodAngleMap.put(4.025, 40.0);
+    scoreSimTimeOfFlightMap.put(4.025, 0.860);
+
+    scoreSimFlywheelSpeedMap.put(4.212, 1500.0);
+    scoreSimHoodAngleMap.put(4.212, 35.0);
+    scoreSimTimeOfFlightMap.put(4.212, 0.980);
+
+    scoreSimFlywheelSpeedMap.put(4.458, 1500.0);
+    scoreSimHoodAngleMap.put(4.458, 33.0);
+    scoreSimTimeOfFlightMap.put(4.458, 1.020);
+
+    scoreSimFlywheelSpeedMap.put(4.607, 1600.0);
+    scoreSimHoodAngleMap.put(4.607, 38.0);
+    scoreSimTimeOfFlightMap.put(4.607, 1.020);
+
+    scoreSimFlywheelSpeedMap.put(4.807, 1600.0);
+    scoreSimHoodAngleMap.put(4.807, 37.0);
+    scoreSimTimeOfFlightMap.put(4.807, 1.040);
+
+    scoreSimFlywheelSpeedMap.put(5.117, 1600.0);
+    scoreSimHoodAngleMap.put(5.117, 35.0);
+    scoreSimTimeOfFlightMap.put(5.117, 1.100);
+
+    scoreSimFlywheelSpeedMap.put(5.312, 1650.0);
+    scoreSimHoodAngleMap.put(5.312, 38.0);
+    scoreSimTimeOfFlightMap.put(5.312, 1.080);
   }
 }
