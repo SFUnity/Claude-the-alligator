@@ -23,7 +23,7 @@ public class IntakePivot extends SubsystemBase {
   private double positionSetpoint = raisedAngle.get();
   private double statorJorkAngle = 0;
 
-  private Debouncer statorDebounce = new Debouncer(0.3, DebounceType.kRising);
+  private Debouncer statorDebounce = new Debouncer(0.2, DebounceType.kRising);
 
   private final IntakePivotIO io;
   private final IntakePivotIOInputsAutoLogged inputs = new IntakePivotIOInputsAutoLogged();
