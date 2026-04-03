@@ -122,6 +122,10 @@ public class Vision extends VirtualSubsystem {
         trust *= 2;
       }
 
+      if(io[i].getName().equals(portAft.name)) {
+        trust *= 1.8;
+      }
+
       // Scale trust based on distance
       // if (poseManager.getDistanceTo(estimatedPose) > 1) {
       //   trust *= 2;
