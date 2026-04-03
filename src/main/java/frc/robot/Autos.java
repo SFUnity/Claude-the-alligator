@@ -366,22 +366,18 @@ public class Autos {
     routine.active().onTrue(intakePivot.runCurrentZeroing());
     routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
-    segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    // segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment0
         .done()
         .onTrue(
             Commands.sequence(
                 RobotCommands.readyThenShoot(shooter, kicker, spindexer)
-                    .alongWith(RobotCommands.jork(intake, intakePivot).asProxy())
-                    .withTimeout(4.0),
-                RobotCommands.stopShoot(shooter, kicker, spindexer)
-                    .withTimeout(0.75)
-                    .deadlineFor(intakePivot.runCurrentZeroing().asProxy())));
+                    .alongWith(Commands.waitSeconds(2).andThen(RobotCommands.jork(intake, intakePivot).asProxy()))
+                    .withTimeout(6.0), intakePivot.runCurrentZeroing().asProxy().deadlineFor(RobotCommands.stopShoot(shooter, kicker, spindexer))));
     segment0
         .done()
         .onTrue(
-            Commands.waitSeconds(4.75) // ! need to make sure time lines up with above
-                .andThen(Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5), segment1.cmd()));
+            Commands.waitUntil(() -> intakePivot.prezeroedAngle < 5).andThen(segment1.cmd()));
     segment1.active().onTrue(RobotCommands.unjam(spindexer, kicker, shooter).withTimeout(1));
     segment1.atTime("StartIntake2").onTrue(RobotCommands.intake(intake, intakePivot));
     segment1.atTime("StopIntake2").onTrue(RobotCommands.stowIntake(intake, intakePivot));
