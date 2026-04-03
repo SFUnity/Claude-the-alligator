@@ -211,8 +211,8 @@ public class Shooter extends VirtualSubsystem {
     //   hood.setAngle(autoHoodAngle.get());
     //   flywheels.setVelocity(autoFlywheelVelocity.get());
     // } else {
-    LaunchingParameters solution = shooterUtil.getLaunchingParameters(true, true, false);
-    if (solution.isValid()) {
+    if (Constants.currentMode == Constants.Mode.REAL) {
+      LaunchingParameters solution = shooterUtil.getLaunchingParameters(true, true, false);
       // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
       // turret.setTarget(turretAngle);
 
