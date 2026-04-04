@@ -202,7 +202,7 @@ public class Drive extends SubsystemBase {
     ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
     SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
     setModuleSetpoints(setpointStates);
-    Logger.recordOutput("Odometry/SwerveChassisSpeeds/Setpoints", discreteSpeeds);
+    // Logger.recordOutput("Odometry/SwerveChassisSpeeds/Setpoints", discreteSpeeds);
   }
 
   private void setAllModuleSetpointsToSame(double speed, Rotation2d angle) {
@@ -211,14 +211,14 @@ public class Drive extends SubsystemBase {
       moduleStates[i] = new SwerveModuleState(speed, angle);
     }
     setModuleSetpoints(moduleStates);
-    Logger.recordOutput("Odometry/SwerveChassisSpeeds/Setpoints", new ChassisSpeeds());
+    // Logger.recordOutput("Odometry/SwerveChassisSpeeds/Setpoints", new ChassisSpeeds());
   }
 
   private void setModuleSetpoints(SwerveModuleState[] setpointStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, maxSpeedMetersPerSec);
 
     // Log unoptimized setpoints and setpoint speeds
-    Logger.recordOutput("Odometry/SwerveStates/Setpoints", setpointStates);
+    // Logger.recordOutput("Odometry/SwerveStates/Setpoints", setpointStates);
 
     // Send setpoints to modules
     for (int i = 0; i < 4; i++) {
@@ -226,7 +226,7 @@ public class Drive extends SubsystemBase {
     }
 
     // Log optimized setpoints (runSetpoint mutates each state)
-    Logger.recordOutput("Odometry/SwerveStates/SetpointsOptimized", setpointStates);
+    // Logger.recordOutput("Odometry/SwerveStates/SetpointsOptimized", setpointStates);
   }
 
   /** Runs the drive in a straight line with the specified drive output. */
@@ -346,9 +346,9 @@ public class Drive extends SubsystemBase {
         ChassisSpeeds.fromFieldRelativeSpeeds(
             xFF + xFeedback, yFF + yFeedback, rotationFF + rotationFeedback, pose.getRotation());
 
-    Logger.recordOutput(
-        "Drive/Choreo/Target Pose", new Pose2d(sample.x, sample.y, new Rotation2d(goalRotation)));
-    Logger.recordOutput("Drive/Choreo/Target Speeds", out);
+    // Logger.recordOutput(
+    //     "Drive/Choreo/Target Pose", new Pose2d(sample.x, sample.y, new Rotation2d(goalRotation)));
+    // Logger.recordOutput("Drive/Choreo/Target Speeds", out);
 
     runVelocity(out);
   }
