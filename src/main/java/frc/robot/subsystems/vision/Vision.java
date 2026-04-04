@@ -19,7 +19,6 @@ import frc.robot.util.VirtualSubsystem;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Vision extends VirtualSubsystem {
@@ -28,7 +27,9 @@ public class Vision extends VirtualSubsystem {
   private final ObjectDetectionVisionIOInputsAutoLogged[] objectInputs;
   private final PoseManager poseManager;
 
-  private final Queue<Pose2d> recentPosesLL4 = new LinkedList<>();
+  private final Queue<Double> recentDistancesLL4 = new LinkedList<>();
+  private Pose2d lastLL4Pose = new Pose2d();
+  private double runningAvg = 0;
 
   private boolean lastEnabled = false;
 
@@ -88,6 +89,18 @@ public class Vision extends VirtualSubsystem {
 
       Pose2d estimatedPose = aprilTagInputs[i].estimatedPose;
 
+      if (io[i].getName().equals(portAft.name)) {
+        if (lastLL4Pose != null && estimatedPose != null && estimatedPose != new Pose2d()) {
+          Double distance =
+              lastLL4Pose.getTranslation().getDistance(estimatedPose.getTranslation());
+          recentDistancesLL4.add(distance);
+
+          if (recentDistancesLL4.size() > 5) {
+            runningAvg -= recentDistancesLL4.poll() / 5.0;
+          }
+        }
+      }
+
       // Exit if there are no tags in sight or the pose is blank or the robot is spinning too fast
       // These are the basic checks LL recommends
       // double allowableDistance = inputs[i].tagCount;
@@ -104,7 +117,14 @@ public class Vision extends VirtualSubsystem {
               || estimatedPose.getX() > FieldConstants.fieldLength + fieldBorderMargin
               || estimatedPose.getY() < -fieldBorderMargin
               || estimatedPose.getY() > FieldConstants.fieldWidth + fieldBorderMargin
-          || io[i].getName().equals(portAft.name) && aprilTagInputs[i].avgTagDist < 3 //TODO tune threshold
+              || io[i].getName().equals(portAft.name)
+                  && (aprilTagInputs[i].avgTagDist < 4.5
+                      || runningAvg
+                          > 1.0
+                              * new Translation2d(
+                                      poseManager.getRobotVelocity().dx,
+                                      poseManager.getRobotVelocity().dy)
+                                  .getNorm()) // TODO tune threshold
           // if too far away from current pose, depends on amount of apriltags
           // || poseManager.getDistanceTo(estimatedPose) > allowableDistance
           ;
