@@ -398,12 +398,20 @@ public class Autos {
 
   public AutoRoutine DoubleScoreLowerLoop() {
     AutoRoutine routine = factory.newRoutine("Double Score Lower Loop Auto Routine");
-    AutoTrajectory segment0 = routine.trajectory("aDoubleScoreLowerLoop");
+    AutoTrajectory segment0 = routine.trajectory("aDoubleScoreLowerLoopRisky");
     AutoTrajectory segment1 = routine.trajectory("bDoubleScoreLowerLoop");
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(intakePivot.runCurrentZeroing());
-    routine.active().onTrue(Commands.sequence(segment0.resetOdometry(), segment0.cmd()));
+    routine
+        .active()
+        .onTrue(
+            segment0
+                .cmd()
+                .beforeStarting(
+                    () ->
+                        poseManager.setPose(
+                            segment0.getInitialPose().orElse(poseManager.getPose()))));
     segment0.atTime("StartIntake").onTrue(RobotCommands.intake(intake, intakePivot));
     // segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment0
