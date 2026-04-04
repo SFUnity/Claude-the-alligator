@@ -56,10 +56,10 @@ public class Vision extends VirtualSubsystem {
 
   public void periodic() {
     // Initialize logging values
-    List<Pose3d> allTagPoses = new LinkedList<>();
-    List<Pose2d> allRobotPoses = new LinkedList<>();
-    List<Pose2d> allRobotPosesAccepted = new LinkedList<>();
-    List<Pose2d> allRobotPosesRejected = new LinkedList<>();
+    // List<Pose3d> allTagPoses = new LinkedList<>();
+    // List<Pose2d> allRobotPoses = new LinkedList<>();
+    // List<Pose2d> allRobotPosesAccepted = new LinkedList<>();
+    // List<Pose2d> allRobotPosesRejected = new LinkedList<>();
 
     // Loop over cameras
     for (int i = 0; i < io.length; i++) {
@@ -74,18 +74,18 @@ public class Vision extends VirtualSubsystem {
       if (enabled != lastEnabled) io[i].setThermalThrottle(enabled ? 0 : 200);
 
       // Initialize logging values
-      List<Pose3d> tagPoses = new LinkedList<>();
-      List<Pose2d> robotPoses = new LinkedList<>();
-      List<Pose2d> robotPosesAccepted = new LinkedList<>();
-      List<Pose2d> robotPosesRejected = new LinkedList<>();
+      // List<Pose3d> tagPoses = new LinkedList<>();
+      // List<Pose2d> robotPoses = new LinkedList<>();
+      // List<Pose2d> robotPosesAccepted = new LinkedList<>();
+      // List<Pose2d> robotPosesRejected = new LinkedList<>();
 
       // Add tag poses
-      for (int tagId : aprilTagInputs[i].tagIds) {
-        var tagPose = aprilTagLayout.getTagPose(tagId);
-        if (tagPose.isPresent()) {
-          tagPoses.add(tagPose.get());
-        }
-      }
+      // for (int tagId : aprilTagInputs[i].tagIds) {
+      //   var tagPose = aprilTagLayout.getTagPose(tagId);
+      //   if (tagPose.isPresent()) {
+      //     tagPoses.add(tagPose.get());
+      //   }
+      // }
 
       Pose2d estimatedPose = aprilTagInputs[i].estimatedPose;
 
@@ -129,12 +129,12 @@ public class Vision extends VirtualSubsystem {
           // || poseManager.getDistanceTo(estimatedPose) > allowableDistance
           ;
 
-      robotPoses.add(aprilTagInputs[i].estimatedPose);
-      if (isRejected) {
-        robotPosesRejected.add(aprilTagInputs[i].estimatedPose);
-      } else {
-        robotPosesAccepted.add(aprilTagInputs[i].estimatedPose);
-      }
+      // robotPoses.add(aprilTagInputs[i].estimatedPose);
+      // if (isRejected) {
+      //   robotPosesRejected.add(aprilTagInputs[i].estimatedPose);
+      // } else {
+      //   robotPosesAccepted.add(aprilTagInputs[i].estimatedPose);
+      // }
 
       // Smaller number = more trust
       double trust = 1; // .7;
