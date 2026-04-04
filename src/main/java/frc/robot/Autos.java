@@ -18,6 +18,7 @@ import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.util.LoggedAutoChooser;
 import frc.robot.util.PoseManager;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -31,6 +32,7 @@ public class Autos {
   private final Kicker kicker;
   private final Spindexer spindexer;
   private final Climb climb;
+  private final Hood hood;
 
   private final AutoFactory factory;
   private final LoggedAutoChooser chooser;
@@ -50,7 +52,8 @@ public class Autos {
       Shooter shooter,
       Kicker kicker,
       Spindexer spindexer,
-      Climb climb) {
+      Climb climb,
+    Hood hood) {
     this.drive = drive;
     this.poseManager = poseManager;
     this.intake = intake;
@@ -59,6 +62,7 @@ public class Autos {
     this.kicker = kicker;
     this.spindexer = spindexer;
     this.climb = climb;
+    this.hood = hood;
 
     factory =
         new AutoFactory(
@@ -362,6 +366,7 @@ public class Autos {
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(intakePivot.runCurrentZeroing());
+    routine.active().onTrue(hood.runCurrentZeroing());
     routine
         .active()
         .onTrue(
@@ -409,6 +414,7 @@ public class Autos {
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
     routine.active().onTrue(intakePivot.runCurrentZeroing());
+    routine.active().onTrue(hood.runCurrentZeroing());
     routine
         .active()
         .onTrue(
