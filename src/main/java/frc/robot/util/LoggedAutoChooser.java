@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Autos;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -56,6 +58,9 @@ public class LoggedAutoChooser extends LoggedNetworkInput {
   private String lastCommandName = NONE_NAME;
   private Command lastCommand = Commands.none();
 
+  private PoseManager poseManager;
+  private Autos autos;
+
   private final LoggableInputs inputs =
       new LoggableInputs() {
         public void toLog(LogTable table) {
@@ -73,16 +78,18 @@ public class LoggedAutoChooser extends LoggedNetworkInput {
    * @param tableName The name of the network table to use for the chooser. Passing in an empty
    *     string or null will put this chooser at the root of the network tables.
    */
-  public LoggedAutoChooser(String tableName) {
-    this(tableName, NetworkTableInstance.getDefault());
+  public LoggedAutoChooser(String tableName, PoseManager poseManager, Autos autos) {
+    this(tableName, NetworkTableInstance.getDefault(), poseManager, autos);
   }
 
   /** Constructs a new {@link LoggedAutoChooser}. */
-  public LoggedAutoChooser() {
-    this("", NetworkTableInstance.getDefault());
+  public LoggedAutoChooser(PoseManager poseManager, Autos autos) {
+    this("", NetworkTableInstance.getDefault(), poseManager, autos);
   }
 
-  LoggedAutoChooser(String tableName, NetworkTableInstance ntInstance) {
+  LoggedAutoChooser(String tableName, NetworkTableInstance ntInstance, PoseManager poseManager, Autos autos) {
+    this.poseManager = poseManager;
+    this.autos = autos;
     Logger.registerDashboardInput(this);
     if (tableName == null) {
       tableName = "";

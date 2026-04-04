@@ -82,7 +82,7 @@ public class Autos {
             });
 
     /* Set up main choreo routines */
-    chooser = new LoggedAutoChooser("/ChoreoChooser");
+    chooser = new LoggedAutoChooser("/ChoreoChooser", poseManager, this);
     // chooser.addRoutine("Example Auto Routine", this::exampleAutoRoutine);
     // prioritize
     // chooser.addRoutine("Climb Center", this::climbCenterAutoRoutine);
