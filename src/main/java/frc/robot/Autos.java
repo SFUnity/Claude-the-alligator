@@ -361,7 +361,7 @@ public class Autos {
    */
   public AutoRoutine DoubleScoreUpperLoop() {
     AutoRoutine routine = factory.newRoutine("Double Score Upper Loop Auto Routine");
-    AutoTrajectory segment0 = routine.trajectory("aDoubleScoreUpperLoop");
+    AutoTrajectory segment0 = routine.trajectory("aDoubleScoreUpperLoopRisky");
     AutoTrajectory segment1 = routine.trajectory("bDoubleScoreUpperLoop");
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
