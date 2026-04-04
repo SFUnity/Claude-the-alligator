@@ -180,55 +180,33 @@ public class Vision extends VirtualSubsystem {
       }
 
       // Log camera datadata
-      Logger.recordOutput(
-          "Vision/" + io[i].getName() + "/TagPoses", tagPoses.toArray(new Pose3d[tagPoses.size()]));
-      Logger.recordOutput(
-          "Vision/" + io[i].getName() + "/RobotPoses",
-          robotPoses.toArray(new Pose2d[robotPoses.size()]));
-      Logger.recordOutput(
-          "Vision/" + io[i].getName() + "/RobotPosesAccepted",
-          robotPosesAccepted.toArray(new Pose2d[robotPosesAccepted.size()]));
-      Logger.recordOutput(
-          "Vision/" + io[i].getName() + "/RobotPosesRejected",
-          robotPosesRejected.toArray(new Pose2d[robotPosesRejected.size()]));
-      allTagPoses.addAll(tagPoses);
-      allRobotPoses.addAll(robotPoses);
-      allRobotPosesAccepted.addAll(robotPosesAccepted);
-      allRobotPosesRejected.addAll(robotPosesRejected);
-
-      // Object Detection
-      // } else if (io[i].getPipelineIndex() == Pipelines.getIndexFor(Pipelines.OBJ_DETECTION)) {
-      //   io[i].updateInputs(objectInputs[i], poseManager);
-      // }
-
-      // if (io[i].getName().equals(portAft.name)) {
-      //   LinkedList<Pose3d> tags = new LinkedList<>();
-      //   for (int tagId : aprilTagInputs[i].tagIds) {
-      //     tags.add(aprilTagLayout.getTagPose(tagId).get());
-      //   }
-      //   LinkedList<Double> angles = new LinkedList<>();
-      //   for (Pose3d tag : tags) {
-      //     Translation2d tagTranslation2d = tag.getTranslation().toTranslation2d();
-      //     angles.add(
-      //         poseManager.getHorizontalAngleTo(tagTranslation2d).getDegrees() -
-      // portAft.yawDegrees);
-      //   }
-      //   Logger.recordOutput(
-      //       "Vision/" + io[i].getName() + "/RelativeAngles",
-      //       angles.toArray(new Double[angles.size()]).toString());
-      // }
+      // Logger.recordOutput(
+      //     "Vision/" + io[i].getName() + "/TagPoses", tagPoses.toArray(new Pose3d[tagPoses.size()]));
+      // Logger.recordOutput(
+      //     "Vision/" + io[i].getName() + "/RobotPoses",
+      //     robotPoses.toArray(new Pose2d[robotPoses.size()]));
+      // Logger.recordOutput(
+      //     "Vision/" + io[i].getName() + "/RobotPosesAccepted",
+      //     robotPosesAccepted.toArray(new Pose2d[robotPosesAccepted.size()]));
+      // Logger.recordOutput(
+      //     "Vision/" + io[i].getName() + "/RobotPosesRejected",
+      //     robotPosesRejected.toArray(new Pose2d[robotPosesRejected.size()]));
+      // allTagPoses.addAll(tagPoses);
+      // allRobotPoses.addAll(robotPoses);
+      // allRobotPosesAccepted.addAll(robotPosesAccepted);
+      // allRobotPosesRejected.addAll(robotPosesRejected);
     }
 
     // Log summary data
-    Logger.recordOutput(
-        "Vision/Summary/TagPoses", allTagPoses.toArray(new Pose3d[allTagPoses.size()]));
-    Logger.recordOutput(
-        "Vision/Summary/RobotPoses", allRobotPoses.toArray(new Pose2d[allRobotPoses.size()]));
-    Logger.recordOutput(
-        "Vision/Summary/RobotPosesAccepted",
-        allRobotPosesAccepted.toArray(new Pose2d[allRobotPosesAccepted.size()]));
-    Logger.recordOutput(
-        "Vision/Summary/RobotPosesRejected",
-        allRobotPosesRejected.toArray(new Pose2d[allRobotPosesRejected.size()]));
+    // Logger.recordOutput(
+    //     "Vision/Summary/TagPoses", allTagPoses.toArray(new Pose3d[allTagPoses.size()]));
+    // Logger.recordOutput(
+    //     "Vision/Summary/RobotPoses", allRobotPoses.toArray(new Pose2d[allRobotPoses.size()]));
+    // Logger.recordOutput(
+    //     "Vision/Summary/RobotPosesAccepted",
+    //     allRobotPosesAccepted.toArray(new Pose2d[allRobotPosesAccepted.size()]));
+    // Logger.recordOutput(
+    //     "Vision/Summary/RobotPosesRejected",
+    //     allRobotPosesRejected.toArray(new Pose2d[allRobotPosesRejected.size()]));
   }
 }

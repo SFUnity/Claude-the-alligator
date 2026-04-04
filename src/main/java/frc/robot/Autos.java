@@ -70,15 +70,15 @@ public class Autos {
             true,
             drive,
             (Trajectory<SwerveSample> traj, Boolean bool) -> {
-              Logger.recordOutput(
-                  "Drive/Choreo/Active Traj",
-                  (AllianceFlipUtil.shouldFlip() ? traj.flipped() : traj).getPoses());
-              Logger.recordOutput(
-                  "Drive/Choreo/Current Traj End Pose",
-                  traj.getFinalPose(AllianceFlipUtil.shouldFlip()).get());
-              Logger.recordOutput(
-                  "Drive/Choreo/Current Traj Start Pose",
-                  traj.getInitialPose(AllianceFlipUtil.shouldFlip()).get());
+            //   Logger.recordOutput(
+            //       "Drive/Choreo/Active Traj",
+            //       (AllianceFlipUtil.shouldFlip() ? traj.flipped() : traj).getPoses());
+            //   Logger.recordOutput(
+            //       "Drive/Choreo/Current Traj End Pose",
+            //       traj.getFinalPose(AllianceFlipUtil.shouldFlip()).get());
+            //   Logger.recordOutput(
+            //       "Drive/Choreo/Current Traj Start Pose",
+            //       traj.getInitialPose(AllianceFlipUtil.shouldFlip()).get());
             });
 
     /* Set up main choreo routines */
