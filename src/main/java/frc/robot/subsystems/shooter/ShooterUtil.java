@@ -172,7 +172,7 @@ public class ShooterUtil {
     Logger.recordOutput("Shooter/Turret/Target", new Pose2d(targetPose, new Rotation2d()));
 
     Logger.recordOutput("Shooter/Turret/CurrentTurretPose", turretPosition);
-    double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation()) + 0.3;
+    double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation()) + 0.32;
 
     Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
     double robotAngle = robotPose.getRotation().getRadians();
