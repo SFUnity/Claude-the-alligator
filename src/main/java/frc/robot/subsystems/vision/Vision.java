@@ -181,7 +181,8 @@ public class Vision extends VirtualSubsystem {
 
       // Log camera datadata
       // Logger.recordOutput(
-      //     "Vision/" + io[i].getName() + "/TagPoses", tagPoses.toArray(new Pose3d[tagPoses.size()]));
+      //     "Vision/" + io[i].getName() + "/TagPoses", tagPoses.toArray(new
+      // Pose3d[tagPoses.size()]));
       // Logger.recordOutput(
       //     "Vision/" + io[i].getName() + "/RobotPoses",
       //     robotPoses.toArray(new Pose2d[robotPoses.size()]));

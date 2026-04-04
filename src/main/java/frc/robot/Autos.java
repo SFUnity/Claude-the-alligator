@@ -18,10 +18,8 @@ import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.LoggedAutoChooser;
 import frc.robot.util.PoseManager;
-import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class Autos {
@@ -70,15 +68,15 @@ public class Autos {
             true,
             drive,
             (Trajectory<SwerveSample> traj, Boolean bool) -> {
-            //   Logger.recordOutput(
-            //       "Drive/Choreo/Active Traj",
-            //       (AllianceFlipUtil.shouldFlip() ? traj.flipped() : traj).getPoses());
-            //   Logger.recordOutput(
-            //       "Drive/Choreo/Current Traj End Pose",
-            //       traj.getFinalPose(AllianceFlipUtil.shouldFlip()).get());
-            //   Logger.recordOutput(
-            //       "Drive/Choreo/Current Traj Start Pose",
-            //       traj.getInitialPose(AllianceFlipUtil.shouldFlip()).get());
+              //   Logger.recordOutput(
+              //       "Drive/Choreo/Active Traj",
+              //       (AllianceFlipUtil.shouldFlip() ? traj.flipped() : traj).getPoses());
+              //   Logger.recordOutput(
+              //       "Drive/Choreo/Current Traj End Pose",
+              //       traj.getFinalPose(AllianceFlipUtil.shouldFlip()).get());
+              //   Logger.recordOutput(
+              //       "Drive/Choreo/Current Traj Start Pose",
+              //       traj.getInitialPose(AllianceFlipUtil.shouldFlip()).get());
             });
 
     /* Set up main choreo routines */
