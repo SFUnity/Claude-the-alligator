@@ -276,7 +276,15 @@ public class RobotContainer {
 
     autos =
         new Autos(
-            drive, poseManager, intakeRollers, intakePivot, shooter, kicker, spindexer, climb, hood);
+            drive,
+            poseManager,
+            intakeRollers,
+            intakePivot,
+            shooter,
+            kicker,
+            spindexer,
+            climb,
+            hood);
 
     // For tuning visualizations
     // Logger.recordOutput("ZeroedPose2d", new Pose2d());

@@ -53,7 +53,7 @@ public class Autos {
       Kicker kicker,
       Spindexer spindexer,
       Climb climb,
-    Hood hood) {
+      Hood hood) {
     this.drive = drive;
     this.poseManager = poseManager;
     this.intake = intake;

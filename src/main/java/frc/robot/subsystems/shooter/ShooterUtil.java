@@ -158,8 +158,7 @@ public class ShooterUtil {
                 turretCenter.getRotation().toRotation2d()));
     Translation2d targetPose;
     // if (isScoring) { // TODO change if feeding and not scoring
-      targetPose =
-          AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
+    targetPose = AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
     // } else {
     //   if (turretPosition.getY() > FieldConstants.fieldWidth / 2) {
     //     targetPose =

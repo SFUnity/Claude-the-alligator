@@ -347,7 +347,8 @@ public class Drive extends SubsystemBase {
             xFF + xFeedback, yFF + yFeedback, rotationFF + rotationFeedback, pose.getRotation());
 
     // Logger.recordOutput(
-    //     "Drive/Choreo/Target Pose", new Pose2d(sample.x, sample.y, new Rotation2d(goalRotation)));
+    //     "Drive/Choreo/Target Pose", new Pose2d(sample.x, sample.y, new
+    // Rotation2d(goalRotation)));
     // Logger.recordOutput("Drive/Choreo/Target Speeds", out);
 
     runVelocity(out);
