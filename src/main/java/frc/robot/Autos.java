@@ -398,7 +398,7 @@ public class Autos {
 
   public AutoRoutine DoubleScoreLowerLoop() {
     AutoRoutine routine = factory.newRoutine("Double Score Lower Loop Auto Routine");
-    AutoTrajectory segment0 = routine.trajectory("aDoubleScoreLowerLoopRisky");
+    AutoTrajectory segment0 = routine.trajectory("aDoubleScoreLowerLoopRisky"); // "Risky" or "Safe"
     AutoTrajectory segment1 = routine.trajectory("bDoubleScoreLowerLoop");
 
     routine.active().onTrue(shooter.overrideSetScoring(true));
