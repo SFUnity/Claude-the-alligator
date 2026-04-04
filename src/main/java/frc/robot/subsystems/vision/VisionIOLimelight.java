@@ -41,7 +41,7 @@ public class VisionIOLimelight implements VisionIO {
         config.yawDegrees // Yaw (degrees)
         );
 
-    SetThrottle(name, 200);
+    SetThrottle(name, 0);
 
     // int[] goodIDs = {12, 16};
     // SetFiducialIDFiltersOverride(name, goodIDs);

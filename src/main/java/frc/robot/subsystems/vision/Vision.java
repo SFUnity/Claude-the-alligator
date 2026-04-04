@@ -70,8 +70,11 @@ public class Vision extends VirtualSubsystem {
       io[i].updateInputs(aprilTagInputs[i], poseManager);
       Logger.processInputs("Vision/" + io[i].getName(), aprilTagInputs[i]);
 
-      boolean enabled = DriverStation.isEnabled();
-      if (enabled != lastEnabled) io[i].setThermalThrottle(enabled ? 0 : 200);
+      // boolean enabled = DriverStation.isEnabled();
+      // if (enabled != lastEnabled) {
+      //   io[i].setThermalThrottle(enabled ? 0 : 200);
+      //   lastEnabled = enabled;
+      // }
 
       // Initialize logging values
       // List<Pose3d> tagPoses = new LinkedList<>();
