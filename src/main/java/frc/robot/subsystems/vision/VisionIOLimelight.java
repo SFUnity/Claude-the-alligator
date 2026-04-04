@@ -98,7 +98,7 @@ public class VisionIOLimelight implements VisionIO {
     inputs.avgTagDist = observation.avgTagDist;
     inputs.avgTagArea = observation.avgTagArea;
 
-    inputs.pipeline = getCurrentPipelineIndex(name);
+    // inputs.pipeline = getCurrentPipelineIndex(name);
 
     // Update disconnected alert
     if (observation.timestampSeconds != 0) {
