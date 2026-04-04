@@ -149,8 +149,10 @@ public class Shooter extends VirtualSubsystem {
 
     if (DriverStation.isDisabled()) isShooting = false;
 
+    Pose2d robotPose = poseManager.getPose();
+
     boolean inAZ =
-        AllianceFlipUtil.applyX(poseManager.getPose().getX())
+        AllianceFlipUtil.applyX(robotPose.getX())
             < FieldConstants.LinesVertical.allianceZone + 0.75;
     if (isAutoFeedVsScore) {
       isScoring = inAZ;
@@ -165,14 +167,12 @@ public class Shooter extends VirtualSubsystem {
 
     Logger.recordOutput("Shooter/isScoring", isScoring);
     Logger.recordOutput("Shooter/isShooting", isShooting);
-    Logger.recordOutput("Shooter/isClose", isClose);
-    Logger.recordOutput("Shooter/Hood/isSafe", hoodIsSafe);
 
     turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
 
-    myX = poseManager.getPose().getX() - LinesVertical.center;
-    myY = poseManager.getPose().getY() - LinesHorizontal.center;
+    // myX = poseManager.getPose().getX() - LinesVertical.center;
+    // myY = poseManager.getPose().getY() - LinesHorizontal.center;
 
     // rlly fucking cooked way to do this but dont comment pls
     // hmmmmmmm
@@ -185,7 +185,7 @@ public class Shooter extends VirtualSubsystem {
     // hood.setAngle(fakeHoodAngle.get());
     // flywheels.setVelocity(fakeFlywheelVelocity.get());
     // // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-    Pose2d robotPose = poseManager.getPose();
+    
     Translation2d targetPose = // TODO change if feeding and not scoring
         // AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
         AllianceFlipUtil.apply(
@@ -197,7 +197,7 @@ public class Shooter extends VirtualSubsystem {
         robotPose.transformBy(
             new Transform2d(
                 turretCenter.getTranslation().toTranslation2d(), poseManager.getRotation()));
-    Logger.recordOutput("Shooter/Turret/turretpose", turretPosition);
+    // Logger.recordOutput("Shooter/Turret/turretpose", turretPosition);
     double turretAngle =
         targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
             - poseManager.getRotation().getDegrees();
@@ -223,7 +223,7 @@ public class Shooter extends VirtualSubsystem {
 
     // For feeding
     double distToWall = AllianceFlipUtil.applyX(turretPosition.getX());
-    Logger.recordOutput("Shooter/Turret/distToWall", distToWall);
+    // Logger.recordOutput("Shooter/Turret/distToWall", distToWall);
 
     if (!isScoring) {
       turret.setTarget(180 - AllianceFlipUtil.apply(poseManager.getRotation()).getDegrees());
