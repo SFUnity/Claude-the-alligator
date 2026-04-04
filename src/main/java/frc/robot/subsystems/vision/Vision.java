@@ -125,7 +125,7 @@ public class Vision extends VirtualSubsystem {
           || poseManager.getPose().getX() > FieldConstants.fieldLength + fieldBorderMargin
           || poseManager.getPose().getY() < -fieldBorderMargin
           || poseManager.getPose().getY() > FieldConstants.fieldWidth + fieldBorderMargin) {
-        trust *= 0.5;
+        trust *= 0.25;
       }
 
       //   if(io[i].getName().equals(portAft.name)) {
