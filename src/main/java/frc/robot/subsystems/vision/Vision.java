@@ -18,6 +18,8 @@ import frc.robot.util.PoseManager;
 import frc.robot.util.VirtualSubsystem;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Vision extends VirtualSubsystem {
@@ -25,6 +27,8 @@ public class Vision extends VirtualSubsystem {
   private final AprilTagVisionIOInputsAutoLogged[] aprilTagInputs;
   private final ObjectDetectionVisionIOInputsAutoLogged[] objectInputs;
   private final PoseManager poseManager;
+
+  private final Queue<Pose2d> recentPosesLL4 = new LinkedList<>();
 
   private boolean lastEnabled = false;
 
@@ -100,7 +104,7 @@ public class Vision extends VirtualSubsystem {
               || estimatedPose.getX() > FieldConstants.fieldLength + fieldBorderMargin
               || estimatedPose.getY() < -fieldBorderMargin
               || estimatedPose.getY() > FieldConstants.fieldWidth + fieldBorderMargin
-          || io[i].getName().equals(portAft.name) && aprilTagInputs[i].avgTagDist < 4 //TODO tune threshold
+          || io[i].getName().equals(portAft.name) && aprilTagInputs[i].avgTagDist < 3 //TODO tune threshold
           // if too far away from current pose, depends on amount of apriltags
           // || poseManager.getDistanceTo(estimatedPose) > allowableDistance
           ;
