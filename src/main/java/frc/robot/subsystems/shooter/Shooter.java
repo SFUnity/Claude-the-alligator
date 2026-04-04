@@ -268,7 +268,7 @@ public class Shooter extends VirtualSubsystem {
       fuelLaunchTimer.restart();
       fuelDelayTimer.restart();
       shoot = true;
-      params = shooterUtil.getLaunchingParameters(true, false, true);
+      params = shooterUtil.getSOTMParameters(true, false);
     }
     if (fuelDelayTimer.hasElapsed(fuelDelay.get())
         && shoot
