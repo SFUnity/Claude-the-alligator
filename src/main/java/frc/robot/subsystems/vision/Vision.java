@@ -118,7 +118,7 @@ public class Vision extends VirtualSubsystem {
               || estimatedPose.getY() < -fieldBorderMargin
               || estimatedPose.getY() > FieldConstants.fieldWidth + fieldBorderMargin
               || io[i].getName().equals(portAft.name)
-                  && (aprilTagInputs[i].avgTagDist < 4.5
+                  && (aprilTagInputs[i].avgTagDist > 4.5
                       || runningAvg
                           > 1.0
                               * new Translation2d(
