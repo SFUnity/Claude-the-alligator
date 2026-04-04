@@ -185,7 +185,7 @@ public class Shooter extends VirtualSubsystem {
     // hood.setAngle(fakeHoodAngle.get());
     // flywheels.setVelocity(fakeFlywheelVelocity.get());
     // // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-    
+
     Translation2d targetPose = // TODO change if feeding and not scoring
         // AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
         AllianceFlipUtil.apply(

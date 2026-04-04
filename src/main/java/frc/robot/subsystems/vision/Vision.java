@@ -5,7 +5,6 @@ import static frc.robot.subsystems.vision.VisionConstants.*;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
@@ -17,7 +16,6 @@ import frc.robot.util.GeomUtil;
 import frc.robot.util.PoseManager;
 import frc.robot.util.VirtualSubsystem;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import org.littletonrobotics.junction.Logger;
 
