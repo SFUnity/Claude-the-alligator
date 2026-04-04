@@ -4,7 +4,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 
 public class VisionConstants {
-  public static final double fieldBorderMargin = 0.2; // meters
+  public static final double fieldBorderMargin = 0.3; // meters
 
   // AprilTag layout
   public static AprilTagFieldLayout aprilTagLayout =
