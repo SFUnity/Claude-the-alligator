@@ -227,6 +227,119 @@ public class ShooterUtil {
     return params;
   }
 
+  public LaunchingParameters getSOTMParameters(boolean isScoring, boolean isReal) {
+    InterpolatingDoubleTreeMap hoodAngleMap;
+    InterpolatingDoubleTreeMap flywheelSpeedMap;
+    InterpolatingDoubleTreeMap timeOfFlightMap;
+
+    if (isScoring) {
+      if (isReal) {
+        hoodAngleMap = scoreRealHoodAngleMap;
+        flywheelSpeedMap = scoreRealFlywheelSpeedMap;
+        timeOfFlightMap = scoreRealTimeOfFlightMap;
+      } else {
+        hoodAngleMap = scoreSimHoodAngleMap;
+        flywheelSpeedMap = scoreSimFlywheelSpeedMap;
+        timeOfFlightMap = scoreSimTimeOfFlightMap;
+      }
+    } else {
+      if (isReal) {
+        hoodAngleMap = feedRealHoodAngleMap;
+        flywheelSpeedMap = feedRealFlywheelSpeedMap;
+        timeOfFlightMap = feedRealTimeOfFlightMap;
+      } else {
+        hoodAngleMap = feedSimHoodAngleMap;
+        flywheelSpeedMap = feedSimFlywheelSpeedMap;
+        timeOfFlightMap = feedSimTimeOfFlightMap;
+      }
+    }
+
+    Pose2d robotPose = poseManager.getPose();
+    Twist2d robotVelocity = poseManager.getRobotVelocity();
+    robotPose =
+        robotPose.exp(
+            new Twist2d(
+                robotVelocity.dx * phaseDelay,
+                robotVelocity.dy * phaseDelay,
+                robotVelocity.dtheta * phaseDelay));
+
+    Pose2d turretPosition =
+        robotPose.transformBy(
+            new Transform2d(
+                turretCenter.getTranslation().toTranslation2d(),
+                turretCenter.getRotation().toRotation2d()));
+    Translation2d targetPose;
+    if (isScoring) {
+      targetPose = // TODO change if feeding and not scoring
+          AllianceFlipUtil.apply(FieldConstants.Hub.topCenterPoint.toTranslation2d());
+    } else {
+      if (turretPosition.getY() > FieldConstants.fieldWidth / 2) {
+        targetPose =
+            AllianceFlipUtil.apply(
+                new Translation2d(AllianceFlipUtil.applyX(0), FieldConstants.fieldWidth - 0.5));
+      } else {
+        targetPose = AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
+      }
+    }
+    Logger.recordOutput("Shooter/Turret/Target", new Pose2d(targetPose, new Rotation2d()));
+
+    Logger.recordOutput("Shooter/Turret/CurrentTurretPose", turretPosition);
+    double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation()) + 0.3;
+
+    Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
+    double robotAngle = robotPose.getRotation().getRadians();
+    double turretVelocityX =
+        fieldRelativeRobotVelocity.dx
+            + fieldRelativeRobotVelocity.dtheta
+                * (turretCenter.getY() * Math.cos(robotAngle)
+                    - turretCenter.getX() * Math.sin(robotAngle));
+    double turretVelocityY =
+        fieldRelativeRobotVelocity.dy
+            + fieldRelativeRobotVelocity.dtheta
+                * (turretCenter.getX() * Math.cos(robotAngle)
+                    - turretCenter.getY() * Math.sin(robotAngle));
+
+    double timeOfFlight;
+    Pose2d lookeaheadPose = turretPosition;
+    double lookaheadTurretToTargetDistance = turretToTargetDistance;
+    for (int i = 0; i < 20; i++) {
+      //   timeOfFlight = 0; // change this back later
+      // timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
+      timeOfFlight = timeOfFlightMap.get(lookaheadTurretToTargetDistance);
+      double offsetX = turretVelocityX * timeOfFlight;
+      double offsetY = turretVelocityY * timeOfFlight;
+      lookeaheadPose =
+          new Pose2d(
+              turretPosition.getTranslation().plus(new Translation2d(offsetX, offsetY)),
+              turretPosition.getRotation());
+      lookaheadTurretToTargetDistance = targetPose.getDistance(lookeaheadPose.getTranslation());
+    }
+
+    Logger.recordOutput(
+        "Shooter/Turret/LookaheadTurretToTargetDist", lookaheadTurretToTargetDistance);
+
+    Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
+
+    lookaheadTurretToTargetDistance += 0.2; // shoot to back of hub, not center
+
+    turretAngle =
+        targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
+            - poseManager.getRotation().getDegrees();
+
+    LaunchingParameters params =
+        new LaunchingParameters(
+            // minDist < lookaheadTurretToTargetDistance && lookaheadTurretToTargetDistance <
+            // maxDist,
+            true,
+            turretAngle, // doesnt matter rn
+            hoodAngleMap.get(
+                lookaheadTurretToTargetDistance), // mybe add arbitrary value if accuracy bad to
+            // shoot back
+            // of hub
+            flywheelSpeedMap.get(lookaheadTurretToTargetDistance));
+    return params;
+  }
+
   void addScoreSimMeasurements() {
     scoreSimFlywheelSpeedMap.put(1.256, 1200.0);
     scoreSimHoodAngleMap.put(1.256, 14.6);
