@@ -76,6 +76,7 @@ import frc.robot.util.FuelSim;
 import frc.robot.util.PoseManager;
 import frc.robot.util.ShiftHelpers;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -126,6 +127,10 @@ public class RobotContainer {
 
   // Callback for fuel sim intake
   private double fuelCount = 0;
+
+  // Demo button for safety
+  private final LoggedNetworkBoolean demoMode =
+      new LoggedNetworkBoolean("Demo Mode Speed Limit", false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   @SuppressWarnings("resource")
@@ -365,14 +370,22 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Default command, normal field-relative drive
+    // drive.setDefaultCommand(
+    //     DriveCommands.joystickDrive(
+    //         drive,
+    //         () -> -controller.getLeftY(),
+    //         () -> -controller.getLeftX(),
+    //         () -> -controller.getRightX(),
+    //         poseManager,
+    //         () -> intakePivot.intakeDown()));
     drive.setDefaultCommand(
-        DriveCommands.joystickDrive(
+        DriveCommands.toggleLimitSpeed(
             drive,
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX(),
             poseManager,
-            () -> intakePivot.intakeDown()));
+            demoMode::get));
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.idle());
     intakePivot.setDefaultCommand(intakePivot.raise());
