@@ -177,6 +177,28 @@ public class DriveCommands {
         .withName("joystickDrive");
   }
 
+  public static Command toggleLimitSpeed(
+      Drive drive,
+      DoubleSupplier xSupplier,
+      DoubleSupplier ySupplier,
+      DoubleSupplier omegaSupplier,
+      PoseManager poseManager,
+      BooleanSupplier isLimited) {
+    return Commands.run(
+            () -> {
+              if (isLimited.getAsBoolean()) {
+                joystickDriveLimitSpeed(
+                        drive, xSupplier, ySupplier, omegaSupplier, poseManager, () -> 1)
+                    .execute();
+              } else {
+                joystickDrive(drive, xSupplier, ySupplier, omegaSupplier, poseManager, () -> false)
+                    .execute();
+              }
+            },
+            drive)
+        .withName("toggleLimitSpeed");
+  }
+
   public static Command povDrive(Drive drive, PoseManager poseManager, boolean toTheLeft) {
     return Commands.run(
         () -> {
