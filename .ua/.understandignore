@@ -1,0 +1,148 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions — uncomment to activate.
+# Use ! prefix to force-include something excluded by defaults.
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+
+# --- From .gitignore (uncomment to exclude) ---
+
+# *.d
+# *.slo
+# *.lo
+# *.o
+# *.obj
+# *.gch
+# *.pch
+# *.so
+# *.dylib
+# *.dll
+# *.mod
+# *.smod
+# *.lai
+# *.la
+# *.a
+# *.lib
+# *.exe
+# *.out
+# *.app
+# *.class
+# *.ctxt
+# .mtj.tmp/
+# *.jar
+# *.war
+# *.nar
+# *.ear
+# *.tar.gz
+# *.rar
+# hs_err_pid*
+# *~
+# .fuse_hidden*
+# .directory
+# .Trash-*
+# .nfs*
+# .DS_Store
+# .AppleDouble
+# .LSOverride
+# Icon
+# ._*
+# .DocumentRevisions-V100
+# .fseventsd
+# .Spotlight-V100
+# .TemporaryItems
+# .Trashes
+# .VolumeIcon.icns
+# .com.apple.timemachine.donotpresent
+# .AppleDB
+# .AppleDesktop
+# Network Trash Folder
+# Temporary Items
+# .apdisk
+# .vscode/*
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+# Thumbs.db
+# ehthumbs.db
+# ehthumbs_vista.db
+# *.stackdump
+# [Dd]esktop.ini
+# $RECYCLE.BIN/
+# *.cab
+# *.msi
+# *.msix
+# *.msm
+# *.msp
+# *.lnk
+.gradle
+/build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+# .classpath
+# .project
+# .settings/
+# bin/
+# *.iml
+# *.ipr
+# *.iws
+# .fleet
+networktables.json
+simgui.json
+*-window.json
+# logs/
+# ctre_sim/
+# /.cache
+# compile_commands.json
+src/main/java/frc/robot/BuildConstants.java
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# JS / TS
+# *.test.*
+# *.spec.*
+# *.snap
+# C# / .NET
+# **/*Tests.cs
+# **/*Test.cs
+# **/*Fixture.cs
+# **/*.Tests.csproj
+# Java / Kotlin
+# **/src/test/**
+# **/*Test.java
+# **/*IT.java
+# **/*Spec.kt
+# Go
+# **/*_test.go
+# C++
+# **/*_test.cc
+# **/*_test.cpp
+# **/*_test.cxx
+# **/*Test.cc
+# **/*Test.cpp
+# **/*_unittest.cc
+# **/*_unittest.cpp
+# **/*_browsertest.cc
+# **/*_benchmark.cc
+# **/*Benchmark.cpp
+# Python
+# **/test_*.py
+# **/*_test.py
+# **/tests.py
+# **/conftest.py
+# Rust
+# **/tests.rs
+# **/test_*.rs
+# **/*_test.rs
+# **/bench_*.rs
+# **/*_bench.rs
+# Ruby
+# **/*_spec.rb
+# **/*_test.rb
+# **/test_*.rb
+# **/spec_helper.rb
+# **/test_helper.rb
+# **/rails_helper.rb

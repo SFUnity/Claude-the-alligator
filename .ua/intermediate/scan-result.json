@@ -1,0 +1,518 @@
+{
+  "name": "Claude-the-alligator",
+  "description": "FRC robot code for SFUnity's 2026 competition robot, Claude (the alligator), built with WPILib and GradleRIO. Note: this project has over 100 source files; consider scoping analysis to a subdirectory for faster results.",
+  "languages": ["batch", "chor", "glb", "gradle", "jar", "java", "json", "markdown", "properties", "traj", "unknown", "yaml"],
+  "frameworks": ["GitHub Actions", "JUnit"],
+  "files": [
+    {"path": ".claude/settings.json", "language": "json", "sizeLines": 7, "fileCategory": "config"},
+    {"path": ".github/workflows/build.yml", "language": "yaml", "sizeLines": 18, "fileCategory": "infra"},
+    {"path": ".ua/.understandignore", "language": "unknown", "sizeLines": 148, "fileCategory": "code"},
+    {"path": ".wpilib/wpilib_preferences.json", "language": "json", "sizeLines": 5, "fileCategory": "config"},
+    {"path": "AdvantageKit-License.md", "language": "markdown", "sizeLines": 26, "fileCategory": "docs"},
+    {"path": "AdvantageScope Swerve Calibration.json", "language": "json", "sizeLines": 462, "fileCategory": "config"},
+    {"path": "README.md", "language": "markdown", "sizeLines": 1, "fileCategory": "docs"},
+    {"path": "WPILib-License.md", "language": "markdown", "sizeLines": 25, "fileCategory": "docs"},
+    {"path": "assets/Robot_2025/config.json", "language": "json", "sizeLines": 69, "fileCategory": "config"},
+    {"path": "assets/Robot_2025/model.glb", "language": "glb", "sizeLines": 54719, "fileCategory": "code"},
+    {"path": "assets/Robot_2025/model_0.glb", "language": "glb", "sizeLines": 6944, "fileCategory": "code"},
+    {"path": "assets/Robot_2025/model_1.glb", "language": "glb", "sizeLines": 49904, "fileCategory": "code"},
+    {"path": "assets/Robot_2026/config.json", "language": "json", "sizeLines": 119, "fileCategory": "config"},
+    {"path": "assets/Robot_2026/model.glb", "language": "glb", "sizeLines": 123204, "fileCategory": "code"},
+    {"path": "assets/Robot_2026/model_0.glb", "language": "glb", "sizeLines": 20221, "fileCategory": "code"},
+    {"path": "assets/Robot_2026/model_1.glb", "language": "glb", "sizeLines": 3669, "fileCategory": "code"},
+    {"path": "assets/Robot_2026/model_2.glb", "language": "glb", "sizeLines": 16119, "fileCategory": "code"},
+    {"path": "build.gradle", "language": "gradle", "sizeLines": 227, "fileCategory": "config"},
+    {"path": "gradle/wrapper/gradle-wrapper.jar", "language": "jar", "sizeLines": 151, "fileCategory": "code"},
+    {"path": "gradle/wrapper/gradle-wrapper.properties", "language": "properties", "sizeLines": 7, "fileCategory": "config"},
+    {"path": "gradlew", "language": "unknown", "sizeLines": 249, "fileCategory": "code"},
+    {"path": "gradlew.bat", "language": "batch", "sizeLines": 92, "fileCategory": "script"},
+    {"path": "settings.gradle", "language": "gradle", "sizeLines": 30, "fileCategory": "config"},
+    {"path": "simgui-ds.json", "language": "json", "sizeLines": 129, "fileCategory": "config"},
+    {"path": "src/main/deploy/Choreo/Autos.chor", "language": "chor", "sizeLines": 253, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/CenterShoot.traj", "language": "traj", "sizeLines": 77, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/Climb.traj", "language": "traj", "sizeLines": 136, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/ClimbCenter.traj", "language": "traj", "sizeLines": 103, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/CompleteLowerFeed.traj", "language": "traj", "sizeLines": 668, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/CompleteUpperFeed.traj", "language": "traj", "sizeLines": 422, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/Config.traj", "language": "traj", "sizeLines": 344, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/SimpleShoot.traj", "language": "traj", "sizeLines": 77, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/Spin.traj", "language": "traj", "sizeLines": 141, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/StraightLine.traj", "language": "traj", "sizeLines": 84, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/aDoubleLowerBump.traj", "language": "traj", "sizeLines": 336, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/aDoubleScoreLowerLoopRisky.traj", "language": "traj", "sizeLines": 422, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/aDoubleScoreLowerLoopSafe.traj", "language": "traj", "sizeLines": 593, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/aDoubleScoreUpperLoopRisky.traj", "language": "traj", "sizeLines": 427, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/aDoubleScoreUpperLoopSafe.traj", "language": "traj", "sizeLines": 367, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/aDoubleUpperBump.traj", "language": "traj", "sizeLines": 338, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/bDoubleLowerBump.traj", "language": "traj", "sizeLines": 679, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/bDoubleScoreLowerLoop.traj", "language": "traj", "sizeLines": 445, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/bDoubleScoreUpperLoop.traj", "language": "traj", "sizeLines": 701, "fileCategory": "code"},
+    {"path": "src/main/deploy/Choreo/bDoubleUpperBump.traj", "language": "traj", "sizeLines": 426, "fileCategory": "code"},
+    {"path": "src/main/deploy/apriltags/andymark/2026-none.json", "language": "json", "sizeLines": 7, "fileCategory": "config"},
+    {"path": "src/main/deploy/apriltags/andymark/2026-official.json", "language": "json", "sizeLines": 584, "fileCategory": "config"},
+    {"path": "src/main/deploy/apriltags/welded/2026-none.json", "language": "json", "sizeLines": 7, "fileCategory": "config"},
+    {"path": "src/main/deploy/apriltags/welded/2026-official.json", "language": "json", "sizeLines": 584, "fileCategory": "config"},
+    {"path": "src/main/java/frc/robot/Autos.java", "language": "java", "sizeLines": 604, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/Constants.java", "language": "java", "sizeLines": 40, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/FieldConstants.java", "language": "java", "sizeLines": 367, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/Main.java", "language": "java", "sizeLines": 28, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/Robot.java", "language": "java", "sizeLines": 159, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/RobotContainer.java", "language": "java", "sizeLines": 487, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/commands/DriveCommands.java", "language": "java", "sizeLines": 482, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/commands/RobotCommands.java", "language": "java", "sizeLines": 110, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/generated/TunerConstants.java", "language": "java", "sizeLines": 316, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/climb/Climb.java", "language": "java", "sizeLines": 59, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/climb/ClimbConstants.java", "language": "java", "sizeLines": 40, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/climb/ClimbIO.java", "language": "java", "sizeLines": 21, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/climb/ClimbIOSim.java", "language": "java", "sizeLines": 49, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/climb/ClimbIOTalonFX.java", "language": "java", "sizeLines": 57, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/Drive.java", "language": "java", "sizeLines": 393, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/DriveConstants.java", "language": "java", "sizeLines": 82, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/GyroIO.java", "language": "java", "sizeLines": 26, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/GyroIOPigeon2.java", "language": "java", "sizeLines": 66, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/Module.java", "language": "java", "sizeLines": 156, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/ModuleIO.java", "language": "java", "sizeLines": 57, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/ModuleIOSim.java", "language": "java", "sizeLines": 140, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/ModuleIOTalonFX.java", "language": "java", "sizeLines": 307, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/drive/PhoenixOdometryThread.java", "language": "java", "sizeLines": 158, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/intakePivot/IntakePivot.java", "language": "java", "sizeLines": 174, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotConstants.java", "language": "java", "sizeLines": 43, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIO.java", "language": "java", "sizeLines": 21, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIOSim.java", "language": "java", "sizeLines": 57, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIOTalon.java", "language": "java", "sizeLines": 65, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotVisualizer.java", "language": "java", "sizeLines": 68, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/leds/Leds.java", "language": "java", "sizeLines": 152, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollers.java", "language": "java", "sizeLines": 36, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersConstants.java", "language": "java", "sizeLines": 12, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIO.java", "language": "java", "sizeLines": 18, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIOSim.java", "language": "java", "sizeLines": 24, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIOTalonFX.java", "language": "java", "sizeLines": 44, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/kicker/Kicker.java", "language": "java", "sizeLines": 128, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/kicker/KickerConstants.java", "language": "java", "sizeLines": 30, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIO.java", "language": "java", "sizeLines": 27, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIOSim.java", "language": "java", "sizeLines": 48, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIOTalonFX.java", "language": "java", "sizeLines": 106, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/spindexer/Spindexer.java", "language": "java", "sizeLines": 85, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerConstants.java", "language": "java", "sizeLines": 12, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIO.java", "language": "java", "sizeLines": 19, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIOSim.java", "language": "java", "sizeLines": 24, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIOTalonFX.java", "language": "java", "sizeLines": 45, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/Shooter.java", "language": "java", "sizeLines": 461, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/ShooterConstants.java", "language": "java", "sizeLines": 28, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/ShooterUtil.java", "language": "java", "sizeLines": 409, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/ShooterUtilOld.java", "language": "java", "sizeLines": 120, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/ShooterVisualizer.java", "language": "java", "sizeLines": 77, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/flywheels/Flywheels.java", "language": "java", "sizeLines": 142, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsConstants.java", "language": "java", "sizeLines": 17, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIO.java", "language": "java", "sizeLines": 30, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIOSim.java", "language": "java", "sizeLines": 50, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIOTalonFX.java", "language": "java", "sizeLines": 109, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/hood/Hood.java", "language": "java", "sizeLines": 69, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/hood/HoodConstants.java", "language": "java", "sizeLines": 18, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/hood/HoodIO.java", "language": "java", "sizeLines": 25, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/hood/HoodIOSim.java", "language": "java", "sizeLines": 37, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/hood/HoodIOTalonFX.java", "language": "java", "sizeLines": 87, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/turret/Turret.java", "language": "java", "sizeLines": 244, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/turret/TurretConstants.java", "language": "java", "sizeLines": 48, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/turret/TurretIO.java", "language": "java", "sizeLines": 27, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/turret/TurretIOSim.java", "language": "java", "sizeLines": 46, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/shooter/turret/TurretIOTalonFX.java", "language": "java", "sizeLines": 90, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/vision/Vision.java", "language": "java", "sizeLines": 213, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/vision/VisionConstants.java", "language": "java", "sizeLines": 90, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/vision/VisionIO.java", "language": "java", "sizeLines": 57, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/subsystems/vision/VisionIOLimelight.java", "language": "java", "sizeLines": 220, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/AllianceFlipUtil.java", "language": "java", "sizeLines": 46, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/AlwaysLoggedTunableNumber.java", "language": "java", "sizeLines": 109, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/FuelSim.java", "language": "java", "sizeLines": 931, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/GeneralUtil.java", "language": "java", "sizeLines": 16, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/GeomUtil.java", "language": "java", "sizeLines": 173, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/LimelightHelpers.java", "language": "java", "sizeLines": 1987, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/LoggedAutoChooser.java", "language": "java", "sizeLines": 238, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/LoggedTunableNumber.java", "language": "java", "sizeLines": 117, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/PhoenixUtil.java", "language": "java", "sizeLines": 28, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/PoseManager.java", "language": "java", "sizeLines": 172, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/ShiftHelpers.java", "language": "java", "sizeLines": 196, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/VirtualSubsystem.java", "language": "java", "sizeLines": 27, "fileCategory": "code"},
+    {"path": "src/main/java/frc/robot/util/WPILOGWriter9038.java", "language": "java", "sizeLines": 382, "fileCategory": "code"},
+    {"path": "src/test/java/encoderReading.java", "language": "java", "sizeLines": 25, "fileCategory": "code"},
+    {"path": "vendordeps/AdvantageKit.json", "language": "json", "sizeLines": 35, "fileCategory": "config"},
+    {"path": "vendordeps/ChoreoLib2026.json", "language": "json", "sizeLines": 44, "fileCategory": "config"},
+    {"path": "vendordeps/Phoenix6-26.1.2.json", "language": "json", "sizeLines": 449, "fileCategory": "config"},
+    {"path": "vendordeps/WPILibNewCommands.json", "language": "json", "sizeLines": 38, "fileCategory": "config"},
+    {"path": "vendordeps/libgrapplefrc2026.json", "language": "json", "sizeLines": 71, "fileCategory": "config"}
+  ],
+  "totalFiles": 136,
+  "filteredByIgnore": 0,
+  "estimatedComplexity": "moderate",
+  "importMap": {
+    ".claude/settings.json": [],
+    ".github/workflows/build.yml": [],
+    ".ua/.understandignore": [],
+    ".wpilib/wpilib_preferences.json": [],
+    "AdvantageKit-License.md": [],
+    "AdvantageScope Swerve Calibration.json": [],
+    "README.md": [],
+    "WPILib-License.md": [],
+    "assets/Robot_2025/config.json": [],
+    "assets/Robot_2025/model.glb": [],
+    "assets/Robot_2025/model_0.glb": [],
+    "assets/Robot_2025/model_1.glb": [],
+    "assets/Robot_2026/config.json": [],
+    "assets/Robot_2026/model.glb": [],
+    "assets/Robot_2026/model_0.glb": [],
+    "assets/Robot_2026/model_1.glb": [],
+    "assets/Robot_2026/model_2.glb": [],
+    "build.gradle": [],
+    "gradle/wrapper/gradle-wrapper.jar": [],
+    "gradle/wrapper/gradle-wrapper.properties": [],
+    "gradlew": [],
+    "gradlew.bat": [],
+    "settings.gradle": [],
+    "simgui-ds.json": [],
+    "src/main/deploy/Choreo/Autos.chor": [],
+    "src/main/deploy/Choreo/CenterShoot.traj": [],
+    "src/main/deploy/Choreo/Climb.traj": [],
+    "src/main/deploy/Choreo/ClimbCenter.traj": [],
+    "src/main/deploy/Choreo/CompleteLowerFeed.traj": [],
+    "src/main/deploy/Choreo/CompleteUpperFeed.traj": [],
+    "src/main/deploy/Choreo/Config.traj": [],
+    "src/main/deploy/Choreo/SimpleShoot.traj": [],
+    "src/main/deploy/Choreo/Spin.traj": [],
+    "src/main/deploy/Choreo/StraightLine.traj": [],
+    "src/main/deploy/Choreo/aDoubleLowerBump.traj": [],
+    "src/main/deploy/Choreo/aDoubleScoreLowerLoopRisky.traj": [],
+    "src/main/deploy/Choreo/aDoubleScoreLowerLoopSafe.traj": [],
+    "src/main/deploy/Choreo/aDoubleScoreUpperLoopRisky.traj": [],
+    "src/main/deploy/Choreo/aDoubleScoreUpperLoopSafe.traj": [],
+    "src/main/deploy/Choreo/aDoubleUpperBump.traj": [],
+    "src/main/deploy/Choreo/bDoubleLowerBump.traj": [],
+    "src/main/deploy/Choreo/bDoubleScoreLowerLoop.traj": [],
+    "src/main/deploy/Choreo/bDoubleScoreUpperLoop.traj": [],
+    "src/main/deploy/Choreo/bDoubleUpperBump.traj": [],
+    "src/main/deploy/apriltags/andymark/2026-none.json": [],
+    "src/main/deploy/apriltags/andymark/2026-official.json": [],
+    "src/main/deploy/apriltags/welded/2026-none.json": [],
+    "src/main/deploy/apriltags/welded/2026-official.json": [],
+    "src/main/java/frc/robot/Autos.java": [
+      "src/main/java/frc/robot/commands/DriveCommands.java",
+      "src/main/java/frc/robot/commands/RobotCommands.java",
+      "src/main/java/frc/robot/subsystems/climb/Climb.java",
+      "src/main/java/frc/robot/subsystems/drive/Drive.java",
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivot.java",
+      "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollers.java",
+      "src/main/java/frc/robot/subsystems/rollers/kicker/Kicker.java",
+      "src/main/java/frc/robot/subsystems/rollers/spindexer/Spindexer.java",
+      "src/main/java/frc/robot/subsystems/shooter/Shooter.java",
+      "src/main/java/frc/robot/subsystems/shooter/hood/Hood.java",
+      "src/main/java/frc/robot/util/LoggedAutoChooser.java",
+      "src/main/java/frc/robot/util/PoseManager.java"
+    ],
+    "src/main/java/frc/robot/Constants.java": [],
+    "src/main/java/frc/robot/FieldConstants.java": [],
+    "src/main/java/frc/robot/Main.java": [],
+    "src/main/java/frc/robot/Robot.java": [
+      "src/main/java/frc/robot/util/VirtualSubsystem.java"
+    ],
+    "src/main/java/frc/robot/RobotContainer.java": [
+      "src/main/java/frc/robot/commands/DriveCommands.java",
+      "src/main/java/frc/robot/commands/RobotCommands.java",
+      "src/main/java/frc/robot/generated/TunerConstants.java",
+      "src/main/java/frc/robot/subsystems/climb/Climb.java",
+      "src/main/java/frc/robot/subsystems/climb/ClimbIO.java",
+      "src/main/java/frc/robot/subsystems/climb/ClimbIOSim.java",
+      "src/main/java/frc/robot/subsystems/drive/Drive.java",
+      "src/main/java/frc/robot/subsystems/drive/DriveConstants.java",
+      "src/main/java/frc/robot/subsystems/drive/GyroIO.java",
+      "src/main/java/frc/robot/subsystems/drive/GyroIOPigeon2.java",
+      "src/main/java/frc/robot/subsystems/drive/ModuleIO.java",
+      "src/main/java/frc/robot/subsystems/drive/ModuleIOSim.java",
+      "src/main/java/frc/robot/subsystems/drive/ModuleIOTalonFX.java",
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivot.java",
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIO.java",
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIOSim.java",
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIOTalon.java",
+      "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollers.java",
+      "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIO.java",
+      "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIOSim.java",
+      "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIOTalonFX.java",
+      "src/main/java/frc/robot/subsystems/rollers/kicker/Kicker.java",
+      "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIO.java",
+      "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIOSim.java",
+      "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIOTalonFX.java",
+      "src/main/java/frc/robot/subsystems/rollers/spindexer/Spindexer.java",
+      "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIO.java",
+      "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIOSim.java",
+      "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIOTalonFX.java",
+      "src/main/java/frc/robot/subsystems/shooter/Shooter.java",
+      "src/main/java/frc/robot/subsystems/shooter/flywheels/Flywheels.java",
+      "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIO.java",
+      "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIOSim.java",
+      "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIOTalonFX.java",
+      "src/main/java/frc/robot/subsystems/shooter/hood/Hood.java",
+      "src/main/java/frc/robot/subsystems/shooter/hood/HoodIO.java",
+      "src/main/java/frc/robot/subsystems/shooter/hood/HoodIOSim.java",
+      "src/main/java/frc/robot/subsystems/shooter/hood/HoodIOTalonFX.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/Turret.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/TurretIO.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/TurretIOSim.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/TurretIOTalonFX.java",
+      "src/main/java/frc/robot/subsystems/vision/Vision.java",
+      "src/main/java/frc/robot/subsystems/vision/VisionConstants.java",
+      "src/main/java/frc/robot/subsystems/vision/VisionIO.java",
+      "src/main/java/frc/robot/subsystems/vision/VisionIOLimelight.java",
+      "src/main/java/frc/robot/util/FuelSim.java",
+      "src/main/java/frc/robot/util/PoseManager.java",
+      "src/main/java/frc/robot/util/ShiftHelpers.java"
+    ],
+    "src/main/java/frc/robot/commands/DriveCommands.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/FieldConstants.java",
+      "src/main/java/frc/robot/subsystems/drive/Drive.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/TurretConstants.java",
+      "src/main/java/frc/robot/util/AllianceFlipUtil.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java",
+      "src/main/java/frc/robot/util/PoseManager.java"
+    ],
+    "src/main/java/frc/robot/commands/RobotCommands.java": [
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivot.java",
+      "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollers.java",
+      "src/main/java/frc/robot/subsystems/rollers/kicker/Kicker.java",
+      "src/main/java/frc/robot/subsystems/rollers/spindexer/Spindexer.java",
+      "src/main/java/frc/robot/subsystems/shooter/Shooter.java",
+      "src/main/java/frc/robot/util/AllianceFlipUtil.java"
+    ],
+    "src/main/java/frc/robot/generated/TunerConstants.java": [],
+    "src/main/java/frc/robot/subsystems/climb/Climb.java": [
+      "src/main/java/frc/robot/subsystems/climb/ClimbConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/climb/ClimbConstants.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/climb/ClimbIO.java": [],
+    "src/main/java/frc/robot/subsystems/climb/ClimbIOSim.java": [
+      "src/main/java/frc/robot/subsystems/climb/ClimbConstants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/climb/ClimbIOTalonFX.java": [
+      "src/main/java/frc/robot/subsystems/climb/ClimbConstants.java",
+      "src/main/java/frc/robot/util/PhoenixUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/drive/Drive.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/generated/TunerConstants.java",
+      "src/main/java/frc/robot/subsystems/drive/DriveConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java",
+      "src/main/java/frc/robot/util/GeomUtil.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java",
+      "src/main/java/frc/robot/util/PoseManager.java"
+    ],
+    "src/main/java/frc/robot/subsystems/drive/DriveConstants.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/drive/GyroIO.java": [],
+    "src/main/java/frc/robot/subsystems/drive/GyroIOPigeon2.java": [
+      "src/main/java/frc/robot/generated/TunerConstants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/drive/Module.java": [],
+    "src/main/java/frc/robot/subsystems/drive/ModuleIO.java": [],
+    "src/main/java/frc/robot/subsystems/drive/ModuleIOSim.java": [],
+    "src/main/java/frc/robot/subsystems/drive/ModuleIOTalonFX.java": [
+      "src/main/java/frc/robot/generated/TunerConstants.java",
+      "src/main/java/frc/robot/subsystems/drive/DriveConstants.java",
+      "src/main/java/frc/robot/util/PhoenixUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/drive/PhoenixOdometryThread.java": [
+      "src/main/java/frc/robot/generated/TunerConstants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/intakePivot/IntakePivot.java": [
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotConstants.java": [
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIO.java": [],
+    "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIOSim.java": [
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotConstants.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotIOTalon.java": [
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotConstants.java",
+      "src/main/java/frc/robot/util/PhoenixUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotVisualizer.java": [
+      "src/main/java/frc/robot/subsystems/intakePivot/IntakePivotConstants.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/leds/Leds.java": [
+      "src/main/java/frc/robot/util/VirtualSubsystem.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollers.java": [
+      "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersConstants.java": [
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIO.java": [],
+    "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIOSim.java": [],
+    "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersIOTalonFX.java": [
+      "src/main/java/frc/robot/subsystems/rollers/intakerollers/IntakeRollersConstants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/kicker/Kicker.java": [
+      "src/main/java/frc/robot/subsystems/rollers/kicker/KickerConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/kicker/KickerConstants.java": [
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIO.java": [],
+    "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIOSim.java": [
+      "src/main/java/frc/robot/Constants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/kicker/KickerIOTalonFX.java": [
+      "src/main/java/frc/robot/subsystems/rollers/kicker/KickerConstants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/spindexer/Spindexer.java": [
+      "src/main/java/frc/robot/subsystems/leds/Leds.java",
+      "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerConstants.java": [
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIO.java": [],
+    "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIOSim.java": [],
+    "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerIOTalonFX.java": [
+      "src/main/java/frc/robot/subsystems/rollers/spindexer/SpindexerConstants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/Shooter.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/FieldConstants.java",
+      "src/main/java/frc/robot/subsystems/leds/Leds.java",
+      "src/main/java/frc/robot/subsystems/shooter/ShooterConstants.java",
+      "src/main/java/frc/robot/subsystems/shooter/ShooterUtil.java",
+      "src/main/java/frc/robot/subsystems/shooter/flywheels/Flywheels.java",
+      "src/main/java/frc/robot/subsystems/shooter/hood/Hood.java",
+      "src/main/java/frc/robot/subsystems/shooter/hood/HoodConstants.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/Turret.java",
+      "src/main/java/frc/robot/util/AllianceFlipUtil.java",
+      "src/main/java/frc/robot/util/FuelSim.java",
+      "src/main/java/frc/robot/util/GeomUtil.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java",
+      "src/main/java/frc/robot/util/PoseManager.java",
+      "src/main/java/frc/robot/util/ShiftHelpers.java",
+      "src/main/java/frc/robot/util/VirtualSubsystem.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/ShooterConstants.java": [
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/ShooterUtil.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/FieldConstants.java",
+      "src/main/java/frc/robot/subsystems/shooter/ShooterConstants.java",
+      "src/main/java/frc/robot/util/AllianceFlipUtil.java",
+      "src/main/java/frc/robot/util/GeomUtil.java",
+      "src/main/java/frc/robot/util/PoseManager.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/ShooterUtilOld.java": [],
+    "src/main/java/frc/robot/subsystems/shooter/ShooterVisualizer.java": [
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/flywheels/Flywheels.java": [
+      "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsConstants.java": [
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIO.java": [],
+    "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIOSim.java": [
+      "src/main/java/frc/robot/Constants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsIOTalonFX.java": [
+      "src/main/java/frc/robot/subsystems/shooter/flywheels/FlywheelsConstants.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java",
+      "src/main/java/frc/robot/util/PhoenixUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/hood/Hood.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/subsystems/shooter/hood/HoodConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/hood/HoodConstants.java": [],
+    "src/main/java/frc/robot/subsystems/shooter/hood/HoodIO.java": [],
+    "src/main/java/frc/robot/subsystems/shooter/hood/HoodIOSim.java": [
+      "src/main/java/frc/robot/subsystems/shooter/hood/HoodConstants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/hood/HoodIOTalonFX.java": [
+      "src/main/java/frc/robot/subsystems/shooter/hood/HoodConstants.java",
+      "src/main/java/frc/robot/util/PhoenixUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/turret/Turret.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/TurretConstants.java",
+      "src/main/java/frc/robot/util/GeneralUtil.java",
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/turret/TurretConstants.java": [
+      "src/main/java/frc/robot/util/LoggedTunableNumber.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/turret/TurretIO.java": [],
+    "src/main/java/frc/robot/subsystems/shooter/turret/TurretIOSim.java": [
+      "src/main/java/frc/robot/Constants.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/TurretConstants.java"
+    ],
+    "src/main/java/frc/robot/subsystems/shooter/turret/TurretIOTalonFX.java": [
+      "src/main/java/frc/robot/subsystems/shooter/turret/TurretConstants.java",
+      "src/main/java/frc/robot/util/PhoenixUtil.java"
+    ],
+    "src/main/java/frc/robot/subsystems/vision/Vision.java": [
+      "src/main/java/frc/robot/FieldConstants.java",
+      "src/main/java/frc/robot/subsystems/drive/DriveConstants.java",
+      "src/main/java/frc/robot/subsystems/vision/VisionConstants.java",
+      "src/main/java/frc/robot/util/GeomUtil.java",
+      "src/main/java/frc/robot/util/PoseManager.java",
+      "src/main/java/frc/robot/util/VirtualSubsystem.java"
+    ],
+    "src/main/java/frc/robot/subsystems/vision/VisionConstants.java": [],
+    "src/main/java/frc/robot/subsystems/vision/VisionIO.java": [
+      "src/main/java/frc/robot/util/PoseManager.java"
+    ],
+    "src/main/java/frc/robot/subsystems/vision/VisionIOLimelight.java": [
+      "src/main/java/frc/robot/subsystems/vision/VisionConstants.java",
+      "src/main/java/frc/robot/util/LimelightHelpers.java",
+      "src/main/java/frc/robot/util/PoseManager.java"
+    ],
+    "src/main/java/frc/robot/util/AllianceFlipUtil.java": [
+      "src/main/java/frc/robot/FieldConstants.java"
+    ],
+    "src/main/java/frc/robot/util/AlwaysLoggedTunableNumber.java": [],
+    "src/main/java/frc/robot/util/FuelSim.java": [],
+    "src/main/java/frc/robot/util/GeneralUtil.java": [],
+    "src/main/java/frc/robot/util/GeomUtil.java": [],
+    "src/main/java/frc/robot/util/LimelightHelpers.java": [],
+    "src/main/java/frc/robot/util/LoggedAutoChooser.java": [],
+    "src/main/java/frc/robot/util/LoggedTunableNumber.java": [
+      "src/main/java/frc/robot/Constants.java"
+    ],
+    "src/main/java/frc/robot/util/PhoenixUtil.java": [],
+    "src/main/java/frc/robot/util/PoseManager.java": [
+      "src/main/java/frc/robot/subsystems/drive/DriveConstants.java"
+    ],
+    "src/main/java/frc/robot/util/ShiftHelpers.java": [],
+    "src/main/java/frc/robot/util/VirtualSubsystem.java": [],
+    "src/main/java/frc/robot/util/WPILOGWriter9038.java": [],
+    "src/test/java/encoderReading.java": [
+      "src/main/java/frc/robot/subsystems/shooter/turret/Turret.java",
+      "src/main/java/frc/robot/subsystems/shooter/turret/TurretIOSim.java"
+    ],
+    "vendordeps/AdvantageKit.json": [],
+    "vendordeps/ChoreoLib2026.json": [],
+    "vendordeps/Phoenix6-26.1.2.json": [],
+    "vendordeps/WPILibNewCommands.json": [],
+    "vendordeps/libgrapplefrc2026.json": []
+  }
+}

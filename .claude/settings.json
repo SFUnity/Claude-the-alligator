@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx pnpm@8 --filter @understand-anything/core build)",
+      "Bash(python3 \"/Users/akatzman26/.claude/plugins/cache/understand-anything/understand-anything/2.9.4/skills/understand/merge-batch-graphs.py\" \"/Users/akatzman26/FRC/Claude-the-alligator\")",
+      "Bash(ls /Users/akatzman26/FRC/Claude-the-alligator/.ua/intermediate/batch-*.json)",
+      "Bash(ls /Users/akatzman26/FRC/Claude-the-alligator/.ua/intermediate/import-map*)",
+      "Bash(ls /Users/akatzman26/FRC/Claude-the-alligator/.ua/intermediate/*import*)",
+      "Bash(ls /Users/akatzman26/FRC/Claude-the-alligator/.ua/intermediate/*.json)",
+      "Bash(ls /Users/akatzman26/FRC/Claude-the-alligator/.ua/*.json)",
+      "Bash(ls /Users/akatzman26/FRC/Claude-the-alligator/.ua/import*)",
+      "Bash(node -e \":*)",
+      "Bash(node \"/Users/akatzman26/.claude/plugins/cache/understand-anything/understand-anything/2.9.4/skills/understand/build-fingerprints.mjs\" \"/Users/akatzman26/FRC/Claude-the-alligator/.ua/intermediate/fingerprint-input.json\")",
+      "Bash(PLUGIN_ROOT=\"/Users/akatzman26/.claude/plugins/cache/understand-anything/understand-anything/2.9.4\")",
+      "Bash(test -d \"$PLUGIN_ROOT/packages/dashboard\")",
+      "Bash(echo \"Dashboard dir found at $PLUGIN_ROOT/packages/dashboard\")"
+    ]
+  }
+}
