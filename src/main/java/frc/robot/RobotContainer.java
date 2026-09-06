@@ -309,7 +309,7 @@ public class RobotContainer {
     Path firstStraight = new Path("first-straight");
 
     Command firstAuto = pathBuilder
-    .withPoseReset(poseManager::resetPose)
+    .withPoseReset(poseManager::setPose)
     .build(firstStraight);
 
     // Builder options persist. Clear this before building any later path command.
