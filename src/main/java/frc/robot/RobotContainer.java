@@ -98,6 +98,7 @@ public class RobotContainer {
   // private final Autos autos;
   private final PoseManager poseManager = new PoseManager();
   public final FuelSim fuelSim = new FuelSim("FuelSim");
+  private final FollowPath.Builder pathBuilder;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -294,7 +295,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    FollowPath.Builder pathBuilder =
+    pathBuilder =
         new FollowPath.Builder(
                 drive,
                 poseManager::getPose,
@@ -305,13 +306,6 @@ public class RobotContainer {
                 new PIDController(0.2, 0.0, 0.0))
             .withDefaultShouldFlip()
             .withTRatioBasedTranslationHandoffs(true);
-
-    Path firstStraight = new Path("first-straight");
-
-    Command firstAuto = pathBuilder.withPoseReset(poseManager::setPose).build(firstStraight);
-
-    // Builder options persist. Clear this before building any later path command.
-    pathBuilder.withPoseReset(ignored -> {});
   }
 
   public void checkAlerts() {
@@ -491,9 +485,17 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   return autos.getAutonomousCommand();
-  // }
+  public Command getAutonomousCommand() {
+
+    Path firstStraight = new Path("first-straight");
+
+    Command firstAuto = pathBuilder.withPoseReset(poseManager::setPose).build(firstStraight);
+
+    // Builder options persist. Clear this before building any later path command.
+    pathBuilder.withPoseReset(ignored -> {});
+
+    return firstAuto;
+  }
 
   public Command testInit() {
     return RobotCommands.test(
