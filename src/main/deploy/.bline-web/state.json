@@ -25,7 +25,7 @@
       "default_auto_velocity_merge_tolerance_meters_per_sec": 0.3
     }
   },
-  "active_path_file_name": "complex-auto-2.json",
+  "active_path_file_name": "complex-practice-auto.json",
   "active_path_group_id": null,
   "path_groups": [],
   "linked_targets": [],
@@ -34,8 +34,8 @@
       "display_name": "first-straight",
       "editor_metadata": null
     },
-    "complex-auto-2.json": {
-      "display_name": "complex auto",
+    "complex-practice-auto.json": {
+      "display_name": "complex-practice-auto",
       "editor_metadata": null
     }
   },
