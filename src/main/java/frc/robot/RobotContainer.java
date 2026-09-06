@@ -10,6 +10,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Seconds;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,6 +30,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RobotCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.lib.BLine.FollowPath;
+import frc.robot.lib.BLine.Path;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.climb.ClimbIO;
 import frc.robot.subsystems.climb.ClimbIOSim;
@@ -70,10 +73,6 @@ import frc.robot.util.PoseManager;
 import frc.robot.util.ShiftHelpers;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
-import edu.wpi.first.math.controller.PIDController;
-import frc.robot.lib.BLine.FollowPath;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.lib.BLine.Path;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -96,7 +95,7 @@ public class RobotContainer {
   private final Vision vision;
 
   // Non-subsystems
-  private final Autos autos;
+  // private final Autos autos;
   private final PoseManager poseManager = new PoseManager();
   public final FuelSim fuelSim = new FuelSim("FuelSim");
 
@@ -131,7 +130,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   @SuppressWarnings("resource")
-  public RobotContainer() { 
+  public RobotContainer() {
     // Reset alert timers
     canInitialErrorTimer.restart();
     canErrorTimer.restart();
@@ -294,31 +293,26 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
-    
-    FollowPath.Builder pathBuilder = new FollowPath.Builder(
-      drive,
-      poseManager::getPose,
-      poseManager::getChassisSpeeds,
-      drive::runVelocity,
-      new PIDController(2.0, 0.0, 0.0),
-      new PIDController(1.0, 0.0, 0.0),
-      new PIDController(0.2, 0.0, 0.0)
-    ).withDefaultShouldFlip()
-    .withTRatioBasedTranslationHandoffs(true);
+
+    FollowPath.Builder pathBuilder =
+        new FollowPath.Builder(
+                drive,
+                poseManager::getPose,
+                poseManager::getChassisSpeeds,
+                drive::runVelocity,
+                new PIDController(2.0, 0.0, 0.0),
+                new PIDController(1.0, 0.0, 0.0),
+                new PIDController(0.2, 0.0, 0.0))
+            .withDefaultShouldFlip()
+            .withTRatioBasedTranslationHandoffs(true);
 
     Path firstStraight = new Path("first-straight");
 
-    Command firstAuto = pathBuilder
-    .withPoseReset(poseManager::setPose)
-    .build(firstStraight);
+    Command firstAuto = pathBuilder.withPoseReset(poseManager::setPose).build(firstStraight);
 
     // Builder options persist. Clear this before building any later path command.
     pathBuilder.withPoseReset(ignored -> {});
-
-    
   }
-
-  
 
   public void checkAlerts() {
     // Check controllers
@@ -497,13 +491,12 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return autos.getAutonomousCommand();
-  }
+  // public Command getAutonomousCommand() {
+  //   return autos.getAutonomousCommand();
+  // }
 
   public Command testInit() {
     return RobotCommands.test(
         shooter, kicker, spindexer, intakeRollers, intakePivot, intakeRollers);
   }
-
 }

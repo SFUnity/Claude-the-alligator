@@ -17,7 +17,6 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
-import frc.robot.util.GeomUtil;
 
 public class PoseManager {
   static final Lock odometryLock = new ReentrantLock();
