@@ -487,7 +487,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Path firstStraight = new Path("complex auto");
+    Path firstStraight = new Path("first-straight");
 
     Command firstAuto = pathBuilder.withPoseReset(poseManager::setPose).build(firstStraight);
 
