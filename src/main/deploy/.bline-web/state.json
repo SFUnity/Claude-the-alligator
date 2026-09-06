@@ -30,12 +30,12 @@
   "path_groups": [],
   "linked_targets": [],
   "paths": {
-    "complex-auto-2.json": {
-      "display_name": "complex auto",
-      "editor_metadata": null
-    },
     "first-straight.json": {
       "display_name": "first-straight",
+      "editor_metadata": null
+    },
+    "complex-auto-2.json": {
+      "display_name": "complex auto",
       "editor_metadata": null
     }
   },
