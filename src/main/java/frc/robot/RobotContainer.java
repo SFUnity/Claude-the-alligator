@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RobotCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.lib.BLine.BLineField;
 import frc.robot.lib.BLine.FollowPath;
 import frc.robot.lib.BLine.Path;
 import frc.robot.subsystems.climb.Climb;
@@ -493,6 +494,7 @@ public class RobotContainer {
 
     // Builder options persist. Clear this before building any later path command.
     pathBuilder.withPoseReset(ignored -> {});
+    // BLineField.drawPath(field, "FirstStraight", firstStraight);
 
     return firstAuto;
   }
