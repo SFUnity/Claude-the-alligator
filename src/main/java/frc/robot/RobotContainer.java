@@ -72,6 +72,8 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.lib.BLine.FollowPath;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.lib.BLine.Path;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -274,17 +276,17 @@ public class RobotContainer {
         break;
     }
 
-    autos =
-        new Autos(
-            drive,
-            poseManager,
-            intakeRollers,
-            intakePivot,
-            shooter,
-            kicker,
-            spindexer,
-            climb,
-            hood);
+    // autos =
+    //     new Autos(
+    //         drive,
+    //         poseManager,
+    //         intakeRollers,
+    //         intakePivot,
+    //         shooter,
+    //         kicker,
+    //         spindexer,
+    //         climb,
+    //         hood);
 
     // For tuning visualizations
     // Logger.recordOutput("ZeroedPose2d", new Pose2d());
@@ -303,8 +305,20 @@ public class RobotContainer {
       new PIDController(0.2, 0.0, 0.0)
     ).withDefaultShouldFlip()
     .withTRatioBasedTranslationHandoffs(true);
+
+    Path firstStraight = new Path("first-straight");
+
+    Command firstAuto = pathBuilder
+    .withPoseReset(poseManager::resetPose)
+    .build(firstStraight);
+
+    // Builder options persist. Clear this before building any later path command.
+    pathBuilder.withPoseReset(ignored -> {});
+
     
   }
+
+  
 
   public void checkAlerts() {
     // Check controllers
