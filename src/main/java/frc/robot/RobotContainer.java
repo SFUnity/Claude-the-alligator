@@ -70,6 +70,8 @@ import frc.robot.util.PoseManager;
 import frc.robot.util.ShiftHelpers;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
+import edu.wpi.first.math.controller.PIDController;
+import frc.robot.lib.BLine.FollowPath;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -127,7 +129,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   @SuppressWarnings("resource")
-  public RobotContainer() {
+  public RobotContainer() { 
     // Reset alert timers
     canInitialErrorTimer.restart();
     canErrorTimer.restart();
@@ -290,6 +292,18 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+    
+    FollowPath.Builder pathBuilder = new FollowPath.Builder(
+      drive,
+      drive::getPose,
+      drive::getRobotRelativeSpeeds,
+      drive::driveRobotRelative,
+      new PIDController(2.0, 0.0, 0.0),
+      new PIDController(1.0, 0.0, 0.0),
+      new PIDController(0.2, 0.0, 0.0)
+    ).withDefaultShouldFlip()
+    .withTRatioBasedTranslationHandoffs(true);
+    
   }
 
   public void checkAlerts() {
@@ -477,4 +491,5 @@ public class RobotContainer {
     return RobotCommands.test(
         shooter, kicker, spindexer, intakeRollers, intakePivot, intakeRollers);
   }
+
 }
