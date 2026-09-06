@@ -60,7 +60,7 @@ public class Shooter extends VirtualSubsystem {
   private final LoggedTunableNumber fakeHoodAngle =
       new LoggedTunableNumber("Shooter/FakeHoodAngle", 0);
   private final LoggedTunableNumber fakeFlywheelVelocity =
-      new LoggedTunableNumber("Shooter/FakeFlywheelVelocity", 0);
+      new LoggedTunableNumber("Shooter/FakeFlywheelVelocity", 1000);
   private final LoggedTunableNumber farFlywheelVelocity =
       new LoggedTunableNumber("Shooter/FarVelocity", 1600);
   private final LoggedTunableNumber hubFlywheelVelocity =

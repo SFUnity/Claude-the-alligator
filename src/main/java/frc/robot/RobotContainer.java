@@ -68,6 +68,7 @@ import frc.robot.subsystems.shooter.hood.HoodIOTalonFX;
 import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
+import frc.robot.subsystems.shooter.turret.TurretIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
@@ -129,7 +130,7 @@ public class RobotContainer {
 
   // Demo button for safety
   private final LoggedNetworkBoolean demoMode =
-      new LoggedNetworkBoolean("Demo Mode Speed Limit", false);
+      new LoggedNetworkBoolean("Demo Mode Speed Limit", true);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   @SuppressWarnings("resource")
@@ -155,14 +156,14 @@ public class RobotContainer {
         //         new ModuleIO() {},
         //         new ModuleIO() {},
         //         poseManager);
-        // spindexer = new Spindexer(new SpindexerIO() {});
+        spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
-        // intakePivot = new IntakePivot(new IntakePivotIO() {});
-        // intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
-        // flywheels = new Flywheels(new FlywheelsIO() {});
+        intakePivot = new IntakePivot(new IntakePivotIO() {});
+        intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
+        flywheels = new Flywheels(new FlywheelsIO() {});
         turret = new Turret(new TurretIO() {});
-        // hood = new Hood(new HoodIO() {});
-        // kicker = new Kicker(new KickerIO() {});
+        hood = new Hood(new HoodIO() {});
+        kicker = new Kicker(new KickerIO() {});
 
         // * working ones below this line
         drive =
@@ -173,14 +174,14 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight),
                 poseManager);
-        spindexer = new Spindexer(new SpindexerIOTalonFX());
+        // spindexer = new Spindexer(new SpindexerIOTalonFX());
         // climb = new Climb(new ClimbIOTalonFX());
-        intakePivot = new IntakePivot(new IntakePivotIOTalon());
-        intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
-        flywheels = new Flywheels(new FlywheelsIOTalonFX());
+        // intakePivot = new IntakePivot(new IntakePivotIOTalon());
+        // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
+        // flywheels = new Flywheels(new FlywheelsIOTalonFX());
         // turret = new Turret(new TurretIOTalonFX());
-        hood = new Hood(new HoodIOTalonFX());
-        kicker = new Kicker(new KickerIOTalonFX());
+        // hood = new Hood(new HoodIOTalonFX());
+        // kicker = new Kicker(new KickerIOTalonFX());
 
         // vision = new Vision(poseManager, new VisionIO() {});
         vision =

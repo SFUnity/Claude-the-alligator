@@ -144,7 +144,8 @@ public class DriveCommands {
       DoubleSupplier ySupplier,
       DoubleSupplier omegaSupplier,
       PoseManager poseManager,
-      DoubleSupplier speedLimitSupplier) {
+      DoubleSupplier linearSpeedLimitSupplier,
+      DoubleSupplier angularSpeedLimitSupplier) {
     return Commands.run(
             () -> {
               // Get linear velocity
@@ -160,9 +161,9 @@ public class DriveCommands {
               // Convert to field relative speeds & send command
               ChassisSpeeds speeds =
                   new ChassisSpeeds(
-                      linearVelocity.getX() * speedLimitSupplier.getAsDouble(),
-                      linearVelocity.getY() * speedLimitSupplier.getAsDouble(),
-                      omega * drive.getMaxAngularSpeedRadPerSec());
+                      linearVelocity.getX() * linearSpeedLimitSupplier.getAsDouble(),
+                      linearVelocity.getY() * linearSpeedLimitSupplier.getAsDouble(),
+                      omega * angularSpeedLimitSupplier.getAsDouble());
               boolean isFlipped =
                   DriverStation.getAlliance().isPresent()
                       && DriverStation.getAlliance().get() == Alliance.Red;
@@ -188,7 +189,7 @@ public class DriveCommands {
             () -> {
               if (isLimited.getAsBoolean()) {
                 joystickDriveLimitSpeed(
-                        drive, xSupplier, ySupplier, omegaSupplier, poseManager, () -> 1)
+                        drive, xSupplier, ySupplier, omegaSupplier, poseManager, () -> 0.9, () -> 2)
                     .execute();
               } else {
                 joystickDrive(drive, xSupplier, ySupplier, omegaSupplier, poseManager, () -> false)
