@@ -297,7 +297,7 @@ public class RobotContainer {
       drive,
       poseManager::getPose,
       poseManager::getChassisSpeeds,
-      drive::driveRobotRelative,
+      drive::runVelocity,
       new PIDController(2.0, 0.0, 0.0),
       new PIDController(1.0, 0.0, 0.0),
       new PIDController(0.2, 0.0, 0.0)
