@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -16,6 +17,7 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
+import frc.robot.util.GeomUtil;
 
 public class PoseManager {
   static final Lock odometryLock = new ReentrantLock();
@@ -109,6 +111,10 @@ public class PoseManager {
   /** Returns the current odometry translation. */
   public Translation2d getTranslation() {
     return getPose().getTranslation();
+  }
+
+  public ChassisSpeeds getChassisSpeeds() {
+    return GeomUtil.toChassisSpeeds(getRobotVelocity());
   }
 
   /** Resets the current odometry pose. */

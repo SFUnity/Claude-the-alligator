@@ -295,8 +295,8 @@ public class RobotContainer {
     
     FollowPath.Builder pathBuilder = new FollowPath.Builder(
       drive,
-      drive::getPose,
-      drive::getRobotRelativeSpeeds,
+      poseManager::getPose,
+      poseManager::getChassisSpeeds,
       drive::driveRobotRelative,
       new PIDController(2.0, 0.0, 0.0),
       new PIDController(1.0, 0.0, 0.0),
