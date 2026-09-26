@@ -94,7 +94,7 @@ public class Autos {
     // chooser.addRoutine("Score Upper Center", this::ScoreUpperCenterAutoRoutine);
     // chooser.addRoutine("Score Upper Center Climb", this::ScoreUpperCenterClimbAutoRoutine);
     // chooser.addRoutine("Feed", this::FeedAutoRoutine);
-    // chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
+    chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
     chooser.addRoutine("Complete Lower Feed", this::CompleteLowerFeed);
     chooser.addRoutine("Complete Upper Feed", this::CompleteUpperFeed);
     chooser.addRoutine("Double Upper Bump", this::DoubleUpperBump);
