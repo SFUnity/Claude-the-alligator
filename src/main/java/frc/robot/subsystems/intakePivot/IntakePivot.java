@@ -66,7 +66,7 @@ public class IntakePivot extends SubsystemBase {
         .withName("IntakePivotRaise");
   }
 
-  public Command lower() {
+  public Command lower() { ///hi
     return run(() -> {
           // if (DriverStation.isAutonomous()) {
           //   io.runVolts(0);
