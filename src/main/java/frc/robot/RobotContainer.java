@@ -45,26 +45,33 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.intakePivot.IntakePivotIO;
 import frc.robot.subsystems.intakePivot.IntakePivotIOSim;
+import frc.robot.subsystems.intakePivot.IntakePivotIOTalon;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIO;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIOSim;
+import frc.robot.subsystems.rollers.intakerollers.IntakeRollersIOTalonFX;
 import frc.robot.subsystems.rollers.kicker.Kicker;
 import frc.robot.subsystems.rollers.kicker.Kicker.KickerState;
 import frc.robot.subsystems.rollers.kicker.KickerIO;
 import frc.robot.subsystems.rollers.kicker.KickerIOSim;
+import frc.robot.subsystems.rollers.kicker.KickerIOTalonFX;
 import frc.robot.subsystems.rollers.spindexer.Spindexer;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIO;
 import frc.robot.subsystems.rollers.spindexer.SpindexerIOSim;
+import frc.robot.subsystems.rollers.spindexer.SpindexerIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.flywheels.Flywheels;
 import frc.robot.subsystems.shooter.flywheels.FlywheelsIO;
 import frc.robot.subsystems.shooter.flywheels.FlywheelsIOSim;
+import frc.robot.subsystems.shooter.flywheels.FlywheelsIOTalonFX;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.subsystems.shooter.hood.HoodIO;
 import frc.robot.subsystems.shooter.hood.HoodIOSim;
+import frc.robot.subsystems.shooter.hood.HoodIOTalonFX;
 import frc.robot.subsystems.shooter.turret.Turret;
 import frc.robot.subsystems.shooter.turret.TurretIO;
 import frc.robot.subsystems.shooter.turret.TurretIOSim;
+import frc.robot.subsystems.shooter.turret.TurretIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
@@ -153,14 +160,14 @@ public class RobotContainer {
         //         new ModuleIO() {},
         //         new ModuleIO() {},
         //         poseManager);
-        spindexer = new Spindexer(new SpindexerIO() {});
+        // spindexer = new Spindexer(new SpindexerIO() {});
         climb = new Climb(new ClimbIO() {});
-        intakePivot = new IntakePivot(new IntakePivotIO() {});
-        intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
-        flywheels = new Flywheels(new FlywheelsIO() {});
-        turret = new Turret(new TurretIO() {});
-        hood = new Hood(new HoodIO() {});
-        kicker = new Kicker(new KickerIO() {});
+        // intakePivot = new IntakePivot(new IntakePivotIO() {});
+        // intakeRollers = new IntakeRollers(new IntakeRollersIO() {});
+        // flywheels = new Flywheels(new FlywheelsIO() {});
+        // turret = new Turret(new TurretIO() {});
+        // hood = new Hood(new HoodIO() {});
+        // kicker = new Kicker(new KickerIO() {});
 
         // * working ones below this line
         drive =
@@ -171,21 +178,18 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight),
                 poseManager);
-        // spindexer = new Spindexer(new SpindexerIOTalonFX());
+        spindexer = new Spindexer(new SpindexerIOTalonFX());
         // climb = new Climb(new ClimbIOTalonFX());
-        // intakePivot = new IntakePivot(new IntakePivotIOTalon());
-        // intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
-        // flywheels = new Flywheels(new FlywheelsIOTalonFX());
-        // turret = new Turret(new TurretIOTalonFX());
-        // hood = new Hood(new HoodIOTalonFX());
-        // kicker = new Kicker(new KickerIOTalonFX());
+        intakePivot = new IntakePivot(new IntakePivotIOTalon());
+        intakeRollers = new IntakeRollers(new IntakeRollersIOTalonFX());
+        flywheels = new Flywheels(new FlywheelsIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
+        hood = new Hood(new HoodIOTalonFX());
+        kicker = new Kicker(new KickerIOTalonFX());
 
         // vision = new Vision(poseManager, new VisionIO() {});
         vision =
-            new Vision(
-                poseManager,
-                new VisionIOLimelight(portFore),
-                new VisionIOLimelight(portAft),
+            new Vision(),
                 new VisionIOLimelight(starboardAft));
         shooter = new Shooter(flywheels, turret, hood, poseManager, fuelSim);
         break;
@@ -197,7 +201,10 @@ public class RobotContainer {
                 new GyroIO() {},
                 new ModuleIOSim(TunerConstants.FrontLeft),
                 new ModuleIOSim(TunerConstants.FrontRight),
-                new ModuleIOSim(TunerConstants.BackLeft),
+                new ModuleIOSim(
+                poseManager,
+                new VisionIOLimelight(portFore),
+                new VisionIOLimelight(portAftTunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight),
                 poseManager);
         spindexer = new Spindexer(new SpindexerIOSim());
@@ -301,7 +308,7 @@ public class RobotContainer {
                 poseManager::getPose,
                 poseManager::getChassisSpeeds,
                 drive::runVelocity,
-                new PIDController(2.0, 0.0, 0.0),
+                new PIDController(3.0, 0.0, 0.0),
                 new PIDController(1.0, 0.0, 0.0),
                 new PIDController(0.2, 0.0, 0.0))
             .withDefaultShouldFlip()
