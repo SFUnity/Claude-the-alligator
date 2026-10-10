@@ -176,45 +176,45 @@ public class ShooterUtil {
     Logger.recordOutput("Shooter/Turret/CurrentTurretPose", turretPosition);
     double turretToTargetDistance = targetPose.getDistance(turretPosition.getTranslation()) + 0.25;
 
-    // Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
-    // double robotAngle = robotPose.getRotation().getRadians();
-    // double turretVelocityX =
-    //     fieldRelativeRobotVelocity.dx
-    //         + fieldRelativeRobotVelocity.dtheta
-    //             * (turretCenter.getY() * Math.cos(robotAngle)
-    //                 - turretCenter.getX() * Math.sin(robotAngle));
-    // double turretVelocityY =
-    //     fieldRelativeRobotVelocity.dy
-    //         + fieldRelativeRobotVelocity.dtheta
-    //             * (turretCenter.getX() * Math.cos(robotAngle)
-    //                 - turretCenter.getY() * Math.sin(robotAngle));
+    Twist2d fieldRelativeRobotVelocity = poseManager.getFieldVelocity();
+    double robotAngle = robotPose.getRotation().getRadians();
+    double turretVelocityX =
+        fieldRelativeRobotVelocity.dx
+            + fieldRelativeRobotVelocity.dtheta
+                * (turretCenter.getY() * Math.cos(robotAngle)
+                    - turretCenter.getX() * Math.sin(robotAngle));
+    double turretVelocityY =
+        fieldRelativeRobotVelocity.dy
+            + fieldRelativeRobotVelocity.dtheta
+                * (turretCenter.getX() * Math.cos(robotAngle)
+                    - turretCenter.getY() * Math.sin(robotAngle));
 
-    // double timeOfFlight;
-    // Pose2d lookeaheadPose = turretPosition;
-    // double lookaheadTurretToTargetDistance = turretToTargetDistance;
-    // for (int i = 0; i < 10; i++) {
-    //   //   timeOfFlight = 0; // change this back later
-    //   // timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
-    //   timeOfFlight = lookahead ? timeOfFlightMap.get(lookaheadTurretToTargetDistance) : 0;
-    //   double offsetX = turretVelocityX * timeOfFlight;
-    //   double offsetY = turretVelocityY * timeOfFlight;
-    //   lookeaheadPose =
-    //       new Pose2d(
-    //           turretPosition.getTranslation().plus(new Translation2d(offsetX, offsetY)),
-    //           turretPosition.getRotation());
-    //   lookaheadTurretToTargetDistance = targetPose.getDistance(lookeaheadPose.getTranslation());
-    // }
+    double timeOfFlight;
+    Pose2d lookeaheadPose = turretPosition;
+    double lookaheadTurretToTargetDistance = turretToTargetDistance;
+    for (int i = 0; i < 10; i++) {
+      //   timeOfFlight = 0; // change this back later
+      // timeOfFlight = 0.5; // TODO: replace with actual time of flight calculation
+      timeOfFlight = lookahead ? timeOfFlightMap.get(lookaheadTurretToTargetDistance) : 0;
+      double offsetX = turretVelocityX * timeOfFlight;
+      double offsetY = turretVelocityY * timeOfFlight;
+      lookeaheadPose =
+          new Pose2d(
+              turretPosition.getTranslation().plus(new Translation2d(offsetX, offsetY)),
+              turretPosition.getRotation());
+      lookaheadTurretToTargetDistance = targetPose.getDistance(lookeaheadPose.getTranslation());
+    }
 
-    // Logger.recordOutput(
-    //     "Shooter/Turret/LookaheadTurretToTargetDist", lookaheadTurretToTargetDistance);
+    Logger.recordOutput(
+        "Shooter/Turret/LookaheadTurretToTargetDist", lookaheadTurretToTargetDistance);
 
-    // Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
+    Logger.recordOutput("Shooter/Turret/LookaheadTurretPose", lookeaheadPose);
 
-    // lookaheadTurretToTargetDistance += isReal ? 0.33 : 0; // shoot to back of hub, not center
+    lookaheadTurretToTargetDistance += isReal ? 0.33 : 0; // shoot to back of hub, not center
 
-    // turretAngle =
-    //     targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
-    //         - poseManager.getRotation().getDegrees();
+    turretAngle =
+        targetPose.minus(lookeaheadPose.getTranslation()).getAngle().getDegrees()
+            - poseManager.getRotation().getDegrees();
 
     LaunchingParameters params =
         new LaunchingParameters(
