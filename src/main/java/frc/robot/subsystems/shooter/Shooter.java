@@ -201,25 +201,17 @@ public class Shooter extends VirtualSubsystem {
     double turretAngle =
         targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
             - poseManager.getRotation().getDegrees();
-    turret.setTarget(turretAngle);
+    // turret.setTarget(turretAngle);
 
     Logger.recordOutput(
         "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
 
-    // Set hood and flywheel
-    // if (DriverStation.isAutonomous()) {
-    //   hood.setAngle(autoHoodAngle.get());
-    //   flywheels.setVelocity(autoFlywheelVelocity.get());
-    // } else {
-    if (Constants.currentMode == Constants.Mode.REAL) {
-      LaunchingParameters solution = shooterUtil.getLaunchingParameters(true, true, false);
-      // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-      // turret.setTarget(turretAngle);
-
-      // TODO uncomment only the below two lines when ready to use interp map
-      hood.setAngle(solution.hoodAngle());
-      flywheels.setVelocity(solution.flywheelSpeed());
-    }
+    LaunchingParameters solution =
+        shooterUtil.getSOTMParameters(true, Constants.currentMode == Constants.Mode.REAL);
+    // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
+    turret.setTarget(turretAngle);
+    hood.setAngle(solution.hoodAngle());
+    flywheels.setVelocity(solution.flywheelSpeed());
 
     // For feeding
     double distToWall = AllianceFlipUtil.applyX(turretPosition.getX());
