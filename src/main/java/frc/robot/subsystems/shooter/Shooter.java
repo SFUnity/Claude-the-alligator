@@ -13,9 +13,6 @@ import static frc.robot.util.GeomUtil.*;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
@@ -170,6 +167,7 @@ public class Shooter extends VirtualSubsystem {
 
     turret.setIsShooting(isShooting);
     flywheels.setIsShooting(isShooting);
+    hood.setIsShooting(isShooting);
 
     // myX = poseManager.getPose().getX() - LinesVertical.center;
     // myY = poseManager.getPose().getY() - LinesHorizontal.center;
@@ -185,7 +183,7 @@ public class Shooter extends VirtualSubsystem {
     // hood.setAngle(fakeHoodAngle.get());
     // flywheels.setVelocity(fakeFlywheelVelocity.get());
     // // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
-    
+
     // Translation2d targetPose = // TODO add back in if sotm not working or need do map
     //     // AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
     //     AllianceFlipUtil.apply(
@@ -209,18 +207,14 @@ public class Shooter extends VirtualSubsystem {
     LaunchingParameters solution =
         shooterUtil.getSOTMParameters(isScoring, Constants.currentMode == Constants.Mode.REAL);
     // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-    if (!isShooting) {
-      hood.setAngle(HoodConstants.minPositionDegs);
-    } else {
-      hood.setAngle(solution.hoodAngle());
-    }
 
     if (eFixedAngle.getAsBoolean()) {
       turret.setTarget(turretFixedAngle);
     } else {
       turret.setTarget(solution.turretAngle());
     }
-    
+
+    hood.setAngle(solution.hoodAngle());
     flywheels.setVelocity(solution.flywheelSpeed());
 
     // For feeding

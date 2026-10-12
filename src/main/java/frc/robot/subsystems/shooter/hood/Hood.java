@@ -18,6 +18,7 @@ public class Hood extends SubsystemBase {
   private final HoodIOInputsAutoLogged inputs = new HoodIOInputsAutoLogged();
   private double goalPosition;
   private boolean isZeroing = false;
+  private boolean isShooting = false;
 
   private final Debouncer statorCurrentDebouncer = new Debouncer(0.2, DebounceType.kFalling);
 
@@ -33,8 +34,10 @@ public class Hood extends SubsystemBase {
 
     Logger.recordOutput("Shooter/Hood/Goal", goalPosition);
     Logger.recordOutput("Shooter/Hood/IsZeroing", isZeroing);
-    if (!isZeroing) {
+    if (!isZeroing && !isShooting) {
       io.setPosition(goalPosition);
+    } else if (!isZeroing) {
+      io.setPosition(HoodConstants.minPositionDegs);
     }
   }
 
@@ -53,6 +56,10 @@ public class Hood extends SubsystemBase {
       return goalPosition;
     }
     return inputs.positionDeg;
+  }
+
+  public void setIsShooting(boolean isShooting) {
+    this.isShooting = isShooting;
   }
 
   public Command runCurrentZeroing() {
