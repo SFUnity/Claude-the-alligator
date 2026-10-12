@@ -207,31 +207,32 @@ public class Shooter extends VirtualSubsystem {
         "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
 
     LaunchingParameters solution =
-        shooterUtil.getSOTMParameters(true, Constants.currentMode == Constants.Mode.REAL);
+        shooterUtil.getSOTMParameters(isScoring, Constants.currentMode == Constants.Mode.REAL);
     // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
     turret.setTarget(turretAngle);
     hood.setAngle(solution.hoodAngle());
     flywheels.setVelocity(solution.flywheelSpeed());
 
     // For feeding
-    double distToWall = AllianceFlipUtil.applyX(turretPosition.getX());
-    // Logger.recordOutput("Shooter/Turret/distToWall", distToWall);
+    // TODO comment in if sotm feeding isnt working
+    // double distToWall = AllianceFlipUtil.applyX(turretPosition.getX());
+    // // Logger.recordOutput("Shooter/Turret/distToWall", distToWall);
 
-    if (!isScoring) {
-      turret.setTarget(180 - AllianceFlipUtil.apply(poseManager.getRotation()).getDegrees());
-      // turret.setTarget(fakeTurretAngle.get());
-      hood.setAngle(shooterUtil.feedingHoodAngle(distToWall));
-      // hood.setAngle(fakeHoodAngle.get());
+    // if (!isScoring) {
+    //   turret.setTarget(180 - AllianceFlipUtil.apply(poseManager.getRotation()).getDegrees());
+    //   // turret.setTarget(fakeTurretAngle.get());
+    //   hood.setAngle(shooterUtil.feedingHoodAngle(distToWall));
+    //   // hood.setAngle(fakeHoodAngle.get());
 
-      flywheels.setVelocity(shooterUtil.feedingFlywheelSpeed(distToWall));
+    //   flywheels.setVelocity(shooterUtil.feedingFlywheelSpeed(distToWall));
 
-      // To shoot towards a certain location if turret starts working
-      if (myY > 0f) {
-        // To do add shoot to near the middle top
-      } else {
-        // To do add shoot to near the middle bottom
-      }
-    }
+    //   // To shoot towards a certain location if turret starts working
+    //   if (myY > 0f) {
+    //     // To do add shoot to near the middle top
+    //   } else {
+    //     // To do add shoot to near the middle bottom
+    //   }
+    // }
     // } // see above part about autos if you're using this curly brace
 
     // For testing / tuning
