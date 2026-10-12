@@ -185,32 +185,42 @@ public class Shooter extends VirtualSubsystem {
     // hood.setAngle(fakeHoodAngle.get());
     // flywheels.setVelocity(fakeFlywheelVelocity.get());
     // // turret.setTarget(fakeTurretAngle.get(), fakeTurretVelocity.get());
+    
+    // Translation2d targetPose = // TODO add back in if sotm not working or need do map
+    //     // AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
+    //     AllianceFlipUtil.apply(
+    //         FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0, 0)));
+    // Logger.recordOutput("Shooter/Turret/turretTarget", new Pose2d(targetPose, new Rotation2d()));
 
-    Translation2d targetPose = // TODO change if feeding and not scoring
-        // AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
-        AllianceFlipUtil.apply(
-            FieldConstants.Hub.topCenterPoint.toTranslation2d().plus(new Translation2d(0, 0)));
-    Logger.recordOutput("Shooter/Turret/turretTarget", new Pose2d(targetPose, new Rotation2d()));
-
-    // Set turret angle
-    Pose2d turretPosition =
-        robotPose.transformBy(
-            new Transform2d(
-                turretCenter.getTranslation().toTranslation2d(), poseManager.getRotation()));
-    // Logger.recordOutput("Shooter/Turret/turretpose", turretPosition);
-    double turretAngle =
-        targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
-            - poseManager.getRotation().getDegrees();
+    // // Set turret angle
+    // Pose2d turretPosition =
+    //     robotPose.transformBy(
+    //         new Transform2d(
+    //             turretCenter.getTranslation().toTranslation2d(), poseManager.getRotation()));
+    // // Logger.recordOutput("Shooter/Turret/turretpose", turretPosition);
+    // double turretAngle =
+    //     targetPose.minus(turretPosition.getTranslation()).getAngle().getDegrees()
+    //         - poseManager.getRotation().getDegrees();
     // turret.setTarget(turretAngle);
 
-    Logger.recordOutput(
-        "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
+    // Logger.recordOutput(
+    //     "Shooter/Turret/DistToTarget", turretPosition.getTranslation().getDistance(targetPose));
 
     LaunchingParameters solution =
         shooterUtil.getSOTMParameters(isScoring, Constants.currentMode == Constants.Mode.REAL);
     // double turretAngle = solution.turretAngle() - poseManager.getRotation().getDegrees();
-    turret.setTarget(turretAngle);
-    hood.setAngle(solution.hoodAngle());
+    if (!isShooting) {
+      hood.setAngle(HoodConstants.minPositionDegs);
+    } else {
+      hood.setAngle(solution.hoodAngle());
+    }
+
+    if (eFixedAngle.getAsBoolean()) {
+      turret.setTarget(turretFixedAngle);
+    } else {
+      turret.setTarget(solution.turretAngle());
+    }
+    
     flywheels.setVelocity(solution.flywheelSpeed());
 
     // For feeding
@@ -241,13 +251,6 @@ public class Shooter extends VirtualSubsystem {
     // turret.setTarget(fakeTurretAngle.get());
 
     // Hood safety
-    if (!isShooting) {
-      hood.setAngle(HoodConstants.minPositionDegs);
-    }
-
-    if (eFixedAngle.getAsBoolean()) {
-      turret.setTarget(turretFixedAngle);
-    }
 
     // For fuel sim
     if (Constants.currentMode == Constants.Mode.SIM
