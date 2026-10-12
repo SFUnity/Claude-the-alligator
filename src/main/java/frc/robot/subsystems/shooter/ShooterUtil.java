@@ -278,7 +278,7 @@ public class ShooterUtil {
       if (turretPosition.getY() > FieldConstants.fieldWidth / 2) {
         targetPose =
             AllianceFlipUtil.apply(
-                new Translation2d(AllianceFlipUtil.applyX(0), FieldConstants.fieldWidth - 0.5));
+                new Translation2d(AllianceFlipUtil.applyX(0), FieldConstants.fieldWidth - 0.25));
       } else {
         targetPose = AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
       }
