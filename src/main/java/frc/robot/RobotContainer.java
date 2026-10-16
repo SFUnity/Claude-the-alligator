@@ -112,6 +112,10 @@ public class RobotContainer {
   private final Alert driverDisconnected =
       new Alert("Driver controller disconnected (port 0).", AlertType.kWarning);
 
+private final CommandXboxController controllerOperator = new CommandXboxController(1);
+  private final Alert operatorDisconnected =
+      new Alert("Operater controller disconnected (port 1).", AlertType.kWarning);
+
   // Alerts
   private static final double canErrorTimeThreshold = 0.5; // Seconds to disable alert
   private static final double lowBatteryVoltage = 12.5;
@@ -331,6 +335,13 @@ public class RobotContainer {
     driverDisconnected.set(!driverConnected);
     Logger.recordOutput("Controls/driverConnected", driverConnected);
 
+    boolean operatorConnected =
+        controllerOperator.isConnected()
+            && DriverStation.getJoystickIsXbox(
+                controllerOperator.getHID().getPort()); // Should be an XBox controller
+    operatorDisconnected.set(!operatorConnected);
+    Logger.recordOutput("Controls/operatorConnected", operatorConnected);
+
     // Check CAN status
     var canStatus = RobotController.getCANStatus();
     if (canStatus.transmitErrorCount > 0 || canStatus.receiveErrorCount > 0) {
@@ -474,8 +485,8 @@ public class RobotContainer {
     //             : RobotCommands.readyThenShoot(shooter, kicker, spindexer));
 
     // Current zeroing
-    controller.povRight().onTrue(intakePivot.runCurrentZeroing());
-    controller.povLeft().onTrue(hood.runCurrentZeroing());
+    controllerOperator.povRight().onTrue(intakePivot.runCurrentZeroing());
+    controllerOperator.povLeft().onTrue(hood.runCurrentZeroing());
 
     // Controller rumble when 5 seconds are left in the current shift
     new Trigger(
