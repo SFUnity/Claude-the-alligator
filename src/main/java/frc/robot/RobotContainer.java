@@ -416,7 +416,7 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX(),
             poseManager,
-            demoMode::get));
+            () -> drive.getSpeedLimited()));
     spindexer.setDefaultCommand(spindexer.stop());
     climb.setDefaultCommand(climb.idle());
     intakePivot.setDefaultCommand(intakePivot.raise());
@@ -455,8 +455,9 @@ public class RobotContainer {
     controller
         .rightBumper()
         .whileTrue(
-            RobotCommands.readyThenShoot(shooter, kicker, spindexer, () -> poseManager.getPose()));
-    controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer));
+            RobotCommands.readyThenShoot(
+                shooter, kicker, spindexer, drive, () -> poseManager.getPose()));
+    controller.rightBumper().onFalse(RobotCommands.stopShoot(shooter, kicker, spindexer, drive));
     // controller.rightBumper().whileTrue(shooter.decrementTurretAngle());
 
     controller.a().onTrue(shooter.overrideSetScoring(true));

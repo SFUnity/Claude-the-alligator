@@ -6,6 +6,7 @@ import static frc.robot.FieldConstants.LinesVertical;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.intakePivot.IntakePivot;
 import frc.robot.subsystems.rollers.intakerollers.IntakeRollers;
 import frc.robot.subsystems.rollers.kicker.Kicker;
@@ -21,16 +22,18 @@ public class RobotCommands {
   // private static final double shootingBackupRots = 0.1;
 
   // can be fully shot out of the robot
-  public static Command stopShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
+  public static Command stopShoot(
+      Shooter shooter, Kicker kicker, Spindexer spindexer, Drive drive) {
     return Commands.parallel(
             spindexer.stop(),
+            Commands.runOnce(() -> drive.setSpeedLimited(false)),
             Commands.waitSeconds(0.3)
                 .andThen(shooter.setShooting(false), kicker.setState(KickerState.STOP)))
         .withName("StopShoot");
   }
 
   public static Command readyThenShoot(
-      Shooter shooter, Kicker kicker, Spindexer spindexer, Supplier<Pose2d> pose2d) {
+      Shooter shooter, Kicker kicker, Spindexer spindexer, Drive drive, Supplier<Pose2d> pose2d) {
     BooleanSupplier behindHub =
         () -> {
           Pose2d pose = AllianceFlipUtil.apply(pose2d.get());
@@ -41,6 +44,7 @@ public class RobotCommands {
     return Commands.sequence(
             kicker.setState(KickerState.RUN),
             shooter.setShooting(true),
+            Commands.runOnce(() -> drive.setSpeedLimited(true)),
             Commands.waitUntil(shooter::readyToShoot).withTimeout(0.7),
             spindexer
                 .runBasic()
@@ -52,8 +56,9 @@ public class RobotCommands {
         .withName("ReadyThenShoot");
   }
 
-  public static Command readyThenShoot(Shooter shooter, Kicker kicker, Spindexer spindexer) {
-    return readyThenShoot(shooter, kicker, spindexer, () -> new Pose2d());
+  public static Command readyThenShoot(
+      Shooter shooter, Kicker kicker, Spindexer spindexer, Drive drive) {
+    return readyThenShoot(shooter, kicker, spindexer, drive, () -> new Pose2d());
   }
 
   public static Command intake(IntakeRollers intake, IntakePivot intakePivot) {
@@ -81,8 +86,9 @@ public class RobotCommands {
       Kicker kicker,
       Spindexer spindexer,
       IntakeRollers intake,
-      IntakePivot intakePivot) {
-    return readyThenShoot(shooter, kicker, spindexer)
+      IntakePivot intakePivot,
+      Drive drive) {
+    return readyThenShoot(shooter, kicker, spindexer, drive)
         .deadlineFor(jork(intake, intakePivot))
         .withName("readyThenShootWithJork");
   }
