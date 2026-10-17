@@ -610,21 +610,25 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine LowerCenterPark () {
+  public AutoRoutine LowerCenterPark() {
     AutoRoutine routine = factory.newRoutine("Lower Center Park Auto Routine");
     AutoTrajectory LowerCenterPark = routine.trajectory("LowerCenterPark");
     routine
         .active()
-        .onTrue(Commands.sequence(LowerCenterPark.resetOdometry(), Commands.waitSeconds(5), LowerCenterPark.cmd()));
+        .onTrue(
+            Commands.sequence(
+                LowerCenterPark.resetOdometry(), Commands.waitSeconds(5), LowerCenterPark.cmd()));
     return routine;
   }
 
-  public AutoRoutine UpperCenterPark () {
+  public AutoRoutine UpperCenterPark() {
     AutoRoutine routine = factory.newRoutine("Upper Center Park Auto Routine");
     AutoTrajectory UpperCenterPark = routine.trajectory("UpperCenterPark");
     routine
         .active()
-        .onTrue(Commands.sequence(UpperCenterPark.resetOdometry(), Commands.waitSeconds(5), UpperCenterPark.cmd()));
+        .onTrue(
+            Commands.sequence(
+                UpperCenterPark.resetOdometry(), Commands.waitSeconds(5), UpperCenterPark.cmd()));
     return routine;
   }
 }
