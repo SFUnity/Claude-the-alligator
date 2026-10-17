@@ -107,6 +107,7 @@ public class Autos {
     chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
     chooser.addRoutine("Simple Shoot", this::SimpleShoot);
     // chooser.addRoutine("Center Shoot", this::CenterShoot);
+    chooser.addRoutine("Lower Center Park", this::LowerCenterPark);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -605,6 +606,15 @@ public class Autos {
         .onTrue(
             RobotCommands.stopShoot(shooter, kicker, spindexer, drive)
                 .alongWith(RobotCommands.jork(intake, intakePivot)));
+    return routine;
+  }
+
+  public AutoRoutine LowerCenterPark () {
+    AutoRoutine routine = factory.newRoutine("Lower Center Park Auto Routine");
+    AutoTrajectory LowerCenterPark = routine.trajectory("LowerCenterPark");
+    routine
+        .active()
+        .onTrue(Commands.sequence(LowerCenterPark.resetOdometry(), Commands.waitSeconds(5), LowerCenterPark.cmd()));
     return routine;
   }
 }
