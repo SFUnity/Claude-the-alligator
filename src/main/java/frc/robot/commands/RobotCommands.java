@@ -53,7 +53,7 @@ public class RobotCommands {
                 .repeatedly())
         // Commands.waitSeconds(0.1),
         // unjam(spindexer, kicker, shooter))
-        .withName("ReadyThenShoot");
+        .withName("ReadyThenShoot").finallyDo((interrupted) -> stopShoot(shooter, kicker, spindexer, drive));
   }
 
   public static Command readyThenShoot(
