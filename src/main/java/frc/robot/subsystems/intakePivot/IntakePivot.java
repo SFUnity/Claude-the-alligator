@@ -102,12 +102,6 @@ public class IntakePivot extends SubsystemBase {
   public Command runIntakeSlapDown() {
     return run(() -> io.runVolts(5))
         .until(() -> inputs.statorCurrent > 40)
-        .andThen(waitSeconds(0.2))
-        .finallyDo(
-            () -> {
-              prezeroedAngle = inputs.currentPositionDeg;
-              io.resetEncoder(Units.degreesToRotations(-10));
-            })
         .withName("IntakePivotCurrentZeroing");
   }
 
