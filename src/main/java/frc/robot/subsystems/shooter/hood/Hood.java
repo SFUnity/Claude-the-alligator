@@ -34,7 +34,7 @@ public class Hood extends SubsystemBase {
 
     Logger.recordOutput("Shooter/Hood/Goal", goalPosition);
     Logger.recordOutput("Shooter/Hood/IsZeroing", isZeroing);
-    if (!isZeroing && !isShooting) {
+    if (!isZeroing && isShooting) {
       io.setPosition(goalPosition);
     } else if (!isZeroing) {
       io.setPosition(HoodConstants.minPositionDegs);
