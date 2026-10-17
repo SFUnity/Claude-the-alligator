@@ -68,7 +68,10 @@ public class RobotCommands {
   }
 
   public static Command intakeWithSlapDownIntake(IntakeRollers intake, IntakePivot intakePivot) {
-    return intake.intake().alongWith(intakePivot.runIntakeSlapDown()).withName("intakeWithSlapDownIntake");
+    return intake
+        .intake()
+        .alongWith(intakePivot.runIntakeSlapDown())
+        .withName("intakeWithSlapDownIntake");
   }
 
   public static Command unjam(Spindexer spindexer, Kicker kicker, Shooter shooter) {

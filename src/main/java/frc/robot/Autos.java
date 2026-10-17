@@ -378,7 +378,9 @@ public class Autos {
                     () ->
                         poseManager.setPose(
                             segment0.getInitialPose().orElse(poseManager.getPose()))));
-    segment0.atTime("StartIntake").onTrue(RobotCommands.intakeWithSlapDownIntake(intake, intakePivot));
+    segment0
+        .atTime("StartIntake")
+        .onTrue(RobotCommands.intakeWithSlapDownIntake(intake, intakePivot));
     // segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment0
         .done()
@@ -426,7 +428,9 @@ public class Autos {
                     () ->
                         poseManager.setPose(
                             segment0.getInitialPose().orElse(poseManager.getPose()))));
-    segment0.atTime("StartIntake").onTrue(RobotCommands.intakeWithSlapDownIntake(intake, intakePivot));
+    segment0
+        .atTime("StartIntake")
+        .onTrue(RobotCommands.intakeWithSlapDownIntake(intake, intakePivot));
     // segment0.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     segment0
         .done()
