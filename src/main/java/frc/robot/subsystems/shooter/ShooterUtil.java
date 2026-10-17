@@ -278,9 +278,9 @@ public class ShooterUtil {
       if (turretPosition.getY() > FieldConstants.fieldWidth / 2) {
         targetPose =
             AllianceFlipUtil.apply(
-                new Translation2d(AllianceFlipUtil.applyX(0), FieldConstants.fieldWidth - 0.25));
+                new Translation2d(0, FieldConstants.fieldWidth - 0.25));
       } else {
-        targetPose = AllianceFlipUtil.apply(new Translation2d(AllianceFlipUtil.applyX(0), 0.5));
+        targetPose = AllianceFlipUtil.apply(new Translation2d(0, 0.25));
       }
     }
     Logger.recordOutput("Shooter/Turret/Target", new Pose2d(targetPose, new Rotation2d()));
