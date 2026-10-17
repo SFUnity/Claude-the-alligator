@@ -10,7 +10,6 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Seconds;
 import static frc.robot.subsystems.vision.VisionConstants.*;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,8 +29,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RobotCommands;
 import frc.robot.generated.TunerConstants;
-import frc.robot.lib.BLine.FollowPath;
-import frc.robot.lib.BLine.Path;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.climb.ClimbIO;
 import frc.robot.subsystems.climb.ClimbIOSim;
@@ -103,7 +100,7 @@ public class RobotContainer {
   private final Vision vision;
 
   // Non-subsystems
-  // private final Autos autos;
+  private final Autos autos;
   private final PoseManager poseManager = new PoseManager();
   public final FuelSim fuelSim = new FuelSim("FuelSim");
 
@@ -112,7 +109,7 @@ public class RobotContainer {
   private final Alert driverDisconnected =
       new Alert("Driver controller disconnected (port 0).", AlertType.kWarning);
 
-private final CommandXboxController controllerOperator = new CommandXboxController(1);
+  private final CommandXboxController controllerOperator = new CommandXboxController(1);
   private final Alert operatorDisconnected =
       new Alert("Operater controller disconnected (port 1).", AlertType.kWarning);
 
@@ -287,17 +284,17 @@ private final CommandXboxController controllerOperator = new CommandXboxControll
         break;
     }
 
-    // autos =
-    //     new Autos(
-    //         drive,
-    //         poseManager,
-    //         intakeRollers,
-    //         intakePivot,
-    //         shooter,
-    //         kicker,
-    //         spindexer,
-    //         climb,
-    //         hood);
+    autos =
+        new Autos(
+            drive,
+            poseManager,
+            intakeRollers,
+            intakePivot,
+            shooter,
+            kicker,
+            spindexer,
+            climb,
+            hood);
 
     // For tuning visualizations
     // Logger.recordOutput("ZeroedPose2d", new Pose2d());
@@ -306,24 +303,24 @@ private final CommandXboxController controllerOperator = new CommandXboxControll
     // Configure the button bindings
     configureButtonBindings();
 
-    FollowPath.Builder pathBuilder =
-        new FollowPath.Builder(
-                drive,
-                poseManager::getPose,
-                poseManager::getChassisSpeeds,
-                drive::runVelocity,
-                new PIDController(2.0, 0.0, 0.0),
-                new PIDController(1.0, 0.0, 0.0),
-                new PIDController(0.2, 0.0, 0.0))
-            .withDefaultShouldFlip()
-            .withTRatioBasedTranslationHandoffs(true);
+    // FollowPath.Builder pathBuilder =
+    //     new FollowPath.Builder(
+    //             drive,
+    //             poseManager::getPose,
+    //             poseManager::getChassisSpeeds,
+    //             drive::runVelocity,
+    //             new PIDController(2.0, 0.0, 0.0),
+    //             new PIDController(1.0, 0.0, 0.0),
+    //             new PIDController(0.2, 0.0, 0.0))
+    //         .withDefaultShouldFlip()
+    //         .withTRatioBasedTranslationHandoffs(true);
 
-    Path firstStraight = new Path("first-straight");
+    // Path firstStraight = new Path("first-straight");
 
-    Command firstAuto = pathBuilder.withPoseReset(poseManager::setPose).build(firstStraight);
+    // Command firstAuto = pathBuilder.withPoseReset(poseManager::setPose).build(firstStraight);
 
-    // Builder options persist. Clear this before building any later path command.
-    pathBuilder.withPoseReset(ignored -> {});
+    // // Builder options persist. Clear this before building any later path command.
+    // pathBuilder.withPoseReset(ignored -> {});
   }
 
   public void checkAlerts() {
@@ -510,9 +507,9 @@ private final CommandXboxController controllerOperator = new CommandXboxControll
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   return autos.getAutonomousCommand();
-  // }
+  public Command getAutonomousCommand() {
+    return autos.getAutonomousCommand();
+  }
 
   public Command testInit() {
     return RobotCommands.test(
