@@ -408,5 +408,8 @@ public class ShooterUtil {
     // scoreSimTimeOfFlightMap.put(, );
     // scoreSimTimeOfFlightMap.put(, );
 
+    feedSimFlywheelSpeedMap.put(5.312, 1650.0);
+    feedSimHoodAngleMap.put(5.312, 38.0);
+    feedSimTimeOfFlightMap.put(4.044688, 0.857525);
   }
 }
