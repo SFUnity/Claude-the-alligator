@@ -196,9 +196,10 @@ public class Autos {
     ScoreCenterClimb.atTime("StopIntake").onTrue(RobotCommands.stowIntake(intake, intakePivot));
     ScoreCenterClimb.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
+            RobotCommands.readyThenShootWithJork(
+                shooter, kicker, spindexer, intake, intakePivot, drive));
     ScoreCenterClimb.atTime("StopShoot")
-        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer, drive));
     ScoreCenterClimb.done().onTrue(climb.climbDown());
     return routine;
   }
@@ -217,9 +218,10 @@ public class Autos {
         .onTrue(RobotCommands.stowIntake(intake, intakePivot));
     ScoreUpperCenterClimb.atTime("StartShoot")
         .onTrue(
-            RobotCommands.readyThenShootWithJork(shooter, kicker, spindexer, intake, intakePivot));
+            RobotCommands.readyThenShootWithJork(
+                shooter, kicker, spindexer, intake, intakePivot, drive));
     ScoreUpperCenterClimb.atTime("StopShoot")
-        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer, drive));
     ScoreUpperCenterClimb.done().onTrue(climb.climbDown());
     return routine;
   }
@@ -275,11 +277,11 @@ public class Autos {
     Feed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
-                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive)));
     Feed.atTime("StopIntakeandShoot")
         .onTrue(
             RobotCommands.stowIntake(intake, intakePivot)
-                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer, drive)));
     return routine;
   }
 
@@ -291,11 +293,11 @@ public class Autos {
     LowerFeed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
-                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive)));
     LowerFeed.atTime("StopIntakeandShoot")
         .onTrue(
             RobotCommands.stowIntake(intake, intakePivot)
-                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+                .alongWith(RobotCommands.stopShoot(shooter, kicker, spindexer, drive)));
     // LowerFeed.atTime("StartIntakeandShoot")
     //     .onTrue(
     //         RobotCommands.intake(intake, intakePivot)
@@ -385,8 +387,8 @@ public class Autos {
                     Commands.waitSeconds(3),
                     RobotCommands.jork(intake, intakePivot).withTimeout(3),
                     intakePivot.runCurrentZeroing().alongWith(intake.stop()))
-                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
-                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive))
+                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer, drive)));
     // segment0
     //     .done()
     //     .onTrue(
@@ -402,8 +404,8 @@ public class Autos {
                     Commands.waitSeconds(3),
                     RobotCommands.jork(intake, intakePivot).withTimeout(3),
                     intakePivot.runCurrentZeroing())
-                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
-                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive))
+                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer, drive)));
     return routine;
   }
 
@@ -433,8 +435,8 @@ public class Autos {
                     Commands.waitSeconds(3),
                     RobotCommands.jork(intake, intakePivot).withTimeout(3),
                     intakePivot.runCurrentZeroing().alongWith(intake.stop()))
-                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
-                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive))
+                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer, drive)));
     // segment0
     //     .done()
     //     .onTrue(
@@ -450,8 +452,8 @@ public class Autos {
                     Commands.waitSeconds(3),
                     RobotCommands.jork(intake, intakePivot).withTimeout(3),
                     intakePivot.runCurrentZeroing())
-                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer))
-                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer)));
+                .deadlineFor(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive))
+                .andThen(RobotCommands.stopShoot(shooter, kicker, spindexer, drive)));
     return routine;
   }
 
@@ -469,10 +471,10 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive)
                     .alongWith(RobotCommands.jork(intake, intakePivot).asProxy())
                     .withTimeout(4.0),
-                RobotCommands.stopShoot(shooter, kicker, spindexer)
+                RobotCommands.stopShoot(shooter, kicker, spindexer, drive)
                     .withTimeout(0.75)
                     .deadlineFor(intakePivot.runCurrentZeroing().asProxy())));
     segment0.done().onTrue(Commands.waitSeconds(4.75).andThen(segment1.cmd()));
@@ -483,10 +485,10 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive)
                     .alongWith(RobotCommands.jork(intake, intakePivot))
                     .withTimeout(3.75),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
+                RobotCommands.stopShoot(shooter, kicker, spindexer, drive).withTimeout(1)));
     return routine;
   }
 
@@ -503,10 +505,10 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive)
                     .alongWith(RobotCommands.jork(intake, intakePivot).asProxy())
                     .withTimeout(4.0),
-                RobotCommands.stopShoot(shooter, kicker, spindexer)
+                RobotCommands.stopShoot(shooter, kicker, spindexer, drive)
                     .withTimeout(0.75)
                     .deadlineFor(intakePivot.runCurrentZeroing().asProxy())));
     segment0.done().onTrue(Commands.waitSeconds(4.75).andThen(segment1.cmd()));
@@ -517,10 +519,10 @@ public class Autos {
         .done()
         .onTrue(
             Commands.sequence(
-                RobotCommands.readyThenShoot(shooter, kicker, spindexer)
+                RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive)
                     .alongWith(RobotCommands.jork(intake, intakePivot))
                     .withTimeout(3.75),
-                RobotCommands.stopShoot(shooter, kicker, spindexer).withTimeout(1)));
+                RobotCommands.stopShoot(shooter, kicker, spindexer, drive).withTimeout(1)));
     return routine;
   }
 
@@ -530,7 +532,7 @@ public class Autos {
     routine.active().onTrue(Commands.sequence(simpleShoot.resetOdometry(), simpleShoot.cmd()));
     simpleShoot
         .done()
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(10));
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive).withTimeout(10));
     return routine;
   }
 
@@ -539,7 +541,7 @@ public class Autos {
     AutoTrajectory CenterShoot = routine.trajectory("CenterShoot");
     routine.active().onTrue(Commands.sequence(CenterShoot.resetOdometry(), CenterShoot.cmd()));
     CenterShoot.done()
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer).withTimeout(10));
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive).withTimeout(10));
     return routine;
   }
   /**
@@ -567,14 +569,14 @@ public class Autos {
     CompleteLowerFeed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
-                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive)));
     CompleteLowerFeed.atTime("StopShoot")
-        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer, drive));
     CompleteLowerFeed.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
     CompleteLowerFeed.atTime("StopIntakeandShoot")
         .onTrue(
-            RobotCommands.stopShoot(shooter, kicker, spindexer)
+            RobotCommands.stopShoot(shooter, kicker, spindexer, drive)
                 .alongWith(RobotCommands.jork(intake, intakePivot)));
     return routine;
   }
@@ -590,14 +592,14 @@ public class Autos {
     CompleteUpperFeed.atTime("StartIntakeandShoot")
         .onTrue(
             RobotCommands.intake(intake, intakePivot)
-                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer)));
+                .alongWith(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive)));
     CompleteUpperFeed.atTime("StopShoot")
-        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer));
+        .onTrue(RobotCommands.stopShoot(shooter, kicker, spindexer, drive));
     CompleteUpperFeed.atTime("StartShoot")
-        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer));
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
     CompleteUpperFeed.atTime("StopIntakeandShoot")
         .onTrue(
-            RobotCommands.stopShoot(shooter, kicker, spindexer)
+            RobotCommands.stopShoot(shooter, kicker, spindexer, drive)
                 .alongWith(RobotCommands.jork(intake, intakePivot)));
     return routine;
   }

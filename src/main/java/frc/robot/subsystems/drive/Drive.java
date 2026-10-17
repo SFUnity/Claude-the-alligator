@@ -79,6 +79,8 @@ public class Drive extends SubsystemBase {
   private final PIDController headingAutoController =
       new PIDController(rkPAuto.get(), 0.0, rkDAuto.get());
 
+  private boolean speedLimited = false;
+
   public Drive(
       GyroIO gyroIO,
       ModuleIO flModuleIO,
@@ -389,5 +391,14 @@ public class Drive extends SubsystemBase {
 
   public void endTuneModule() {
     for (var module : modules) module.stop();
+  }
+
+  public boolean getSpeedLimited() {
+    Logger.recordOutput("Drive/SpeedLimited", speedLimited);
+    return speedLimited;
+  }
+
+  public void setSpeedLimited(boolean limited) {
+    speedLimited = limited;
   }
 }
