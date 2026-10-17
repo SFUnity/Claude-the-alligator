@@ -94,11 +94,11 @@ public class Autos {
     // chooser.addRoutine("Score Upper Center", this::ScoreUpperCenterAutoRoutine);
     // chooser.addRoutine("Score Upper Center Climb", this::ScoreUpperCenterClimbAutoRoutine);
     // chooser.addRoutine("Feed", this::FeedAutoRoutine);
-    //chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
-    //chooser.addRoutine("Complete Lower Feed", this::CompleteLowerFeed);
-    //chooser.addRoutine("Complete Upper Feed", this::CompleteUpperFeed);
-    //chooser.addRoutine("Double Upper Bump", this::DoubleUpperBump);
-    //chooser.addRoutine("Double Lower Bump", this::DoubleLowerBump);
+    // chooser.addRoutine("Lower Feed", this::LowerFeedAutoRoutine);
+    // chooser.addRoutine("Complete Lower Feed", this::CompleteLowerFeed);
+    // chooser.addRoutine("Complete Upper Feed", this::CompleteUpperFeed);
+    // chooser.addRoutine("Double Upper Bump", this::DoubleUpperBump);
+    // chooser.addRoutine("Double Lower Bump", this::DoubleLowerBump);
     // chooser.addRoutine("Lower Feed Score", this::LowerFeedScoreAutoRoutine);
     // chooser.addRoutine("Upper Feed Score", this::UpperFeedScoreAutoRoutine);
     // chooser.addRoutine("Double Score Center Banana", this::DoubleScoreCenterBanana);
@@ -106,7 +106,7 @@ public class Autos {
     // chooser.addRoutine("Double Score Upper Center", this::DoubleScoreUpperCenter);
     chooser.addRoutine("Double Score Upper Loop", this::DoubleScoreUpperLoop);
     chooser.addRoutine("Simple Shoot", this::SimpleShoot);
-    //chooser.addRoutine("Center Shoot", this::CenterShoot);
+    // chooser.addRoutine("Center Shoot", this::CenterShoot);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
