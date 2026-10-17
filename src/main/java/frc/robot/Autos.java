@@ -613,8 +613,8 @@ public class Autos {
   }
 
   public AutoRoutine wLowerCenterPark() {
-    AutoRoutine routine = factory.newRoutine("Lower Center Park Auto Routine");
-    AutoTrajectory LowerCenterPark = routine.trajectory("LowerCenterPark");
+    AutoRoutine routine = factory.newRoutine("Wait Lower Center Park Auto Routine");
+    AutoTrajectory LowerCenterPark = routine.trajectory("wLowerCenterPark");
     routine
         .active()
         .onTrue(
@@ -635,13 +635,11 @@ public class Autos {
   }
 
   public AutoRoutine LowerCenterPark() {
-    AutoRoutine routine = factory.newRoutine("Wait Lower Center Park Auto Routine");
-    AutoTrajectory LowerCenterPark = routine.trajectory("wLowerCenterPark");
+    AutoRoutine routine = factory.newRoutine("Lower Center Park Auto Routine");
+    AutoTrajectory LowerCenterPark = routine.trajectory("LowerCenterPark");
     routine
         .active()
-        .onTrue(
-            Commands.sequence(
-                LowerCenterPark.resetOdometry(), LowerCenterPark.cmd()));
+        .onTrue(Commands.sequence(LowerCenterPark.resetOdometry(), LowerCenterPark.cmd()));
     return routine;
   }
 
@@ -650,9 +648,7 @@ public class Autos {
     AutoTrajectory UpperCenterPark = routine.trajectory("UpperCenterPark");
     routine
         .active()
-        .onTrue(
-            Commands.sequence(
-                UpperCenterPark.resetOdometry(), UpperCenterPark.cmd()));
+        .onTrue(Commands.sequence(UpperCenterPark.resetOdometry(), UpperCenterPark.cmd()));
     return routine;
   }
 }
