@@ -109,6 +109,8 @@ public class Autos {
     // chooser.addRoutine("Center Shoot", this::CenterShoot);
     chooser.addRoutine("Lower Center Park", this::LowerCenterPark);
     chooser.addRoutine("Upper Center Park", this::UpperCenterPark);
+    chooser.addRoutine("Wait Upper Center Park", this::wUpperCenterPark);
+    chooser.addRoutine("Wait Lower Center Park", this::wLowerCenterPark);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -610,7 +612,7 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine LowerCenterPark() {
+  public AutoRoutine wLowerCenterPark() {
     AutoRoutine routine = factory.newRoutine("Lower Center Park Auto Routine");
     AutoTrajectory LowerCenterPark = routine.trajectory("LowerCenterPark");
     routine
@@ -621,6 +623,28 @@ public class Autos {
     return routine;
   }
 
+  public AutoRoutine wUpperCenterPark() {
+    AutoRoutine routine = factory.newRoutine("Wait Upper Center Park Auto Routine");
+    AutoTrajectory UpperCenterPark = routine.trajectory("wUpperCenterPark");
+    routine
+        .active()
+        .onTrue(
+            Commands.sequence(
+                UpperCenterPark.resetOdometry(), Commands.waitSeconds(5), UpperCenterPark.cmd()));
+    return routine;
+  }
+
+  public AutoRoutine LowerCenterPark() {
+    AutoRoutine routine = factory.newRoutine("Wait Lower Center Park Auto Routine");
+    AutoTrajectory LowerCenterPark = routine.trajectory("wLowerCenterPark");
+    routine
+        .active()
+        .onTrue(
+            Commands.sequence(
+                LowerCenterPark.resetOdometry(), LowerCenterPark.cmd()));
+    return routine;
+  }
+
   public AutoRoutine UpperCenterPark() {
     AutoRoutine routine = factory.newRoutine("Upper Center Park Auto Routine");
     AutoTrajectory UpperCenterPark = routine.trajectory("UpperCenterPark");
@@ -628,7 +652,7 @@ public class Autos {
         .active()
         .onTrue(
             Commands.sequence(
-                UpperCenterPark.resetOdometry(), Commands.waitSeconds(5), UpperCenterPark.cmd()));
+                UpperCenterPark.resetOdometry(), UpperCenterPark.cmd()));
     return routine;
   }
 }
