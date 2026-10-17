@@ -108,6 +108,7 @@ public class Autos {
     chooser.addRoutine("Simple Shoot", this::SimpleShoot);
     // chooser.addRoutine("Center Shoot", this::CenterShoot);
     chooser.addRoutine("Lower Center Park", this::LowerCenterPark);
+    chooser.addRoutine("Upper Center Park", this::UpperCenterPark);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -615,6 +616,15 @@ public class Autos {
     routine
         .active()
         .onTrue(Commands.sequence(LowerCenterPark.resetOdometry(), Commands.waitSeconds(5), LowerCenterPark.cmd()));
+    return routine;
+  }
+
+  public AutoRoutine UpperCenterPark () {
+    AutoRoutine routine = factory.newRoutine("Upper Center Park Auto Routine");
+    AutoTrajectory UpperCenterPark = routine.trajectory("UpperCenterPark");
+    routine
+        .active()
+        .onTrue(Commands.sequence(UpperCenterPark.resetOdometry(), Commands.waitSeconds(5), UpperCenterPark.cmd()));
     return routine;
   }
 }
