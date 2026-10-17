@@ -99,6 +99,18 @@ public class IntakePivot extends SubsystemBase {
         .withName("IntakePivotCurrentZeroing");
   }
 
+  public Command runIntakeSlapDown() {
+    return run(() -> io.runVolts(5))
+        .until(() -> inputs.statorCurrent > 40)
+        .andThen(waitSeconds(0.2))
+        .finallyDo(
+            () -> {
+              prezeroedAngle = inputs.currentPositionDeg;
+              io.resetEncoder(Units.degreesToRotations(-10));
+            })
+        .withName("IntakePivotCurrentZeroing");
+  }
+
   public Command runJorkUnlessJammed() {
     return Commands.repeatingSequence(
             run(() -> {
