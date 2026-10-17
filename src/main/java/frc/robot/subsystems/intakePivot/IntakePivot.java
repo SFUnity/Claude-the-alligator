@@ -102,7 +102,7 @@ public class IntakePivot extends SubsystemBase {
   public Command runIntakeSlapDown() {
     return run(() -> io.runVolts(5))
         .until(() -> inputs.statorCurrent > 40)
-        .withName("IntakePivotCurrentZeroing");
+        .withName("IntakePivotSlapDown");
   }
 
   public Command runJorkUnlessJammed() {
