@@ -189,7 +189,7 @@ public class DriveCommands {
             () -> {
               if (isLimited.getAsBoolean()) {
                 joystickDriveLimitSpeed(
-                        drive, xSupplier, ySupplier, omegaSupplier, poseManager, () -> 0.9, () -> 2)
+                        drive, xSupplier, ySupplier, omegaSupplier, poseManager, () -> 0.6, () -> 2)
                     .execute();
               } else {
                 joystickDrive(drive, xSupplier, ySupplier, omegaSupplier, poseManager, () -> false)
