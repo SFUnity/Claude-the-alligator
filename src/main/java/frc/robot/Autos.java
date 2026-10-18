@@ -111,6 +111,8 @@ public class Autos {
     chooser.addRoutine("Upper Center Park", this::UpperCenterPark);
     chooser.addRoutine("Wait Upper Center Park", this::wUpperCenterPark);
     chooser.addRoutine("Wait Lower Center Park", this::wLowerCenterPark);
+    chooser.addRoutine("Upper Zeroing", this::UpperZeroing);
+    chooser.addRoutine("Lower Zeroing", this::LowerZeroing);
 
     // not as necessary
     // chooser.addRoutine("Climb", this::climbAutoRoutine);
@@ -651,4 +653,23 @@ public class Autos {
         .onTrue(Commands.sequence(UpperCenterPark.resetOdometry(), UpperCenterPark.cmd()));
     return routine;
   }
+
+  public AutoRoutine UpperZeroing (){
+    AutoRoutine routine = factory.newRoutine("Upper Zeroing Auto Routine");
+    AutoTrajectory UpperZeroing = routine.trajectory("UpperZeroing");
+    routine
+        .active()
+        .onTrue(Commands.sequence(UpperZeroing.resetOdometry(), UpperZeroing.cmd()));
+    return routine;
+  }
+
+  public AutoRoutine LowerZeroing (){
+    AutoRoutine routine = factory.newRoutine("Lower Zeroing Auto Routine");
+    AutoTrajectory LowerZeroing = routine.trajectory("LowerZeroing");
+    routine
+        .active()
+        .onTrue(Commands.sequence(LowerZeroing.resetOdometry(), LowerZeroing.cmd()));
+    return routine;
+  }
+  
 }
