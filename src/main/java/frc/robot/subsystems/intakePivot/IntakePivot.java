@@ -68,11 +68,12 @@ public class IntakePivot extends SubsystemBase {
 
   public Command lower() {
     return run(() -> {
-          // if (DriverStation.isAutonomous()) {
+          // if (DriverStation.Autonomous()) {
           //   io.runVolts(0);
           // } else {
           //   io.runVolts(-0.75);
           // }
+          io.runVolts(-0.75);
           boolean useLowerExtraVoltage = loweredAngle.get() - inputs.currentPositionDeg > 3;
           Logger.recordOutput("IntakePivot/lowerExtraVoltage", useLowerExtraVoltage);
           positionSetpoint = loweredAngle.get();

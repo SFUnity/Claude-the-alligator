@@ -654,22 +654,17 @@ public class Autos {
     return routine;
   }
 
-  public AutoRoutine UpperZeroing (){
+  public AutoRoutine UpperZeroing() {
     AutoRoutine routine = factory.newRoutine("Upper Zeroing Auto Routine");
     AutoTrajectory UpperZeroing = routine.trajectory("UpperZeroing");
-    routine
-        .active()
-        .onTrue(Commands.sequence(UpperZeroing.resetOdometry(), UpperZeroing.cmd()));
+    routine.active().onTrue(Commands.sequence(UpperZeroing.resetOdometry(), UpperZeroing.cmd()));
     return routine;
   }
 
-  public AutoRoutine LowerZeroing (){
+  public AutoRoutine LowerZeroing() {
     AutoRoutine routine = factory.newRoutine("Lower Zeroing Auto Routine");
     AutoTrajectory LowerZeroing = routine.trajectory("LowerZeroing");
-    routine
-        .active()
-        .onTrue(Commands.sequence(LowerZeroing.resetOdometry(), LowerZeroing.cmd()));
+    routine.active().onTrue(Commands.sequence(LowerZeroing.resetOdometry(), LowerZeroing.cmd()));
     return routine;
   }
-  
 }
