@@ -131,6 +131,11 @@ public AutoRoutine DepotCenterIntake(){
       .onTrue(
           Commands.sequence(
               DepotCenterIntake.resetOdometry(), Commands.waitSeconds(5), DepotCenterIntake.cmd()));
+  DepotCenterIntake.atTime("Start Intake")
+      .onTrue(RobotCommands.intake(intake, intakePivot));
+  DepotCenterIntake.atTime("Stop Intake")
+      .onTrue(RobotCommands.intake(intake, intakePivot));
+
     return routine; 
 }
 
