@@ -122,4 +122,15 @@ public class Autos {
   public Command getAutonomousCommand() {
     return isChoreoAuto ? chooser.selectedCommandScheduler() : nonChoreoChooser.get();
   }
+  public AutoRoutine DepotCenterCollect() {
+    AutoRoutine routine = factory.newRoutine("Wait Depot Center Collect");
+    AutoTrajectory DepotCenterCollect = routine.trajectory("DepotCenterCollect");
+    routine
+      .active()
+      .onTrue(
+           Commands.sequence(
+          DepotCenterCollect.resetOdometry(), Commands.waitSeconds(5), DepotCenterCollect.cmd()));
+          return routine;
+    
+  }
 }
