@@ -129,10 +129,11 @@ public class Autos {
     routine
         .active()
         .onTrue(
-          Commands.sequence(
-              UpperCollectAndShoot.resetOdometry(), Commands.waitSeconds(5), UpperCollectAndShoot.cmd()));
-    UpperCollectAndShoot.atTime("intake")
-        .onTrue(RobotCommands.intake(intake, intakePivot));
+            Commands.sequence(
+                UpperCollectAndShoot.resetOdometry(),
+                Commands.waitSeconds(5),
+                UpperCollectAndShoot.cmd()));
+    UpperCollectAndShoot.atTime("intake").onTrue(RobotCommands.intake(intake, intakePivot));
     UpperCollectAndShoot.atTime("Shoot")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
     return routine;
@@ -142,14 +143,15 @@ public class Autos {
     AutoRoutine routine = factory.newRoutine("DepotCollectAndShoot");
     AutoTrajectory DepotCollectAndShoot = routine.trajectory("DepotCollectAndShoot");
     routine
-      .active()
-      .onTrue(
-        Commands.sequence(
-          DepotCollectAndShoot.resetOdometry(), Commands.waitSeconds(5), DepotCollectAndShoot.cmd()));
-    DepotCollectAndShoot.atTime("intake")
-        .onTrue(RobotCommands.intake(intake, intakePivot));
+        .active()
+        .onTrue(
+            Commands.sequence(
+                DepotCollectAndShoot.resetOdometry(),
+                Commands.waitSeconds(5),
+                DepotCollectAndShoot.cmd()));
+    DepotCollectAndShoot.atTime("intake").onTrue(RobotCommands.intake(intake, intakePivot));
     DepotCollectAndShoot.atTime("shoot")
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
     return routine;
   }
-}            
+}
