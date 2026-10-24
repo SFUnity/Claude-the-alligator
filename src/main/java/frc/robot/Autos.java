@@ -122,4 +122,19 @@ public class Autos {
   public Command getAutonomousCommand() {
     return isChoreoAuto ? chooser.selectedCommandScheduler() : nonChoreoChooser.get();
   }
-}
+
+  public AutoRoutine UpperCollectAndShoot() {
+    AutoRoutine routine = factory.newRoutine("UpperCollectAndShoot");
+    AutoTrajectory UpperCollectAndShoot = routine.trajectory("UpperCollectAndShoot");
+    routine
+        .active()
+        .onTrue(
+          Commands.sequence(
+              UpperCollectAndShoot.resetOdometry(), Commands.waitSeconds(5), UpperCollectAndShoot.cmd()));
+    UpperCollectAndShoot.atTime("intake")
+        .onTrue(RobotCommands.intake(intake, intakePivot));
+    UpperCollectAndShoot.atTime("Shoot")
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
+    return routine;
+  }
+}            
