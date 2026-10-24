@@ -86,6 +86,7 @@ public class Autos {
     /* Set up main choreo routines */
     chooser = new LoggedAutoChooser("/ChoreoChooser");
     // chooser.addRoutine("Example Auto Routine", this::exampleAutoRoutine);
+    chooser.addRoutine("Depot Center Intake", this::DepotCenterIntake);
 
     if (!DriverStation.isFMSAttached()) {
       // Set up test choreo routines
@@ -134,7 +135,7 @@ public AutoRoutine DepotCenterIntake(){
   DepotCenterIntake.atTime("Start Intake")
       .onTrue(RobotCommands.intake(intake, intakePivot));
   DepotCenterIntake.atTime("Stop Intake")
-      .onTrue(RobotCommands.intake(intake, intakePivot));
+      .onTrue(RobotCommands.stowIntake(intake, intakePivot));
 
     return routine; 
 }
