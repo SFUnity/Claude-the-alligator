@@ -122,4 +122,18 @@ public class Autos {
   public Command getAutonomousCommand() {
     return isChoreoAuto ? chooser.selectedCommandScheduler() : nonChoreoChooser.get();
   }
+
+public AutoRoutine DepotCenterIntake(){
+  AutoRoutine routine = factory.newRoutine("Depot Center Intake");
+  AutoTrajectory DepotCenterIntake = routine.trajectory("DepotCenterIntake");
+  routine
+      .active()
+      .onTrue(
+          Commands.sequence(
+              DepotCenterIntake.resetOdometry(), Commands.waitSeconds(5), DepotCenterIntake.cmd()));
+    return routine; 
+}
+
+
+
 }

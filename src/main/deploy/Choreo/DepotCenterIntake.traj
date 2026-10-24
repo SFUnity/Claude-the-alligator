@@ -28,7 +28,7 @@
     {"x":{"exp":"5.288529872894287 m", "val":5.288529872894287}, "y":{"exp":"7.2504496574401855 m", "val":7.2504496574401855}, "heading":{"exp":"3.107123959384067 rad", "val":3.107123959384067}, "intervals":24, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"2.969219923019409 m", "val":2.969219923019409}, "y":{"exp":"6.54880952835083 m", "val":6.54880952835083}, "heading":{"exp":"-3.099950562109991 rad", "val":-3.099950562109991}, "intervals":30, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"1.8387999534606934 m", "val":1.8387999534606936}, "y":{"exp":"4.892159461975098 m", "val":4.892159461975098}, "heading":{"exp":"-1.4056476493802699 rad", "val":-1.40564764938027}, "intervals":26, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
-    {"x":{"exp":"2.6184000968933105 m", "val":2.6184000968933105}, "y":{"exp":"3.68377947807312 m", "val":3.68377947807312}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"2.598910093307495 m", "val":2.598910093307495}, "y":{"exp":"3.722759485244751 m", "val":3.722759485244751}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
@@ -284,6 +284,5 @@
  },
  "events":[
    {"name":"Start intake", "from":{"target":1, "targetTimestamp":1.08713, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
-   {"name":"Shoot", "from":{"target":8, "targetTimestamp":4.96152, "offset":{"exp":"0 s", "val":0.0}}, "event":null},
    {"name":"Stop Intake", "from":{"target":4, "targetTimestamp":2.81081, "offset":{"exp":"0 s", "val":0.0}}, "event":null}]
 }
