@@ -86,7 +86,7 @@ public class Autos {
     /* Set up main choreo routines */
     chooser = new LoggedAutoChooser("/ChoreoChooser");
     // chooser.addRoutine("Example Auto Routine", this::exampleAutoRoutine);
-
+    chooser.addRoutine("DepotCenterCollect", this::DepotCenterCollect);
     if (!DriverStation.isFMSAttached()) {
       // Set up test choreo routines
 
@@ -125,12 +125,10 @@ public class Autos {
   public AutoRoutine DepotCenterCollect() {
     AutoRoutine routine = factory.newRoutine("Wait Depot Center Collect");
     AutoTrajectory DepotCenterCollect = routine.trajectory("DepotCenterCollect");
-    routine
-      .active()
-      .onTrue(
-           Commands.sequence(
-          DepotCenterCollect.resetOdometry(), Commands.waitSeconds(5), DepotCenterCollect.cmd()));
-          return routine;
+    routine.active().onTrue(Commands.sequence(DepotCenterCollect.resetOdometry(), DepotCenterCollect.cmd()));
+    DepotCenterCollect.atTime("Intake").onTrue(RobotCommands.intake(intake, intakePivot));
+    DepotCenterCollect.atTime("Shoot").onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
+    return routine;
     
   }
 }
