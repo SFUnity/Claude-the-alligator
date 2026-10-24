@@ -1,5 +1,7 @@
 package frc.robot;
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
 import choreo.auto.AutoFactory;
 import choreo.auto.AutoRoutine;
 import choreo.auto.AutoTrajectory;
@@ -21,7 +23,6 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.hood.Hood;
 import frc.robot.util.LoggedAutoChooser;
 import frc.robot.util.PoseManager;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class Autos {
   private final Drive drive;
@@ -86,6 +87,7 @@ public class Autos {
     /* Set up main choreo routines */
     chooser = new LoggedAutoChooser("/ChoreoChooser");
     // chooser.addRoutine("Example Auto Routine", this::exampleAutoRoutine);
+  chooser.addRoutine("Center to Depot and Shoot", this::CentertoDepotandShoot);
 
     if (!DriverStation.isFMSAttached()) {
       // Set up test choreo routines
@@ -121,5 +123,36 @@ public class Autos {
    */
   public Command getAutonomousCommand() {
     return isChoreoAuto ? chooser.selectedCommandScheduler() : nonChoreoChooser.get();
+  }
+
+/*(public AutoRoutine InsertName(){
+  AutoTrajectory InsertName = routine.trajectory ("InsertName");
+  routine.active().onTrue(insertname/robotPart());
+  }*/
+
+  /* .atTime("NameofEventMarker")
+    .onTrue(RobotCommands.InsertName(input))
+   */
+
+  public AutoRoutine CentertoDepotandShoot(){
+    AutoRoutine routine = factory.newRoutine("CentertoDepotandShoot");
+    AutoTrajectory CentertoDepotandShoot = routine.trajectory("CentertoDepotandShoot");
+    routine
+      .active()
+      .onTrue(
+        Commands.sequence(
+          CentertoDepotandShoot.resetOdometry(), Commands.waitSeconds(5), CentertoDepotandShoot.cmd()));
+
+    CentertoDepotandShoot.atTime("Open Intake1") 
+          .onTrue(RobotCommands.intake(intake, intakePivot));
+    CentertoDepotandShoot.atTime("Close Intake1") 
+          .onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    CentertoDepotandShoot.atTime("Open Intake2") 
+          .onTrue(RobotCommands.intake(intake, intakePivot));
+    CentertoDepotandShoot.atTime("Close Intake2") 
+          .onTrue(RobotCommands.stowIntake(intake, intakePivot));
+    CentertoDepotandShoot.atTime("Shoot") 
+          .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
+    return routine;  
   }
 }
