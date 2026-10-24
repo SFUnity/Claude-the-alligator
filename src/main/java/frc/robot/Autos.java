@@ -137,4 +137,19 @@ public class Autos {
         .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
     return routine;
   }
+
+  public AutoRoutine DepotCollectAndShoot() {
+    AutoRoutine routine = factory.newRoutine("DepotCollectAndShoot");
+    AutoTrajectory DepotCollectAndShoot = routine.trajectory("DepotCollectAndShoot");
+    routine
+      .active()
+      .onTrue(
+        Commands.sequence(
+          DepotCollectAndShoot.resetOdometry(), Commands.waitSeconds(5), DepotCollectAndShoot.cmd()));
+    DepotCollectAndShoot.atTime("intake")
+        .onTrue(RobotCommands.intake(intake, intakePivot));
+    DepotCollectAndShoot.atTime("shoot")
+        .onTrue(RobotCommands.readyThenShoot(shooter, kicker, spindexer, drive));
+    return routine;
+  }
 }            
